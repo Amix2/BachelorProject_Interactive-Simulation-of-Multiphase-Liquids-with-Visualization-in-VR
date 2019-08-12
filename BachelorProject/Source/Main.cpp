@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <cstdio>
@@ -16,7 +15,12 @@
 
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
-#include "shaders/ComputeShader.h"
+
+#include <shaders/ComputeShader.h>
+#include <dataStructures/GpuResources.h>
+#include <dataStructures/ParticleData.h>
+
+#include <Logger.h>
 
 void printWorkGroupsCapabilities() {
 	GLint64  val_array[3];
@@ -101,6 +105,9 @@ void checkErrors() {
 }
 
 int main(int argc, char ** argv) {
+	loguru::g_preamble_date = false;
+	loguru::init(argc, argv);
+
 	/* ----- Init window ----- */
 	GLFWwindow * window;
 	if (!glfwInit()) {
@@ -128,29 +135,30 @@ int main(int argc, char ** argv) {
 
 	printWorkGroupsCapabilities();
 
-	ComputeShader cs("./Source/shaders/testCompute.shader");
+	ComputeShader cs("./Source/shaders/compute.glsl");
 
-	// SSBO
 
-	float ssboValue[1024];
-	for (int i = 0; i < 1024; i++) {
-		ssboValue[i] = i;
-	}
-	float ssboValue2[1024];
-	for (int i = 0; i < 1024; i++) {
-		ssboValue2[i] = 2*1024-i;
+	ParticleData::initArraysOnGPU();
+
+	// create particles
+	float pos[901];
+	for (int i = 0; i < 901; i++) {
+		pos[i] = i*100;
 	}
 
-	cs.bindSSBO("info", sizeof(ssboValue), ssboValue, 2);
-	cs.bindSSBO("info2", sizeof(ssboValue2), ssboValue2, 60);
+	// push particles to GPU storage (SSBO)
+	ParticleData::addParticle(pos, 3);
 
-	LONG tStart = getTime();
-	cs.runShader(2, 1, 1, true);
-	LONG tEnd = getTime();
 
-	float* p = (float*)cs.getSSBO("info");
-	for (int i = 0; i < 10; i++) {
-		std::cout << "ssbo " << p[1024 - 1 - i] << std::endl;
+	// compute shader (change values)
+	long tStart = getTime();
+	cs.runShader(1, 1, 1, true);
+	long tEnd = getTime();
+
+	// by defauls its illegal to have access to raw data from GPU, only class ParticleData can access it
+	float* p = (float*)GpuResources::getDataSSBO(BufferDatails.particlePositionsName);
+	for (int i = 0; i < 1; i++) {
+		std::cout << "after compute shader " << p[i] << std::endl;
 
 	}
 

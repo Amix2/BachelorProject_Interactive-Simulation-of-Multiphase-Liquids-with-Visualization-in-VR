@@ -19,13 +19,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Logger.cpp" />
+    <ClCompile Include="Source\dataStructures\GpuResources.cpp" />
+    <ClCompile Include="Source\dataStructures\ParticleData.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\shaders\testCompute.shader" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Source\Logger.h" />
+    <ClInclude Include="Source\dataStructures\GpuResources.h" />
+    <ClInclude Include="Source\dataStructures\ParticleData.h" />
+    <ClInclude Include="Source\Configuration.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObject.h" />
     <ClInclude Include="Source\shaders\ComputeShader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -81,11 +87,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>.\_include;$(IncludePath)</IncludePath>
+    <IncludePath>.\_include;.\Source;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>.\_include;$(IncludePath)</IncludePath>
+    <IncludePath>.\_include;.\Source;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,6 +116,9 @@
       <XMLDocumentationFileName>../$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>../$(IntDir)</BrowseInformationFile>
       <PrecompiledHeaderOutputFile>../$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +162,9 @@
       <XMLDocumentationFileName>../$(IntDir)</XMLDocumentationFileName>
       <BrowseInformationFile>../$(IntDir)</BrowseInformationFile>
       <PrecompiledHeaderOutputFile>../$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <UndefinePreprocessorDefinitions>%(UndefinePreprocessorDefinitions)</UndefinePreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
