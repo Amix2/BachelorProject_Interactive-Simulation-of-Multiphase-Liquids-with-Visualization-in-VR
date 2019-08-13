@@ -43,6 +43,6 @@ void main(void)
 	if(ind%2 == 0)
 		atomicAdd(atom, 1);
 		for(int i=0; i<1000*ind; i++) {}
-barrier();
+	barrier();
 	positions[ind] = atom;
 }
