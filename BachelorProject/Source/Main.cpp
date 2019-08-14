@@ -11,6 +11,7 @@
 #include <shaders/ComputeShader.h>
 #include <dataStructures/GpuResources.h>
 #include <dataStructures/ParticleData.h>
+#include <particleObjects/ParticleObjectCreator.h>
 #include <Utils.h>
 #include <Logger.h>
 #include <Simulation.h>
@@ -51,13 +52,42 @@ int main(int argc, char ** argv) {
 	//std::thread simulationThread(startSimulation);
 	//simulationThread.join();
 
-	startSimulation();
+
+	ParticleData::initArraysOnGPU();
+
+
+	ParticleObjectCreator::init();
+	ParticleObjectDetais details{9, 0,0,0, 1,1,1};
+	ParticleObjectCreator::addObject(details);
+
+	Sleep(1000);
+	Simulation sim;
+	sim.runSimulation();
+
+	//ParticleData::printNewAddedParticleData();
+	ParticleData::printParticleData();
+
+	//Sleep(1000);
+
+	//Sleep(1000);
+
+	//ParticleData::printNewAddedParticleData();
+	//ParticleData::printParticleData();
+	//Sleep(1000);
+
+	//ParticleObjectDetais details2{ 8, 2,2,2, 4,4,4 };
+	//ParticleObjectCreator::addObject(details2);
+	//ParticleData::printNewAddedParticleData();
+	//Sleep(1000);
+	//sim.runSimulation();
+	//Sleep(1000);
+	//ParticleData::printParticleData();
 
 	return 0;
 }
 
 void startSimulation() {
-	loguru::set_thread_name("simulation");
+	//loguru::set_thread_name("simulation");
 	Simulation sim;
 	sim.runSimulation();
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\particleObjects\ParticleObjectCreator.cpp" />
     <ClCompile Include="Source\Simulation.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\dataStructures\GpuResources.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
     <ClInclude Include="Source\Simulation.h" />
     <ClInclude Include="Source\Logger.h" />
     <ClInclude Include="Source\dataStructures\GpuResources.h" />

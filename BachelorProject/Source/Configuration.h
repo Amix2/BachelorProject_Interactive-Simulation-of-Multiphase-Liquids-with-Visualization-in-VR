@@ -12,5 +12,14 @@ const struct Configuration {
 const struct BufferDatails {
 	inline static const std::string particlePositionsName = "ParticlePositions";
 	inline static const int particlePositionsBinding = 10;
+
+	inline static const std::string glassPositionsName = "GlassPositions";
+	inline static const int glassPositionsBinding = 11;
+
+	inline static const std::string newParticlePositionsName = "NewParticlePositions";
+	inline static const int newParticlePositionsBinding = 12;
+
+	inline static const std::string detailsName = "Details";
+	inline static const int detailsBinding = 13;
 } BufferDatails;
 

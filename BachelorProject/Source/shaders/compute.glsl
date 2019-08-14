@@ -1,10 +1,30 @@
 #version 430 core
-layout(local_size_x = 900, local_size_y = 1, local_size_z = 1) in;
+
+#define LOCAL_SIZE_X 6//&
+
+layout(local_size_x = LOCAL_SIZE_X, local_size_y = 1, local_size_z = 1) in;
 
 layout(std430, binding = 10) buffer positionsBuf
 {
-	int atom;
 	float positions[];
+};
+
+layout(std430, binding = 11) buffer glassPositionsBuf
+{
+	float glassPositions[];
+};
+
+layout(std430, binding = 12) buffer newParticlesBuf
+{
+	int newPartType;
+	int numOfNewParticles;
+	float newPartPositions[];
+};
+
+layout(std430, binding = 13) buffer detailsBuf
+{
+	uint numOfParticles;
+	uint numOfGlassParticles;
 };
 
 /*
@@ -21,28 +41,38 @@ uint globalInvocationIndex() {
 	return gl_GlobalInvocationID.z * size.x * size.y + gl_GlobalInvocationID.y * size.x + gl_GlobalInvocationID.x;
 }
 
-vec3 getVec3FromData(in float data[9], in int num) {
-	return vec3(data[3 * num], data[3 * num + 1], data[3 * num + 2]);
-}
-
-void putVec3FromData(inout float data[9], in int num, in vec3 values) {
-	positions[3 * num] = values.x;
-	positions[3 * num + 1] = values.y;
-	positions[3 * num + 2] = values.z;
-}
+void handleNewParticles();
+bool hasNewParticles();
 
 void main(void)
 {
-	int ind = int(globalInvocationIndex());
-
+	int ind = int(gl_LocalInvocationIndex);
+	if(hasNewParticles()) {
+		handleNewParticles();
+	}
 	//vec3 pos = getVec3FromData(positions, ind);
 	//pos.x *= temp[ind];
 	//positions[3 * ind] = pos.x;
 	//barrier();
-	for(int i=0; i<1000*ind; i++) {}
-	if(ind%2 == 0)
-		atomicAdd(atom, 1);
-		for(int i=0; i<1000*ind; i++) {}
-	barrier();
-	positions[ind] = atom;
+	//for(int i=0; i<1000*ind; i++) {}
+	//barrier();
+	//positions[ind] = 2;//newPartPositions[ind];
+}
+
+bool hasNewParticles()
+{
+	return newPartPositions[0] != -1;
+}
+
+void handleNewParticles() {
+	if(gl_LocalInvocationIndex == 0) {
+		uint i=0;
+		while(newPartPositions[i] != -1) {
+			positions[3*numOfParticles + i] = newPartPositions[i];
+			newPartPositions[i] = -1;
+			i++;
+		}
+		numOfParticles += numOfNewParticles;
+		numOfNewParticles = 0;
+	}
 }

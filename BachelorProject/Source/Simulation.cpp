@@ -3,23 +3,19 @@
 Simulation::Simulation()
 {
 	shader = ComputeShader("./Source/shaders/compute.glsl");
-
-	ParticleData::initArraysOnGPU();
 }
 
 void Simulation::runSimulation()
 {
 	loguru::set_thread_name("simulation");
-	LOG_F(INFO, "simulation start");
+	LOG_F(INFO, "simulation running");
 
-	// create particles
-	float pos[901];
-	for (int i = 0; i < 901; i++) {
-		pos[i] = i * 100;
+	if (Simulation::m_newPartArrayReady) {
+		// send data to GPU
+		LOG_F(INFO, "new particles to send to GPU, type: %d, particles: %d", Simulation::m_newParticlesArray.particleType, Simulation::m_newParticlesArray.numOfParticles);
+		ParticleData::addParticle(Simulation::m_newParticlesArray.array, Simulation::m_newParticlesArray.particleType, Simulation::m_newParticlesArray.numOfParticles);
+		Simulation::m_newPartArrayReady = false;
 	}
-
-	// push particles to GPU storage (SSBO)
-	ParticleData::addParticle(pos, 3);
 
 	// compute shader (change values)
 	long tStart = getTime();
@@ -28,10 +24,5 @@ void Simulation::runSimulation()
 
 	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
 
-	// by defauls its illegal to have access to raw data from GPU, only class ParticleData can access it
-	float* p = (float*)GpuResources::getDataSSBO(BufferDatails.particlePositionsName);
-	for (int i = 0; i < 10; i++) {
-		std::cout << "after compute shader " << p[i] << std::endl;
-	}
 	checkOpenGLErrors();
 }

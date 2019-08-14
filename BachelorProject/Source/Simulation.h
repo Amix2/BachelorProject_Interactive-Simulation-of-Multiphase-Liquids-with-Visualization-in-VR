@@ -6,13 +6,15 @@
 #include <dataStructures/GpuResources.h>
 #include <dataStructures/ParticleData.h>
 #include <Utils.h>
+#include <condition_variable>
+#include <mutex>
 
-typedef struct NewParticlesArray {
+struct NewParticlesArray {
 	int particleType;
 	int numOfParticles;
 	float array[3 * Configuration.MAX_PARTICLES_ADDED_IN_TURN];
 
-} newParticlesArray;
+};
 
 class Simulation
 {
@@ -20,9 +22,12 @@ class Simulation
 
 public:
 	/* other thread can put values in this, this class only takes values, sends them to GPU and clears it */
-	static NewParticlesArray newParticlesArray;
+	inline static NewParticlesArray m_newParticlesArray;
 	/* Mutex protecting flag not shared object */
-	inline static std::atomic_bool newPartArrayReady = false;
+	inline static std::atomic_bool m_newPartArrayReady = false;
+
+	inline static std::condition_variable m_condVariable_newPartArray;
+	inline static std::mutex m_mutex_newPartArray;
 
 	Simulation();
 	~Simulation() {}
