@@ -16,8 +16,8 @@ const struct BufferDatails {
 	inline static const std::string glassPositionsName = "GlassPositions";
 	inline static const int glassPositionsBinding = 11;
 
-	inline static const std::string newParticlePositionsName = "NewParticlePositions";
-	inline static const int newParticlePositionsBinding = 12;
+	inline static const std::string toAddParticlePositionsName = "ToAddParticlePositions";
+	inline static const int toAddParticlePositionsBinding = 12;
 
 	inline static const std::string detailsName = "Details";
 	inline static const int detailsBinding = 13;

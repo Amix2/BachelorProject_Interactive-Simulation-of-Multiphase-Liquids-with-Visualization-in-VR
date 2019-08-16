@@ -45,6 +45,12 @@ void ParticleObjectCreator::init()
 {
 	LOG_F(INFO, "Initialize ParticleObjectCreator");
 	ParticleObjectCreator::m_workerThread = std::thread(ParticleObjectCreator::runWorkerThread);
+	Threads::addThreadToList(&m_workerThread);
+}
+
+bool ParticleObjectCreator::canAddObject()
+{
+	return particleObjectDetaisReady == false;
 }
 
 void ParticleObjectCreator::addObject(ParticleObjectDetais details)

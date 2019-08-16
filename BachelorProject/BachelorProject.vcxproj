@@ -27,6 +27,7 @@
     <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
+    <ClCompile Include="Source\ThreadManager.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,6 +39,7 @@
     <ClInclude Include="Source\Configuration.h" />
     <ClInclude Include="Source\particleObjects\ParticleObject.h" />
     <ClInclude Include="Source\shaders\ComputeShader.h" />
+    <ClInclude Include="Source\ThreadManager.h" />
     <ClInclude Include="Source\Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,9 +1,6 @@
 #include "Simulation.h"
 
-Simulation::Simulation()
-{
-	shader = ComputeShader("./Source/shaders/compute.glsl");
-}
+void printPositionsToFile();
 
 void Simulation::runSimulation()
 {
@@ -22,7 +19,18 @@ void Simulation::runSimulation()
 	shader.runShader(1, 1, 1, true);
 	long tEnd = getTime();
 
+	
 	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
 
 	checkOpenGLErrors();
+}
+
+Simulation::Simulation()
+{
+	shader = ComputeShader("./Source/shaders/compute.glsl");
+}
+
+void printPositionsToFile()
+{
+
 }

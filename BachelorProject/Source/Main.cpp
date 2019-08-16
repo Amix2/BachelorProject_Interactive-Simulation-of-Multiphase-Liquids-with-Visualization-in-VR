@@ -16,14 +16,19 @@
 #include <Logger.h>
 #include <Simulation.h>
 #include <thread>
+#include <fstream>
+//#include <ThreadManager.h>
 
 void startSimulation();
 
 void printWorkGroupsCapabilities();
 
 int main(int argc, char ** argv) {
+
+	ParticleData::partFile.open("part.log");
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
+	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
 	/* ----- Init window ----- */
 	GLFWwindow * window;
@@ -67,22 +72,28 @@ int main(int argc, char ** argv) {
 	//ParticleData::printNewAddedParticleData();
 	ParticleData::printParticleData();
 
-	//Sleep(1000);
+	Sleep(1000);
 
-	//Sleep(1000);
+	ParticleObjectDetais details2{ 8, 2,2,2, 4,4,4 };
+	ParticleObjectCreator::addObject(details2);
+	Sleep(1000);
+	ParticleData::printToAddParticleData();
 
-	//ParticleData::printNewAddedParticleData();
-	//ParticleData::printParticleData();
-	//Sleep(1000);
+	Sleep(1000);
 
-	//ParticleObjectDetais details2{ 8, 2,2,2, 4,4,4 };
-	//ParticleObjectCreator::addObject(details2);
-	//ParticleData::printNewAddedParticleData();
-	//Sleep(1000);
-	//sim.runSimulation();
-	//Sleep(1000);
-	//ParticleData::printParticleData();
+	sim.runSimulation();
 
+	Sleep(1000);
+	ParticleData::printParticleData();
+	ParticleData::logParticlePositions();
+
+	for (std::vector<std::thread*>::const_reverse_iterator it = Threads::vecBegin(); it != Threads::vecEnd(); it++) {
+		(*it)->detach();
+		(*it)->~thread();
+	}
+
+	Sleep(1000);
+	ParticleData::partFile.close();
 	return 0;
 }
 

@@ -4,6 +4,8 @@
 #include <dataStructures/GpuResources.h>
 #include <Configuration.h>
 #include <Logger.h>
+#include <iostream>
+#include <fstream>
 #include <Utils.h>
 
 typedef struct SimDetails {
@@ -11,10 +13,11 @@ typedef struct SimDetails {
 	GLuint numOfGlassParticles;
 }SimDetails;
 
+
 /* Keeps all details for fluid particles, performs all action with porticles */
 class ParticleData
 {
-	static int m_numOfParticles;
+	inline static int m_numOfAllParticles = 0;
 	/*	LIST OF ARRAYS
 		for fluid particles = 16x float
 		- posiiton (v3)
@@ -34,20 +37,27 @@ class ParticleData
 	// private getters - only this class can change data from gpu
 	static void* getPositions();
 	static void* getGlassPositions();
-	static void* getNewParticlePositions();
+	static void* getToAddParticlePositions();
 	static SimDetails* getDetails();
 
 public:
 	/* Init arrays om GPU to store particle data */
 	static void initArraysOnGPU();
 
-	/* Adds n particles with given positions
-		1 particle = 3x float in array */
+	//Adds n particles with given positions
+	//1 particle = 3x float in array
 	static void addParticle(const float v3_positions[], int particleType, int numOfParticlesAdded=1);
 
 	// Prints info about fluid particles
 	static void printParticleData(int limit = 10);
 
-	static void printNewAddedParticleData(int limit = 10);
+	// Prints info about to-add particles
+	static void printToAddParticleData(int limit = 10);
+
+	static void logParticlePositions();
+	
+	
+	
+	inline static std::ofstream partFile;
 };
 
