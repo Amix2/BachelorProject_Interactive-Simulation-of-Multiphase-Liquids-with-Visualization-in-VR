@@ -25,7 +25,8 @@ void printWorkGroupsCapabilities();
 
 int main(int argc, char ** argv) {
 
-	ParticleData::partFile.open("part.log");
+	ParticleData::partFile.open("./Simple Visualizer/part.log");	 
+	ParticleData::partFile << "const partString = \"";
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
 	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
@@ -93,6 +94,7 @@ int main(int argc, char ** argv) {
 	}
 
 	Sleep(1000);
+	ParticleData::partFile << "\".split(\"|\")";
 	ParticleData::partFile.close();
 	return 0;
 }

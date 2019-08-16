@@ -1,6 +1,5 @@
 
 const RADIUS = 0.5
-const partString = "0 0 0 1 1 1 2 2 2 4 4 4 | ".split("|")
 var ind = 0;
 
 window.onload = function () {
@@ -78,7 +77,8 @@ class World {
 
     addAll() {
         var part = partString[0].split(" ");
-        for (let i = 0; i < part.length / 3; i++) {
+        for (let i = 0; i < part.length / 3 -1; i++) {
+            console.log(i);
             this.addParticle(new THREE.Vector3(part[3 * i + 0], part[3 * i + 1], part[3 * i + 2]));
         }
     }
