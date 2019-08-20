@@ -21,9 +21,6 @@
     <ClCompile Include="Source\shaders\ComputeShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\particleObjects\ParticleObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\dataStructures\ParticleData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,18 +36,24 @@
     <ClCompile Include="Source\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ThreadManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\particleObjects\ParticleObjectCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ThreadManager.cpp">
+    <ClCompile Include="Source\particleObjects\ParticleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\particleObjects\ParticleObjectManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\shaders\ComputeShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\particleObjects\ParticleObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Configuration.h">
@@ -71,10 +74,13 @@
     <ClInclude Include="Source\Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h">
+    <ClInclude Include="Source\ThreadManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ThreadManager.h">
+    <ClInclude Include="Source\particleObjects\ParticleObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\particleObjects\ParticleGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

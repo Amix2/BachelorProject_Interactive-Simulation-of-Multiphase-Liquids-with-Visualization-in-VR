@@ -19,25 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleObjectCreator.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectManager.cpp" />
     <ClCompile Include="Source\Simulation.cpp" />
     <ClCompile Include="Source\Logger.cpp" />
     <ClCompile Include="Source\dataStructures\GpuResources.cpp" />
     <ClCompile Include="Source\dataStructures\ParticleData.cpp" />
-    <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
     <ClCompile Include="Source\ThreadManager.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
+    <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObject.h" />
     <ClInclude Include="Source\Simulation.h" />
     <ClInclude Include="Source\Logger.h" />
     <ClInclude Include="Source\dataStructures\GpuResources.h" />
     <ClInclude Include="Source\dataStructures\ParticleData.h" />
     <ClInclude Include="Source\Configuration.h" />
-    <ClInclude Include="Source\particleObjects\ParticleObject.h" />
     <ClInclude Include="Source\shaders\ComputeShader.h" />
     <ClInclude Include="Source\ThreadManager.h" />
     <ClInclude Include="Source\Utils.h" />
@@ -46,32 +48,32 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E70769CF-90CF-45DA-AAE4-30A662690E30}</ProjectGuid>
     <RootNamespace>BachelorProject</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

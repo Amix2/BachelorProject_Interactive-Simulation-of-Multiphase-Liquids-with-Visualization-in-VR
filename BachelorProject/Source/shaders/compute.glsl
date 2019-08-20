@@ -61,18 +61,25 @@ void main(void)
 
 bool hasNewParticles()
 {
-	return newPartPositions[0] != -1;
+	return numOfNewParticles >0;
 }
 
 void handleNewParticles() {
 	if(gl_LocalInvocationIndex == 0) {
 		uint i=0;
-		while(newPartPositions[i] != -1) {
-			positions[3*numOfParticles + i] = newPartPositions[i];
-			newPartPositions[i] = -1;
+		while(i < 3*numOfNewParticles) {
+			if(newPartType > 0) {
+				positions[3*numOfParticles + i] = newPartPositions[i];
+			} else {
+				glassPositions[3*numOfGlassParticles + i] = newPartPositions[i];
+			}
 			i++;
 		}
-		numOfParticles += numOfNewParticles;
+		if(newPartType > 0) {
+			numOfParticles += numOfNewParticles;
+		} else {
+			numOfGlassParticles += numOfNewParticles;
+		}
 		numOfNewParticles = 0;
 	}
 }

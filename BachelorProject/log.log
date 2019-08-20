@@ -2,47 +2,53 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Release\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-21:58:26.641 (   0.130s) [main thr]     loguru.cpp:761   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-21:58:27.068 (   0.557s) [main thr]       main.cpp:160    ERR| GL error: nieprawid³owe wyliczenie
-21:58:27.072 (   0.562s) [main thr]gpuresources.cp:21    INFO| new SSBO, name: ParticlePositions, 	id: 1
-21:58:27.079 (   0.569s) [main thr]gpuresources.cp:21    INFO| new SSBO, name: GlassPositions, 	id: 2
-21:58:27.082 (   0.572s) [main thr]gpuresources.cp:21    INFO| new SSBO, name: ToAddParticlePositions, 	id: 3
-21:58:27.088 (   0.577s) [main thr]gpuresources.cp:21    INFO| new SSBO, name: Details, 	id: 4
-21:58:27.091 (   0.581s) [main thr]particleobjectc:46    INFO| Initialize ParticleObjectCreator
-21:58:27.096 (   0.585s) [main thr]threadmanager.c:16    INFO| New thread in list
-21:58:27.096 (   0.585s) [Particle]particleobjectc:6     INFO| ParticleObjectCreator::runWorkerThread
-21:58:27.098 (   0.588s) [main thr]particleobjectc:61    INFO| New object assign: type: 9
-21:58:27.101 (   0.591s) [Particle]particleobjectc:17    INFO| New object to create: type: 9
-21:58:27.109 (   0.598s) [Particle]particleobjectc:37    INFO| New object added to Simulation: type: 9
-21:58:28.107 (   1.596s) [simulati] simulation.cpp:8     INFO| simulation running
-21:58:28.111 (   1.600s) [simulati] simulation.cpp:12    INFO| new particles to send to GPU, type: 9, particles: 2
-21:58:28.114 (   1.604s) [simulati]particledata.cp:30    INFO| 2 particless added
-21:58:28.120 (   1.610s) [simulati] simulation.cpp:23    INFO| Simulation time: 2
-21:58:28.124 (   1.613s) [simulati]particledata.cp:53    INFO| ==============================
-21:58:28.128 (   1.618s) [simulati]particledata.cp:54    INFO| Simulation particles print
-21:58:28.136 (   1.625s) [simulati]particledata.cp:58    INFO| Num of particles in simulation: 2
-21:58:28.139 (   1.629s) [simulati]particledata.cp:60    INFO| Particle 0:	( 0.0000  0.0000  0.0000 )
-21:58:28.145 (   1.635s) [simulati]particledata.cp:60    INFO| Particle 1:	( 1.0000  1.0000  1.0000 )
-21:58:28.148 (   1.638s) [simulati]particledata.cp:62    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-21:58:29.154 (   2.643s) [Particle]particleobjectc:17    INFO| New object to create: type: 8
-21:58:29.154 (   2.643s) [simulati]particleobjectc:61    INFO| New object assign: type: 8
-21:58:29.157 (   2.646s) [Particle]particleobjectc:37    INFO| New object added to Simulation: type: 8
-21:58:30.160 (   3.650s) [simulati]particledata.cp:67    INFO| ==============================
-21:58:30.165 (   3.654s) [simulati]particledata.cp:68    INFO| Particles to add print
-21:58:30.173 (   3.663s) [simulati]particledata.cp:75    INFO| To-add particles in sim: num: 2, type: 9
-21:58:30.177 (   3.666s) [simulati]particledata.cp:78    INFO| To-add Part 0:	( -1.0000  -1.0000  -1.0000 )
-21:58:30.183 (   3.672s) [simulati]particledata.cp:78    INFO| To-add Part 1:	( -1.0000  -1.0000  -1.0000 )
-21:58:30.187 (   3.676s) [simulati]particledata.cp:80    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-21:58:31.197 (   4.687s) [simulati] simulation.cpp:8     INFO| simulation running
-21:58:31.201 (   4.691s) [simulati] simulation.cpp:12    INFO| new particles to send to GPU, type: 8, particles: 2
-21:58:31.207 (   4.696s) [simulati]particledata.cp:30    INFO| 2 particless added
-21:58:31.211 (   4.701s) [simulati] simulation.cpp:23    INFO| Simulation time: 0
-21:58:32.216 (   5.706s) [simulati]particledata.cp:53    INFO| ==============================
-21:58:32.221 (   5.711s) [simulati]particledata.cp:54    INFO| Simulation particles print
-21:58:32.229 (   5.718s) [simulati]particledata.cp:58    INFO| Num of particles in simulation: 4
-21:58:32.234 (   5.723s) [simulati]particledata.cp:60    INFO| Particle 0:	( 0.0000  0.0000  0.0000 )
-21:58:32.240 (   5.730s) [simulati]particledata.cp:60    INFO| Particle 1:	( 1.0000  1.0000  1.0000 )
-21:58:32.244 (   5.734s) [simulati]particledata.cp:60    INFO| Particle 2:	( 2.0000  2.0000  2.0000 )
-21:58:32.247 (   5.737s) [simulati]particledata.cp:60    INFO| Particle 3:	( 4.0000  4.0000  4.0000 )
-21:58:32.252 (   5.742s) [simulati]particledata.cp:62    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-21:58:33.265 (   6.754s) [simulati]     loguru.cpp:477   INFO| atexit
+17:44:19.537 (   0.082s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+17:44:20.112 (   0.656s) [main thr]       Main.cpp:165    ERR| GL error: nieprawid³owe wyliczenie
+17:44:20.116 (   0.660s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ParticlePositions, 	id: 1
+17:44:20.123 (   0.667s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: GlassPositions, 	id: 2
+17:44:20.126 (   0.670s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ToAddParticlePositions, 	id: 3
+17:44:20.129 (   0.673s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: Details, 	id: 4
+17:44:20.132 (   0.676s) [main thr]ParticleObjectC:72    INFO| Initialize ParticleObjectCreator
+17:44:20.135 (   0.679s) [main thr]ThreadManager.c:16    INFO| New thread in list
+17:44:20.136 (   0.680s) [Particle]ParticleObjectC:6     INFO| ParticleObjectCreator::runWorkerThread
+17:44:20.138 (   0.682s) [main thr]ParticleObjectC:87    INFO| New object assign: type: 9
+17:44:20.141 (   0.685s) [Particle]ParticleObjectC:17    INFO| New object to create: type: 9
+17:44:20.146 (   0.690s) [Particle]ParticleObjectC:26    INFO| New object created: particles: 27
+17:44:20.149 (   0.693s) [Particle]ParticleObjectC:38    INFO| New object added to Simulation: type: 9
+17:44:20.245 (   0.789s) [simulati] Simulation.cpp:8     INFO| simulation running
+17:44:20.249 (   0.793s) [simulati] Simulation.cpp:12    INFO| new particles to send to GPU, type: 9, particles: 27
+17:44:20.253 (   0.797s) [simulati]ParticleData.cp:30    INFO| 27 particless added
+17:44:20.260 (   0.804s) [simulati] Simulation.cpp:23    INFO| Simulation time: 2
+17:44:20.364 (   0.908s) [simulati]ParticleData.cp:53    INFO| ==============================
+17:44:20.368 (   0.912s) [simulati]ParticleData.cp:54    INFO| Simulation particles print
+17:44:20.371 (   0.915s) [simulati]ParticleData.cp:62    INFO| Num of particles in simulation: 27
+17:44:20.374 (   0.919s) [simulati]ParticleData.cp:64    INFO| Particle 0:	( 2.0000  2.0000  2.0000 )
+17:44:20.377 (   0.922s) [simulati]ParticleData.cp:64    INFO| Particle 1:	( 2.0000  2.0000  2.5000 )
+17:44:20.380 (   0.925s) [simulati]ParticleData.cp:64    INFO| Particle 2:	( 2.0000  2.0000  3.0000 )
+17:44:20.384 (   0.928s) [simulati]ParticleData.cp:64    INFO| Particle 3:	( 2.0000  2.5000  2.0000 )
+17:44:20.387 (   0.931s) [simulati]ParticleData.cp:64    INFO| Particle 4:	( 2.0000  2.5000  2.5000 )
+17:44:20.390 (   0.934s) [simulati]ParticleData.cp:64    INFO| Particle 5:	( 2.0000  2.5000  3.0000 )
+17:44:20.393 (   0.938s) [simulati]ParticleData.cp:64    INFO| Particle 6:	( 2.0000  3.0000  2.0000 )
+17:44:20.397 (   0.941s) [simulati]ParticleData.cp:64    INFO| Particle 7:	( 2.0000  3.0000  2.5000 )
+17:44:20.400 (   0.944s) [simulati]ParticleData.cp:64    INFO| Particle 8:	( 2.0000  3.0000  3.0000 )
+17:44:20.403 (   0.947s) [simulati]ParticleData.cp:64    INFO| Particle 9:	( 2.5000  2.0000  2.0000 )
+17:44:20.406 (   0.950s) [simulati]ParticleData.cp:66    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+17:44:21.517 (   2.061s) [simulati] Simulation.cpp:8     INFO| simulation running
+17:44:21.520 (   2.064s) [simulati] Simulation.cpp:23    INFO| Simulation time: 0
+17:44:21.522 (   2.067s) [simulati] Simulation.cpp:8     INFO| simulation running
+17:44:21.525 (   2.069s) [simulati] Simulation.cpp:23    INFO| Simulation time: 0
+17:44:21.629 (   2.173s) [simulati]ParticleData.cp:53    INFO| ==============================
+17:44:21.632 (   2.177s) [simulati]ParticleData.cp:54    INFO| Simulation particles print
+17:44:21.637 (   2.181s) [simulati]ParticleData.cp:62    INFO| Num of particles in simulation: 27
+17:44:21.640 (   2.184s) [simulati]ParticleData.cp:64    INFO| Particle 0:	( -1.0000  2.0000  2.0000 )
+17:44:21.642 (   2.187s) [simulati]ParticleData.cp:64    INFO| Particle 1:	( 2.0000  2.0000  2.5000 )
+17:44:21.645 (   2.190s) [simulati]ParticleData.cp:64    INFO| Particle 2:	( 2.0000  2.0000  3.0000 )
+17:44:21.649 (   2.194s) [simulati]ParticleData.cp:64    INFO| Particle 3:	( 2.0000  2.5000  2.0000 )
+17:44:21.653 (   2.197s) [simulati]ParticleData.cp:64    INFO| Particle 4:	( 2.0000  2.5000  2.5000 )
+17:44:21.656 (   2.200s) [simulati]ParticleData.cp:64    INFO| Particle 5:	( 2.0000  2.5000  3.0000 )
+17:44:21.659 (   2.203s) [simulati]ParticleData.cp:64    INFO| Particle 6:	( 2.0000  3.0000  2.0000 )
+17:44:21.664 (   2.209s) [simulati]ParticleData.cp:64    INFO| Particle 7:	( 2.0000  3.0000  2.5000 )
+17:44:21.669 (   2.213s) [simulati]ParticleData.cp:64    INFO| Particle 8:	( 2.0000  3.0000  3.0000 )
+17:44:21.671 (   2.216s) [simulati]ParticleData.cp:64    INFO| Particle 9:	( 2.5000  2.0000  2.0000 )
+17:44:21.675 (   2.219s) [simulati]ParticleData.cp:66    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+17:44:21.779 (   2.323s) [simulati]     loguru.cpp:478   INFO| atexit

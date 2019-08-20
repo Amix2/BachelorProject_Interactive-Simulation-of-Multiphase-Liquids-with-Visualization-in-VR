@@ -1,6 +1,7 @@
 
-const RADIUS = 0.5
+const RADIUS = 0.25
 var ind = 0;
+const colors = [ 0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF ]
 
 window.onload = function () {
     console.log("Stsrt")
@@ -15,20 +16,6 @@ window.onload = function () {
 };
 
 function updateProgress(evt) {
-}
-
-function loaded(evt) {
-    // Obtain the read file data
-    var fileString = evt.target.result;
-    // Handle UTF-16 file dump
-    console.log(fileString)
-    // xhr.send(fileString)
-}
-
-function errorHandler(evt) {
-    if(evt.target.error.name == "NotReadableError") {
-        // The file could not be read
-    }
 }
 
 function iter() {
@@ -59,12 +46,11 @@ class World {
         }
 
     //  creates particle and mesh
-    addParticle(pos) {
+    addParticle(pos, m_color) {
         console.log("new particle", pos);
         let r = RADIUS;
-        let color = 0xff0f00
         var geometry = new THREE.SphereGeometry( r, 32, 32 );
-        var material = new THREE.MeshLambertMaterial( {color: color} );
+        var material = new THREE.MeshLambertMaterial( {color: m_color} );
         var sphere = new THREE.Mesh( geometry, material );
         //sphere.receiveShadow = true;
         //sphere.castShadow = true;
@@ -77,9 +63,8 @@ class World {
 
     addAll() {
         var part = partString[0].split(" ");
-        for (let i = 0; i < part.length / 3 -1; i++) {
-            console.log(i);
-            this.addParticle(new THREE.Vector3(part[3 * i + 0], part[3 * i + 1], part[3 * i + 2]));
+        for (let i = 0; i < part.length / 4 -1; i++) {
+            this.addParticle(new THREE.Vector3(part[4 * i + 0], part[4 * i + 1], part[4 * i + 2]), colors[part[4 * i + 3]]);
         }
     }
 

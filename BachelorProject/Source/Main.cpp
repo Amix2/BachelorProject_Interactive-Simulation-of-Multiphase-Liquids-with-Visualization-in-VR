@@ -11,17 +11,18 @@
 #include <shaders/ComputeShader.h>
 #include <dataStructures/GpuResources.h>
 #include <dataStructures/ParticleData.h>
-#include <particleObjects/ParticleObjectCreator.h>
+#include <particleObjects/ParticleObject.h>
 #include <Utils.h>
 #include <Logger.h>
 #include <Simulation.h>
 #include <thread>
 #include <fstream>
-//#include <ThreadManager.h>
+#include <ThreadManager.h>
 
 void startSimulation();
 
 void printWorkGroupsCapabilities();
+
 
 int main(int argc, char ** argv) {
 
@@ -58,42 +59,46 @@ int main(int argc, char ** argv) {
 	//std::thread simulationThread(startSimulation);
 	//simulationThread.join();
 
-
 	ParticleData::initArraysOnGPU();
 
 
 	ParticleObjectCreator::init();
-	ParticleObjectDetais details{9, 0,0,0, 1,1,1};
+	ParticleObjectDetais details{9, 2,2,2, 3,3,3};
 	ParticleObjectCreator::addObject(details);
 
-	Sleep(1000);
+	Sleep(100);
 	Simulation sim;
 	sim.runSimulation();
 
 	//ParticleData::printNewAddedParticleData();
+
+	Sleep(100);
+
+	//ParticleObjectDetais details2{ -1, 5,5,5, 1.5,1,2.5 };
+	//ParticleObjectCreator::addObject(details2);
 	ParticleData::printParticleData();
-
-	Sleep(1000);
-
-	ParticleObjectDetais details2{ 8, 2,2,2, 4,4,4 };
-	ParticleObjectCreator::addObject(details2);
-	Sleep(1000);
-	ParticleData::printToAddParticleData();
+	float* pp = (float*)GpuResources::openSSBO(BufferDatails.particlePositionsName);
+	Sleep(100);
+	//ParticleData::printToAddParticleData();
 
 	Sleep(1000);
 
 	sim.runSimulation();
 
-	Sleep(1000);
+	pp[0] = -1;
+	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
+	sim.runSimulation();
+	Sleep(100);
 	ParticleData::printParticleData();
-	ParticleData::logParticlePositions();
+	//ParticleData::printGlassData(1);
+	//ParticleData::logParticlePositions();
 
 	for (std::vector<std::thread*>::const_reverse_iterator it = Threads::vecBegin(); it != Threads::vecEnd(); it++) {
 		(*it)->detach();
 		(*it)->~thread();
 	}
 
-	Sleep(1000);
+	Sleep(100);
 	ParticleData::partFile << "\".split(\"|\")";
 	ParticleData::partFile.close();
 	return 0;
@@ -114,48 +119,48 @@ void printWorkGroupsCapabilities() {
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &val_array[1]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &val_array[2]);
 
-	printf("GL_MAX_COMPUTE_WORK_GROUP_COUNT:\n\tx:%u\n\ty:%u\n\tz:%u\n",
+	printf("GL_MAX_COMPUTE_WORK_GROUP_COUNT:\n\tx:%I64u\n\ty:%I64u\n\tz:%I64u\n",
 		val_array[0], val_array[1], val_array[2]);
 
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &val_array[0]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &val_array[1]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &val_array[2]);
 
-	printf("GL_MAX_COMPUTE_WORK_GROUP_SIZE:\n\tx:%u\n\ty:%u\n\tz:%u\n",
+	printf("GL_MAX_COMPUTE_WORK_GROUP_SIZE:\n\tx:%I64u\n\ty:%I64u\n\tz:%I64u\n",
 		val_array[0], val_array[1], val_array[2]);
 
 	glGetInteger64v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &value);
-	printf("GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS :\n\t%u\n", value);
+	printf("GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &value);
-	printf("GL_MAX_SHADER_STORAGE_BLOCK_SIZE :\n\t%u\n", value);
+	printf("GL_MAX_SHADER_STORAGE_BLOCK_SIZE :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_SHADER_STORAGE_BUFFER_SIZE, &value);
-	printf("GL_SHADER_STORAGE_BUFFER_SIZE :\n\t%u\n", value);
+	printf("GL_SHADER_STORAGE_BUFFER_SIZE :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_TEXTURE_SIZE, &value);
-	printf("GL_MAX_TEXTURE_SIZE :\n\t%u\n", value);
+	printf("GL_MAX_TEXTURE_SIZE :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  :\n\t%u\n", value);
+	printf("GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS, &value);
-	printf("GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS   :\n\t%u\n", value);
+	printf("GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS   :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_UNIFORM_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_UNIFORM_BUFFER_BINDINGS    :\n\t%u\n", value);
+	printf("GL_MAX_UNIFORM_BUFFER_BINDINGS    :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_UNIFORM_BUFFER_SIZE, &value);
-	printf("GL_UNIFORM_BUFFER_SIZE   :\n\t%u\n", value);
+	printf("GL_UNIFORM_BUFFER_SIZE   :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%u\n", value);
+	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_ATOMIC_COUNTER_BUFFER_SIZE, &value);
-	printf("GL_ATOMIC_COUNTER_BUFFER_SIZE   :\n\t%u\n", value);
+	printf("GL_ATOMIC_COUNTER_BUFFER_SIZE   :\n\t%I64u\n", value);
 
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);
-	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%u\n", value);
+	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%I64u\n", value);
 
 	checkOpenGLErrors();
 }

@@ -54,6 +54,22 @@ void * GpuResources::openSSBO(std::string name)
 	}
 }
 
+void* GpuResources::openPartSSBO(std::string name, GLintptr offset, GLsizeiptr length)
+{
+	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contsins
+
+		GLuint ssbo = GpuResources::m_ResourceMap[name];
+
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+		m_openResourceName = name;
+		return glMapNamedBufferRange(ssbo, offset, length, GL_MAP_WRITE_BIT);
+
+	}
+	else {
+		throw "no SSBO for given name";
+	}
+}
+
 void GpuResources::commitSSBO(std::string name)
 {
 	if(m_openResourceName != name) throw "wrong SSBO name, different one was opened";

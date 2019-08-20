@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(push, 0) 
 #ifndef _LOGGER_CPP
 #define _LOGGER_CPP
 
@@ -1799,3 +1800,5 @@ namespace loguru
 
 #endif // LOGURU_IMPLEMENTATION
 #endif
+
+#pragma warning(pop)

@@ -35,7 +35,7 @@ void ParticleData::addParticle(const float v3_positions[], int particleType, int
 	// copy data to SSBO buffer in local adsress space
 	memcpy(partPositions,		&particleType,			sizeof(int));
 	memcpy(partPositions + 1,	&numOfToAddParticles,	sizeof(int));
-	memcpy(partPositions + 2,	v3_positions,			3 * numOfToAddParticles * sizeof(float));
+	memcpy(partPositions + 2,	v3_positions,			3 * size_t(numOfToAddParticles) * sizeof(float));
 
 	// commit new data to GPU.  it might not be there yet, it will be updated in next 
 	GpuResources::commitSSBO(BufferDatails.toAddParticlePositionsName);
@@ -55,9 +55,31 @@ void ParticleData::printParticleData(int limit)
 	SimDetails* details = getDetails();
 	float * partPositions = (float*)ParticleData::getPositions();
 
+	if (limit <= 0) {
+		limit = INT_MAX;
+	}
+
 	LOG_F(INFO, "Num of particles in simulation: %d", details->numOfParticles);
 	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < details->numOfParticles && i < limit; i++) {
 		LOG_F(INFO, "Particle %d:\t( %.4f  %.4f  %.4f )", i, partPositions[3 * i], partPositions[3 * i + 1], partPositions[3 * i + 2]);
+	}
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+}
+
+void ParticleData::printGlassData(int limit)
+{
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "Simulation glass particles print");
+	SimDetails* details = getDetails();
+	float* partPositions = (float*)ParticleData::getGlassPositions();
+
+	if (limit <= 0) {
+		limit = INT_MAX;
+	}
+
+	LOG_F(INFO, "Num of glass particles in simulation: %d", details->numOfGlassParticles);
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < details->numOfGlassParticles && i < limit; i++) {
+		LOG_F(INFO, "Glass %d: \t( %.4f  %.4f  %.4f )", i, partPositions[3 * i], partPositions[3 * i + 1], partPositions[3 * i + 2]);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
@@ -71,7 +93,6 @@ void ParticleData::printToAddParticleData(int limit)
 	memcpy(&partType, partPositions, sizeof(int));
 	int numOfPart;
 	memcpy(&numOfPart, partPositions+1, sizeof(int));
-	numOfPart = 2;
 	LOG_F(INFO, "To-add particles in sim: num: %d, type: %d", numOfPart, partType);
 
 	for (int i = 0; i < Configuration.MAX_PARTICLES_ADDED_IN_TURN && i < numOfPart && i < limit; i++) {
@@ -85,7 +106,11 @@ void ParticleData::logParticlePositions()
 	SimDetails* details = getDetails();
 	float * partPositions = (float*)ParticleData::getPositions();
 	for (int i = 0; i < details->numOfParticles; i++) {
-		partFile << partPositions[3 * i] << " " << partPositions[3 * i + 1] << " " << partPositions[3 * i + 2] << " ";
+		partFile << partPositions[3 * i] << " " << partPositions[3 * i + 1] << " " << partPositions[3 * i + 2] << " " << 1 << " ";
+	}
+	float* glassPositions = (float*)ParticleData::getGlassPositions();
+	for (int i = 0; i < details->numOfGlassParticles; i++) {
+		partFile << glassPositions[3 * i] << " " << glassPositions[3 * i + 1] << " " << glassPositions[3 * i + 2] << " " << 0 << " ";
 	}
 	partFile << "| ";
 }

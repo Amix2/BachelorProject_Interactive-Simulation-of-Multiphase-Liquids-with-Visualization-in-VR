@@ -8,7 +8,7 @@
 
 class ComputeShader
 {
-	GLuint csProgram;
+	GLuint csProgram = -1;
 
 public:
 	ComputeShader(const std::string shaderFileName);

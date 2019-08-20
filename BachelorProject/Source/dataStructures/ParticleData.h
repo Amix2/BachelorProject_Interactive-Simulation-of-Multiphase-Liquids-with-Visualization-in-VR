@@ -51,6 +51,9 @@ public:
 	// Prints info about fluid particles
 	static void printParticleData(int limit = 10);
 
+	// Prints info about glass particles
+	static void printGlassData(int limit = 10);
+
 	// Prints info about to-add particles
 	static void printToAddParticleData(int limit = 10);
 

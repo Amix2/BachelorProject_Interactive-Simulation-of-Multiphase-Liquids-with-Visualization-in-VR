@@ -22,6 +22,9 @@ public:
 	// download data from gpu to cpu address space, keep it opened untill commitSSBO() call
 	static void*	openSSBO(std::string name);
 
+	// download data with offset and length from gpu to cpu address space, keep it opened untill commitSSBO() call
+	static void*	openPartSSBO(std::string name, GLintptr offset, GLsizeiptr length);
+
 	// commits memory changes in cup adress space and sends them to gpu
 	static void		commitSSBO(std::string name);
 
