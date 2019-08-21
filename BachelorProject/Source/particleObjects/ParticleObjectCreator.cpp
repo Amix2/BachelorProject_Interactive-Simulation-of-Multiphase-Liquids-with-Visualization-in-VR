@@ -27,15 +27,15 @@ void ParticleObjectCreator::runWorkerThread()
 
 		// check if simulation can take new particles, if no wait, if yes push particles to Simulation::
 		std::unique_lock<std::mutex> simLck(m_mutex_partObjectDetails);
-		while (Simulation::m_newPartArrayReady == true) Simulation::m_condVariable_newPartArray.wait(simLck);
+		while (Simulation::m_toAddPartArrayReady == true) Simulation::m_condVariable_toAddPartArray.wait(simLck);
 		simLck.unlock();
 
-		memcpy(&Simulation::m_newParticlesArray.array, positions, (size_t)numOfParticles *3 * sizeof(float));
-		Simulation::m_newParticlesArray.numOfParticles = numOfParticles;
-		Simulation::m_newParticlesArray.particleType = ParticleObjectCreator::particleObjectDetais.fluidType;
-		Simulation::m_newPartArrayReady = true;
+		memcpy(&Simulation::m_toAddParticlesArray.array, positions, (size_t)numOfParticles *3 * sizeof(float));
+		Simulation::m_toAddParticlesArray.numOfParticles = numOfParticles;
+		Simulation::m_toAddParticlesArray.particleType = ParticleObjectCreator::particleObjectDetais.fluidType;
+		Simulation::m_toAddPartArrayReady = true;
 
-		LOG_F(INFO, "New object added to Simulation: type: %d", Simulation::m_newParticlesArray.particleType);
+		LOG_F(INFO, "New object added to Simulation: type: %d", Simulation::m_toAddParticlesArray.particleType);
 
 		// loop complete, we are ready to receive next order
 		ParticleObjectCreator::particleObjectDetaisReady = false;

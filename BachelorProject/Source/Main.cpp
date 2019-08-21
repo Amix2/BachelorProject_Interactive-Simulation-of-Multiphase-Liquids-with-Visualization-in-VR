@@ -18,52 +18,123 @@
 #include <thread>
 #include <fstream>
 #include <ThreadManager.h>
+#include <stdlib.h> 
 
-void startSimulation();
+#include <TEMP_graphic.h>
 
 void printWorkGroupsCapabilities();
+
+// init openGL functions
+void initGL();
+
+// init app elements
+void initTools();
+
+// atExit function
+void cleanUp();
+
+void funWithCompShader();
+
+// settings
+const unsigned int SCR_WIDTH = 800;
+const unsigned int SCR_HEIGHT = 600;
+void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+GLFWwindow* window;
 
 
 int main(int argc, char ** argv) {
 
-	ParticleData::partFile.open("./Simple Visualizer/part.log");	 
+	atexit(cleanUp);
+
+	ParticleData::partFile.open("./Simple Visualizer/part.log");	  
 	ParticleData::partFile << "const partString = \"";
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
 	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
 	/* ----- Init window ----- */
-	GLFWwindow * window;
-	if (!glfwInit()) {
-		exit(-1);
+
+	initGL();
+
+	printWorkGroupsCapabilities();
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+	TEMP_graphic::initGraphic(window);
+
+	initTools();
+
+	//funWithCompShader();
+	Simulation sim;
+	sim.runSimulation();
+
+
+	// render loop
+	// -----------
+	while (!glfwWindowShouldClose(window))
+	{
+		sim.runSimulation();
+
+		TEMP_graphic::showFrame(window);
+		
 	}
 
-	window = glfwCreateWindow(640, 480, "window name", NULL, NULL);
+	// optional: de-allocate all resources once they've outlived their purpose:
+	// ------------------------------------------------------------------------
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteBuffers(1, &VBO);
 
-	if (!window) {
-		exit(-2);
+	// glfw: terminate, clearing all previously allocated GLFW resources.
+	// ------------------------------------------------------------------
+	glfwTerminate();
+	return 0;
+
+}
+
+void initGL()
+{
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Window name", NULL, NULL);
+	if (window == NULL)
+	{
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return;
 	}
-
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, TUTORIAL_framebuffer_size_callback);
 
 
 	if (glewInit() != 0) {
 		exit(-3);
 	}
+}
 
-
-/* ----- Compute Shader ----- */
-
-	printWorkGroupsCapabilities();
-
-	//std::thread simulationThread(startSimulation);
-	//simulationThread.join();
-
+void initTools()
+{
 	ParticleData::initArraysOnGPU();
-
-
 	ParticleObjectCreator::init();
-	ParticleObjectDetais details{9, 2,2,2, 3,3,3};
+}
+
+void cleanUp()
+{
+	LOG_F(INFO, "Clean Up");
+	for (std::vector<std::thread*>::const_reverse_iterator it = Threads::vecBegin(); it != Threads::vecEnd(); it++) {
+		(*it)->detach();
+		(*it)->~thread();
+	}
+	ParticleData::partFile << "\".split(\"|\")";
+	ParticleData::partFile.close();
+}
+
+void funWithCompShader()
+{
+	ParticleObjectDetais details{ 9, 2,2,2, 3,3,3 };
 	ParticleObjectCreator::addObject(details);
 
 	Sleep(100);
@@ -85,31 +156,12 @@ int main(int argc, char ** argv) {
 
 	sim.runSimulation();
 
-	pp[0] = -1;
+	pp[0] = 0.95;
 	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
 	sim.runSimulation();
 	Sleep(100);
 	ParticleData::printParticleData();
-	//ParticleData::printGlassData(1);
-	//ParticleData::logParticlePositions();
-
-	for (std::vector<std::thread*>::const_reverse_iterator it = Threads::vecBegin(); it != Threads::vecEnd(); it++) {
-		(*it)->detach();
-		(*it)->~thread();
-	}
-
-	Sleep(100);
-	ParticleData::partFile << "\".split(\"|\")";
-	ParticleData::partFile.close();
-	return 0;
 }
-
-void startSimulation() {
-	//loguru::set_thread_name("simulation");
-	Simulation sim;
-	sim.runSimulation();
-}
-
 
 void printWorkGroupsCapabilities() {
 	GLint64  val_array[3];
@@ -165,4 +217,11 @@ void printWorkGroupsCapabilities() {
 	checkOpenGLErrors();
 }
 
-
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	// make sure the viewport matches the new window dimensions; note that width and 
+	// height will be significantly larger than specified on retina displays.
+	glViewport(0, 0, width, height);
+}

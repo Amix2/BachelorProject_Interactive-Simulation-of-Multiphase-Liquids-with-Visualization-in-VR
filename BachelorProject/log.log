@@ -2,53 +2,1860 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Release\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-17:44:19.537 (   0.082s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-17:44:20.112 (   0.656s) [main thr]       Main.cpp:165    ERR| GL error: nieprawid³owe wyliczenie
-17:44:20.116 (   0.660s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ParticlePositions, 	id: 1
-17:44:20.123 (   0.667s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: GlassPositions, 	id: 2
-17:44:20.126 (   0.670s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ToAddParticlePositions, 	id: 3
-17:44:20.129 (   0.673s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: Details, 	id: 4
-17:44:20.132 (   0.676s) [main thr]ParticleObjectC:72    INFO| Initialize ParticleObjectCreator
-17:44:20.135 (   0.679s) [main thr]ThreadManager.c:16    INFO| New thread in list
-17:44:20.136 (   0.680s) [Particle]ParticleObjectC:6     INFO| ParticleObjectCreator::runWorkerThread
-17:44:20.138 (   0.682s) [main thr]ParticleObjectC:87    INFO| New object assign: type: 9
-17:44:20.141 (   0.685s) [Particle]ParticleObjectC:17    INFO| New object to create: type: 9
-17:44:20.146 (   0.690s) [Particle]ParticleObjectC:26    INFO| New object created: particles: 27
-17:44:20.149 (   0.693s) [Particle]ParticleObjectC:38    INFO| New object added to Simulation: type: 9
-17:44:20.245 (   0.789s) [simulati] Simulation.cpp:8     INFO| simulation running
-17:44:20.249 (   0.793s) [simulati] Simulation.cpp:12    INFO| new particles to send to GPU, type: 9, particles: 27
-17:44:20.253 (   0.797s) [simulati]ParticleData.cp:30    INFO| 27 particless added
-17:44:20.260 (   0.804s) [simulati] Simulation.cpp:23    INFO| Simulation time: 2
-17:44:20.364 (   0.908s) [simulati]ParticleData.cp:53    INFO| ==============================
-17:44:20.368 (   0.912s) [simulati]ParticleData.cp:54    INFO| Simulation particles print
-17:44:20.371 (   0.915s) [simulati]ParticleData.cp:62    INFO| Num of particles in simulation: 27
-17:44:20.374 (   0.919s) [simulati]ParticleData.cp:64    INFO| Particle 0:	( 2.0000  2.0000  2.0000 )
-17:44:20.377 (   0.922s) [simulati]ParticleData.cp:64    INFO| Particle 1:	( 2.0000  2.0000  2.5000 )
-17:44:20.380 (   0.925s) [simulati]ParticleData.cp:64    INFO| Particle 2:	( 2.0000  2.0000  3.0000 )
-17:44:20.384 (   0.928s) [simulati]ParticleData.cp:64    INFO| Particle 3:	( 2.0000  2.5000  2.0000 )
-17:44:20.387 (   0.931s) [simulati]ParticleData.cp:64    INFO| Particle 4:	( 2.0000  2.5000  2.5000 )
-17:44:20.390 (   0.934s) [simulati]ParticleData.cp:64    INFO| Particle 5:	( 2.0000  2.5000  3.0000 )
-17:44:20.393 (   0.938s) [simulati]ParticleData.cp:64    INFO| Particle 6:	( 2.0000  3.0000  2.0000 )
-17:44:20.397 (   0.941s) [simulati]ParticleData.cp:64    INFO| Particle 7:	( 2.0000  3.0000  2.5000 )
-17:44:20.400 (   0.944s) [simulati]ParticleData.cp:64    INFO| Particle 8:	( 2.0000  3.0000  3.0000 )
-17:44:20.403 (   0.947s) [simulati]ParticleData.cp:64    INFO| Particle 9:	( 2.5000  2.0000  2.0000 )
-17:44:20.406 (   0.950s) [simulati]ParticleData.cp:66    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-17:44:21.517 (   2.061s) [simulati] Simulation.cpp:8     INFO| simulation running
-17:44:21.520 (   2.064s) [simulati] Simulation.cpp:23    INFO| Simulation time: 0
-17:44:21.522 (   2.067s) [simulati] Simulation.cpp:8     INFO| simulation running
-17:44:21.525 (   2.069s) [simulati] Simulation.cpp:23    INFO| Simulation time: 0
-17:44:21.629 (   2.173s) [simulati]ParticleData.cp:53    INFO| ==============================
-17:44:21.632 (   2.177s) [simulati]ParticleData.cp:54    INFO| Simulation particles print
-17:44:21.637 (   2.181s) [simulati]ParticleData.cp:62    INFO| Num of particles in simulation: 27
-17:44:21.640 (   2.184s) [simulati]ParticleData.cp:64    INFO| Particle 0:	( -1.0000  2.0000  2.0000 )
-17:44:21.642 (   2.187s) [simulati]ParticleData.cp:64    INFO| Particle 1:	( 2.0000  2.0000  2.5000 )
-17:44:21.645 (   2.190s) [simulati]ParticleData.cp:64    INFO| Particle 2:	( 2.0000  2.0000  3.0000 )
-17:44:21.649 (   2.194s) [simulati]ParticleData.cp:64    INFO| Particle 3:	( 2.0000  2.5000  2.0000 )
-17:44:21.653 (   2.197s) [simulati]ParticleData.cp:64    INFO| Particle 4:	( 2.0000  2.5000  2.5000 )
-17:44:21.656 (   2.200s) [simulati]ParticleData.cp:64    INFO| Particle 5:	( 2.0000  2.5000  3.0000 )
-17:44:21.659 (   2.203s) [simulati]ParticleData.cp:64    INFO| Particle 6:	( 2.0000  3.0000  2.0000 )
-17:44:21.664 (   2.209s) [simulati]ParticleData.cp:64    INFO| Particle 7:	( 2.0000  3.0000  2.5000 )
-17:44:21.669 (   2.213s) [simulati]ParticleData.cp:64    INFO| Particle 8:	( 2.0000  3.0000  3.0000 )
-17:44:21.671 (   2.216s) [simulati]ParticleData.cp:64    INFO| Particle 9:	( 2.5000  2.0000  2.0000 )
-17:44:21.675 (   2.219s) [simulati]ParticleData.cp:66    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-17:44:21.779 (   2.323s) [simulati]     loguru.cpp:478   INFO| atexit
+20:48:06.479 (   0.200s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+20:48:06.913 (   0.634s) [main thr]       Main.cpp:217    ERR| GL error: nieprawid³owe wyliczenie
+20:48:06.918 (   0.639s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ParticlePositions, 	id: 2
+20:48:06.931 (   0.652s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: GlassPositions, 	id: 3
+20:48:06.934 (   0.655s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: ToAddParticlePositions, 	id: 4
+20:48:06.938 (   0.659s) [main thr]GpuResources.cp:21    INFO| new SSBO, name: Details, 	id: 5
+20:48:06.940 (   0.661s) [main thr]ParticleObjectC:72    INFO| Initialize ParticleObjectCreator
+20:48:06.946 (   0.667s) [main thr]ThreadManager.c:16    INFO| New thread in list
+20:48:06.947 (   0.667s) [Particle]ParticleObjectC:6     INFO| ParticleObjectCreator::runWorkerThread
+20:48:07.007 (   0.728s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.071 (   0.792s) [simulati] Simulation.cpp:22    INFO| Simulation time: 60
+20:48:07.074 (   0.795s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.076 (   0.797s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.084 (   0.805s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.087 (   0.808s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.091 (   0.812s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.093 (   0.814s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.096 (   0.817s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.098 (   0.819s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.101 (   0.822s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.103 (   0.824s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.106 (   0.827s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.109 (   0.830s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.113 (   0.834s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.115 (   0.836s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.119 (   0.840s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.122 (   0.842s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.125 (   0.846s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.127 (   0.848s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.130 (   0.851s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.133 (   0.854s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.136 (   0.857s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.139 (   0.859s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.141 (   0.862s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.149 (   0.870s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.152 (   0.873s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.155 (   0.876s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.158 (   0.879s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.160 (   0.881s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.165 (   0.886s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.168 (   0.888s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.170 (   0.891s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.173 (   0.894s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.176 (   0.897s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.179 (   0.900s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.183 (   0.904s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.185 (   0.906s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.188 (   0.909s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.191 (   0.912s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.194 (   0.915s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.197 (   0.918s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.200 (   0.921s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.203 (   0.923s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.205 (   0.926s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.208 (   0.929s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.211 (   0.932s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.214 (   0.935s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.218 (   0.938s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.220 (   0.941s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.224 (   0.945s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.227 (   0.947s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.230 (   0.950s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.232 (   0.953s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.235 (   0.956s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.237 (   0.958s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.240 (   0.961s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.243 (   0.964s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.247 (   0.968s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.249 (   0.970s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.252 (   0.973s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.255 (   0.975s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.258 (   0.979s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.260 (   0.981s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.265 (   0.985s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.267 (   0.987s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.269 (   0.990s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.272 (   0.993s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.275 (   0.996s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.277 (   0.998s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.281 (   1.002s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.283 (   1.004s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.286 (   1.007s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.288 (   1.009s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.292 (   1.013s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.294 (   1.015s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.299 (   1.020s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.301 (   1.022s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.304 (   1.025s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.306 (   1.027s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.310 (   1.030s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.312 (   1.033s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.315 (   1.036s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.318 (   1.039s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.321 (   1.042s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.323 (   1.044s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.327 (   1.047s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.329 (   1.050s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.332 (   1.053s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.334 (   1.055s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.338 (   1.059s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.340 (   1.061s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.343 (   1.064s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.346 (   1.067s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.349 (   1.070s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.351 (   1.072s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.355 (   1.076s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.357 (   1.078s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.360 (   1.081s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.363 (   1.084s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.367 (   1.088s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.369 (   1.090s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.373 (   1.094s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.375 (   1.096s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.378 (   1.099s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.381 (   1.102s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.384 (   1.105s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.386 (   1.107s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.389 (   1.110s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.391 (   1.112s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.395 (   1.115s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.397 (   1.117s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.400 (   1.121s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.402 (   1.123s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.405 (   1.126s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.408 (   1.129s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.411 (   1.132s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.414 (   1.134s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.417 (   1.138s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.419 (   1.140s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.422 (   1.143s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.425 (   1.146s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.428 (   1.149s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.430 (   1.151s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.433 (   1.154s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.436 (   1.157s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.439 (   1.159s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.441 (   1.162s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.444 (   1.165s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.447 (   1.168s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.450 (   1.171s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.453 (   1.174s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.456 (   1.177s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.458 (   1.179s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.463 (   1.184s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.465 (   1.186s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.469 (   1.190s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.472 (   1.193s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.475 (   1.196s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.478 (   1.199s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.482 (   1.203s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.485 (   1.206s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.488 (   1.208s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.490 (   1.211s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.494 (   1.215s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.499 (   1.220s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.503 (   1.224s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.505 (   1.226s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.509 (   1.230s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.512 (   1.233s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.516 (   1.237s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.519 (   1.240s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.523 (   1.243s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.525 (   1.246s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.529 (   1.249s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.532 (   1.253s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.536 (   1.256s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.539 (   1.260s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.542 (   1.263s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.546 (   1.267s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.549 (   1.270s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.552 (   1.273s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.555 (   1.276s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.558 (   1.279s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.561 (   1.282s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.564 (   1.285s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.567 (   1.288s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.569 (   1.290s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.573 (   1.294s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.582 (   1.303s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.585 (   1.306s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.587 (   1.308s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.591 (   1.311s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.593 (   1.314s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.596 (   1.317s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.599 (   1.320s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.602 (   1.322s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.604 (   1.325s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.609 (   1.330s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.611 (   1.332s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.614 (   1.335s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.617 (   1.338s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.620 (   1.341s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.627 (   1.348s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.631 (   1.352s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.634 (   1.355s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.639 (   1.360s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.641 (   1.362s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.644 (   1.365s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.647 (   1.368s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.650 (   1.371s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.652 (   1.373s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.655 (   1.376s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.658 (   1.379s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.661 (   1.382s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.663 (   1.384s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.667 (   1.388s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.669 (   1.390s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.672 (   1.393s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.674 (   1.395s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.678 (   1.398s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.680 (   1.401s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.683 (   1.404s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.686 (   1.407s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.688 (   1.409s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.690 (   1.411s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.694 (   1.415s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.696 (   1.417s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.699 (   1.420s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.704 (   1.425s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.707 (   1.428s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.709 (   1.430s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.712 (   1.432s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.715 (   1.435s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.717 (   1.438s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.720 (   1.441s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.725 (   1.446s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.729 (   1.449s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.732 (   1.453s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.734 (   1.455s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.737 (   1.458s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.739 (   1.460s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.742 (   1.463s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.745 (   1.465s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.748 (   1.469s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.751 (   1.472s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.754 (   1.475s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.757 (   1.478s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.761 (   1.482s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.764 (   1.485s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.767 (   1.488s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.770 (   1.491s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.775 (   1.496s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.779 (   1.500s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.782 (   1.503s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.785 (   1.506s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.791 (   1.512s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.795 (   1.516s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.802 (   1.523s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.806 (   1.527s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.811 (   1.532s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.814 (   1.535s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.817 (   1.538s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.821 (   1.541s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.823 (   1.544s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.825 (   1.546s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.829 (   1.550s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.831 (   1.552s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.834 (   1.555s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.837 (   1.558s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.840 (   1.561s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.842 (   1.563s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.845 (   1.566s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.848 (   1.569s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.851 (   1.571s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.853 (   1.574s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.856 (   1.577s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.859 (   1.580s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.863 (   1.584s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.866 (   1.587s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.869 (   1.589s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.871 (   1.592s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.874 (   1.595s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.876 (   1.597s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.879 (   1.600s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.881 (   1.602s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.885 (   1.605s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.887 (   1.607s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.889 (   1.610s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.892 (   1.613s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.895 (   1.616s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.897 (   1.618s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.900 (   1.621s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.903 (   1.624s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.906 (   1.626s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.908 (   1.628s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.911 (   1.632s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.914 (   1.635s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.917 (   1.638s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.920 (   1.641s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:07.923 (   1.644s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.926 (   1.646s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.931 (   1.652s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.934 (   1.655s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.937 (   1.658s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.940 (   1.661s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.944 (   1.665s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.947 (   1.668s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.950 (   1.671s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.952 (   1.673s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.955 (   1.676s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.958 (   1.679s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.961 (   1.682s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.966 (   1.687s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.970 (   1.690s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.972 (   1.693s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.980 (   1.700s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.982 (   1.703s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.985 (   1.706s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.988 (   1.708s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.990 (   1.711s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.994 (   1.714s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:07.997 (   1.717s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:07.999 (   1.720s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.003 (   1.723s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.005 (   1.726s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.008 (   1.729s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.010 (   1.731s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.015 (   1.735s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.017 (   1.737s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.020 (   1.741s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.023 (   1.744s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.026 (   1.747s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.029 (   1.749s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.033 (   1.753s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.035 (   1.755s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.038 (   1.758s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.040 (   1.761s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.043 (   1.764s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.045 (   1.766s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.048 (   1.769s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.051 (   1.772s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.053 (   1.774s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.055 (   1.776s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.059 (   1.779s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.060 (   1.781s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.063 (   1.784s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.065 (   1.786s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.069 (   1.790s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.071 (   1.792s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.074 (   1.795s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.077 (   1.798s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.080 (   1.801s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.082 (   1.803s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.085 (   1.806s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.088 (   1.808s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.090 (   1.811s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.092 (   1.813s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.096 (   1.817s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.098 (   1.819s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.101 (   1.822s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.104 (   1.825s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.106 (   1.827s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.109 (   1.829s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.111 (   1.832s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.114 (   1.835s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.117 (   1.838s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.120 (   1.840s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.123 (   1.844s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.125 (   1.846s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.127 (   1.848s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.130 (   1.850s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.133 (   1.854s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.136 (   1.856s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.138 (   1.859s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.141 (   1.862s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.144 (   1.865s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.146 (   1.867s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.149 (   1.870s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.151 (   1.872s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.154 (   1.875s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.156 (   1.877s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.159 (   1.880s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.161 (   1.882s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.165 (   1.885s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.167 (   1.887s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.170 (   1.891s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.172 (   1.893s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.174 (   1.895s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.177 (   1.898s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.180 (   1.900s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.182 (   1.903s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.185 (   1.906s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.187 (   1.908s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.190 (   1.911s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.192 (   1.913s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.195 (   1.916s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.198 (   1.919s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.201 (   1.922s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.203 (   1.924s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.206 (   1.927s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.208 (   1.929s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.211 (   1.932s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.214 (   1.935s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.217 (   1.938s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.219 (   1.940s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.222 (   1.942s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.224 (   1.945s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.227 (   1.948s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.229 (   1.950s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.233 (   1.954s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.235 (   1.956s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.238 (   1.959s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.240 (   1.961s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.243 (   1.964s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.245 (   1.966s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.248 (   1.969s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.251 (   1.972s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.254 (   1.975s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.256 (   1.977s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.259 (   1.980s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.261 (   1.982s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.265 (   1.985s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.267 (   1.988s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.270 (   1.991s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.272 (   1.993s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.275 (   1.996s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.278 (   1.999s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.281 (   2.002s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.283 (   2.004s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.286 (   2.007s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.289 (   2.009s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.291 (   2.012s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.293 (   2.014s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.297 (   2.018s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.300 (   2.021s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.303 (   2.023s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.305 (   2.026s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.309 (   2.029s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.311 (   2.032s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.315 (   2.036s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.317 (   2.038s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.320 (   2.041s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.323 (   2.043s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.325 (   2.046s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.327 (   2.048s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.330 (   2.051s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.333 (   2.054s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.335 (   2.056s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.337 (   2.058s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.340 (   2.061s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.343 (   2.063s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.345 (   2.066s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.347 (   2.068s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.351 (   2.071s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.353 (   2.073s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.355 (   2.076s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.357 (   2.078s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.361 (   2.081s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.363 (   2.084s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.366 (   2.086s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.368 (   2.088s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.371 (   2.092s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.373 (   2.094s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.376 (   2.096s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.378 (   2.099s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.381 (   2.102s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.383 (   2.104s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.386 (   2.106s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.388 (   2.109s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.391 (   2.112s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.394 (   2.114s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.397 (   2.118s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.399 (   2.120s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.402 (   2.123s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.404 (   2.125s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.407 (   2.128s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.409 (   2.130s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.412 (   2.133s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.415 (   2.136s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.418 (   2.139s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.420 (   2.141s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.423 (   2.144s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.425 (   2.146s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.428 (   2.149s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.430 (   2.151s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.433 (   2.154s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.436 (   2.157s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.439 (   2.160s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.443 (   2.163s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.445 (   2.166s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.447 (   2.168s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.451 (   2.171s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.453 (   2.174s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.455 (   2.176s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.457 (   2.178s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.461 (   2.182s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.464 (   2.185s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.467 (   2.188s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.470 (   2.191s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.472 (   2.193s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.475 (   2.195s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.478 (   2.199s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.480 (   2.201s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.483 (   2.204s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.485 (   2.206s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.488 (   2.209s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.490 (   2.211s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.493 (   2.213s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.495 (   2.216s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.498 (   2.219s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.500 (   2.221s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.503 (   2.224s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.506 (   2.227s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.509 (   2.230s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.512 (   2.233s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.516 (   2.237s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.518 (   2.239s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.521 (   2.242s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.525 (   2.245s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.528 (   2.249s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.531 (   2.252s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.534 (   2.255s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.536 (   2.257s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.538 (   2.259s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.541 (   2.262s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.544 (   2.265s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.547 (   2.268s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.550 (   2.271s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.552 (   2.273s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.555 (   2.276s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.557 (   2.278s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.560 (   2.281s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.562 (   2.283s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.566 (   2.286s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.568 (   2.289s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.572 (   2.292s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.574 (   2.294s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.577 (   2.298s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.579 (   2.300s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.583 (   2.304s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.585 (   2.306s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.588 (   2.309s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.590 (   2.311s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.593 (   2.314s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.596 (   2.316s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.598 (   2.319s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.601 (   2.322s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.604 (   2.325s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.606 (   2.327s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.609 (   2.330s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.611 (   2.332s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.614 (   2.335s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.616 (   2.337s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.619 (   2.340s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.622 (   2.342s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.624 (   2.345s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.626 (   2.347s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.629 (   2.350s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.632 (   2.353s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.635 (   2.356s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.637 (   2.358s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.640 (   2.361s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.642 (   2.363s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.645 (   2.366s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.647 (   2.368s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.651 (   2.372s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.653 (   2.374s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.655 (   2.376s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.658 (   2.379s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.661 (   2.382s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.664 (   2.384s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.667 (   2.388s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.669 (   2.390s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.671 (   2.392s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.673 (   2.394s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.677 (   2.398s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.679 (   2.400s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.682 (   2.403s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.685 (   2.406s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.688 (   2.409s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.690 (   2.411s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.693 (   2.414s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.695 (   2.416s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.698 (   2.419s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.700 (   2.421s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.704 (   2.425s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.706 (   2.427s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.709 (   2.429s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.711 (   2.432s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.716 (   2.437s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.720 (   2.441s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.723 (   2.444s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.725 (   2.446s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.728 (   2.449s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.731 (   2.452s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.734 (   2.455s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.736 (   2.457s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.740 (   2.460s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.742 (   2.462s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.745 (   2.466s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.748 (   2.469s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.751 (   2.472s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.753 (   2.474s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.757 (   2.477s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.758 (   2.479s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.762 (   2.482s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.764 (   2.485s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.767 (   2.488s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.769 (   2.490s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.772 (   2.493s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.775 (   2.496s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.778 (   2.499s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.780 (   2.501s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.783 (   2.503s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.785 (   2.506s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.788 (   2.509s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.790 (   2.511s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.793 (   2.514s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.795 (   2.516s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.798 (   2.519s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.800 (   2.521s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.803 (   2.524s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.806 (   2.526s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.808 (   2.529s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.811 (   2.532s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.814 (   2.535s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.816 (   2.537s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.819 (   2.539s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.821 (   2.542s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.824 (   2.545s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.826 (   2.547s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.830 (   2.551s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.832 (   2.553s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.835 (   2.556s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.837 (   2.558s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.840 (   2.561s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.843 (   2.564s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.846 (   2.567s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.849 (   2.570s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.852 (   2.573s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.854 (   2.575s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.857 (   2.578s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.859 (   2.580s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.862 (   2.583s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.866 (   2.587s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.868 (   2.589s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.871 (   2.592s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.875 (   2.595s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.877 (   2.597s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.879 (   2.600s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.882 (   2.603s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.885 (   2.606s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.887 (   2.608s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.890 (   2.611s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.893 (   2.614s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.895 (   2.616s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.897 (   2.618s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.900 (   2.621s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.903 (   2.624s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.906 (   2.627s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.908 (   2.629s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.911 (   2.632s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.914 (   2.635s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:08.918 (   2.639s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.920 (   2.641s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.924 (   2.645s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.926 (   2.647s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.930 (   2.651s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.933 (   2.654s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.936 (   2.657s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.939 (   2.660s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.942 (   2.662s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.944 (   2.665s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.948 (   2.669s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.951 (   2.671s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.953 (   2.674s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.956 (   2.677s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.959 (   2.680s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.962 (   2.682s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.965 (   2.686s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.968 (   2.689s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.971 (   2.692s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.973 (   2.694s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.976 (   2.697s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.978 (   2.699s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.981 (   2.702s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.984 (   2.705s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.987 (   2.708s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.989 (   2.710s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.992 (   2.713s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:08.995 (   2.716s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:08.999 (   2.719s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.001 (   2.721s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.004 (   2.725s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.006 (   2.727s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.009 (   2.730s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.011 (   2.732s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.014 (   2.735s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.016 (   2.737s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.019 (   2.740s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.022 (   2.742s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.024 (   2.745s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.027 (   2.747s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.030 (   2.751s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.032 (   2.753s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.035 (   2.756s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.037 (   2.758s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.041 (   2.762s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.043 (   2.764s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.047 (   2.767s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.050 (   2.771s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.053 (   2.773s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.055 (   2.776s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.059 (   2.779s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.061 (   2.782s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.064 (   2.785s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.067 (   2.788s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.070 (   2.791s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.073 (   2.793s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.076 (   2.797s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.078 (   2.799s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.081 (   2.802s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.084 (   2.805s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.087 (   2.808s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.089 (   2.810s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.092 (   2.813s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.095 (   2.815s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.098 (   2.818s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.100 (   2.821s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.103 (   2.824s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.105 (   2.826s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.109 (   2.829s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.111 (   2.832s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.114 (   2.835s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.116 (   2.837s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.119 (   2.840s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.123 (   2.844s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.126 (   2.846s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.128 (   2.849s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.132 (   2.853s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.134 (   2.855s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.137 (   2.857s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.139 (   2.860s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.142 (   2.863s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.144 (   2.865s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.147 (   2.868s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.150 (   2.871s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.153 (   2.873s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.155 (   2.875s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.157 (   2.878s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.160 (   2.881s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.162 (   2.883s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.165 (   2.885s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.168 (   2.889s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.170 (   2.890s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.172 (   2.893s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.174 (   2.895s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.177 (   2.898s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.179 (   2.900s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.182 (   2.903s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.185 (   2.906s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.188 (   2.909s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.190 (   2.911s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.192 (   2.913s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.195 (   2.916s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.198 (   2.918s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.200 (   2.921s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.203 (   2.924s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.205 (   2.926s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.208 (   2.929s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.210 (   2.931s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.213 (   2.934s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.215 (   2.936s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.218 (   2.939s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.220 (   2.941s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.223 (   2.944s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.225 (   2.946s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.228 (   2.949s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.231 (   2.951s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.234 (   2.954s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.236 (   2.956s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.238 (   2.959s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.241 (   2.962s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.243 (   2.964s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.246 (   2.966s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.249 (   2.970s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.251 (   2.972s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.254 (   2.975s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.257 (   2.978s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.259 (   2.980s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.262 (   2.982s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.265 (   2.986s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.268 (   2.989s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.271 (   2.991s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.273 (   2.994s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.276 (   2.997s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.278 (   2.999s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.281 (   3.002s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.283 (   3.004s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.286 (   3.007s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.288 (   3.009s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.292 (   3.013s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.294 (   3.015s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.298 (   3.018s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.300 (   3.021s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.303 (   3.024s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.305 (   3.026s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.308 (   3.029s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.310 (   3.031s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.314 (   3.035s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.316 (   3.037s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.319 (   3.040s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.322 (   3.043s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.325 (   3.046s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.327 (   3.048s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.332 (   3.052s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.335 (   3.056s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.338 (   3.058s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.340 (   3.061s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.344 (   3.065s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.347 (   3.067s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.350 (   3.071s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.353 (   3.074s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.356 (   3.077s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.358 (   3.079s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.361 (   3.082s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.363 (   3.084s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.367 (   3.087s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.369 (   3.089s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.371 (   3.092s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.373 (   3.094s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.377 (   3.097s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.378 (   3.099s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.381 (   3.102s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.384 (   3.105s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.387 (   3.107s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.389 (   3.110s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.391 (   3.112s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.394 (   3.115s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.397 (   3.118s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.399 (   3.120s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.402 (   3.123s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.405 (   3.125s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.407 (   3.128s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.409 (   3.130s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.413 (   3.133s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.415 (   3.136s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.419 (   3.140s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.422 (   3.143s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.425 (   3.146s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.427 (   3.148s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.431 (   3.152s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.433 (   3.154s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.436 (   3.157s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.439 (   3.160s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.442 (   3.163s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.444 (   3.165s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.448 (   3.169s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.450 (   3.171s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.453 (   3.174s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.456 (   3.177s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.459 (   3.179s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.461 (   3.181s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.464 (   3.185s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.467 (   3.187s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.469 (   3.190s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.472 (   3.192s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.475 (   3.196s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.477 (   3.198s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.480 (   3.201s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.482 (   3.203s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.486 (   3.207s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.488 (   3.209s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.492 (   3.212s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.494 (   3.215s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.497 (   3.218s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.499 (   3.220s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.503 (   3.224s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.506 (   3.227s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.509 (   3.229s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.512 (   3.232s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.516 (   3.236s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.518 (   3.239s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.522 (   3.243s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.524 (   3.245s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.527 (   3.248s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.531 (   3.252s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.534 (   3.255s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.536 (   3.257s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.540 (   3.261s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.542 (   3.263s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.545 (   3.266s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.548 (   3.269s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.551 (   3.272s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.553 (   3.274s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.557 (   3.278s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.559 (   3.280s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.562 (   3.283s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.565 (   3.286s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.568 (   3.289s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.570 (   3.291s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.573 (   3.294s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.576 (   3.296s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.579 (   3.300s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.581 (   3.302s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.585 (   3.306s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.587 (   3.308s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.589 (   3.310s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.592 (   3.313s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.595 (   3.316s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.597 (   3.318s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.600 (   3.320s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.602 (   3.323s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.605 (   3.326s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.608 (   3.329s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.611 (   3.332s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.613 (   3.334s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.616 (   3.337s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.619 (   3.340s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.622 (   3.342s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.624 (   3.345s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.626 (   3.347s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.629 (   3.350s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.632 (   3.353s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.635 (   3.356s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.638 (   3.359s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.640 (   3.361s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.643 (   3.364s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.646 (   3.366s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.649 (   3.369s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.651 (   3.372s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.654 (   3.374s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.656 (   3.377s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.659 (   3.380s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.661 (   3.382s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.665 (   3.385s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.667 (   3.387s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.669 (   3.390s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.671 (   3.392s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.675 (   3.396s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.677 (   3.398s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.679 (   3.400s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.682 (   3.403s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.685 (   3.406s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.687 (   3.408s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.690 (   3.410s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.692 (   3.413s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.695 (   3.416s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.697 (   3.418s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.701 (   3.422s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.703 (   3.424s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.706 (   3.426s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.708 (   3.429s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.711 (   3.432s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.713 (   3.434s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.717 (   3.437s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.719 (   3.440s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.723 (   3.444s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.725 (   3.446s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.728 (   3.449s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.730 (   3.451s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.734 (   3.455s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.737 (   3.458s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.740 (   3.461s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.743 (   3.463s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.746 (   3.467s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.749 (   3.470s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.752 (   3.473s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.755 (   3.475s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.757 (   3.478s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.760 (   3.480s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.764 (   3.485s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.766 (   3.487s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.768 (   3.489s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.772 (   3.492s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.774 (   3.495s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.777 (   3.498s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.780 (   3.500s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.783 (   3.504s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.786 (   3.507s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.788 (   3.509s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.791 (   3.512s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.793 (   3.514s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.796 (   3.517s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.799 (   3.519s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.801 (   3.522s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.804 (   3.524s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.806 (   3.527s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.809 (   3.530s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.812 (   3.533s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.814 (   3.535s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.818 (   3.539s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.820 (   3.541s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.823 (   3.543s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.825 (   3.545s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.828 (   3.549s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.830 (   3.551s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.833 (   3.554s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.836 (   3.557s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.839 (   3.559s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.841 (   3.561s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.844 (   3.565s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.846 (   3.567s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.851 (   3.572s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.854 (   3.574s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.856 (   3.577s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.858 (   3.579s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.862 (   3.583s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.864 (   3.585s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.867 (   3.588s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.869 (   3.590s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.873 (   3.594s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.875 (   3.595s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.877 (   3.598s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.880 (   3.601s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.883 (   3.604s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.885 (   3.606s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.887 (   3.608s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.890 (   3.611s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.893 (   3.614s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.895 (   3.616s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.899 (   3.619s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.901 (   3.622s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.904 (   3.624s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.906 (   3.626s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.909 (   3.630s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.911 (   3.632s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.916 (   3.637s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.918 (   3.639s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.921 (   3.642s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.923 (   3.644s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.927 (   3.648s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.929 (   3.650s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.932 (   3.653s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.936 (   3.657s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.939 (   3.660s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.941 (   3.662s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.945 (   3.666s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.948 (   3.668s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.951 (   3.671s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.953 (   3.674s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.956 (   3.677s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.958 (   3.679s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.962 (   3.683s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.965 (   3.686s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.968 (   3.689s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.971 (   3.691s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:09.973 (   3.694s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.975 (   3.696s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.978 (   3.699s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.981 (   3.702s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.984 (   3.705s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.986 (   3.707s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.990 (   3.711s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.992 (   3.713s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:09.995 (   3.716s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:09.998 (   3.719s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.000 (   3.721s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.003 (   3.724s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.005 (   3.726s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.008 (   3.729s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.011 (   3.732s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.014 (   3.735s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.017 (   3.738s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.019 (   3.740s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.022 (   3.743s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.025 (   3.746s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.028 (   3.749s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.030 (   3.751s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.033 (   3.754s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.036 (   3.757s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.038 (   3.759s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.040 (   3.761s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.044 (   3.764s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.046 (   3.766s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.048 (   3.769s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.050 (   3.771s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.054 (   3.775s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.056 (   3.777s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.059 (   3.779s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.061 (   3.782s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.065 (   3.785s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.067 (   3.787s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.069 (   3.790s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.072 (   3.793s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.075 (   3.796s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.078 (   3.799s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.082 (   3.802s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.084 (   3.805s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.086 (   3.807s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.089 (   3.810s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.092 (   3.813s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.094 (   3.815s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.097 (   3.818s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.099 (   3.820s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.102 (   3.823s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.104 (   3.825s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.108 (   3.828s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.110 (   3.830s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.112 (   3.833s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.115 (   3.836s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.118 (   3.839s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.121 (   3.842s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.124 (   3.845s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.126 (   3.847s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.129 (   3.850s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.131 (   3.852s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.135 (   3.856s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.138 (   3.859s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.141 (   3.862s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.145 (   3.865s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.148 (   3.869s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.151 (   3.872s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.154 (   3.874s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.156 (   3.876s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.158 (   3.879s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.161 (   3.882s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.165 (   3.886s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.168 (   3.888s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.171 (   3.892s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.173 (   3.894s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.176 (   3.897s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.179 (   3.900s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.182 (   3.902s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.184 (   3.905s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.186 (   3.907s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.189 (   3.910s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.192 (   3.912s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.194 (   3.914s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.197 (   3.918s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.199 (   3.920s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.202 (   3.923s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.205 (   3.926s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.208 (   3.929s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.211 (   3.931s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.215 (   3.935s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.217 (   3.938s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.220 (   3.940s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.222 (   3.942s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.225 (   3.946s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.227 (   3.948s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.230 (   3.951s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.233 (   3.954s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.236 (   3.957s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.238 (   3.959s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.241 (   3.961s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.243 (   3.964s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.246 (   3.967s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.248 (   3.969s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.252 (   3.973s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.254 (   3.975s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.257 (   3.978s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.260 (   3.981s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.263 (   3.984s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.266 (   3.987s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.269 (   3.989s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.271 (   3.992s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.274 (   3.995s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.277 (   3.998s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.280 (   4.001s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.282 (   4.003s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.285 (   4.006s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.288 (   4.008s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.290 (   4.011s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.292 (   4.013s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.295 (   4.016s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.298 (   4.019s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.301 (   4.022s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.303 (   4.024s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.306 (   4.027s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.309 (   4.029s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.311 (   4.032s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.314 (   4.035s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.318 (   4.039s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.320 (   4.041s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.323 (   4.044s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.327 (   4.047s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.329 (   4.050s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.332 (   4.053s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.335 (   4.056s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.338 (   4.059s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.341 (   4.062s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.344 (   4.065s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.347 (   4.068s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.349 (   4.070s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.354 (   4.074s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.356 (   4.077s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.359 (   4.080s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.362 (   4.082s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.365 (   4.086s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.367 (   4.088s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.370 (   4.091s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.373 (   4.093s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.375 (   4.096s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.378 (   4.098s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.382 (   4.102s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.384 (   4.105s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.387 (   4.108s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.390 (   4.110s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.392 (   4.113s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.395 (   4.115s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.398 (   4.119s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.400 (   4.121s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.403 (   4.124s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.405 (   4.126s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.408 (   4.129s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.410 (   4.131s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.413 (   4.134s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.416 (   4.137s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.419 (   4.140s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.421 (   4.142s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.424 (   4.145s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.426 (   4.147s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.429 (   4.150s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.431 (   4.152s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.434 (   4.155s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.436 (   4.157s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.439 (   4.160s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.441 (   4.162s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.444 (   4.165s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.446 (   4.167s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.449 (   4.170s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.452 (   4.173s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.455 (   4.176s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.457 (   4.178s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.461 (   4.182s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.463 (   4.184s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.466 (   4.187s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.468 (   4.189s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.471 (   4.192s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.474 (   4.194s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.476 (   4.197s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.479 (   4.200s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.482 (   4.203s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.484 (   4.205s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.487 (   4.207s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.489 (   4.210s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.492 (   4.213s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.494 (   4.215s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.496 (   4.217s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.499 (   4.220s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.502 (   4.223s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.504 (   4.225s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.508 (   4.229s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.510 (   4.231s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.513 (   4.234s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.515 (   4.236s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.518 (   4.239s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.520 (   4.241s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.523 (   4.244s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.526 (   4.247s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.529 (   4.250s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.531 (   4.252s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.535 (   4.256s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.537 (   4.258s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.540 (   4.261s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.542 (   4.263s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.546 (   4.267s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.548 (   4.269s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.551 (   4.272s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.554 (   4.275s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.556 (   4.277s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.559 (   4.280s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.563 (   4.283s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.565 (   4.286s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.568 (   4.289s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.570 (   4.291s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.574 (   4.295s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.576 (   4.297s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.579 (   4.299s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.581 (   4.302s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.584 (   4.305s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.586 (   4.307s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.589 (   4.310s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.592 (   4.313s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.594 (   4.315s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.597 (   4.317s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.600 (   4.321s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.603 (   4.324s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.605 (   4.326s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.607 (   4.328s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:10.611 (   4.331s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.613 (   4.334s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.616 (   4.336s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.618 (   4.339s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.621 (   4.342s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.623 (   4.344s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.627 (   4.348s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.629 (   4.350s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.632 (   4.353s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.634 (   4.355s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.637 (   4.358s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.639 (   4.360s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.642 (   4.363s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.645 (   4.366s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.648 (   4.368s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.651 (   4.372s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.654 (   4.375s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.656 (   4.377s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.659 (   4.380s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.661 (   4.382s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.665 (   4.385s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.667 (   4.388s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.670 (   4.390s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.673 (   4.393s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.676 (   4.397s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.678 (   4.399s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.681 (   4.402s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.683 (   4.404s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.686 (   4.407s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.688 (   4.409s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.691 (   4.412s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.693 (   4.414s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.696 (   4.417s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.700 (   4.420s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.703 (   4.423s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.705 (   4.426s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.709 (   4.429s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.711 (   4.431s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.714 (   4.435s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.717 (   4.437s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.719 (   4.440s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.721 (   4.442s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.724 (   4.445s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.727 (   4.448s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.730 (   4.451s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.732 (   4.453s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.736 (   4.456s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.738 (   4.459s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.740 (   4.461s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.743 (   4.463s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.746 (   4.467s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.748 (   4.469s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.752 (   4.472s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.755 (   4.476s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.758 (   4.479s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.760 (   4.481s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.765 (   4.486s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.767 (   4.488s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.771 (   4.492s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.773 (   4.494s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.776 (   4.497s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.778 (   4.499s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.782 (   4.503s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.785 (   4.505s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.788 (   4.509s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.791 (   4.512s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.794 (   4.515s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.796 (   4.517s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.800 (   4.520s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.802 (   4.522s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:10.805 (   4.526s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.807 (   4.528s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.810 (   4.531s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.812 (   4.533s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.815 (   4.536s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.818 (   4.538s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.820 (   4.541s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.822 (   4.543s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.826 (   4.546s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.828 (   4.548s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:10.830 (   4.551s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.832 (   4.553s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.836 (   4.557s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.838 (   4.559s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.840 (   4.561s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.843 (   4.563s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.846 (   4.567s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.848 (   4.569s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.851 (   4.572s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.854 (   4.575s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.857 (   4.578s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.859 (   4.580s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.863 (   4.583s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.865 (   4.586s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.868 (   4.589s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.871 (   4.592s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:10.874 (   4.595s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.876 (   4.597s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.880 (   4.601s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.882 (   4.603s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.885 (   4.606s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.887 (   4.608s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.890 (   4.611s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.892 (   4.613s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:10.895 (   4.616s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.898 (   4.619s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.901 (   4.621s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.903 (   4.623s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.905 (   4.626s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.908 (   4.629s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.910 (   4.631s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.913 (   4.633s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.917 (   4.637s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.918 (   4.639s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.921 (   4.642s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.923 (   4.644s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.926 (   4.647s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.929 (   4.650s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.932 (   4.652s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.934 (   4.655s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.937 (   4.658s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.940 (   4.660s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.942 (   4.663s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.945 (   4.666s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.949 (   4.669s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.951 (   4.672s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.954 (   4.675s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.957 (   4.677s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.960 (   4.681s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.963 (   4.684s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.968 (   4.689s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.971 (   4.691s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.973 (   4.694s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.975 (   4.696s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.978 (   4.699s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.981 (   4.702s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.984 (   4.705s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.986 (   4.707s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.990 (   4.710s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.992 (   4.712s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:10.994 (   4.715s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:10.996 (   4.717s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.000 (   4.721s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.002 (   4.723s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.005 (   4.725s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.007 (   4.728s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.010 (   4.731s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.012 (   4.733s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.014 (   4.735s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.018 (   4.739s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.020 (   4.741s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.022 (   4.743s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.026 (   4.746s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.028 (   4.748s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.030 (   4.751s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.032 (   4.753s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.036 (   4.757s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.038 (   4.759s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.040 (   4.761s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.043 (   4.764s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.046 (   4.767s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.048 (   4.769s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.052 (   4.772s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.054 (   4.775s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.057 (   4.778s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.059 (   4.780s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.063 (   4.783s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.065 (   4.785s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.068 (   4.789s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.071 (   4.792s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.074 (   4.795s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.076 (   4.797s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.079 (   4.800s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.082 (   4.803s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.085 (   4.806s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.088 (   4.809s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.090 (   4.811s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.092 (   4.813s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.095 (   4.816s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.098 (   4.819s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.101 (   4.821s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.103 (   4.823s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.106 (   4.827s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.108 (   4.829s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.111 (   4.832s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.115 (   4.836s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.118 (   4.838s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.120 (   4.840s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.122 (   4.843s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.125 (   4.846s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.128 (   4.849s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.130 (   4.851s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.133 (   4.854s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.135 (   4.856s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.138 (   4.859s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.140 (   4.861s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.144 (   4.865s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.146 (   4.867s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.150 (   4.870s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.153 (   4.874s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.156 (   4.876s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.158 (   4.879s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.161 (   4.882s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.163 (   4.884s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.167 (   4.888s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.170 (   4.891s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.173 (   4.894s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.175 (   4.896s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.177 (   4.898s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.180 (   4.901s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.183 (   4.904s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.185 (   4.906s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.189 (   4.909s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.191 (   4.911s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.193 (   4.914s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.195 (   4.916s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.199 (   4.920s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.202 (   4.922s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.204 (   4.925s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.207 (   4.928s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.209 (   4.930s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.211 (   4.932s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.215 (   4.936s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.217 (   4.938s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.220 (   4.941s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.222 (   4.943s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.225 (   4.946s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.228 (   4.948s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.230 (   4.951s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.233 (   4.954s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.236 (   4.957s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.238 (   4.959s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.241 (   4.962s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.244 (   4.965s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.247 (   4.968s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.250 (   4.970s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.254 (   4.974s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.255 (   4.976s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.258 (   4.979s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.261 (   4.982s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.264 (   4.985s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.268 (   4.989s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.273 (   4.994s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.275 (   4.996s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.278 (   4.999s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.280 (   5.001s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.283 (   5.004s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.286 (   5.006s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.289 (   5.010s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.291 (   5.012s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.294 (   5.015s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.297 (   5.018s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.300 (   5.021s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.302 (   5.023s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.305 (   5.026s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.307 (   5.028s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.310 (   5.031s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.313 (   5.034s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.317 (   5.038s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.319 (   5.040s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.322 (   5.042s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.324 (   5.045s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.327 (   5.048s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.329 (   5.050s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.332 (   5.053s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.335 (   5.056s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.338 (   5.058s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.340 (   5.060s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.343 (   5.064s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.345 (   5.066s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.349 (   5.070s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.352 (   5.073s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.355 (   5.076s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.357 (   5.078s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.361 (   5.082s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.363 (   5.084s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.366 (   5.087s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.370 (   5.091s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.373 (   5.094s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.376 (   5.097s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.379 (   5.100s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.382 (   5.102s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.384 (   5.105s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.387 (   5.108s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.390 (   5.111s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.392 (   5.113s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.395 (   5.116s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.398 (   5.119s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.401 (   5.122s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.403 (   5.124s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.407 (   5.127s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.409 (   5.129s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.411 (   5.132s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.414 (   5.135s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.417 (   5.138s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.419 (   5.140s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.422 (   5.143s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.425 (   5.146s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.427 (   5.148s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.430 (   5.151s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.434 (   5.155s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.436 (   5.157s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.439 (   5.159s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.441 (   5.161s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.444 (   5.165s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.446 (   5.167s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.449 (   5.170s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.451 (   5.172s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.454 (   5.175s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.456 (   5.177s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.459 (   5.179s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.461 (   5.182s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.464 (   5.185s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.466 (   5.187s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.469 (   5.190s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.471 (   5.192s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.474 (   5.195s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.476 (   5.197s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.480 (   5.201s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.482 (   5.203s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.485 (   5.206s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.488 (   5.208s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.490 (   5.211s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.492 (   5.213s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.496 (   5.217s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.498 (   5.219s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.501 (   5.222s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.503 (   5.224s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.507 (   5.227s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.509 (   5.229s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.511 (   5.232s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.514 (   5.235s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.517 (   5.238s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.519 (   5.240s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.522 (   5.243s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.525 (   5.246s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.528 (   5.248s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.530 (   5.251s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.533 (   5.254s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.535 (   5.256s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.538 (   5.259s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.540 (   5.261s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.543 (   5.264s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.545 (   5.266s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.548 (   5.269s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.551 (   5.272s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.554 (   5.275s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.556 (   5.277s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.559 (   5.279s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.561 (   5.282s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.564 (   5.285s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.567 (   5.288s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.571 (   5.291s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.573 (   5.293s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.575 (   5.296s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.578 (   5.299s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.581 (   5.302s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.583 (   5.304s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.586 (   5.307s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.588 (   5.309s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.591 (   5.312s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.593 (   5.314s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.596 (   5.317s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.599 (   5.320s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.602 (   5.322s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.605 (   5.325s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.607 (   5.328s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.609 (   5.330s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.612 (   5.333s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.614 (   5.335s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.617 (   5.338s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.619 (   5.340s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.622 (   5.343s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.625 (   5.346s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.628 (   5.348s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.630 (   5.350s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.633 (   5.354s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.635 (   5.356s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.638 (   5.359s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.640 (   5.361s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.643 (   5.364s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.645 (   5.366s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.648 (   5.369s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.651 (   5.372s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.654 (   5.374s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.656 (   5.377s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.658 (   5.379s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.661 (   5.382s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.664 (   5.385s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.666 (   5.387s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.670 (   5.391s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.672 (   5.393s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.675 (   5.396s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.678 (   5.399s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.681 (   5.401s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.683 (   5.403s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.686 (   5.407s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.688 (   5.409s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.691 (   5.412s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.693 (   5.414s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.696 (   5.417s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.698 (   5.419s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.701 (   5.422s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.706 (   5.426s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.709 (   5.430s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.711 (   5.432s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.715 (   5.436s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.717 (   5.438s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.720 (   5.441s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.723 (   5.444s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.726 (   5.446s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.728 (   5.449s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.731 (   5.452s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.734 (   5.455s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.737 (   5.458s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.739 (   5.460s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.743 (   5.463s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.745 (   5.466s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.748 (   5.469s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.751 (   5.472s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.754 (   5.475s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.756 (   5.477s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.760 (   5.481s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.763 (   5.483s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.766 (   5.486s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.769 (   5.489s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.772 (   5.493s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.774 (   5.495s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.778 (   5.499s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.780 (   5.501s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.784 (   5.504s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.786 (   5.507s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.789 (   5.510s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.791 (   5.512s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.795 (   5.516s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.797 (   5.518s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.801 (   5.522s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.803 (   5.524s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.806 (   5.527s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.808 (   5.529s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.811 (   5.532s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.814 (   5.535s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.818 (   5.538s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.820 (   5.540s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.823 (   5.544s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.825 (   5.546s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.828 (   5.549s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.830 (   5.551s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.834 (   5.554s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.836 (   5.556s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.838 (   5.559s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.841 (   5.562s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.844 (   5.564s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.846 (   5.567s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.849 (   5.570s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.852 (   5.573s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.854 (   5.575s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.857 (   5.577s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.860 (   5.581s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.862 (   5.583s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.865 (   5.586s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.867 (   5.588s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.871 (   5.592s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.873 (   5.594s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.875 (   5.596s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.878 (   5.599s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.881 (   5.602s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.884 (   5.605s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.887 (   5.608s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.889 (   5.610s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.893 (   5.614s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.895 (   5.616s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.898 (   5.619s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.901 (   5.621s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.903 (   5.624s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.906 (   5.627s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.909 (   5.630s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.911 (   5.632s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.915 (   5.636s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.917 (   5.638s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.921 (   5.642s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.924 (   5.645s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.927 (   5.648s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.929 (   5.650s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.933 (   5.654s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.935 (   5.656s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.938 (   5.659s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.941 (   5.661s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.943 (   5.664s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.946 (   5.667s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.948 (   5.669s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.951 (   5.672s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.955 (   5.675s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.957 (   5.678s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.961 (   5.682s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.963 (   5.684s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.967 (   5.688s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.971 (   5.692s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.975 (   5.695s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.979 (   5.699s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.981 (   5.702s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.984 (   5.705s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.988 (   5.709s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.990 (   5.711s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:11.993 (   5.714s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:11.995 (   5.716s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:11.998 (   5.719s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.001 (   5.721s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.003 (   5.724s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.006 (   5.727s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.009 (   5.730s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.011 (   5.732s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.014 (   5.735s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.016 (   5.737s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.019 (   5.740s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.021 (   5.742s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.024 (   5.745s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.026 (   5.747s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.029 (   5.750s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.032 (   5.753s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.036 (   5.756s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.038 (   5.759s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.042 (   5.763s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.044 (   5.765s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.047 (   5.767s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.049 (   5.769s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.052 (   5.773s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.054 (   5.775s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.057 (   5.778s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.059 (   5.780s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.062 (   5.783s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.064 (   5.785s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.067 (   5.788s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.070 (   5.791s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.073 (   5.793s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.075 (   5.795s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.078 (   5.799s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.080 (   5.801s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.083 (   5.804s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.086 (   5.807s) [simulati] Simulation.cpp:22    INFO| Simulation time: 1
+20:48:12.089 (   5.810s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.091 (   5.812s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.094 (   5.815s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.096 (   5.817s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.099 (   5.820s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.101 (   5.822s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.105 (   5.826s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.107 (   5.828s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.111 (   5.831s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.113 (   5.834s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.116 (   5.837s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.119 (   5.840s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.123 (   5.844s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.125 (   5.846s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.128 (   5.848s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.130 (   5.850s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.134 (   5.854s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.136 (   5.857s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.139 (   5.860s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.141 (   5.862s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.144 (   5.865s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.146 (   5.867s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.150 (   5.871s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.152 (   5.873s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.155 (   5.876s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.157 (   5.878s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.160 (   5.881s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.163 (   5.883s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.166 (   5.887s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.170 (   5.890s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.172 (   5.893s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.175 (   5.896s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.178 (   5.899s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.180 (   5.901s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.183 (   5.904s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.187 (   5.907s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.190 (   5.910s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.193 (   5.914s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.197 (   5.918s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.201 (   5.922s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.205 (   5.926s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.208 (   5.928s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.210 (   5.931s) [simulati] Simulation.cpp:7     INFO| simulation running
+20:48:12.213 (   5.934s) [simulati] Simulation.cpp:22    INFO| Simulation time: 0
+20:48:12.319 (   6.040s) [simulati]     loguru.cpp:478   INFO| atexit
+20:48:12.322 (   6.043s) [simulati]       Main.cpp:126   INFO| Clean Up

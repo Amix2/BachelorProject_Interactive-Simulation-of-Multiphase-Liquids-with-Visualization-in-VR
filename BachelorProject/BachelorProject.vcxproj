@@ -31,6 +31,7 @@
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
     <ClCompile Include="Source\ThreadManager.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
+    <ClCompile Include="Source\TEMP_graphic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Source\shaders\ComputeShader.h" />
     <ClInclude Include="Source\ThreadManager.h" />
     <ClInclude Include="Source\Utils.h" />
+    <ClInclude Include="Source\TEMP_graphic.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

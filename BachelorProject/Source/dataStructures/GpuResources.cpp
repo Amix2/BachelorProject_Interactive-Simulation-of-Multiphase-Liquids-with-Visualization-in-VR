@@ -23,7 +23,7 @@ void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * da
 
 void * GpuResources::getDataSSBO(std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contsins
+	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contains
 
 		GLuint ssbo = GpuResources::m_ResourceMap[name];
 
@@ -40,13 +40,14 @@ void * GpuResources::getDataSSBO(std::string name)
 
 void * GpuResources::openSSBO(std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contsins
+	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contains
 
 		GLuint ssbo = GpuResources::m_ResourceMap[name];
 
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
 		m_openResourceName = name;
-		return glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY);
+		void* ptr =  glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY);
+		return ptr;
 
 	}
 	else {

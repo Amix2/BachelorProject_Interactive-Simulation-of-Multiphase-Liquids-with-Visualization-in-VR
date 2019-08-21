@@ -6,9 +6,9 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_FLUID_PARTICLES = 32*2048;
-	inline static const int MAX_GLASS_PARTICLES = 32 * 1024;
-	inline static const int MAX_PARTICLES_ADDED_IN_TURN = 32 * 1024;
+	inline static const int MAX_FLUID_PARTICLES = 64*2048;
+	inline static const int MAX_GLASS_PARTICLES =  1024;
+	inline static const int MAX_PARTICLES_ADDED_IN_TURN = 1024;
 
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;

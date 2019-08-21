@@ -1,6 +1,6 @@
 #version 430 core
 
-#define LOCAL_SIZE_X 6//&
+#define LOCAL_SIZE_X 1//&
 
 layout(local_size_x = LOCAL_SIZE_X, local_size_y = 1, local_size_z = 1) in;
 
@@ -47,6 +47,16 @@ bool hasNewParticles();
 void main(void)
 {
 	int ind = int(gl_LocalInvocationIndex);
+	//for(int i=0; i<1000000; i++) {}
+
+	positions[0] += 0.005;
+	if(positions[0] >=1) positions[0] = 0;
+
+	positions[1] -= 0.008;
+	if(positions[1] <0) positions[1] = 1;
+
+	positions[2] += 0.003;
+	if(positions[2] >=1) positions[2] = 0;
 	if(hasNewParticles()) {
 		handleNewParticles();
 	}

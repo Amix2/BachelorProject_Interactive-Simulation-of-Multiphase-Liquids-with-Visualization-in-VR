@@ -22,12 +22,12 @@ class Simulation
 
 public:
 	/* other thread can put values in this, this class only takes values, sends them to GPU and clears it */
-	inline static NewParticlesArray m_newParticlesArray;
+	inline static NewParticlesArray m_toAddParticlesArray;
 	/* Mutex protecting flag not shared object */
-	inline static std::atomic_bool m_newPartArrayReady = false;
+	inline static std::atomic_bool m_toAddPartArrayReady = false;
 
-	inline static std::condition_variable m_condVariable_newPartArray;
-	inline static std::mutex m_mutex_newPartArray;
+	inline static std::condition_variable m_condVariable_toAddPartArray;
+	inline static std::mutex m_mutex_toAddPartArray;
 
 	Simulation();
 	~Simulation() {}
