@@ -11,7 +11,7 @@ int ParticleGeopetry::circle(float positions[Configuration.MAX_PARTICLES_ADDED_I
 	if (radius == 0) numOfPartsInCircle = 1;
 	LOG_F(INFO, "numOfPartsInCircle %d, rad %f", numOfPartsInCircle, radius);
 	const float angle = 2 * M_PI / numOfPartsInCircle;
-	const float startAngle = 0;// Random::randFloat()* angle;
+	const float startAngle =  Random::randFloat()* angle;
 
 	float currentAngle = startAngle;
 	for (int i = 0; i < numOfPartsInCircle; i++) {

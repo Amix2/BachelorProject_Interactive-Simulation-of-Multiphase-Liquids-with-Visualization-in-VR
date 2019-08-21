@@ -22,8 +22,8 @@ const char* fragmentShaderSource = "#version 430 core\n"
 "void main()\n"
 "{\n"
 "   FragColor.x = positions[0];\n"
-"   FragColor.y = positions[1];\n"
-"   FragColor.z = positions[2];\n"
+"   //FragColor.y = positions[1];\n"
+"   //FragColor.z = positions[2];\n"
 "}\n\0";
 
 void TEMP_graphic::initGraphic(GLFWwindow* window)
@@ -78,7 +78,7 @@ void TEMP_graphic::showFrame(GLFWwindow* window)
 	float timeValue = glfwGetTime();
 	float greenValue = 0;// sin(timeValue) / 2.0f + 0.5f;
 	int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+	glUniform4f(vertexColorLocation, 0.0f, 0.5f, 0.0f, 1.0f);
 	// render the triangle
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

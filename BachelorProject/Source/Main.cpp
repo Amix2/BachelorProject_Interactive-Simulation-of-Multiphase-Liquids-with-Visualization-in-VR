@@ -22,6 +22,9 @@
 
 #include <TEMP_graphic.h>
 
+// put on if you want to see particles in Simple Visualizer, it will erase previous content
+//#define LOG_TO_FILE
+
 void printWorkGroupsCapabilities();
 
 // init openGL functions
@@ -47,8 +50,10 @@ int main(int argc, char ** argv) {
 
 	atexit(cleanUp);
 
+	#ifdef LOG_TO_FILE
 	ParticleData::partFile.open("./Simple Visualizer/part.log");	  
 	ParticleData::partFile << "const partString = \"";
+	#endif
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
 	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
@@ -66,6 +71,9 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	//funWithCompShader();
+	//return 0;
+
+
 	Simulation sim;
 	sim.runSimulation();
 
@@ -74,10 +82,13 @@ int main(int argc, char ** argv) {
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		sim.runSimulation();
-
-		TEMP_graphic::showFrame(window);
-		
+		float* pp = (float*)GpuResources::openSSBO(BufferDatails.particlePositionsName);
+		for (int i = 0; i < 100; i++) {
+			sim.runSimulation();
+			TEMP_graphic::showFrame(window);
+		}
+		pp[0] = 0.50;
+		GpuResources::commitSSBO(BufferDatails.particlePositionsName);
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -128,13 +139,15 @@ void cleanUp()
 		(*it)->detach();
 		(*it)->~thread();
 	}
+#ifdef LOG_TO_FILE
 	ParticleData::partFile << "\".split(\"|\")";
 	ParticleData::partFile.close();
+#endif
 }
 
 void funWithCompShader()
 {
-	ParticleObjectDetais details{ 9, 2,2,2, 3,3,3 };
+	ParticleObjectDetais details{ 9, 2,2,2, 2.2,2.2,2.2 };
 	ParticleObjectCreator::addObject(details);
 
 	Sleep(100);
@@ -145,10 +158,9 @@ void funWithCompShader()
 
 	Sleep(100);
 
-	//ParticleObjectDetais details2{ -1, 5,5,5, 1.5,1,2.5 };
-	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectDetais details2{ -1, 5,5,5, 2.5,0.5,3 };
+	ParticleObjectCreator::addObject(details2);
 	ParticleData::printParticleData();
-	float* pp = (float*)GpuResources::openSSBO(BufferDatails.particlePositionsName);
 	Sleep(100);
 	//ParticleData::printToAddParticleData();
 
@@ -156,11 +168,12 @@ void funWithCompShader()
 
 	sim.runSimulation();
 
-	pp[0] = 0.95;
-	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
 	sim.runSimulation();
 	Sleep(100);
 	ParticleData::printParticleData();
+#ifdef LOG_TO_FILE
+	ParticleData::logParticlePositions();
+#endif
 }
 
 void printWorkGroupsCapabilities() {
