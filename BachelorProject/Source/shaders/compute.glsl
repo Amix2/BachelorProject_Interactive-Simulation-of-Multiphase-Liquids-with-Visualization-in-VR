@@ -1,8 +1,9 @@
 #version 430 core
 
-#define LOCAL_SIZE_X 1//&
+#define SIZE 1
+#define CALC 10000
 
-layout(local_size_x = LOCAL_SIZE_X, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = SIZE, local_size_y = 1, local_size_z = 1) in;
 
 layout(std430, binding = 10) buffer positionsBuf
 {
@@ -27,6 +28,8 @@ layout(std430, binding = 13) buffer detailsBuf
 	uint numOfGlassParticles;
 };
 
+uniform vec3 glassVector[15*1024+1001];
+
 /*
 in uvec3 gl_NumWorkGroups;
 in uvec3 gl_WorkGroupID; 		== contains the index of the workgroup currently being operated on by a compute shader
@@ -46,20 +49,28 @@ bool hasNewParticles();
 
 void main(void)
 {
+	int val = 0;
+	for(uint i=0; i<CALC/SIZE; i++) {
+		val ++;
+	}
+	//numOfParticles = 12;
+	//numOfGlassParticles = 13;
 	int ind = int(gl_LocalInvocationIndex);
 	//for(int i=0; i<1000000; i++) {}
 
 	positions[0] += 0.005;
 	if(positions[0] >=1) positions[0] = 0;
-
 	positions[1] -= 0.008;
 	if(positions[1] <0) positions[1] = 1;
 
+	positions[1] = glassVector[15*1024+1000].x;
 	positions[2] += 0.003;
 	if(positions[2] >=1) positions[2] = 0;
-	if(hasNewParticles()) {
-		handleNewParticles();
-	}
+
+	positions[0] = 99;
+	//if(hasNewParticles()) {
+	//	handleNewParticles();
+	//}
 	//vec3 pos = getVec3FromData(positions, ind);
 	//pos.x *= temp[ind];
 	//positions[3 * ind] = pos.x;

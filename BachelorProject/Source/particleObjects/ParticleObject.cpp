@@ -12,6 +12,13 @@ void ParticleObject::rotateZ(float angle)
 {
 }
 
+std::string ParticleObject::print()
+{
+	std::ostringstream stringStream;
+	stringStream << "Position ( " << m_position.x << " " << m_position.y << " " << m_position.z << " ), In glass particle array [ " << m_beginInd << " " << m_endInd << " )";
+	return  stringStream.str();
+}
+
 MugObject::MugObject(ParticleObjectDetais details, float positions[], int& numOfParts)
 {
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
@@ -25,7 +32,12 @@ MugObject::MugObject(ParticleObjectDetais details, float positions[], int& numOf
 	const float bottom = center.y - height / 2;
 	const glm::vec3 bottomVec = center - glm::vec3(0, height / 2, 0);
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
-	LOG_F(INFO, "layerGap %f", layerGap);
+
+	// set up attributes
+	m_position = center;
+	m_beginInd = ParticleData::m_GlassParticlesNum;
+	//	m_endInd is assigned in the end
+
 
 	// x->cylinders || v->filled Circles
 	// are drawn allways from the right side towards middle (2nd condition: from top to bottom looking at blob of the same type)
@@ -194,6 +206,8 @@ MugObject::MugObject(ParticleObjectDetais details, float positions[], int& numOf
 		throw "TODO, thickness is too big, lower it or implement this mug";
 	}
 
+
+	m_endInd = ParticleData::m_GlassParticlesNum + numOfParts;
 
 
 }

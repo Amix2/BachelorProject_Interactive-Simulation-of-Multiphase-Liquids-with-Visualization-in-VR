@@ -70,8 +70,15 @@ int main(int argc, char ** argv) {
 
 	initTools();
 
+
+	ParticleData::openToAddFluidArray();
+	ParticleData::openToAddGlassArray();
+	ParticleData::commitToAddArray();
+	checkOpenGLErrors();
+	//Simulation sim2;
+	//sim2.runSimulation();
 	//funWithCompShader();
-	//return 0;
+	return 0;
 
 
 	Simulation sim;
@@ -130,6 +137,7 @@ void initTools()
 {
 	ParticleData::initArraysOnGPU();
 	ParticleObjectCreator::init();
+	ParticleObjectManager::init();
 }
 
 void cleanUp()
@@ -147,7 +155,8 @@ void cleanUp()
 
 void funWithCompShader()
 {
-	ParticleObjectDetais details{ 9, 2,2,2, 2.2,2.2,2.2 };
+	Sleep(100);
+	ParticleObjectDetais details{ 9, 2,2,2, 3,3,3 };
 	ParticleObjectCreator::addObject(details);
 
 	Sleep(100);
@@ -156,21 +165,44 @@ void funWithCompShader()
 
 	//ParticleData::printNewAddedParticleData();
 
-	Sleep(100);
+	Sleep(500);
+	sim.runSimulation();
+	sim.runSimulation();
 
+	ParticleData::printParticleData();
+	ParticleData::printGlassData();
 	ParticleObjectDetais details2{ -1, 5,5,5, 2.5,0.5,3 };
 	ParticleObjectCreator::addObject(details2);
-	ParticleData::printParticleData();
+
+	Sleep(500);
+	sim.runSimulation();
+	Sleep(500);
+	sim.runSimulation();
+	sim.runSimulation();
+	sim.runSimulation();
+
 	Sleep(100);
+	ParticleObjectDetais details3{ -1, 12,12,12, 1,1,1 };
+	ParticleObjectCreator::addObject(details3);
+
+	Sleep(100);
+	sim.runSimulation();
+	Sleep(500);
+	sim.runSimulation();
+	sim.runSimulation();
+
+	//ParticleData::printParticleData();
+	//Sleep(100);
 	//ParticleData::printToAddParticleData();
 
-	Sleep(1000);
+	//Sleep(1000);
 
-	sim.runSimulation();
 
-	sim.runSimulation();
+	//sim.runSimulation();
 	Sleep(100);
-	ParticleData::printParticleData();
+	ParticleData::printParticleData(-1);
+	ParticleData::printGlassData();
+	ParticleObjectManager::printObjects();
 #ifdef LOG_TO_FILE
 	ParticleData::logParticlePositions();
 #endif
@@ -179,6 +211,7 @@ void funWithCompShader()
 void printWorkGroupsCapabilities() {
 	GLint64  val_array[3];
 	GLint64  value;
+	GLuint uintVal;
 
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &val_array[0]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &val_array[1]);
@@ -196,36 +229,43 @@ void printWorkGroupsCapabilities() {
 
 	glGetInteger64v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &value);
 	printf("GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &value);
 	printf("GL_MAX_SHADER_STORAGE_BLOCK_SIZE :\n\t%I64u\n", value);
-
-	glGetInteger64v(GL_SHADER_STORAGE_BUFFER_SIZE, &value);
-	printf("GL_SHADER_STORAGE_BUFFER_SIZE :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_TEXTURE_SIZE, &value);
 	printf("GL_MAX_TEXTURE_SIZE :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &value);
 	printf("GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS, &value);
 	printf("GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_UNIFORM_BUFFER_BINDINGS, &value);
 	printf("GL_MAX_UNIFORM_BUFFER_BINDINGS    :\n\t%I64u\n", value);
+	value = -1;
 
-	glGetInteger64v(GL_UNIFORM_BUFFER_SIZE, &value);
-	printf("GL_UNIFORM_BUFFER_SIZE   :\n\t%I64u\n", value);
+	glGetInteger64v(GL_MAX_COMPUTE_UNIFORM_COMPONENTS, &value);
+	printf("GL_MAX_COMPUTE_UNIFORM_COMPONENTS    :\n\t%I64u\n", value);
+	value = -1;
+
+	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &value);
+	printf("GL_MAX_UNIFORM_BLOCK_SIZE   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS, &value);
 	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%I64u\n", value);
-
-	glGetInteger64v(GL_ATOMIC_COUNTER_BUFFER_SIZE, &value);
-	printf("GL_ATOMIC_COUNTER_BUFFER_SIZE   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);
 	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%I64u\n", value);
+	value = -1;
 
 	checkOpenGLErrors();
 }

@@ -6,39 +6,59 @@ void ParticleObjectCreator::runWorkerThread()
 	LOG_F(INFO, "ParticleObjectCreator::runWorkerThread");
 
 	while (true) {
-		
-		float positions[Configuration.MAX_PARTICLES_ADDED_IN_TURN];
+		LOG_F(INFO, "ParticleObjectCreator::runWorkerThread LOOP");
+		// check for new order
+		std::unique_lock<std::mutex> lock_ParticleObjectDetails(m_mutex_partObjectDetails);
+		while(ParticleObjectCreator::m_ParticleObjectDetaisReady == false)	m_condVariable_partObjectDetails.wait(lock_ParticleObjectDetails);
+		lock_ParticleObjectDetails.unlock();
+
+
+		const Resource_Type wantedResource = m_ParticleObjectDetais.fluidType < 0 ? GLASS : FLUID;
+
+
+		// make sure correct resource is opened
+		if (ParticleData::m_OpenResource != wantedResource) {
+
+			// its not -> request correct array to be opened
+			std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
+			
+			while (ParticleData::m_OpenResource != wantedResource) {	// while wanted resource is not opened
+				if (Simulation::m_ResourceRequest == NO_ORDER) {	// try to ask for it
+					if (wantedResource == FLUID)
+						Simulation::m_ResourceRequest.store(OPEN_FLUID);
+					else
+						Simulation::m_ResourceRequest.store(OPEN_GLASS);
+				}
+				ParticleData::m_ResourceCondVariable.wait(lock_resource);	// wait until something happens	| will wake up when new resource is opened
+			}
+			lock_resource.unlock();
+		}
+
+		// create particles
 		int numOfParticles = 0;
-		// check if new data is avaliabie, if not wait, if yes create particles in local array
-		std::unique_lock<std::mutex> lck(m_mutex_partObjectDetails);
-		while(ParticleObjectCreator::particleObjectDetaisReady == false)	m_condVariable_partObjectDetails.wait(lck);
-		lck.unlock();
+		float* positions = ParticleData::m_ResourceArray;
 
-		LOG_F(INFO, "New object to create: type: %d", ParticleObjectCreator::particleObjectDetais.fluidType);
-
-		if (ParticleObjectCreator::particleObjectDetais.fluidType > 0) {
+		if (ParticleObjectCreator::m_ParticleObjectDetais.fluidType > 0) {
 			ParticleObjectCreator::createFluid(positions, numOfParticles);
 		}
 		else {
-			MugObject(ParticleObjectCreator::particleObjectDetais, positions, numOfParticles);
+			MugObject mug(ParticleObjectCreator::m_ParticleObjectDetais, positions, numOfParticles);
+			ParticleObjectManager::addObject(mug);
 		}
 
-		LOG_F(INFO, "New object created: particles: %d", numOfParticles);
+		ParticleData::m_AddedParticlesNum = numOfParticles;
 
-		// check if simulation can take new particles, if no wait, if yes push particles to Simulation::
-		std::unique_lock<std::mutex> simLck(m_mutex_partObjectDetails);
-		while (Simulation::m_toAddPartArrayReady == true) Simulation::m_condVariable_toAddPartArray.wait(simLck);
-		simLck.unlock();
 
-		memcpy(&Simulation::m_toAddParticlesArray.array, positions, (size_t)numOfParticles *3 * sizeof(float));
-		Simulation::m_toAddParticlesArray.numOfParticles = numOfParticles;
-		Simulation::m_toAddParticlesArray.particleType = ParticleObjectCreator::particleObjectDetais.fluidType;
-		Simulation::m_toAddPartArrayReady = true;
+		// request commit
+		Simulation::m_ResourceRequest.store(COMMIT);
 
-		LOG_F(INFO, "New object added to Simulation: type: %d", Simulation::m_toAddParticlesArray.particleType);
+		// check if new data is avaliabie, if not wait, if yes create particles in local array
+
+	
+		LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d", m_ParticleObjectDetais.fluidType, numOfParticles);
 
 		// loop complete, we are ready to receive next order
-		ParticleObjectCreator::particleObjectDetaisReady = false;
+		ParticleObjectCreator::m_ParticleObjectDetaisReady = false;
 	}
 }
 
@@ -46,12 +66,12 @@ void ParticleObjectCreator::createFluid(float positions[Configuration.MAX_PARTIC
 
 	const float gap = Configuration.FLUID_PARTICLE_BUILD_GAP;
 
-	const float startX = ParticleObjectCreator::particleObjectDetais.lowX;
-	const float startY = ParticleObjectCreator::particleObjectDetais.lowY;
-	const float startZ = ParticleObjectCreator::particleObjectDetais.lowZ;
-	const float endX = ParticleObjectCreator::particleObjectDetais.highX;
-	const float endY = ParticleObjectCreator::particleObjectDetais.highY;
-	const float endZ = ParticleObjectCreator::particleObjectDetais.highZ;
+	const float startX = ParticleObjectCreator::m_ParticleObjectDetais.lowX;
+	const float startY = ParticleObjectCreator::m_ParticleObjectDetais.lowY;
+	const float startZ = ParticleObjectCreator::m_ParticleObjectDetais.lowZ;
+	const float endX = ParticleObjectCreator::m_ParticleObjectDetais.highX;
+	const float endY = ParticleObjectCreator::m_ParticleObjectDetais.highY;
+	const float endZ = ParticleObjectCreator::m_ParticleObjectDetais.highZ;
 
 	numOfParts = 0;
 
@@ -76,13 +96,13 @@ void ParticleObjectCreator::init()
 
 bool ParticleObjectCreator::canAddObject()
 {
-	return particleObjectDetaisReady == false;
+	return m_ParticleObjectDetaisReady == false;
 }
 
 void ParticleObjectCreator::addObject(ParticleObjectDetais details)
 {
-	memcpy(&ParticleObjectCreator::particleObjectDetais, &details, sizeof(ParticleObjectDetais));
-	ParticleObjectCreator::particleObjectDetaisReady = true;
+	memcpy(&ParticleObjectCreator::m_ParticleObjectDetais, &details, sizeof(ParticleObjectDetais));
+	ParticleObjectCreator::m_ParticleObjectDetaisReady = true;
 	ParticleObjectCreator::m_condVariable_partObjectDetails.notify_all();
-	LOG_F(INFO, "New object assign: type: %d", ParticleObjectCreator::particleObjectDetais.fluidType);
+	LOG_F(INFO, "New object assign: type: %d", ParticleObjectCreator::m_ParticleObjectDetais.fluidType);
 }

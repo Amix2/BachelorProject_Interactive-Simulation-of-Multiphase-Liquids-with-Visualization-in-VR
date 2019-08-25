@@ -3,6 +3,7 @@
 #include <thread>
 #include <condition_variable>
 #include <mutex>
+#include <sstream>
 #include <Logger.h>
 #include <Simulation.h>
 #include <ThreadManager.h>
@@ -32,32 +33,41 @@ struct ParticleObjectDetais {
 // Represents single object like mug etc
 class ParticleObject {
 	// index of glass particless from this object in global glass particle array (on gpu)
-	int beginInd, bndInd;
 
-	glm::vec3 position;
 
 public:
+	int m_beginInd, m_endInd;
+	glm::vec3 m_position;
+
+
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
+
+	std::string print();
 };
 
 class MugObject : public ParticleObject {
 public:
-	MugObject(ParticleObjectDetais details, float positions[Configuration.MAX_PARTICLES_ADDED_IN_TURN], int& numOfParts);
+	MugObject(ParticleObjectDetais details, float positions[], int& numOfParts);
 };
 
 
 // Holds all particle object in scene, allows selecting and moving objects
 class ParticleObjectManager {
-	inline static std::vector<ParticleObject> partObjectsVec;
-	inline static ParticleObject selectedObject;
+	inline static std::vector<ParticleObject> m_partObjectsVec;
+	inline static int m_numOfObjects = 0;
+	inline static int m_selectedObjectIndex = -1;
 
 public:
 
-	static int addObject(ParticleObject object);
+	static void init();
+
+	static int addObject(const ParticleObject& object);
 
 	static int selectObject(glm::vec3 handPosition);
+
+	static void printObjects(int limit = 5);
 };
 
 // Allows creating particle objects in worker thread (non blocking for ordering thread)
@@ -78,8 +88,8 @@ class ParticleObjectCreator
 public:
 
 	// data structured for adding order details
-	inline static ParticleObjectDetais particleObjectDetais;
-	inline static std::atomic_bool particleObjectDetaisReady = false; // FALSE -> no new data, can add | TRUE -> new data, worker has to empty it
+	inline static ParticleObjectDetais m_ParticleObjectDetais;
+	inline static std::atomic_bool m_ParticleObjectDetaisReady = false; // FALSE -> no new data, can add | TRUE -> new data, worker has to empty it
 
 	// create worker thread
 	static void init();
