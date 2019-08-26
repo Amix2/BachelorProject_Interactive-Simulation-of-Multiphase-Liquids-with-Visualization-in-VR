@@ -9,7 +9,7 @@ void ParticleData::initArraysOnGPU()
 
 	// create SSBO for glass positions
 	//float glassPositions[3 * Configuration.MAX_GLASS_PARTICLES];
-	GpuResources::createSSBO(BufferDatails.glassPositionsName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassPositionsBinding);
+	GpuResources::createUBO(BufferDatails.glassPositionsName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassPositionsBinding);
 
 
 	// create SSBO for simulation details
@@ -32,7 +32,7 @@ void ParticleData::openFluidArray()
 void ParticleData::openGlassArray()
 {
 	LOG_F(INFO, "OPEN to add array for GLASS");
-	m_resGlassArray = (float*)GpuResources::openPartSSBO(BufferDatails.glassPositionsName
+	m_resGlassArray = (float*)GpuResources::openPartUBO(BufferDatails.glassPositionsName
 		, (GLintptr) m_GlassParticlesNum * 3 * sizeof(float)	// offset
 		, ((GLsizeiptr) Configuration.MAX_GLASS_PARTICLES - m_GlassParticlesNum) * 3 * sizeof(float)	// length
 	);
@@ -50,7 +50,7 @@ void ParticleData::openDetails()
 void ParticleData::commitFluidArray()
 {
 
-	LOG_F(INFO, "COMMIT fluid %d particles, we had %d fluid & %d glas", (int)m_numOfAddedFluid, m_FluidParticlesNum, m_GlassParticlesNum);
+	LOG_F(INFO, "COMMIT fluid %d particles, we had %d fluid & %d glass", (int)m_numOfAddedFluid, m_FluidParticlesNum, m_GlassParticlesNum);
 
 	m_FluidParticlesNum += m_numOfAddedFluid;
 	m_numOfAddedFluid = 0;
@@ -69,7 +69,7 @@ void ParticleData::commitGlassArray()
 
 	m_GlassParticlesNum += m_numOfAddedGlass;
 
-	GpuResources::commitSSBO(BufferDatails.glassPositionsName);
+	GpuResources::commitUBO(BufferDatails.glassPositionsName);
 
 	m_resGlassArray = nullptr;
 	ParticleData::m_ResourceCondVariable.notify_all();
@@ -165,7 +165,7 @@ void * ParticleData::getPositions()
 
 void * ParticleData::getGlassPositions()
 {
-	return GpuResources::getDataSSBO(BufferDatails.glassPositionsName);
+	return GpuResources::getDataUBO(BufferDatails.glassPositionsName);
 }
 
 void * ParticleData::getToAddParticlePositions()

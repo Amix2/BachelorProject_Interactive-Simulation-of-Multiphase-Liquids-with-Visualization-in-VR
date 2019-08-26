@@ -2,124 +2,211 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Debug\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-11:46:17.696 (   0.260s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-11:46:18.068 (   0.632s) [main thr]GpuResources.cp:92    INFO| new SSBO, name: ParticlePositions, 	id: 2
-11:46:18.075 (   0.639s) [main thr]GpuResources.cp:92    INFO| new SSBO, name: GlassPositions, 	id: 3
-11:46:18.079 (   0.643s) [main thr]GpuResources.cp:92    INFO| new SSBO, name: Details, 	id: 4
-11:46:18.081 (   0.645s) [main thr]ParticleObjectC:174   INFO| Initialize ParticleObjectCreator
-11:46:18.085 (   0.649s) [main thr]ThreadManager.c:16    INFO| New thread in list
-11:46:18.085 (   0.649s) [Particle]ParticleObjectC:20    INFO| ParticleObjectCreator::runWorkerThread
-11:46:18.091 (   0.655s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
-11:46:18.190 (   0.754s) [main thr]ParticleObjectC:189   INFO| New object assign: type: 9
-11:46:18.339 (   0.903s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:18.342 (   0.906s) [simulati]ParticleData.cp:24    INFO| OPEN to add array for FLUID
-11:46:18.345 (   0.909s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
-11:46:18.348 (   0.912s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: 9, particles: 27
-11:46:18.353 (   0.917s) [simulati] Simulation.cpp:17    INFO| Simulation time: 5
-11:46:18.353 (   0.917s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
-11:46:18.870 (   1.434s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:18.873 (   1.437s) [simulati]ParticleData.cp:53    INFO| COMMIT fluid 27 particles, we had 0 fluid & 0 glas
-11:46:18.876 (   1.440s) [simulati]ParticleData.cp:80    INFO| COMMIT details
-11:46:18.881 (   1.445s) [simulati] Simulation.cpp:17    INFO| Simulation time: 10
-11:46:18.884 (   1.448s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:18.889 (   1.453s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
-11:46:18.897 (   1.461s) [simulati]ParticleData.cp:93    INFO| ==============================
-11:46:18.908 (   1.472s) [simulati]ParticleData.cp:94    INFO| Simulation particles print
-11:46:18.914 (   1.478s) [simulati]ParticleData.cp:102   INFO| 	Num of particles in simulation: 27, on CPU side: 27
-11:46:18.919 (   1.483s) [simulati]ParticleData.cp:104   INFO| 	Particle 0:	( 0.4200  0.0000  0.5910 )
-11:46:18.923 (   1.487s) [simulati]ParticleData.cp:104   INFO| 	Particle 1:	( 2.0000  2.0000  2.5000 )
-11:46:18.925 (   1.489s) [simulati]ParticleData.cp:104   INFO| 	Particle 2:	( 2.0000  2.0000  3.0000 )
-11:46:18.928 (   1.492s) [simulati]ParticleData.cp:104   INFO| 	Particle 3:	( 2.0000  2.5000  2.0000 )
-11:46:18.934 (   1.498s) [simulati]ParticleData.cp:104   INFO| 	Particle 4:	( 2.0000  2.5000  2.5000 )
-11:46:18.937 (   1.501s) [simulati]ParticleData.cp:104   INFO| 	Particle 5:	( 2.0000  2.5000  3.0000 )
-11:46:18.940 (   1.504s) [simulati]ParticleData.cp:104   INFO| 	Particle 6:	( 2.0000  3.0000  2.0000 )
-11:46:18.943 (   1.507s) [simulati]ParticleData.cp:104   INFO| 	Particle 7:	( 2.0000  3.0000  2.5000 )
-11:46:18.951 (   1.515s) [simulati]ParticleData.cp:104   INFO| 	Particle 8:	( 2.0000  3.0000  3.0000 )
-11:46:18.955 (   1.519s) [simulati]ParticleData.cp:104   INFO| 	Particle 9:	( 2.5000  2.0000  2.0000 )
-11:46:18.958 (   1.522s) [simulati]ParticleData.cp:106   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-11:46:18.963 (   1.527s) [simulati]ParticleData.cp:111   INFO| ==============================
-11:46:18.966 (   1.530s) [simulati]ParticleData.cp:112   INFO| Simulation glass particles print
-11:46:18.971 (   1.535s) [simulati]ParticleData.cp:120   INFO| 	Num of glass particles in simulation: 0, on CPU side: 0
-11:46:18.974 (   1.538s) [simulati]ParticleData.cp:124   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-11:46:18.976 (   1.540s) [simulati]ParticleObjectC:189   INFO| New object assign: type: -1
-11:46:19.490 (   2.054s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:19.494 (   2.058s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for GLASS
-11:46:19.497 (   2.061s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
-11:46:19.499 (   2.063s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: -1, particles: 1367
-11:46:19.502 (   2.066s) [simulati] Simulation.cpp:17    INFO| Simulation time: 4
-11:46:19.502 (   2.066s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
-11:46:20.009 (   2.573s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.012 (   2.576s) [simulati]ParticleData.cp:68    INFO| COMMIT glass 1367 particles, we had 27 fluid & 0 glass
-11:46:20.016 (   2.580s) [simulati]ParticleData.cp:80    INFO| COMMIT details
-11:46:20.022 (   2.586s) [simulati] Simulation.cpp:17    INFO| Simulation time: 10
-11:46:20.025 (   2.589s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.030 (   2.594s) [simulati] Simulation.cpp:17    INFO| Simulation time: 10
-11:46:20.033 (   2.597s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.038 (   2.602s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
-11:46:20.149 (   2.713s) [simulati]ParticleObjectC:189   INFO| New object assign: type: -1
-11:46:20.269 (   2.833s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.273 (   2.837s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for GLASS
-11:46:20.276 (   2.840s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
-11:46:20.278 (   2.842s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: -1, particles: 619
-11:46:20.281 (   2.845s) [simulati] Simulation.cpp:17    INFO| Simulation time: 10
-11:46:20.282 (   2.846s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
-11:46:20.789 (   3.353s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.793 (   3.357s) [simulati]ParticleData.cp:68    INFO| COMMIT glass 619 particles, we had 27 fluid & 1367 glass
-11:46:20.796 (   3.360s) [simulati]ParticleData.cp:80    INFO| COMMIT details
-11:46:20.802 (   3.366s) [simulati] Simulation.cpp:17    INFO| Simulation time: 2
-11:46:20.804 (   3.368s) [simulati] Simulation.cpp:7     INFO| simulation running
-11:46:20.809 (   3.373s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
-11:46:20.929 (   3.493s) [simulati]ParticleData.cp:93    INFO| ==============================
-11:46:20.934 (   3.498s) [simulati]ParticleData.cp:94    INFO| Simulation particles print
-11:46:20.937 (   3.502s) [simulati]ParticleData.cp:102   INFO| 	Num of particles in simulation: 27, on CPU side: 27
-11:46:20.941 (   3.505s) [simulati]ParticleData.cp:104   INFO| 	Particle 0:	( 0.0300  0.0000  0.0090 )
-11:46:20.944 (   3.508s) [simulati]ParticleData.cp:104   INFO| 	Particle 1:	( 2.0000  2.0000  2.5000 )
-11:46:20.947 (   3.511s) [simulati]ParticleData.cp:104   INFO| 	Particle 2:	( 2.0000  2.0000  3.0000 )
-11:46:20.951 (   3.515s) [simulati]ParticleData.cp:104   INFO| 	Particle 3:	( 2.0000  2.5000  2.0000 )
-11:46:20.955 (   3.519s) [simulati]ParticleData.cp:104   INFO| 	Particle 4:	( 2.0000  2.5000  2.5000 )
-11:46:20.958 (   3.522s) [simulati]ParticleData.cp:104   INFO| 	Particle 5:	( 2.0000  2.5000  3.0000 )
-11:46:20.961 (   3.525s) [simulati]ParticleData.cp:104   INFO| 	Particle 6:	( 2.0000  3.0000  2.0000 )
-11:46:20.964 (   3.528s) [simulati]ParticleData.cp:104   INFO| 	Particle 7:	( 2.0000  3.0000  2.5000 )
-11:46:20.967 (   3.531s) [simulati]ParticleData.cp:104   INFO| 	Particle 8:	( 2.0000  3.0000  3.0000 )
-11:46:20.975 (   3.539s) [simulati]ParticleData.cp:104   INFO| 	Particle 9:	( 2.5000  2.0000  2.0000 )
-11:46:20.978 (   3.542s) [simulati]ParticleData.cp:104   INFO| 	Particle 10:	( 2.5000  2.0000  2.5000 )
-11:46:20.982 (   3.546s) [simulati]ParticleData.cp:104   INFO| 	Particle 11:	( 2.5000  2.0000  3.0000 )
-11:46:20.985 (   3.549s) [simulati]ParticleData.cp:104   INFO| 	Particle 12:	( 2.5000  2.5000  2.0000 )
-11:46:20.988 (   3.552s) [simulati]ParticleData.cp:104   INFO| 	Particle 13:	( 2.5000  2.5000  2.5000 )
-11:46:20.992 (   3.556s) [simulati]ParticleData.cp:104   INFO| 	Particle 14:	( 2.5000  2.5000  3.0000 )
-11:46:20.995 (   3.559s) [simulati]ParticleData.cp:104   INFO| 	Particle 15:	( 2.5000  3.0000  2.0000 )
-11:46:20.998 (   3.562s) [simulati]ParticleData.cp:104   INFO| 	Particle 16:	( 2.5000  3.0000  2.5000 )
-11:46:21.001 (   3.565s) [simulati]ParticleData.cp:104   INFO| 	Particle 17:	( 2.5000  3.0000  3.0000 )
-11:46:21.004 (   3.568s) [simulati]ParticleData.cp:104   INFO| 	Particle 18:	( 3.0000  2.0000  2.0000 )
-11:46:21.007 (   3.571s) [simulati]ParticleData.cp:104   INFO| 	Particle 19:	( 3.0000  2.0000  2.5000 )
-11:46:21.012 (   3.576s) [simulati]ParticleData.cp:104   INFO| 	Particle 20:	( 3.0000  2.0000  3.0000 )
-11:46:21.016 (   3.580s) [simulati]ParticleData.cp:104   INFO| 	Particle 21:	( 3.0000  2.5000  2.0000 )
-11:46:21.019 (   3.583s) [simulati]ParticleData.cp:104   INFO| 	Particle 22:	( 3.0000  2.5000  2.5000 )
-11:46:21.021 (   3.585s) [simulati]ParticleData.cp:104   INFO| 	Particle 23:	( 3.0000  2.5000  3.0000 )
-11:46:21.024 (   3.588s) [simulati]ParticleData.cp:104   INFO| 	Particle 24:	( 3.0000  3.0000  2.0000 )
-11:46:21.027 (   3.591s) [simulati]ParticleData.cp:104   INFO| 	Particle 25:	( 3.0000  3.0000  2.5000 )
-11:46:21.031 (   3.595s) [simulati]ParticleData.cp:104   INFO| 	Particle 26:	( 3.0000  3.0000  3.0000 )
-11:46:21.034 (   3.598s) [simulati]ParticleData.cp:106   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-11:46:21.037 (   3.601s) [simulati]ParticleData.cp:111   INFO| ==============================
-11:46:21.039 (   3.603s) [simulati]ParticleData.cp:112   INFO| Simulation glass particles print
-11:46:21.043 (   3.607s) [simulati]ParticleData.cp:120   INFO| 	Num of glass particles in simulation: 1986, on CPU side: 1986
-11:46:21.047 (   3.611s) [simulati]ParticleData.cp:122   INFO| 	Glass 0: 	( 8.3518  2.6340  5.3092 )
-11:46:21.051 (   3.615s) [simulati]ParticleData.cp:122   INFO| 	Glass 1: 	( 8.2711  2.6340  5.7939 )
-11:46:21.054 (   3.618s) [simulati]ParticleData.cp:122   INFO| 	Glass 2: 	( 8.1206  2.6340  6.2617 )
-11:46:21.058 (   3.622s) [simulati]ParticleData.cp:122   INFO| 	Glass 3: 	( 7.9037  2.6340  6.7026 )
-11:46:21.061 (   3.625s) [simulati]ParticleData.cp:122   INFO| 	Glass 4: 	( 7.6248  2.6340  7.1072 )
-11:46:21.063 (   3.627s) [simulati]ParticleData.cp:122   INFO| 	Glass 5: 	( 7.2900  2.6340  7.4670 )
-11:46:21.066 (   3.630s) [simulati]ParticleData.cp:122   INFO| 	Glass 6: 	( 6.9064  2.6340  7.7741 )
-11:46:21.070 (   3.634s) [simulati]ParticleData.cp:122   INFO| 	Glass 7: 	( 6.4822  2.6340  8.0221 )
-11:46:21.073 (   3.637s) [simulati]ParticleData.cp:122   INFO| 	Glass 8: 	( 6.0264  2.6340  8.2057 )
-11:46:21.076 (   3.640s) [simulati]ParticleData.cp:122   INFO| 	Glass 9: 	( 5.5487  2.6340  8.3210 )
-11:46:21.079 (   3.643s) [simulati]ParticleData.cp:124   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-11:46:21.082 (   3.646s) [simulati]ParticleObjectM:21    INFO| ==============================
-11:46:21.085 (   3.649s) [simulati]ParticleObjectM:22    INFO| Simulation particle objects print
-11:46:21.089 (   3.653s) [simulati]ParticleObjectM:24    INFO| 	Num of objects: 2
-11:46:21.092 (   3.656s) [simulati]ParticleObjectM:25    INFO| 	Currently selected: -1
-11:46:21.095 (   3.659s) [simulati]ParticleObjectM:28    INFO| 0:	Position ( 5 5 5 ), In glass particle array [ 0 1367 )
-11:46:21.099 (   3.663s) [simulati]ParticleObjectM:28    INFO| 0:	Position ( 12 12 12 ), In glass particle array [ 1367 1986 )
-11:46:21.103 (   3.667s) [simulati]ParticleObjectM:31    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-11:46:21.106 (   3.670s) [simulati]     loguru.cpp:478   INFO| atexit
-11:46:21.108 (   3.672s) [simulati]       Main.cpp:170   INFO| Clean Up
+19:29:35.758 (   0.075s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+19:29:36.157 (   0.475s) [main thr]GpuResources.cp:92    INFO| new SSBO, name: ParticlePositions, 	id: 2
+19:29:36.160 (   0.477s) [main thr]GpuResources.cp:127   INFO| new UBO, name: GlassPositions, 	id: 3
+19:29:36.165 (   0.482s) [main thr]GpuResources.cp:92    INFO| new SSBO, name: Details, 	id: 4
+19:29:36.169 (   0.486s) [main thr]ParticleObjectC:174   INFO| Initialize ParticleObjectCreator
+19:29:36.173 (   0.490s) [main thr]ThreadManager.c:16    INFO| New thread in list
+19:29:36.173 (   0.490s) [Particle]ParticleObjectC:20    INFO| ParticleObjectCreator::runWorkerThread
+19:29:36.178 (   0.496s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:29:36.276 (   0.593s) [main thr]ParticleObjectC:189   INFO| New object assign: type: 9
+19:29:36.385 (   0.703s) [main thr]ComputeShader.c:14    INFO| #version 430 core
+
+
+#define NUM_THREADS 1 
+#define MAX_FLUID 3072
+#define MAX_GLASS 3072
+
+#undef MAX_FLUID
+#define MAX_FLUID 10000
+#undef MAX_GLASS
+#define MAX_GLASS 10000
+
+
+
+
+layout(local_size_x = NUM_THREADS, local_size_y = 1, local_size_z = 1) in;
+
+layout(std430, binding = 10) buffer positionsBuf
+{
+	float positions[3*MAX_FLUID];
+};
+
+layout(std140, binding = 11) uniform glassPositionsBuf
+{
+	float glassPositions[3*MAX_GLASS];
+};
+
+layout(std430, binding = 12) buffer newParticlesBuf
+{
+	int newPartType;
+	int numOfNewParticles;
+	float newPartPositions[];
+};
+
+layout(std430, binding = 13) buffer detailsBuf
+{
+	uint numOfParticles;
+	uint numOfGlassParticles;
+};
+
+/*
+in uvec3 gl_NumWorkGroups;
+in uvec3 gl_WorkGroupID; 		== contains the index of the workgroup currently being operated on by a compute shader
+in uvec3 gl_LocalInvocationID;
+in uvec3 gl_GlobalInvocationID	== contains the global index of work item currently being operated on by a compute shader
+in uint  gl_LocalInvocationIndex;
+in uvec3 gl_WorkGroupSize		== layout
+*/
+
+uint globalInvocationIndex() {
+	const uvec3 size = gl_WorkGroupSize + uvec3(1, 1, 1);
+	return gl_GlobalInvocationID.z * size.x * size.y + gl_GlobalInvocationID.y * size.x + gl_GlobalInvocationID.x;
+}
+
+void handleNewParticles();
+bool hasNewParticles();
+
+void main(void)
+{
+	int val = 0;
+	//numOfParticles = 12;
+	//numOfGlassParticles = 13;
+	int ind = int(gl_LocalInvocationIndex);
+	//for(int i=0; i<1000000; i++) {}
+
+	positions[0] += 0.005;
+	if(positions[0] >=1) positions[0] = 0;
+	positions[1] -= 0.008;
+	if(positions[1] <0) positions[1] = 1;
+
+	positions[2] += 0.003;
+	if(positions[2] >=1) positions[2] = 0;
+	positions[3] = glassPositions[0];
+
+	//positions[0] = 99;
+	//if(hasNewParticles()) {
+	//	handleNewParticles();
+	//}
+	//vec3 pos = getVec3FromData(positions, ind);
+	//pos.x *= temp[ind];
+	//positions[3 * ind] = pos.x;
+	//barrier();
+	//for(int i=0; i<1000*ind; i++) {}
+	//barrier();
+	//positions[ind] = 2;//newPartPositions[ind];
+}
+
+19:29:36.484 (   0.802s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:36.487 (   0.804s) [simulati]ParticleData.cp:24    INFO| OPEN to add array for FLUID
+19:29:36.490 (   0.807s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
+19:29:36.492 (   0.810s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: 9, particles: 27
+19:29:36.494 (   0.812s) [simulati] Simulation.cpp:17    INFO| Simulation time: 2
+19:29:36.496 (   0.814s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:29:36.999 (   1.317s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:37.002 (   1.320s) [simulati]ParticleData.cp:53    INFO| COMMIT fluid 27 particles, we had 0 fluid & 0 glass
+19:29:37.006 (   1.324s) [simulati]ParticleData.cp:80    INFO| COMMIT details
+19:29:37.011 (   1.328s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:37.013 (   1.331s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:37.016 (   1.333s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:37.019 (   1.337s) [simulati]ParticleData.cp:93    INFO| ==============================
+19:29:37.023 (   1.340s) [simulati]ParticleData.cp:94    INFO| Simulation particles print
+19:29:37.027 (   1.344s) [simulati]ParticleData.cp:102   INFO| 	Num of particles in simulation: 27, on CPU side: 27
+19:29:37.030 (   1.348s) [simulati]ParticleData.cp:104   INFO| 	Particle 0:	( 0.0250  1.9280  0.0240 )
+19:29:37.034 (   1.352s) [simulati]ParticleData.cp:104   INFO| 	Particle 1:	( 0.0000  2.0000  2.5000 )
+19:29:37.038 (   1.355s) [simulati]ParticleData.cp:104   INFO| 	Particle 2:	( 2.0000  2.0000  3.0000 )
+19:29:37.042 (   1.359s) [simulati]ParticleData.cp:104   INFO| 	Particle 3:	( 2.0000  2.5000  2.0000 )
+19:29:37.044 (   1.362s) [simulati]ParticleData.cp:104   INFO| 	Particle 4:	( 2.0000  2.5000  2.5000 )
+19:29:37.048 (   1.366s) [simulati]ParticleData.cp:104   INFO| 	Particle 5:	( 2.0000  2.5000  3.0000 )
+19:29:37.051 (   1.369s) [simulati]ParticleData.cp:104   INFO| 	Particle 6:	( 2.0000  3.0000  2.0000 )
+19:29:37.054 (   1.372s) [simulati]ParticleData.cp:104   INFO| 	Particle 7:	( 2.0000  3.0000  2.5000 )
+19:29:37.058 (   1.376s) [simulati]ParticleData.cp:104   INFO| 	Particle 8:	( 2.0000  3.0000  3.0000 )
+19:29:37.062 (   1.380s) [simulati]ParticleData.cp:104   INFO| 	Particle 9:	( 2.5000  2.0000  2.0000 )
+19:29:37.066 (   1.384s) [simulati]ParticleData.cp:106   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+19:29:37.069 (   1.386s) [simulati]ParticleData.cp:111   INFO| ==============================
+19:29:37.072 (   1.389s) [simulati]ParticleData.cp:112   INFO| Simulation glass particles print
+19:29:37.077 (   1.395s) [simulati]ParticleData.cp:120   INFO| 	Num of glass particles in simulation: 0, on CPU side: 0
+19:29:37.080 (   1.398s) [simulati]ParticleData.cp:124   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+19:29:37.084 (   1.401s) [simulati]ParticleObjectC:189   INFO| New object assign: type: -1
+19:29:37.588 (   1.905s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:37.592 (   1.909s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for GLASS
+19:29:37.597 (   1.915s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
+19:29:37.603 (   1.920s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: -1, particles: 1367
+19:29:37.603 (   1.920s) [simulati] Simulation.cpp:17    INFO| Simulation time: 1
+19:29:37.607 (   1.925s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:29:38.110 (   2.428s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.114 (   2.431s) [simulati]ParticleData.cp:68    INFO| COMMIT glass 1367 particles, we had 27 fluid & 0 glass
+19:29:38.118 (   2.435s) [simulati]ParticleData.cp:80    INFO| COMMIT details
+19:29:38.121 (   2.439s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:38.125 (   2.442s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.127 (   2.445s) [simulati] Simulation.cpp:17    INFO| Simulation time: 1
+19:29:38.130 (   2.448s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.133 (   2.450s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:38.236 (   2.554s) [simulati]ParticleObjectC:189   INFO| New object assign: type: -1
+19:29:38.342 (   2.659s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.345 (   2.663s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for GLASS
+19:29:38.349 (   2.666s) [simulati]ParticleData.cp:44    INFO| OPEN details struct
+19:29:38.352 (   2.670s) [Particle]ParticleObjectC:81    INFO| New object added to Simulation: type: -1, particles: 619
+19:29:38.352 (   2.670s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:38.355 (   2.673s) [Particle]ParticleObjectC:23    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:29:38.859 (   3.176s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.862 (   3.179s) [simulati]ParticleData.cp:68    INFO| COMMIT glass 619 particles, we had 27 fluid & 1367 glass
+19:29:38.865 (   3.183s) [simulati]ParticleData.cp:80    INFO| COMMIT details
+19:29:38.868 (   3.186s) [simulati] Simulation.cpp:17    INFO| Simulation time: 1
+19:29:38.871 (   3.189s) [simulati] Simulation.cpp:7     INFO| simulation running
+19:29:38.874 (   3.191s) [simulati] Simulation.cpp:17    INFO| Simulation time: 0
+19:29:38.977 (   3.294s) [simulati]ParticleData.cp:93    INFO| ==============================
+19:29:38.981 (   3.298s) [simulati]ParticleData.cp:94    INFO| Simulation particles print
+19:29:38.985 (   3.303s) [simulati]ParticleData.cp:102   INFO| 	Num of particles in simulation: 27, on CPU side: 27
+19:29:38.989 (   3.307s) [simulati]ParticleData.cp:104   INFO| 	Particle 0:	( 0.1350  1.7040  0.1410 )
+19:29:38.992 (   3.309s) [simulati]ParticleData.cp:104   INFO| 	Particle 1:	( 8.3518  2.0000  2.5000 )
+19:29:38.995 (   3.313s) [simulati]ParticleData.cp:104   INFO| 	Particle 2:	( 2.0000  2.0000  3.0000 )
+19:29:38.998 (   3.316s) [simulati]ParticleData.cp:104   INFO| 	Particle 3:	( 2.0000  2.5000  2.0000 )
+19:29:39.002 (   3.319s) [simulati]ParticleData.cp:104   INFO| 	Particle 4:	( 2.0000  2.5000  2.5000 )
+19:29:39.006 (   3.323s) [simulati]ParticleData.cp:104   INFO| 	Particle 5:	( 2.0000  2.5000  3.0000 )
+19:29:39.009 (   3.326s) [simulati]ParticleData.cp:104   INFO| 	Particle 6:	( 2.0000  3.0000  2.0000 )
+19:29:39.012 (   3.329s) [simulati]ParticleData.cp:104   INFO| 	Particle 7:	( 2.0000  3.0000  2.5000 )
+19:29:39.016 (   3.333s) [simulati]ParticleData.cp:104   INFO| 	Particle 8:	( 2.0000  3.0000  3.0000 )
+19:29:39.019 (   3.336s) [simulati]ParticleData.cp:104   INFO| 	Particle 9:	( 2.5000  2.0000  2.0000 )
+19:29:39.022 (   3.340s) [simulati]ParticleData.cp:104   INFO| 	Particle 10:	( 2.5000  2.0000  2.5000 )
+19:29:39.027 (   3.344s) [simulati]ParticleData.cp:104   INFO| 	Particle 11:	( 2.5000  2.0000  3.0000 )
+19:29:39.031 (   3.348s) [simulati]ParticleData.cp:104   INFO| 	Particle 12:	( 2.5000  2.5000  2.0000 )
+19:29:39.034 (   3.352s) [simulati]ParticleData.cp:104   INFO| 	Particle 13:	( 2.5000  2.5000  2.5000 )
+19:29:39.038 (   3.355s) [simulati]ParticleData.cp:104   INFO| 	Particle 14:	( 2.5000  2.5000  3.0000 )
+19:29:39.042 (   3.359s) [simulati]ParticleData.cp:104   INFO| 	Particle 15:	( 2.5000  3.0000  2.0000 )
+19:29:39.045 (   3.362s) [simulati]ParticleData.cp:104   INFO| 	Particle 16:	( 2.5000  3.0000  2.5000 )
+19:29:39.048 (   3.366s) [simulati]ParticleData.cp:104   INFO| 	Particle 17:	( 2.5000  3.0000  3.0000 )
+19:29:39.052 (   3.369s) [simulati]ParticleData.cp:104   INFO| 	Particle 18:	( 3.0000  2.0000  2.0000 )
+19:29:39.055 (   3.372s) [simulati]ParticleData.cp:104   INFO| 	Particle 19:	( 3.0000  2.0000  2.5000 )
+19:29:39.058 (   3.375s) [simulati]ParticleData.cp:104   INFO| 	Particle 20:	( 3.0000  2.0000  3.0000 )
+19:29:39.062 (   3.379s) [simulati]ParticleData.cp:104   INFO| 	Particle 21:	( 3.0000  2.5000  2.0000 )
+19:29:39.065 (   3.382s) [simulati]ParticleData.cp:104   INFO| 	Particle 22:	( 3.0000  2.5000  2.5000 )
+19:29:39.069 (   3.386s) [simulati]ParticleData.cp:104   INFO| 	Particle 23:	( 3.0000  2.5000  3.0000 )
+19:29:39.071 (   3.389s) [simulati]ParticleData.cp:104   INFO| 	Particle 24:	( 3.0000  3.0000  2.0000 )
+19:29:39.074 (   3.392s) [simulati]ParticleData.cp:104   INFO| 	Particle 25:	( 3.0000  3.0000  2.5000 )
+19:29:39.078 (   3.395s) [simulati]ParticleData.cp:104   INFO| 	Particle 26:	( 3.0000  3.0000  3.0000 )
+19:29:39.081 (   3.398s) [simulati]ParticleData.cp:106   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+19:29:39.084 (   3.401s) [simulati]ParticleData.cp:111   INFO| ==============================
+19:29:39.087 (   3.405s) [simulati]ParticleData.cp:112   INFO| Simulation glass particles print
+19:29:39.091 (   3.408s) [simulati]ParticleData.cp:120   INFO| 	Num of glass particles in simulation: 1986, on CPU side: 1986
+19:29:39.095 (   3.413s) [simulati]ParticleData.cp:122   INFO| 	Glass 0: 	( 8.3518  2.6340  5.3092 )
+19:29:39.099 (   3.417s) [simulati]ParticleData.cp:122   INFO| 	Glass 1: 	( 8.2711  2.6340  5.7939 )
+19:29:39.103 (   3.420s) [simulati]ParticleData.cp:122   INFO| 	Glass 2: 	( 8.1206  2.6340  6.2617 )
+19:29:39.108 (   3.425s) [simulati]ParticleData.cp:122   INFO| 	Glass 3: 	( 7.9037  2.6340  6.7026 )
+19:29:39.111 (   3.429s) [simulati]ParticleData.cp:122   INFO| 	Glass 4: 	( 7.6248  2.6340  7.1072 )
+19:29:39.115 (   3.433s) [simulati]ParticleData.cp:122   INFO| 	Glass 5: 	( 7.2900  2.6340  7.4670 )
+19:29:39.119 (   3.436s) [simulati]ParticleData.cp:122   INFO| 	Glass 6: 	( 6.9064  2.6340  7.7741 )
+19:29:39.123 (   3.440s) [simulati]ParticleData.cp:122   INFO| 	Glass 7: 	( 6.4822  2.6340  8.0221 )
+19:29:39.125 (   3.443s) [simulati]ParticleData.cp:122   INFO| 	Glass 8: 	( 6.0264  2.6340  8.2057 )
+19:29:39.129 (   3.446s) [simulati]ParticleData.cp:122   INFO| 	Glass 9: 	( 5.5487  2.6340  8.3210 )
+19:29:39.132 (   3.449s) [simulati]ParticleData.cp:124   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+19:29:39.135 (   3.452s) [simulati]ParticleObjectM:21    INFO| ==============================
+19:29:39.137 (   3.455s) [simulati]ParticleObjectM:22    INFO| Simulation particle objects print
+19:29:39.141 (   3.459s) [simulati]ParticleObjectM:24    INFO| 	Num of objects: 2
+19:29:39.144 (   3.461s) [simulati]ParticleObjectM:25    INFO| 	Currently selected: -1
+19:29:39.147 (   3.464s) [simulati]ParticleObjectM:28    INFO| 0:	Position ( 5 5 5 ), In glass particle array [ 0 1367 )
+19:29:39.152 (   3.469s) [simulati]ParticleObjectM:28    INFO| 0:	Position ( 12 12 12 ), In glass particle array [ 1367 1986 )
+19:29:39.159 (   3.476s) [simulati]ParticleObjectM:31    INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+19:29:39.162 (   3.480s) [simulati]     loguru.cpp:478   INFO| atexit
+19:29:39.166 (   3.483s) [simulati]       Main.cpp:171   INFO| Clean Up

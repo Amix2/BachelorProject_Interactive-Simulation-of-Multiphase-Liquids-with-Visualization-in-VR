@@ -12,6 +12,7 @@
 #include <dataStructures/GpuResources.h>
 #include <dataStructures/ParticleData.h>
 #include <particleObjects/ParticleObject.h>
+#include <shaders/ShaderCodeEditor.h>
 #include <Utils.h>
 #include <Logger.h>
 #include <Simulation.h>
@@ -62,7 +63,7 @@ MessageCallback(GLenum source,
 
 
 int main(int argc, char ** argv) {
-
+	ShaderCodeEditor::init();
 	atexit(cleanUp);
 
 	#ifdef LOG_TO_FILE

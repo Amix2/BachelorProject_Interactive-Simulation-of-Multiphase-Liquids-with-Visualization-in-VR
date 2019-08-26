@@ -5,9 +5,13 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 	GLuint csCreatorID = glCreateShader(GL_COMPUTE_SHADER);
 
 	std::ifstream csInputFileStream(shaderFileName);
-	const std::string computeShaderCode((std::istreambuf_iterator<char>(csInputFileStream)), std::istreambuf_iterator<char>());
+	std::string computeShaderCode((std::istreambuf_iterator<char>(csInputFileStream)), std::istreambuf_iterator<char>());
+
+	ShaderCodeEditor::insertVariables(computeShaderCode);
 
 	const char* c_source = computeShaderCode.c_str();
+
+	LOG_F(INFO, "%s", c_source);
 	glShaderSource(csCreatorID, 1, &c_source, NULL);
 	glCompileShader(csCreatorID);
 
@@ -49,4 +53,5 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 	if (block) {
 		glFinish();
 	}
+	checkOpenGLErrors();
 }

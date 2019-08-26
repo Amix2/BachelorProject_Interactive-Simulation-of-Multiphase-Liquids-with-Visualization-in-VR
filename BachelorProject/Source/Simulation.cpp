@@ -57,6 +57,8 @@ void Simulation::parseResourceRequest()
 	case NO_ORDER:
 		break;
 	}
+
+	checkOpenGLErrors();
 }
 
 Simulation::Simulation()
