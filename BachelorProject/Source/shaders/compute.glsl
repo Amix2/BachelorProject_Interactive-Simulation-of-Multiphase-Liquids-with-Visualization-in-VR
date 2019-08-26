@@ -67,7 +67,7 @@ void main(void)
 	positions[2] += 0.003;
 	if(positions[2] >=1) positions[2] = 0;
 
-	positions[0] = 99;
+	//positions[0] = 99;
 	//if(hasNewParticles()) {
 	//	handleNewParticles();
 	//}

@@ -43,7 +43,22 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+
 GLFWwindow* window;
+
+void GLAPIENTRY
+MessageCallback(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	const void* userParam)
+{
+	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+		(type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+		type, severity, message);
+}
 
 
 int main(int argc, char ** argv) {
@@ -71,18 +86,15 @@ int main(int argc, char ** argv) {
 	initTools();
 
 
-	ParticleData::openToAddFluidArray();
-	ParticleData::openToAddGlassArray();
-	ParticleData::commitToAddArray();
 	checkOpenGLErrors();
 	//Simulation sim2;
 	//sim2.runSimulation();
-	//funWithCompShader();
+	funWithCompShader();
 	return 0;
 
 
 	Simulation sim;
-	sim.runSimulation();
+	//sim.runSimulation();
 
 
 	// render loop
@@ -90,12 +102,14 @@ int main(int argc, char ** argv) {
 	while (!glfwWindowShouldClose(window))
 	{
 		float* pp = (float*)GpuResources::openSSBO(BufferDatails.particlePositionsName);
+		float* kk = (float*)GpuResources::openSSBO(BufferDatails.glassPositionsName);
 		for (int i = 0; i < 100; i++) {
 			sim.runSimulation();
 			TEMP_graphic::showFrame(window);
 		}
 		pp[0] = 0.50;
 		GpuResources::commitSSBO(BufferDatails.particlePositionsName);
+		GpuResources::commitSSBO(BufferDatails.glassPositionsName);
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -113,6 +127,7 @@ int main(int argc, char ** argv) {
 void initGL()
 {
 	glfwInit();
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -124,13 +139,23 @@ void initGL()
 		glfwTerminate();
 		return;
 	}
+
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, TUTORIAL_framebuffer_size_callback);
 
+	glewExperimental = GL_TRUE;
 
 	if (glewInit() != 0) {
 		exit(-3);
 	}
+
+	// During init, enable debug output
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageCallback(MessageCallback, 0);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
+		GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Started debugging");
 }
 
 void initTools()

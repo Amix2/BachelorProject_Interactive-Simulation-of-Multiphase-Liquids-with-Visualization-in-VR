@@ -15,7 +15,7 @@ struct NewParticlesArray {
 	float array[3 * Configuration.MAX_PARTICLES_ADDED_IN_TURN];
 };
 
-enum Resource_Request { NO_ORDER, OPEN_FLUID, OPEN_GLASS, COMMIT };
+enum Resource_Request { NO_ORDER, OPEN, COMMIT };
 
 class Simulation
 {
@@ -23,8 +23,9 @@ class Simulation
 
 public:
 
-	inline static std::atomic<Resource_Request> m_ResourceRequest;
-
+	inline static std::atomic<Resource_Request> m_reqFluidArray;
+	inline static std::atomic<Resource_Request> m_reqGlassArray;
+	inline static std::atomic<Resource_Request> m_reqDetils;
 
 	Simulation();
 	~Simulation() {}

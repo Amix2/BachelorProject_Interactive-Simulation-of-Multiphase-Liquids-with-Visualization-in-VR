@@ -21,30 +21,38 @@ void Simulation::runSimulation()
 
 void Simulation::parseResourceRequest()
 {
-	const bool canOpenNew = (ParticleData::m_OpenResource == NONE);
 
-	switch (m_ResourceRequest) {
-	case OPEN_FLUID:
-		if (!canOpenNew) {
-			// other resource in open, cant open new one
-			break;
-		}
-		ParticleData::openToAddFluidArray();
-		break;
-	case OPEN_GLASS:
-		if (!canOpenNew) {
-			// other resource in open, cant open new one
-			break;
-		}
-		ParticleData::openToAddGlassArray();
+	switch (m_reqFluidArray) {
+	case OPEN:
+		ParticleData::openFluidArray();
 		break;
 	case COMMIT:
-		if (canOpenNew) {
-			// no open resource
-			throw "No open resource, can't commit";
-		}
-		ParticleData::commitToAddArray();
-		m_ResourceRequest = NO_ORDER;
+		ParticleData::commitFluidArray();
+		m_reqFluidArray = NO_ORDER;
+		break;
+	case NO_ORDER:
+		break;
+	}
+
+	switch (m_reqGlassArray) {
+	case OPEN:
+		ParticleData::openGlassArray();
+		break;
+	case COMMIT:
+		ParticleData::commitGlassArray();
+		m_reqGlassArray = NO_ORDER;
+		break;
+	case NO_ORDER:
+		break;
+	}
+
+	switch (m_reqDetils) {
+	case OPEN:
+		ParticleData::openDetails();
+		break;
+	case COMMIT:
+		ParticleData::commitDetails();
+		m_reqDetils = NO_ORDER;
 		break;
 	case NO_ORDER:
 		break;

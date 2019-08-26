@@ -32,8 +32,6 @@ typedef struct SimDetails {
 	GLuint numOfGlassParticles;
 }SimDetails;
 
-enum Resource_Type { NONE, FLUID, GLASS };
-
 
 /* Keeps all details for fluid particles, performs all action with particles */
 class ParticleData
@@ -50,11 +48,15 @@ public:
 	static SimDetails* getDetails();
 
 
-	inline static float* m_ResourceArray;
-	inline static int m_ResourceArraySize;
-	inline static int m_AddedParticlesNum;
+	inline static float* m_resFluidArray = nullptr;
+	inline static int m_resFluidArraySize;
+	inline static std::atomic_int m_numOfAddedFluid;
 
-	inline static std::atomic<Resource_Type> m_OpenResource;
+	inline static float* m_resGlassArray = nullptr;
+	inline static int m_resGlassArraySize;
+	inline static std::atomic_int m_numOfAddedGlass;
+
+	inline static SimDetails* m_resDetails = nullptr;
 
 	inline static std::condition_variable m_ResourceCondVariable;
 	inline static std::mutex m_ResourceMutex;
@@ -64,13 +66,22 @@ public:
 	static void initArraysOnGPU();
 
 	// open fluid array and keep pointer
-	static void openToAddFluidArray();
+	static void openFluidArray();
 
 	// open glass array and keep pointer
-	static void openToAddGlassArray();
+	static void openGlassArray();
 
-	// commit opened array
-	static void commitToAddArray();
+	// open glass array and keep pointer
+	static void openDetails();
+
+	// commit fluid array
+	static void commitFluidArray();
+
+	// commit glass array
+	static void commitGlassArray();
+
+	// commit glass array
+	static void commitDetails();
 
 	//Adds n particles with given positions
 	//1 particle = 3x float in array

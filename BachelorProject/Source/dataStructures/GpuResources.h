@@ -10,9 +10,6 @@ class GpuResources
 	// map with bufferIDs
 	inline static std::unordered_map<std::string, GLuint> m_ResourceMap;
 
-	// name of last opened resource, used in commit checks
-	inline static std::string m_openResourceName;
-
 	static GLuint	createResource(GLenum target, std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex);
 
 	static void*	getDataResource(GLenum target, std::string name);
