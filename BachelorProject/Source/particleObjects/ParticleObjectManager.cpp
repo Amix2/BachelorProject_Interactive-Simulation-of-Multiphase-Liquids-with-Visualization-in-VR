@@ -1,15 +1,12 @@
-#include "ParticleObject.h"
+#include "ParticleObjectManager.h"
 
-void ParticleObjectManager::init()
-{
-	m_partObjectsVec.reserve(5);
-}
 
 int ParticleObjectManager::addObject(const ParticleObject& object)
 {
-	m_partObjectsVec.push_back(object);
+	m_partObjectsArray[m_numOfObjects] = object;
+
 	m_numOfObjects++;
-	return 0;
+	return m_numOfObjects;
 }
 
 int ParticleObjectManager::selectObject(glm::vec3 handPosition) {
@@ -23,9 +20,8 @@ void ParticleObjectManager::printObjects(int limit)
 	
 	LOG_F(INFO, "\tNum of objects: %d", m_numOfObjects);
 	LOG_F(INFO, "\tCurrently selected: %d", m_selectedObjectIndex);
-	int n = 0;
-	for (auto it = m_partObjectsVec.begin(); it != m_partObjectsVec.end(); it++) {
-		LOG_F(INFO, "%d:\t%s", n, it->print().c_str());
+	for (int i = 0; i < m_numOfObjects; i++) {
+		LOG_F(INFO, "%d:\t%s", i, m_partObjectsArray[i].print().c_str());
 	}
 
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");

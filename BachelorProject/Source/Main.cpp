@@ -10,9 +10,11 @@
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
 #include <dataStructures/GpuResources.h>
-#include <dataStructures/ParticleData.h>
 #include <particleObjects/ParticleObject.h>
+#include <particleObjects/ParticleObjectCreator.h>
+#include <particleObjects/ParticleObjectManager.h>
 #include <shaders/ShaderCodeEditor.h>
+#include <dataStructures/ParticleData.h>
 #include <Utils.h>
 #include <Logger.h>
 #include <Simulation.h>
@@ -86,11 +88,13 @@ int main(int argc, char ** argv) {
 
 	initTools();
 
-
+	ParticleObject* prtQ = nullptr ;
 	checkOpenGLErrors();
 	//Simulation sim2;
 	//sim2.runSimulation();
 	funWithCompShader();
+
+	ParticleData::printParticleObjectsData();
 	return 0;
 
 
@@ -163,7 +167,6 @@ void initTools()
 {
 	ParticleData::initArraysOnGPU();
 	ParticleObjectCreator::init();
-	ParticleObjectManager::init();
 }
 
 void cleanUp()
@@ -226,7 +229,7 @@ void funWithCompShader()
 
 	//sim.runSimulation();
 	Sleep(100);
-	ParticleData::printParticleData(-1);
+	ParticleData::printParticleData();
 	ParticleData::printGlassData();
 	ParticleObjectManager::printObjects();
 #ifdef LOG_TO_FILE
@@ -237,7 +240,6 @@ void funWithCompShader()
 void printWorkGroupsCapabilities() {
 	GLint64  val_array[3];
 	GLint64  value;
-	GLuint uintVal;
 
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &val_array[0]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &val_array[1]);

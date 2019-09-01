@@ -1,18 +1,28 @@
-#include "ParticleObject.h"
+#include "ParticleObjectCreator.h"
 
 void forceOpenFluid();
 
 void forceOpenGlass();
 
+void forceOpenGlassVectors();
+
 void forceOpenDetails();
 
+void forceOpenObjects();
+
 void weakOpenDetails();
+
+void weakOpenObjects();
 
 void commitFluid();
 
 void commitGlass();
 
+void commitGlassVectors();
+
 void commitDetails();
+
+void commitObjects();
 
 void ParticleObjectCreator::runWorkerThread()
 {
@@ -26,7 +36,6 @@ void ParticleObjectCreator::runWorkerThread()
 		while(ParticleObjectCreator::m_ParticleObjectDetaisReady == false)	m_condVariable_partObjectDetails.wait(lock_ParticleObjectDetails);
 		lock_ParticleObjectDetails.unlock();
 
-		float* resourcePtr;
 		int numOfParticles = 0;
 
 		// if details is not open request it, we will need it later;
@@ -38,9 +47,9 @@ void ParticleObjectCreator::runWorkerThread()
 
 			forceOpenFluid();
 
-			resourcePtr = ParticleData::m_resFluidArray;
+			float* fluidArray = ParticleData::m_resFluidArray;
 
-			ParticleObjectCreator::createFluid(resourcePtr, numOfParticles);
+			ParticleObjectCreator::createFluid(fluidArray, numOfParticles);
 
 			ParticleData::m_numOfAddedFluid = numOfParticles;
 
@@ -58,23 +67,34 @@ void ParticleObjectCreator::runWorkerThread()
 		////////////////////////////////////////////
 		//		GLASS
 
+			// weak open objects array to add particle object
+			weakOpenObjects();
+
 			forceOpenGlass();
+			forceOpenGlassVectors();
 
-			resourcePtr = ParticleData::m_resGlassArray;
+			float* glassPositions = ParticleData::m_resGlassArray;
+			float* glassVectors = ParticleData::m_resGlassVectorsArray;
 
-			MugObject mug(ParticleObjectCreator::m_ParticleObjectDetais, resourcePtr, numOfParticles);
-			ParticleObjectManager::addObject(mug);
+			ParticleObject mug;
+			mug.createMug(ParticleObjectCreator::m_ParticleObjectDetais, glassPositions, glassVectors, numOfParticles);
 
 			ParticleData::m_numOfAddedGlass = numOfParticles;
 
 			// request commit
 			commitGlass();
+			commitGlassVectors();
 
 			// we have to update particle datails in sim (it might not be opened)
 			forceOpenDetails();
 			ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
 			commitDetails();
 
+			ParticleObjectManager::addObject(mug);
+			forceOpenObjects();
+			ParticleData::m_resObjectsArray[ParticleData::m_numOfObjectsInArray] = mug;
+			ParticleData::m_numOfObjectsInArray++;
+			commitObjects();
 		}
 
 	
@@ -111,6 +131,20 @@ void forceOpenGlass() {
 	}
 }
 
+void forceOpenGlassVectors()
+{
+	if (ParticleData::m_resGlassVectorsArray == nullptr) {
+		// request open 
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
+		while (ParticleData::m_resGlassVectorsArray == nullptr) {
+			// while wanted resource in no opened -> order it and wait
+			Simulation::m_reqGlassVectorsArray = OPEN;
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
+}
+
 void forceOpenDetails() {
 	if (ParticleData::m_resDetails == nullptr) {
 		std::unique_lock<std::mutex> lock_details(ParticleData::m_ResourceMutex);	// take resource mutex
@@ -123,9 +157,29 @@ void forceOpenDetails() {
 	}
 }
 
+void forceOpenObjects()
+{
+	if (ParticleData::m_resObjectsArray == nullptr) {
+		std::unique_lock<std::mutex> lock_details(ParticleData::m_ResourceMutex);	// take resource mutex
+		while (ParticleData::m_resObjectsArray == nullptr) {
+			// while wanted resource in no opened -> order it and wait
+			Simulation::m_reqObjects = OPEN;
+			ParticleData::m_ResourceCondVariable.wait(lock_details);
+		}
+		lock_details.unlock();
+	}
+}
+
 void weakOpenDetails() {
 	if (ParticleData::m_resDetails == nullptr && Simulation::m_reqDetils == NO_ORDER) {
 		Simulation::m_reqDetils = OPEN;
+	}
+}
+
+void weakOpenObjects()
+{
+	if (ParticleData::m_resObjectsArray == nullptr && Simulation::m_reqObjects == NO_ORDER) {
+		Simulation::m_reqObjects = OPEN;
 	}
 }
 
@@ -139,12 +193,22 @@ void commitGlass()
 	Simulation::m_reqGlassArray = COMMIT;
 }
 
+void commitGlassVectors()
+{
+	Simulation::m_reqGlassVectorsArray = COMMIT;
+}
+
 void commitDetails()
 {
 	Simulation::m_reqDetils = COMMIT;
 }
 
-void ParticleObjectCreator::createFluid(float positions[Configuration.MAX_PARTICLES_ADDED_IN_TURN], int &numOfParts) {
+void commitObjects()
+{
+	Simulation::m_reqObjects = COMMIT;
+}
+
+void ParticleObjectCreator::createFluid(float positions[], int &numOfParts) {
 
 	const float gap = Configuration.FLUID_PARTICLE_BUILD_GAP;
 

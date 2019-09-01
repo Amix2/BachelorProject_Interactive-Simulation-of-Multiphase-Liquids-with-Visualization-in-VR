@@ -11,7 +11,6 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 
 	const char* c_source = computeShaderCode.c_str();
 
-	LOG_F(INFO, "%s", c_source);
 	glShaderSource(csCreatorID, 1, &c_source, NULL);
 	glCompileShader(csCreatorID);
 
@@ -26,7 +25,7 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 		int length;
 		glGetShaderiv(csCreatorID, GL_INFO_LOG_LENGTH, &length);
 
-		GLchar* strInfoLog = new GLchar[length + 1];
+		GLchar* strInfoLog = new GLchar[(size_t)length + 1];
 		glGetShaderInfoLog(csCreatorID, length, &length, strInfoLog);
 
 		fprintf(stderr, "Compilation error in shader: %s\n", strInfoLog);

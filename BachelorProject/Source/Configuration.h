@@ -8,10 +8,14 @@
 const struct Configuration {
 	inline static const int MAX_FLUID_PARTICLES = 10000;
 	inline static const int MAX_GLASS_PARTICLES = 10000;
-	inline static const int MAX_PARTICLES_ADDED_IN_TURN = 32*1024;
+	inline static const int MAX_PARTICLE_OBJECTS = 10;
+	inline static const int MAX_FLUID_TYPES = 10;
 
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
+
+	inline static const float MAX_PARTICLE_SPEED = 0.5f;
+
 } Configuration;
 
 const struct BufferDatails {
@@ -21,11 +25,14 @@ const struct BufferDatails {
 	inline static const std::string glassPositionsName = "GlassPositions";
 	inline static const int glassPositionsBinding = 11;
 
-	inline static const std::string toAddParticlePositionsName = "ToAddParticlePositions";
-	inline static const int toAddParticlePositionsBinding = 12;
+	inline static const std::string partObjectsName = "ParticleObjects";
+	inline static const int partObjectsBinding = 12;
 
 	inline static const std::string detailsName = "Details";
 	inline static const int detailsBinding = 13;
+
+	inline static const std::string glassVectorName = "GlassVector";
+	inline static const int glassVectorBinding = 14;
 } BufferDatails;
 
 class Random {

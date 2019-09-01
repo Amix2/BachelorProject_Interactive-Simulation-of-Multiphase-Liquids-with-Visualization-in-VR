@@ -44,6 +44,7 @@ void* GpuResources::openResource(GLenum target, std::string name)
 		GLuint index = GpuResources::m_ResourceMap[name];
 		glBindBuffer(target, index);
 		void* p = glMapBuffer(target, GL_WRITE_ONLY);
+		checkOpenGLErrors();
 		return p;
 	}
 	else {
@@ -76,6 +77,7 @@ void GpuResources::commitResource(GLenum target, std::string name)
 		GLuint index = GpuResources::m_ResourceMap[name];
 		glBindBuffer(target, index);
 		glUnmapBuffer(target);
+		checkOpenGLErrors();
 	}
 	else {
 		throw "no SSBO for given name";
