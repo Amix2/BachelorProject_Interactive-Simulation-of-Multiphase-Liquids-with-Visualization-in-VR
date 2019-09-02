@@ -47,7 +47,7 @@ public:
 	float _padding[2];	// force 4 x N variables (4 B each)
 
 	void createMug(ParticleObjectDetais details, float positions[], float vectors[], int& numOfParts);
-	static void fun() {}
+
 	std::string print();
 	ParticleObject();
 };

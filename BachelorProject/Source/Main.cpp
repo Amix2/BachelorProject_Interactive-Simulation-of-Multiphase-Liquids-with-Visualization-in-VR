@@ -15,6 +15,7 @@
 #include <particleObjects/ParticleObjectManager.h>
 #include <shaders/ShaderCodeEditor.h>
 #include <dataStructures/ParticleData.h>
+#include <dataStructures/FluidType.h>
 #include <Utils.h>
 #include <Logger.h>
 #include <Simulation.h>
@@ -167,6 +168,8 @@ void initTools()
 {
 	ParticleData::initArraysOnGPU();
 	ParticleObjectCreator::init();
+	ParticleObjectManager::init();
+	FluidType::init();
 }
 
 void cleanUp()

@@ -19,20 +19,23 @@ const struct Configuration {
 } Configuration;
 
 const struct BufferDatails {
-	inline static const std::string particlePositionsName = "ParticlePositions";
+	inline static const std::string particlePositionsName = "ParticlePositions";	// SSBO
 	inline static const int particlePositionsBinding = 10;
 
-	inline static const std::string glassPositionsName = "GlassPositions";
+	inline static const std::string glassPositionsName = "GlassPositions";	// SSBO
 	inline static const int glassPositionsBinding = 11;
 
-	inline static const std::string partObjectsName = "ParticleObjects";
+	inline static const std::string partObjectsName = "ParticleObjects";	// SSBO
 	inline static const int partObjectsBinding = 12;
 
-	inline static const std::string detailsName = "Details";
+	inline static const std::string detailsName = "Details";	// SSBO 
 	inline static const int detailsBinding = 13;
 
-	inline static const std::string glassVectorName = "GlassVector";
+	inline static const std::string glassVectorName = "GlassVector";	// UBO
 	inline static const int glassVectorBinding = 14;
+
+	inline static const std::string fluidTypesName = "FluidTypes";	// UBO
+	inline static const int fluidTypesBinding = 15;
 } BufferDatails;
 
 class Random {

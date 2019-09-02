@@ -66,7 +66,7 @@ void ParticleObjectCreator::runWorkerThread()
 		else {
 		////////////////////////////////////////////
 		//		GLASS
-
+			Sleep(10000);
 			// weak open objects array to add particle object
 			weakOpenObjects();
 

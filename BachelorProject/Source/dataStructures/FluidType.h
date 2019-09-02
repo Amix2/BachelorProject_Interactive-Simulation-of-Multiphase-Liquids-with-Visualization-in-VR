@@ -1,25 +1,19 @@
 #pragma once
 #include <Configuration.h>
-#include <particleObjects/ParticleObject.h>
+#include <dataStructures/GpuResources.h>
 
-	class FluidType
-	{
-		const float m_mass;
-		const float m_stiffness;
-		const float m_viscosity;
-		const float m_density;
-	public:
-		FluidType(float mass, float stiffness, float viscosity, float density) : m_mass(mass), m_stiffness(stiffness), m_viscosity(viscosity), m_density(density) {}
-	};
-
-class FluidTypes
+class FluidType
 {
+	float m_mass;
+	float m_stiffness;
+	float m_viscosity;
+	float m_density;
+	FluidType(float mass, float stiffness, float viscosity, float density) : m_mass(mass), m_stiffness(stiffness), m_viscosity(viscosity), m_density(density) {}
+	FluidType() : m_mass(0), m_stiffness(0), m_viscosity(0), m_density(0) {}
 public:
-	inline static FluidType m_fluidTypes[Configuration.MAX_FLUID_TYPES];
+	static FluidType m_fluidTypes[Configuration.MAX_FLUID_TYPES];
 	inline static int m_numOfFluidTypes = 0;
 
-	static void addFluidType(float mass, float stiffness, float viscosity, float density);
-	static void addFluidType(const FluidType& fluid);
-
-	static void createBasic();
+	static int addFluidType(float mass, float stiffness, float viscosity, float density);
+	static void init();
 };

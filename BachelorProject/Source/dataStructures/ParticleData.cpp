@@ -82,7 +82,6 @@ void ParticleData::commitFluidArray()
 	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
 
 	m_resFluidArray = nullptr;
-
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -115,6 +114,7 @@ void ParticleData::commitDetails()
 	GpuResources::commitSSBO(BufferDatails.detailsName);
 
 	m_resDetails = nullptr;
+	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 void ParticleData::commitObjects()
@@ -124,6 +124,7 @@ void ParticleData::commitObjects()
 	GpuResources::commitSSBO(BufferDatails.partObjectsName);
 
 	m_resObjectsArray = nullptr;
+	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

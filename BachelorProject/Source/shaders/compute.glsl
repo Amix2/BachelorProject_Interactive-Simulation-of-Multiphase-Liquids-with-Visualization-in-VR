@@ -4,6 +4,7 @@
 #define NUM_THREADS 10 
 #define MAX_FLUID 3072
 #define MAX_GLASS 3072
+#define MAX_FLUID_TYPES 10
 #define MAX_PARTICLE_OBJECTS 10
 #define MAX_SPEED 1
 
@@ -31,6 +32,13 @@ struct ParticleObject {
 	float _padding[2];
 };
 
+struct FluidType {
+	float mass;
+	float tiffness;
+	float viscosity;
+	float density;
+};
+
 //////////////////////////////////////////////////
 //	STORAGE
 
@@ -46,7 +54,6 @@ layout(std430, binding = 11) buffer glassPositionsBuf
 
 layout(std140, binding = 14) uniform glassVectorsBuf
 {
-// true glass vector = value in array - mug vector
 	float glassVectors[3*MAX_GLASS];
 };
 
@@ -59,6 +66,11 @@ layout(std430, binding = 13) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
+};
+
+layout(std140, binding = 15) uniform fluidTypesBuf
+{
+	FluidType fluidTypeArray[MAX_FLUID_TYPES];
 };
 
 //////////////////////////////////////////////////
@@ -123,7 +135,9 @@ void main(void)
 	if(positions[2] >=1) positions[2] = 0;
 	positions[3] = glassPositions[0];
 	glassPositions[gl_LocalInvocationIndex] = myGlassLast;
-		glassPositions[0] = glassVectors[0];
+	glassPositions[0] = fluidTypeArray[1].mass;
+
+
 	//positions[0] = 99;
 	//if(hasNewParticles()) {
 	//	handleNewParticles();
