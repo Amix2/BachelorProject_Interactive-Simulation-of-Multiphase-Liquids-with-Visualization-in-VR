@@ -5,8 +5,11 @@
 void ParticleData::initArraysOnGPU()
 {
 
-	// create SSBO for positions
+	// create SSBO for particle positions
 	GpuResources::createSSBO(BufferDatails.particlePositionsName, 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float), NULL, BufferDatails.particlePositionsBinding);
+
+	// create SSBO for particle fluid types
+	GpuResources::createSSBO(BufferDatails.particlesFluidTypeName, Configuration.MAX_FLUID_PARTICLES * sizeof(int), NULL, BufferDatails.particlesFluidTypeBinding);
 
 	// create SSBO for glass positions
 	GpuResources::createSSBO(BufferDatails.glassPositionsName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassPositionsBinding);
@@ -15,7 +18,7 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createUBO(BufferDatails.glassVectorName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassVectorBinding);
 
 	// create SSBO for particle objects
-	GpuResources::createSSBO(BufferDatails.partObjectsName, 3 * Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleObject), NULL, BufferDatails.partObjectsBinding);
+	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleObject), NULL, BufferDatails.partObjectsBinding);
 
 	// create SSBO for simulation details
 	SimDetails simDetails{ 0,0 };
@@ -33,8 +36,13 @@ void ParticleData::openFluidArray()
 		, (GLintptr)m_FluidParticlesNum * 3 * sizeof(float)	// offset
 		, ((GLsizeiptr)Configuration.MAX_FLUID_PARTICLES - m_FluidParticlesNum) * 3 * sizeof(float)	// length
 	);
+	m_resFluidTypesArray = (int*)GpuResources::openPartSSBO(BufferDatails.particlesFluidTypeName
+		, (GLintptr)m_FluidParticlesNum  * sizeof(int)	// offset
+		, ((GLsizeiptr)Configuration.MAX_FLUID_PARTICLES - m_FluidParticlesNum) * sizeof(int)	// length
+	);
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
+
 
 void ParticleData::openGlassArray()
 {
@@ -80,8 +88,10 @@ void ParticleData::commitFluidArray()
 	m_numOfAddedFluid = 0;
 
 	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
+	GpuResources::commitSSBO(BufferDatails.particlesFluidTypeName);
 
 	m_resFluidArray = nullptr;
+	m_resFluidTypesArray = nullptr;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -138,6 +148,16 @@ void ParticleData::printParticleData(int limit)
 	SimDetails* details = getDetails();
 	float * partPositions = (float*)ParticleData::getPositions();
 
+	if (details == nullptr || partPositions == nullptr) {
+		LOG_F(ERROR, "Error while printing Simulation glass particles");
+		return;
+	}
+
+	if (details == nullptr || partPositions == nullptr) {
+		LOG_F(ERROR, "Error while printing Simulation particles");
+		return;
+	}
+
 	if (limit <= 0) {
 		limit = INT_MAX;
 	}
@@ -157,6 +177,10 @@ void ParticleData::printGlassData(int limit)
 	float* partPositions = (float*)ParticleData::getGlassPositions();
 	float* glassVectors = ParticleData::getGlassVectors();
 
+	if (details == nullptr || partPositions == nullptr || glassVectors == nullptr) {
+		LOG_F(ERROR, "Error while printing Simulation glass particles");
+		return;
+	}
 	if (limit <= 0) {
 		limit = INT_MAX;
 	}
@@ -174,7 +198,10 @@ void ParticleData::printParticleObjectsData(int limit)
 	LOG_F(INFO, "==============================");
 	LOG_F(INFO, "Simulation Particle Objects print");
 	ParticleObject* partObjects = ParticleData::getParticleObjects();
-
+	if (partObjects == nullptr) {
+		LOG_F(ERROR, "Error while printing Simulation Particle Objects");
+		return;
+	}
 	if (limit <= 0) {
 		limit = INT_MAX;
 	}

@@ -53,6 +53,7 @@ public:
 
 
 	inline static float* m_resFluidArray = nullptr;
+	inline static int* m_resFluidTypesArray = nullptr;
 	inline static int m_resFluidArraySize;
 	inline static std::atomic_int m_numOfAddedFluid;
 

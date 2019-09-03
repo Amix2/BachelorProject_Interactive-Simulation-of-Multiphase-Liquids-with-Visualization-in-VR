@@ -4,11 +4,12 @@
 #include <Logger.h>
 #include <shaders/ComputeShader.h>
 #include <dataStructures/ParticleData.h>
+#include <particleObjects/ParticleObjectCreator.h>
 #include <Utils.h>
 #include <condition_variable>
 #include <mutex>
 
-enum Resource_Request { NO_ORDER, OPEN, COMMIT };
+enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
 class Simulation
 {

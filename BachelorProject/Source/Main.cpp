@@ -232,7 +232,7 @@ void funWithCompShader()
 
 	//sim.runSimulation();
 	Sleep(100);
-	ParticleData::printParticleData();
+	ParticleData::printParticleData(-1);
 	ParticleData::printGlassData();
 	ParticleObjectManager::printObjects();
 #ifdef LOG_TO_FILE

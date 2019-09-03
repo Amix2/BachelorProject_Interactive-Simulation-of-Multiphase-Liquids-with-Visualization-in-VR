@@ -26,7 +26,7 @@ class ParticleObjectCreator
 	// main function for worker thread
 	static void runWorkerThread();
 
-	static void createFluid(float positions[], int& numOfParts);
+	static void createFluid(float positions[], int fluidTypes[], int& numOfParts);
 
 	ParticleObjectCreator() {}
 public:

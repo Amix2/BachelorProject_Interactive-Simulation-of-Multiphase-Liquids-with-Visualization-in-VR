@@ -48,8 +48,9 @@ void ParticleObjectCreator::runWorkerThread()
 			forceOpenFluid();
 
 			float* fluidArray = ParticleData::m_resFluidArray;
+			int* fluidTypesArray = ParticleData::m_resFluidTypesArray;
 
-			ParticleObjectCreator::createFluid(fluidArray, numOfParticles);
+			ParticleObjectCreator::createFluid(fluidArray, fluidTypesArray, numOfParticles);
 
 			ParticleData::m_numOfAddedFluid = numOfParticles;
 
@@ -66,9 +67,8 @@ void ParticleObjectCreator::runWorkerThread()
 		else {
 		////////////////////////////////////////////
 		//		GLASS
-			Sleep(10000);
 			// weak open objects array to add particle object
-			weakOpenObjects();
+			//weakOpenObjects();
 
 			forceOpenGlass();
 			forceOpenGlassVectors();
@@ -91,10 +91,10 @@ void ParticleObjectCreator::runWorkerThread()
 			commitDetails();
 
 			ParticleObjectManager::addObject(mug);
-			forceOpenObjects();
-			ParticleData::m_resObjectsArray[ParticleData::m_numOfObjectsInArray] = mug;
-			ParticleData::m_numOfObjectsInArray++;
-			commitObjects();
+			//forceOpenObjects();
+			//ParticleData::m_resObjectsArray[ParticleData::m_numOfObjectsInArray] = mug;
+			//ParticleData::m_numOfObjectsInArray++;
+			//commitObjects();
 		}
 
 	
@@ -208,7 +208,7 @@ void commitObjects()
 	Simulation::m_reqObjects = COMMIT;
 }
 
-void ParticleObjectCreator::createFluid(float positions[], int &numOfParts) {
+void ParticleObjectCreator::createFluid(float positions[], int fluidTypes[], int &numOfParts) {
 
 	const float gap = Configuration.FLUID_PARTICLE_BUILD_GAP;
 
@@ -218,6 +218,7 @@ void ParticleObjectCreator::createFluid(float positions[], int &numOfParts) {
 	const float endX = ParticleObjectCreator::m_ParticleObjectDetais.highX;
 	const float endY = ParticleObjectCreator::m_ParticleObjectDetais.highY;
 	const float endZ = ParticleObjectCreator::m_ParticleObjectDetais.highZ;
+	const int fluidType = ParticleObjectCreator::m_ParticleObjectDetais.fluidType;
 
 	numOfParts = 0;
 
@@ -227,6 +228,9 @@ void ParticleObjectCreator::createFluid(float positions[], int &numOfParts) {
 				positions[3 * numOfParts + 0] = oX;
 				positions[3 * numOfParts + 1] = oY;
 				positions[3 * numOfParts + 2] = oZ;
+
+				fluidTypes[numOfParts] = fluidType;
+
 				numOfParts++;
 			}
 		}

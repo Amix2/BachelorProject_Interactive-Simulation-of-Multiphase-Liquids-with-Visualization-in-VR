@@ -47,6 +47,11 @@ layout(std430, binding = 10) buffer positionsBuf
 	float positions[3*MAX_FLUID];
 };
 
+layout(std430, binding = 16) buffer partFluidTypeBuf
+{
+	int particleFluidType[MAX_FLUID];
+};
+
 layout(std430, binding = 11) buffer glassPositionsBuf
 {
 	float glassPositions[3*MAX_GLASS];
@@ -71,6 +76,11 @@ layout(std430, binding = 13) buffer detailsBuf
 layout(std140, binding = 15) uniform fluidTypesBuf
 {
 	FluidType fluidTypeArray[MAX_FLUID_TYPES];
+};
+
+layout(std430, binding = 20) buffer simVariablesBuf
+{
+	float xd;
 };
 
 //////////////////////////////////////////////////
@@ -115,28 +125,9 @@ void main(void)
 		myParticleLast = numOfParticles;
 
 
-
-
-
-
-
-	int val = 0;
-	//numOfParticles = 12;
-	//numOfGlassParticles = 13;
-	int ind = int(gl_LocalInvocationIndex);
-	//for(int i=0; i<1000000; i++) {}
-
-	positions[0] += 0.005;
-	if(positions[0] >=1) positions[0] = 0;
-	positions[1] -= 0.008;
-	if(positions[1] <0) positions[1] = 1;
-
-	positions[2] += 0.003;
-	if(positions[2] >=1) positions[2] = 0;
-	positions[3] = glassPositions[0];
-	glassPositions[gl_LocalInvocationIndex] = myGlassLast;
-	glassPositions[0] = fluidTypeArray[1].mass;
-
+	for(int i=0; i<numOfParticles; i++) {
+		positions[3*i] = float(particleFluidType[i]);
+	}
 
 	//positions[0] = 99;
 	//if(hasNewParticles()) {

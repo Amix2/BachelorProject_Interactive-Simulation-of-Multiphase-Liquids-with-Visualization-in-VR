@@ -36,6 +36,9 @@ const struct BufferDatails {
 
 	inline static const std::string fluidTypesName = "FluidTypes";	// UBO
 	inline static const int fluidTypesBinding = 15;
+
+	inline static const std::string particlesFluidTypeName = "ParticlesFluidTypes";	// SSBO
+	inline static const int particlesFluidTypeBinding = 16;
 } BufferDatails;
 
 class Random {

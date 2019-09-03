@@ -8,6 +8,9 @@ void Simulation::runSimulation()
 
 	parseResourceRequest();
 
+	ParticleObjectManager::synchronizeWithGpu();
+
+
 	// compute shader (change values)
 	long tStart = getTime();
 	shader.runShader(1, 1, 1, true);
@@ -83,6 +86,10 @@ void Simulation::parseResourceRequest()
 		ParticleData::commitObjects();
 		m_reqObjects = NO_ORDER;
 		break;
+	case COMMIT_AND_OPEN:
+		ParticleData::commitObjects();
+		ParticleData::openObjects();
+		m_reqObjects = NO_ORDER;
 	case NO_ORDER:
 		break;
 	}
