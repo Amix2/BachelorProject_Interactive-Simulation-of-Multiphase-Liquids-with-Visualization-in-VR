@@ -18,8 +18,15 @@ void Simulation::runSimulation()
 
 	
 	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
-
+	if (LOG_TO_FILE) {
+		ParticleData::logParticlePositions();
+	}
 	checkOpenGLErrors();
+}
+
+void Simulation::init()
+{
+	shader = ComputeShader("./Source/shaders/compute.glsl");
 }
 
 void Simulation::parseResourceRequest()
@@ -95,9 +102,4 @@ void Simulation::parseResourceRequest()
 	}
 
 	checkOpenGLErrors();
-}
-
-Simulation::Simulation()
-{
-	shader = ComputeShader("./Source/shaders/compute.glsl");
 }

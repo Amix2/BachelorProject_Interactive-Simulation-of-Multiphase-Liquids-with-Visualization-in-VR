@@ -15,7 +15,7 @@
 
 /*	LIST OF ARRAYS
 	for fluid particles = 16x float
-	- posiiton (v3)
+	- position (v3)
 	- velocity (v3)
 	- acceleration (v3)
 	- surfaceNormalVector (v3)
@@ -51,7 +51,7 @@ public:
 	static ParticleObject* getParticleObjects();
 	static SimDetails* getDetails();
 
-
+	// resource pointers, array size is currently not used
 	inline static float* m_resFluidArray = nullptr;
 	inline static int* m_resFluidTypesArray = nullptr;
 	inline static int m_resFluidArraySize;
@@ -68,11 +68,12 @@ public:
 
 	inline static SimDetails* m_resDetails = nullptr;
 
+	// mutex and condition vaciable for threads to wait for resource
 	inline static std::condition_variable m_ResourceCondVariable;
 	inline static std::mutex m_ResourceMutex;
 
 
-	/* Init arrays om GPU to store particle data */
+	/* Init arrays on GPU to store particle data */
 	static void initArraysOnGPU();
 
 	static void openFluidArray();
@@ -101,11 +102,8 @@ public:
 	static void logParticlePositions();
 	
 	
-	
+	// for printing particles positions to file
 	inline static std::ofstream partFile;
 
-	void fun() {
-		//ParticleObject::fun();
-	}
 };
 

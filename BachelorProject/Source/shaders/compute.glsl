@@ -1,7 +1,7 @@
 #version 430 core
 
 
-#define NUM_THREADS 10 
+#define NUM_THREADS 100
 #define MAX_FLUID 3072
 #define MAX_GLASS 3072
 #define MAX_FLUID_TYPES 10
@@ -16,7 +16,7 @@ layout(local_size_x = NUM_THREADS, local_size_y = 1, local_size_z = 1) in;
 //	STRUCT
 
 uint myGlassFirst, myGlassLast;
-uint myParticleFirst, myParticleLast;
+uint myFluidFirst, myFluidLast;
 
 struct ParticleObject {
 
@@ -44,7 +44,7 @@ struct FluidType {
 
 layout(std430, binding = 10) buffer positionsBuf
 {
-	float positions[3*MAX_FLUID];
+	float fluidPositions[3*MAX_FLUID];
 };
 
 layout(std430, binding = 16) buffer partFluidTypeBuf
@@ -57,13 +57,15 @@ layout(std430, binding = 11) buffer glassPositionsBuf
 	float glassPositions[3*MAX_GLASS];
 };
 
-layout(std140, binding = 14) uniform glassVectorsBuf
+layout(std140, binding = 14) buffer glassVectorsBuf
 {
 	float glassVectors[3*MAX_GLASS];
 };
 
 layout(std430, binding = 12) buffer objectsBuf
 {
+	uint minFluidCellIndex;
+	uint maxFluidCellIndex;
 	ParticleObject objects[];
 };
 
@@ -80,13 +82,18 @@ layout(std140, binding = 15) uniform fluidTypesBuf
 
 layout(std430, binding = 20) buffer simVariablesBuf
 {
-	float xd;
+	float fluidVelocity[3 * MAX_FLUID];
+	float fluidAcceleration[3 * MAX_FLUID];
+	float fluidSurfaceVector[3 * MAX_FLUID];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensity[MAX_FLUID];
+	float fluidPressure[MAX_FLUID];
 };
+
 
 //////////////////////////////////////////////////
 //	FUNCTIONS
 
-void moveObjects();	// move and rotate particle objects
 
 //////////////////////////////////////////////////
 //	CODE
@@ -118,30 +125,15 @@ void main(void)
 
 	// calculate first and last PARTICLE index for this thread (later refered as "my")
 	const uint particleInterval = uint(round(numOfParticles / NUM_THREADS));
-	myParticleFirst = gl_LocalInvocationIndex * particleInterval;
+	myFluidFirst = gl_LocalInvocationIndex * particleInterval;
 	if(gl_LocalInvocationIndex < NUM_THREADS - 1) 
-		myParticleLast = (gl_LocalInvocationIndex + 1)* particleInterval;
+		myFluidLast = (gl_LocalInvocationIndex + 1)* particleInterval;
 	else
-		myParticleLast = numOfParticles;
+		myFluidLast = numOfParticles;
 
 
 	for(int i=0; i<numOfParticles; i++) {
-		positions[3*i] = float(particleFluidType[i]);
+		fluidPositions[3*i+1] -= 0.05;
 	}
-
-	//positions[0] = 99;
-	//if(hasNewParticles()) {
-	//	handleNewParticles();
-	//}
-	//vec3 pos = getVec3FromData(positions, ind);
-	//pos.x *= temp[ind];
-	//positions[3 * ind] = pos.x;
-	//barrier();
-	//for(int i=0; i<1000*ind; i++) {}
-	//barrier();
-	//positions[ind] = 2;//newPartPositions[ind];
 }
 
-void moveObjects() {
-
-}

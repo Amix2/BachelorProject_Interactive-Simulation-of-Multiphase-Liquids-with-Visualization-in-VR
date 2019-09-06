@@ -6,6 +6,7 @@
 #include <Configuration.h>
 #include <Logger.h>
 
+// create basic particle structures 
 namespace ParticleGeometry {
 	enum CalcMode { EQUALS, NOT_EQUALS };
 	enum VectorDirection {ZERO, UP, DOWN, INSIDE, OUTSIDE};

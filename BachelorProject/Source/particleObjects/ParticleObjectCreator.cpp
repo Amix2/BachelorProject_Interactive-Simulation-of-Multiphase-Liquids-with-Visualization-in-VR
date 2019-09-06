@@ -45,11 +45,13 @@ void ParticleObjectCreator::runWorkerThread()
 		////////////////////////////////////////////
 		//		FLUID
 
+			// open fluid array
 			forceOpenFluid();
 
 			float* fluidArray = ParticleData::m_resFluidArray;
 			int* fluidTypesArray = ParticleData::m_resFluidTypesArray;
 
+			// create fluid particles
 			ParticleObjectCreator::createFluid(fluidArray, fluidTypesArray, numOfParticles);
 
 			ParticleData::m_numOfAddedFluid = numOfParticles;
@@ -67,15 +69,15 @@ void ParticleObjectCreator::runWorkerThread()
 		else {
 		////////////////////////////////////////////
 		//		GLASS
-			// weak open objects array to add particle object
-			//weakOpenObjects();
 
+			// open arrays
 			forceOpenGlass();
 			forceOpenGlassVectors();
 
 			float* glassPositions = ParticleData::m_resGlassArray;
 			float* glassVectors = ParticleData::m_resGlassVectorsArray;
 
+			// create particles
 			ParticleObject mug;
 			mug.createMug(ParticleObjectCreator::m_ParticleObjectDetais, glassPositions, glassVectors, numOfParticles);
 
@@ -90,11 +92,8 @@ void ParticleObjectCreator::runWorkerThread()
 			ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
 			commitDetails();
 
+			// add object data to managet, it will send it to GPU
 			ParticleObjectManager::addObject(mug);
-			//forceOpenObjects();
-			//ParticleData::m_resObjectsArray[ParticleData::m_numOfObjectsInArray] = mug;
-			//ParticleData::m_numOfObjectsInArray++;
-			//commitObjects();
 		}
 
 	

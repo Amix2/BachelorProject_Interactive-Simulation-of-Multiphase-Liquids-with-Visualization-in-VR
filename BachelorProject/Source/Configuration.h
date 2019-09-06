@@ -2,6 +2,9 @@
 #include <string>
 #include <random>
 
+// put on if you want to see particles in Simple Visualizer, it will erase previous content
+#define LOG_TO_FILE true
+
 // in case of "inline" errors enable c++17
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 

@@ -7,9 +7,9 @@ int ParticleGeometry::circle(float positions[], float vectors[], int& numOfParts
 	, glm::vec3 center, float radius
 	, float inCircleGap, VectorDirection vecDirection)
 {
-	int numOfPartsInCircle = ceil(2 * M_PI * radius / inCircleGap);
+	int numOfPartsInCircle = (int)std::ceil(2 * M_PI * radius / inCircleGap);
 	if (radius == 0) numOfPartsInCircle = 1;
-	const float angle = 2 * M_PI / numOfPartsInCircle;
+	const float angle = (float) ( 2 * M_PI / numOfPartsInCircle );
 	const float startAngle =  Random::randFloat()* angle;
 
 	float currentAngle = startAngle;
@@ -22,7 +22,7 @@ int ParticleGeometry::circle(float positions[], float vectors[], int& numOfParts
 		positions[3 * numOfParts + 2] = thisPos.z;
 
 		// vector calculation
-		glm::vec3 vec;
+		glm::vec3 vec(0,0,0);
 		if (vecDirection == INSIDE) {
 			vec = glm::normalize(center - thisPos);
 		}
@@ -54,7 +54,7 @@ int ParticleGeometry::filledCircle(float positions[], float vectors[], int& numO
 	, float outerRadiusCalc, float outerRadiusRender, CalcMode outerRadiusMode
 	, float inCircleGap, float layerGap, VectorDirection vecDirection)
 {
-	const int numOfCircles = ceil((outerRadiusCalc - innerRadiusCalc) / layerGap);
+	const int numOfCircles = (int)std::ceil((outerRadiusCalc - innerRadiusCalc) / layerGap);
 	const float realZoneGap = (outerRadiusCalc - innerRadiusCalc) / numOfCircles;	// gap between circles
 
 	float currentRadius = innerRadiusCalc;
@@ -73,7 +73,7 @@ int ParticleGeometry::cylinder(float positions[], float vectors[], int& numOfPar
 	, glm::vec2 centerLane, float bottomHeight, float topHeight, float radius
 	, float inCircleGap, float layerGap, VectorDirection vecDirection)
 {
-	const int numOfCircles = ceil((topHeight - bottomHeight) / layerGap);
+	const int numOfCircles = (int)std::ceil((topHeight - bottomHeight) / layerGap);
 	const float realZoneGap = (topHeight - bottomHeight) / numOfCircles;	// gap between circles
 	float currentHeight = bottomHeight;
 	for (int i = 0; i <= numOfCircles; i++) { // we want to do 1 more than numOfCircles cos its number of gaps between circles
@@ -92,7 +92,7 @@ int ParticleGeometry::cylinder(float positions[], float vectors[], int& numOfPar
 
 inline float gapInPolygon(int vertices, float radius)
 {
-	return sqrt(2 * (1 - cos((2 * M_PI) / vertices)) * radius * radius);
+	return (float) sqrt(2 * (1 - cos((2 * M_PI) / vertices)) * radius * radius);
 }
 
 inline glm::vec3 partPositionFromRadius(glm::vec3 center, float radius, float angle)

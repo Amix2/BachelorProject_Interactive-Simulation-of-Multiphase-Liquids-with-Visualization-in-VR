@@ -10,7 +10,7 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
-	glNamedBufferData(index, size, data, GL_DYNAMIC_COPY);
+	glNamedBufferData(index, size, data, GL_DYNAMIC_READ);
 
 	checkOpenGLErrors();
 
@@ -27,7 +27,7 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 		GLuint index = GpuResources::m_ResourceMap[name];
 
 		glBindBuffer(target, index);
-		void* p = glMapBuffer(target, GL_WRITE_ONLY);
+		void* p = glMapBuffer(target, GL_READ_WRITE);
 		glUnmapBuffer(target);
 
 		return p;
@@ -124,9 +124,9 @@ void GpuResources::commitSSBO(std::string name)
 
 void GpuResources::createUBO(std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex)
 {
-	GLuint ssbo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);
+	GLuint ubo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);
 
-	LOG_F(INFO, "new UBO, name: %s, \tid: %d", name.c_str(), ssbo);
+	LOG_F(INFO, "new UBO, name: %s, \tid: %d", name.c_str(), ubo);
 }
 
 void* GpuResources::getDataUBO(std::string name)

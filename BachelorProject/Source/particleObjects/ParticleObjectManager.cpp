@@ -25,6 +25,9 @@ void ParticleObjectManager::synchronizeWithGpu()
 			// copy only target position and vector
 			ParticleData::m_resObjectsArray[i].m_targetPosition = m_partObjectsArray[i].m_targetPosition;
 			ParticleData::m_resObjectsArray[i].m_targetVector = m_partObjectsArray[i].m_targetVector;
+
+			// get current position and vector
+			m_partObjectsArray[i].m_currentPosition = ParticleData::m_resObjectsArray[i].m_currentPosition;
 		}
 	}
 	ParticleData::commitObjects();

@@ -4,7 +4,7 @@
 void ParticleObject::createMug(ParticleObjectDetais details, float positions[], float vectors[], int& numOfParts)
 {
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
-	const float layerGap = inCircleGap * sqrt(3) / 2;	// gap on oY
+	const float layerGap = (float)inCircleGap * (float)sqrt(3) / 2;	// gap on oY
 	const float innerRadius = details.innerRadius;
 	const glm::vec3 center = glm::vec3(details.cX, details.cY, details.cZ);
 	const float thickness = details.thickness;

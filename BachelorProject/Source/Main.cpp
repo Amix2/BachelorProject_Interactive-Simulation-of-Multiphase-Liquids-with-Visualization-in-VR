@@ -26,9 +26,6 @@
 
 #include <TEMP_graphic.h>
 
-// put on if you want to see particles in Simple Visualizer, it will erase previous content
-//#define LOG_TO_FILE
-
 void printWorkGroupsCapabilities();
 
 // init openGL functions
@@ -69,10 +66,10 @@ int main(int argc, char ** argv) {
 	ShaderCodeEditor::init();
 	atexit(cleanUp);
 
-	#ifdef LOG_TO_FILE
-	ParticleData::partFile.open("./Simple Visualizer/part.log");	  
-	ParticleData::partFile << "const partString = \"";
-	#endif
+	if (LOG_TO_FILE) {
+		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
+		ParticleData::partFile << "const partString = \"";
+	}
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
 	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
@@ -95,27 +92,18 @@ int main(int argc, char ** argv) {
 	//sim2.runSimulation();
 	funWithCompShader();
 
-	ParticleData::printParticleObjectsData();
-	return 0;
+	//ParticleData::printParticleObjectsData();
 
-
-	Simulation sim;
-	//sim.runSimulation();
+	//Simulation::runSimulation();
 
 
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
 	{
-		float* pp = (float*)GpuResources::openSSBO(BufferDatails.particlePositionsName);
-		float* kk = (float*)GpuResources::openSSBO(BufferDatails.glassPositionsName);
-		for (int i = 0; i < 100; i++) {
-			sim.runSimulation();
-			TEMP_graphic::showFrame(window);
-		}
-		pp[0] = 0.50;
-		GpuResources::commitSSBO(BufferDatails.particlePositionsName);
-		GpuResources::commitSSBO(BufferDatails.glassPositionsName);
+		Simulation::runSimulation();
+		TEMP_graphic::showFrame(window);
+
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -166,6 +154,7 @@ void initGL()
 
 void initTools()
 {
+	Simulation::init();
 	ParticleData::initArraysOnGPU();
 	ParticleObjectCreator::init();
 	ParticleObjectManager::init();
@@ -179,65 +168,48 @@ void cleanUp()
 		(*it)->detach();
 		(*it)->~thread();
 	}
-#ifdef LOG_TO_FILE
-	ParticleData::partFile << "\".split(\"|\")";
-	ParticleData::partFile.close();
-#endif
+	if (LOG_TO_FILE) {
+		ParticleData::partFile << "\".split(\"|\")";
+		ParticleData::partFile.close();
+	}
 }
 
 void funWithCompShader()
 {
-	Sleep(100);
-	ParticleObjectDetais details{ 9, 2,2,2, 3,3,3 };
+	ParticleObjectDetais details{ 9, 3,9,3, 7,10,7 };
 	ParticleObjectCreator::addObject(details);
 
 	Sleep(100);
-	Simulation sim;
-	sim.runSimulation();
+	Simulation::runSimulation();	// open resources
+	Sleep(1000);
+	Simulation::runSimulation();	// commit
 
-	//ParticleData::printNewAddedParticleData();
-
-	Sleep(500);
-	sim.runSimulation();
-	sim.runSimulation();
-
-	ParticleData::printParticleData();
-	ParticleData::printGlassData();
-	ParticleObjectDetais details2{ -1, 5,5,5, 2.5,0.5,3 };
+	ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details2);
 
-	Sleep(500);
-	sim.runSimulation();
-	Sleep(500);
-	sim.runSimulation();
-	sim.runSimulation();
-	sim.runSimulation();
-
 	Sleep(100);
-	ParticleObjectDetais details3{ -1, 12,12,12, 1,1,1 };
-	ParticleObjectCreator::addObject(details3);
+	Simulation::runSimulation();	// open resources
+	Sleep(1000);
+	Simulation::runSimulation();	// commit
 
-	Sleep(100);
-	sim.runSimulation();
-	Sleep(500);
-	sim.runSimulation();
-	sim.runSimulation();
-
-	//ParticleData::printParticleData();
-	//Sleep(100);
-	//ParticleData::printToAddParticleData();
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
+	Simulation::runSimulation();	// move particles
 
 	//Sleep(1000);
-
-
-	//sim.runSimulation();
-	Sleep(100);
-	ParticleData::printParticleData(-1);
-	ParticleData::printGlassData();
-	ParticleObjectManager::printObjects();
-#ifdef LOG_TO_FILE
-	ParticleData::logParticlePositions();
-#endif
+	//ParticleData::printParticleData(-1);
+	//ParticleData::printGlassData();
+	//ParticleObjectManager::printObjects();
 }
 
 void printWorkGroupsCapabilities() {
@@ -294,9 +266,14 @@ void printWorkGroupsCapabilities() {
 	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%I64u\n", value);
 	value = -1;
 
+	glGetInteger64v(GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS, &value);
+	printf("GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
+	value = -1;
+
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);
 	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%I64u\n", value);
 	value = -1;
+
 
 	checkOpenGLErrors();
 }

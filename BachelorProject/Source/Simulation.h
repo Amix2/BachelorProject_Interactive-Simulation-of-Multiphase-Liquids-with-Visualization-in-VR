@@ -13,7 +13,7 @@ enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
 class Simulation
 {
-	ComputeShader shader;
+	inline static ComputeShader shader;
 public:
 
 	inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
@@ -22,13 +22,13 @@ public:
 	inline static std::atomic<Resource_Request> m_reqDetils		= NO_ORDER;
 	inline static std::atomic<Resource_Request> m_reqObjects	= NO_ORDER;
 
-	Simulation();
-	~Simulation() {}
 
 	// main simulation function
-	void runSimulation();
+	static void runSimulation();
+
+	static void init();
 
 	// check m_ResourceRequest and perform action
-	void parseResourceRequest();
+	static void parseResourceRequest();
 };
 

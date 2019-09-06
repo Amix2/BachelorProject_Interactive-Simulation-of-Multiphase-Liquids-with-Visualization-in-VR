@@ -4,7 +4,12 @@
 #include <Logger.h>
 #include <Utils.h>
 
-/* keeps all data structures created on GPU */
+/* keeps all data structures created on GPU
+create resource -> initialize array on gpu and store its ID in local map
+open resource -> map gpu array (buffer object) to cpu adress space
+commit resource -> unmap array, sends data from cpu to gpu 
+get data (open & commit) -> returns array (debug only)
+*/
 class GpuResources
 {
 	// map with bufferIDs
@@ -47,7 +52,7 @@ public:
 	// download data with offset and length from gpu to cpu address space, keep it opened untill commitUBO() call
 	static void*	openPartUBO(std::string name, GLintptr offset, GLsizeiptr length);
 
-	// commits memory changes in cup adress space and sends them to gpu
+	// commits memory changes in cpu adress space and sends them to gpu
 	static void		commitUBO(std::string name);
 
 

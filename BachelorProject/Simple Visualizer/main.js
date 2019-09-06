@@ -2,7 +2,7 @@
 const RADIUS = 0.25
 var ind = 0;
 const colors = [ 0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF ]
-
+var world;
 window.onload = function () {
     console.log("Stsrt")
     world = new World();
@@ -13,15 +13,18 @@ window.onload = function () {
     world.render();
 
     //window.requestAnimationFrame(iter)
+    window.setInterval(iter, 100);
 };
 
 function updateProgress(evt) {
 }
 
 function iter() {
-    console.log(partString[ind]);
+    //console.log(partString[ind]);
     ind++;
-    window.requestAnimationFrame(iter)
+    world.doTurn(ind);
+    //window.requestAnimationFrame(iter)
+    //window.setInterval(iter, 10000);
 }
 
 var configuration = {
@@ -47,7 +50,6 @@ class World {
 
     //  creates particle and mesh
     addParticle(pos, m_color) {
-        console.log("new particle", pos);
         let r = RADIUS;
         var geometry = new THREE.SphereGeometry( r, 32, 32 );
         var material = new THREE.MeshLambertMaterial( {color: m_color} );
@@ -66,6 +68,23 @@ class World {
         for (let i = 0; i < part.length / 4 -1; i++) {
             this.addParticle(new THREE.Vector3(part[4 * i + 0], part[4 * i + 1], part[4 * i + 2]), colors[part[4 * i + 3]]);
         }
+    }
+
+
+    doTurn(id) {    
+        if(partString.length<= id) return;
+        var part = partString[id].split(" ");
+        for (let i = 0; i < part.length / 4 -1; i++) {
+            if(i<this.particleMeshList.length) {
+                var mesh =  this.particleMeshList[i];
+                mesh.position.x = part[4 * i + 0]
+                mesh.position.y = part[4 * i + 1]
+                mesh.position.z = part[4 * i + 2]
+            } else {
+                this.addParticle(new THREE.Vector3(part[4 * i + 0], part[4 * i + 1], part[4 * i + 2]), colors[part[4 * i + 3]]);
+            }
+        }
+        this.render()
     }
 
     //  updates positions of every particle
