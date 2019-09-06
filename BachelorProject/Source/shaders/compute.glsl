@@ -42,45 +42,43 @@ struct FluidType {
 //////////////////////////////////////////////////
 //	STORAGE
 
-layout(std430, binding = 10) buffer positionsBuf
+layout(std430, binding = 1) buffer positionsBuf
 {
 	float fluidPositions[3*MAX_FLUID];
 };
 
-layout(std430, binding = 16) buffer partFluidTypeBuf
+layout(std430, binding = 2) buffer partFluidTypeBuf
 {
 	int particleFluidType[MAX_FLUID];
 };
 
-layout(std430, binding = 11) buffer glassPositionsBuf
+layout(std430, binding = 3) buffer glassPositionsBuf
 {
 	float glassPositions[3*MAX_GLASS];
 };
 
-layout(std140, binding = 14) buffer glassVectorsBuf
+layout(std140, binding = 4) buffer glassVectorsBuf
 {
 	float glassVectors[3*MAX_GLASS];
 };
 
-layout(std430, binding = 12) buffer objectsBuf
+layout(std430, binding = 5) buffer objectsBuf
 {
-	uint minFluidCellIndex;
-	uint maxFluidCellIndex;
 	ParticleObject objects[];
 };
 
-layout(std430, binding = 13) buffer detailsBuf
+layout(std430, binding = 6) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
 };
 
-layout(std140, binding = 15) uniform fluidTypesBuf
+layout(std140, binding = 7) uniform fluidTypesBuf
 {
 	FluidType fluidTypeArray[MAX_FLUID_TYPES];
 };
 
-layout(std430, binding = 20) buffer simVariablesBuf
+layout(std430, binding = 8) buffer simVariablesBuf
 {
 	float fluidVelocity[3 * MAX_FLUID];
 	float fluidAcceleration[3 * MAX_FLUID];

@@ -23,25 +23,26 @@ const struct Configuration {
 
 const struct BufferDatails {
 	inline static const std::string particlePositionsName = "ParticlePositions";	// SSBO
-	inline static const int particlePositionsBinding = 10;
-
-	inline static const std::string glassPositionsName = "GlassPositions";	// SSBO
-	inline static const int glassPositionsBinding = 11;
-
-	inline static const std::string partObjectsName = "ParticleObjects";	// SSBO
-	inline static const int partObjectsBinding = 12;
-
-	inline static const std::string detailsName = "Details";	// SSBO 
-	inline static const int detailsBinding = 13;
-
-	inline static const std::string glassVectorName = "GlassVector";	// UBO
-	inline static const int glassVectorBinding = 14;
-
-	inline static const std::string fluidTypesName = "FluidTypes";	// UBO
-	inline static const int fluidTypesBinding = 15;
+	inline static const int particlePositionsBinding = 1;
 
 	inline static const std::string particlesFluidTypeName = "ParticlesFluidTypes";	// SSBO
-	inline static const int particlesFluidTypeBinding = 16;
+	inline static const int particlesFluidTypeBinding = 2;
+
+	inline static const std::string glassPositionsName = "GlassPositions";	// SSBO
+	inline static const int glassPositionsBinding = 3;
+
+	inline static const std::string glassVectorName = "GlassVector";	// UBO
+	inline static const int glassVectorBinding = 4;
+
+	inline static const std::string partObjectsName = "ParticleObjects";	// SSBO
+	inline static const int partObjectsBinding = 5;
+
+	inline static const std::string detailsName = "Details";	// SSBO 
+	inline static const int detailsBinding = 6;
+
+	inline static const std::string fluidTypesName = "FluidTypes";	// UBO
+	inline static const int fluidTypesBinding = 7;
+
 } BufferDatails;
 
 class Random {
