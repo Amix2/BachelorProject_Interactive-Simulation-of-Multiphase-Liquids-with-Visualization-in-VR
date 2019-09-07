@@ -43,7 +43,7 @@ void* GpuResources::openResource(GLenum target, std::string name)
 
 		GLuint index = GpuResources::m_ResourceMap[name];
 		glBindBuffer(target, index);
-		void* p = glMapBuffer(target, GL_WRITE_ONLY);
+		void* p = glMapBuffer(target, GL_READ_WRITE);
 		checkOpenGLErrors();
 		return p;
 	}

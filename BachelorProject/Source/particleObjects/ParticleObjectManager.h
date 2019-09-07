@@ -16,7 +16,7 @@
 // Holds all particle object in scene, allows selecting and moving objects
 class ParticleObjectManager {
 	// worker organization
-	inline static std::thread m_workerThread;
+	//inline static std::thread m_workerThread;
 	inline static std::atomic_bool m_positionChanged = false;
 public:
 	inline static ParticleObject m_partObjectsArray[Configuration.MAX_PARTICLE_OBJECTS];

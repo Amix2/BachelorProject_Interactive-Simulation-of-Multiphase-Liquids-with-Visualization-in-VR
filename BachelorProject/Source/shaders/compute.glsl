@@ -128,7 +128,12 @@ void main(void)
 		myFluidLast = (gl_LocalInvocationIndex + 1)* particleInterval;
 	else
 		myFluidLast = numOfParticles;
-
+	
+	int n=0;
+	for(int i=0; i<10000000; i++){n++;}
+	for(int i=0; i<10000000; i++){n++;}
+	for(int i=0; i<10000000; i++){}
+	for(int i=0; i<10000000; i++){}
 
 	for(int i=0; i<numOfParticles; i++) {
 		fluidPositions[3*i+1] -= 0.05;

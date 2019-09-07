@@ -28,6 +28,7 @@ void ParticleObjectManager::synchronizeWithGpu()
 
 			// get current position and vector
 			m_partObjectsArray[i].m_currentPosition = ParticleData::m_resObjectsArray[i].m_currentPosition;
+			m_partObjectsArray[i].m_currentVector = ParticleData::m_resObjectsArray[i].m_currentVector;
 		}
 	}
 	ParticleData::commitObjects();

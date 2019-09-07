@@ -13,7 +13,7 @@
 
 
 struct ParticleObjectDetais {
-	int fluidType;	// -1 -> glass | >0 -> index in fluid type array (TODO) | 0 -> reserved
+	int fluidType;	// -1 -> glass | >0 -> index in fluid type array | 0 -> reserved
 	union {
 		struct {
 			// for liquid box

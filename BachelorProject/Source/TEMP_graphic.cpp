@@ -4,29 +4,21 @@ void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int heigh
 void TUTORIAL_processInput(GLFWwindow* window);
 void TUTORIAL_InitShaders();
 
-const char* vertexShaderSource = "#version 430 core\n"
+const char* vertexShaderSource = "#version 330 core\n"
 "layout (location = 0) in vec3 aPos;\n"
-"uniform vec4 ourColor;\n"
 "void main()\n"
 "{\n"
 "   gl_Position = vec4(aPos, 1.0);\n"
 "}\0";
 
-const char* fragmentShaderSource = "#version 430 core\n"
+const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
-"layout(std430, binding = 10) buffer positionsBuf\n"
-"{\n"
-"	float fluidPositions[];\n"
-"};\n"
 "uniform vec4 ourColor;\n"
 "void main()\n"
 "{\n"
 "   FragColor = ourColor;\n"
-"   FragColor.x = fluidPositions[1]/fluidPositions[0];\n"
-"   //FragColor.y = positions[1];\n"
-"   //FragColor.z = positions[2];\n"
 "}\n\0";
-
+float color = 0.0;
 void TEMP_graphic::initGraphic(GLFWwindow* window)
 {
 
@@ -65,7 +57,9 @@ void TEMP_graphic::initGraphic(GLFWwindow* window)
 	glUseProgram(shaderProgram);
 
 	int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-	glUniform4f(vertexColorLocation, 1.0f, 0.5f, 1.0f, 1.0f);
+	color += 0.05;
+	if (color >= 1) color = 0;
+	glUniform4f(vertexColorLocation, 1.0f, 0.5f, color, 1.0f);
 
 }
 
@@ -74,7 +68,7 @@ void TEMP_graphic::showFrame(GLFWwindow* window)
 	TUTORIAL_processInput(window);
 
 	// render
-	// ------
+// ------
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -83,14 +77,15 @@ void TEMP_graphic::showFrame(GLFWwindow* window)
 
 	// update shader uniform
 	float timeValue = glfwGetTime();
-	float greenValue = 0;// sin(timeValue) / 2.0f + 0.5f;
-
+	float greenValue = sin(timeValue) / 2.0f + 0.5f;
 	int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-	glUniform4f(vertexColorLocation, 1.0f, 0.5f, 1.0f, 1.0f);
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
 	// render the triangle
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-	// -------------------------------------------------------------------------------
+	// ------------------------
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }

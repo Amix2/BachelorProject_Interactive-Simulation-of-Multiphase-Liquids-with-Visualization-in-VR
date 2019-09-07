@@ -91,7 +91,7 @@ int main(int argc, char ** argv) {
 	//Simulation sim2;
 	//sim2.runSimulation();
 	funWithCompShader();
-
+	return 1;
 	//ParticleData::printParticleObjectsData();
 
 	//Simulation::runSimulation();
@@ -176,6 +176,7 @@ void cleanUp()
 
 void funWithCompShader()
 {
+	ParticleObjectCreator::canAddObject();
 	ParticleObjectDetais details{ 9, 3,9,3, 7,10,7 };
 	ParticleObjectCreator::addObject(details);
 

@@ -2,237 +2,101 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Debug\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-17:37:43.209 (   0.142s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-17:37:43.983 (   0.916s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticlePositions, 	id: 2
-17:37:44.001 (   0.934s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticlesFluidTypes, 	id: 3
-17:37:44.013 (   0.946s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: GlassPositions, 	id: 4
-17:37:44.017 (   0.950s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: GlassVector, 	id: 5
-17:37:44.022 (   0.955s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticleObjects, 	id: 6
-17:37:44.029 (   0.962s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: Details, 	id: 7
-17:37:44.033 (   0.966s) [main thr]ParticleObjectC:241   INFO| Initialize ParticleObjectCreator
-17:37:44.046 (   0.979s) [main thr]ThreadManager.c:16    INFO| New thread in list
-17:37:44.046 (   0.979s) [Particle]ParticleObjectC:30    INFO| ParticleObjectCreator::runWorkerThread
-17:37:44.049 (   0.982s) [main thr]GpuResources.cp:129   INFO| new UBO, name: FluidTypes, 	id: 8
-17:37:44.053 (   0.986s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-17:37:44.067 (   1.000s) [main thr]ParticleObjectC:256   INFO| New object assign: type: 9
-17:37:44.180 (   1.113s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 1, Glass 0, glVectors 0, details 1, objects 0
-17:37:44.186 (   1.119s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for FLUID
-17:37:44.192 (   1.125s) [simulati]ParticleData.cp:69    INFO| OPEN details struct
-17:37:44.196 (   1.129s) [Particle]ParticleObjectC:100   INFO| New object added to Simulation: type: 9, particles: 243
-17:37:44.196 (   1.129s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:44.202 (   1.135s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-17:37:44.208 (   1.141s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:44.228 (   1.161s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
-17:37:45.241 (   2.174s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 2, Glass 0, glVectors 0, details 2, objects 0
-17:37:45.246 (   2.179s) [simulati]ParticleData.cp:85    INFO| COMMIT fluid 243 particles, we had 0 fluid & 0 glass
-17:37:45.251 (   2.184s) [simulati]ParticleData.cp:122   INFO| COMMIT details
-17:37:45.258 (   2.190s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:45.262 (   2.195s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:45.267 (   2.200s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:45.281 (   2.214s) [simulati]ParticleObjectC:256   INFO| New object assign: type: -1
-17:37:45.385 (   2.318s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 1, glVectors 0, details 1, objects 0
-17:37:45.416 (   2.349s) [simulati]ParticleData.cp:49    INFO| OPEN to add array for GLASS
-17:37:45.423 (   2.356s) [simulati]ParticleData.cp:69    INFO| OPEN details struct
-17:37:45.426 (   2.359s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:45.431 (   2.364s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:45.438 (   2.370s) [simulati] Simulation.cpp:20    INFO| Simulation time: 2
-17:37:46.451 (   3.384s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 1, details 0, objects 0
-17:37:46.584 (   3.517s) [simulati]ParticleData.cp:59    INFO| OPEN to add array for GLASS VECTOR
-17:37:46.588 (   3.521s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:46.589 (   3.522s) [Particle]ParticleObjectC:100   INFO| New object added to Simulation: type: -1, particles: 716
-17:37:46.593 (   3.526s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:46.599 (   3.531s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-17:37:46.605 (   3.538s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:46.665 (   3.598s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 2, glVectors 2, details 2, objects 0
-17:37:46.695 (   3.628s) [simulati]ParticleData.cp:100   INFO| COMMIT glass 716 particles, we had 243 fluid & 0 glass
-17:37:46.700 (   3.633s) [simulati]ParticleData.cp:112   INFO| COMMIT glass vectors 716 particles, we had 243 fluid & 716 glass
-17:37:46.710 (   3.643s) [simulati]ParticleData.cp:122   INFO| COMMIT details
-17:37:46.716 (   3.649s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:46.724 (   3.657s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:46.730 (   3.663s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:46.770 (   3.703s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:46.797 (   3.730s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:46.805 (   3.738s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:46.811 (   3.743s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:46.856 (   3.789s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:46.911 (   3.844s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:46.915 (   3.847s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:46.922 (   3.855s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:46.965 (   3.897s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:46.976 (   3.909s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:46.981 (   3.914s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:46.987 (   3.920s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.027 (   3.960s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.065 (   3.998s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.070 (   4.002s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.087 (   4.020s) [simulati] Simulation.cpp:20    INFO| Simulation time: 12
-17:37:47.125 (   4.057s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.141 (   4.074s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.146 (   4.079s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.152 (   4.085s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.191 (   4.124s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.241 (   4.174s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.245 (   4.177s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.253 (   4.186s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
-17:37:47.306 (   4.239s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.325 (   4.258s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.330 (   4.263s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.339 (   4.272s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.380 (   4.313s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.420 (   4.353s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.425 (   4.358s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.430 (   4.363s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.479 (   4.412s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.539 (   4.472s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.542 (   4.475s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.547 (   4.480s) [simulati] Simulation.cpp:20    INFO| Simulation time: 2
-17:37:47.588 (   4.521s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.615 (   4.548s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.620 (   4.553s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.626 (   4.559s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.665 (   4.597s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.675 (   4.607s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.679 (   4.612s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.687 (   4.620s) [simulati] Simulation.cpp:20    INFO| Simulation time: 3
-17:37:47.724 (   4.657s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.732 (   4.664s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.737 (   4.670s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.742 (   4.675s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.782 (   4.715s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.791 (   4.724s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.796 (   4.729s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.802 (   4.735s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.844 (   4.777s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.854 (   4.787s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.859 (   4.791s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.863 (   4.796s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:47.903 (   4.835s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.908 (   4.841s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.911 (   4.844s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.920 (   4.853s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
-17:37:47.950 (   4.883s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:47.958 (   4.890s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:47.962 (   4.895s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:47.968 (   4.901s) [simulati] Simulation.cpp:20    INFO| Simulation time: 2
-17:37:48.000 (   4.932s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.007 (   4.939s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.011 (   4.944s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.015 (   4.948s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.042 (   4.975s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.047 (   4.979s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.049 (   4.982s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.056 (   4.988s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.080 (   5.013s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.086 (   5.019s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.090 (   5.023s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.094 (   5.027s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.120 (   5.052s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.126 (   5.059s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.130 (   5.063s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.135 (   5.068s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.162 (   5.095s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.169 (   5.102s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.173 (   5.105s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.179 (   5.112s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.204 (   5.137s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.209 (   5.142s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.213 (   5.146s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.218 (   5.151s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.243 (   5.175s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.247 (   5.180s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.251 (   5.183s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.256 (   5.188s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.280 (   5.213s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.287 (   5.220s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.292 (   5.225s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.296 (   5.229s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.323 (   5.256s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.329 (   5.262s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.333 (   5.266s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.340 (   5.273s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.377 (   5.310s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.386 (   5.319s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.391 (   5.324s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.396 (   5.329s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.429 (   5.362s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.435 (   5.368s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.439 (   5.372s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.445 (   5.377s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.469 (   5.402s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.474 (   5.407s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.476 (   5.409s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.480 (   5.413s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.505 (   5.437s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.510 (   5.442s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.512 (   5.445s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.516 (   5.448s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:48.541 (   5.474s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.546 (   5.479s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.550 (   5.483s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.556 (   5.488s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.590 (   5.523s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.596 (   5.529s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.601 (   5.533s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.606 (   5.539s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.636 (   5.569s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.643 (   5.576s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.646 (   5.579s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.651 (   5.584s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.675 (   5.607s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.680 (   5.613s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.684 (   5.616s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.688 (   5.621s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.711 (   5.643s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.716 (   5.649s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.720 (   5.653s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.724 (   5.657s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.746 (   5.679s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.754 (   5.687s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.757 (   5.689s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.763 (   5.696s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.794 (   5.727s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.802 (   5.735s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.807 (   5.740s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.813 (   5.745s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.840 (   5.772s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.845 (   5.778s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.848 (   5.781s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.853 (   5.785s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.876 (   5.809s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.883 (   5.816s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.888 (   5.821s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.892 (   5.825s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.915 (   5.848s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.922 (   5.855s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.926 (   5.859s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.930 (   5.863s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.953 (   5.886s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.959 (   5.892s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:48.962 (   5.895s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:48.966 (   5.899s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:48.991 (   5.924s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:48.997 (   5.930s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.003 (   5.936s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.008 (   5.941s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:49.037 (   5.970s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:49.043 (   5.976s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.049 (   5.982s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.055 (   5.988s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:49.080 (   6.012s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:49.087 (   6.020s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.090 (   6.023s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.094 (   6.027s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:49.121 (   6.054s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:49.128 (   6.061s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.132 (   6.065s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.138 (   6.070s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:49.161 (   6.094s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:49.167 (   6.100s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.171 (   6.104s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.177 (   6.110s) [simulati] Simulation.cpp:20    INFO| Simulation time: 1
-17:37:49.211 (   6.144s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
-17:37:49.220 (   6.153s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
-17:37:49.225 (   6.157s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
-17:37:49.234 (   6.167s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
-17:37:49.312 (   6.244s) [simulati]     loguru.cpp:478   INFO| atexit
-17:37:49.315 (   6.248s) [simulati]       Main.cpp:166   INFO| Clean Up
+19:33:03.003 (   0.215s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+19:33:03.603 (   0.815s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticlePositions, 	id: 2
+19:33:03.611 (   0.823s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticlesFluidTypes, 	id: 3
+19:33:03.618 (   0.830s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: GlassPositions, 	id: 4
+19:33:03.628 (   0.840s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: GlassVector, 	id: 5
+19:33:03.633 (   0.845s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: ParticleObjects, 	id: 6
+19:33:03.639 (   0.852s) [main thr]GpuResources.cp:94    INFO| new SSBO, name: Details, 	id: 7
+19:33:03.648 (   0.860s) [main thr]ParticleObjectC:241   INFO| Initialize ParticleObjectCreator
+19:33:03.654 (   0.866s) [main thr]ThreadManager.c:16    INFO| New thread in list
+19:33:03.665 (   0.877s) [Particle]ParticleObjectC:30    INFO| ParticleObjectCreator::runWorkerThread
+19:33:03.668 (   0.881s) [main thr]GpuResources.cp:129   INFO| new UBO, name: FluidTypes, 	id: 8
+19:33:03.673 (   0.885s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:33:03.682 (   0.894s) [main thr]ParticleObjectC:256   INFO| New object assign: type: 9
+19:33:03.855 (   1.067s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 1, Glass 0, glVectors 0, details 1, objects 0
+19:33:03.864 (   1.076s) [simulati]ParticleData.cp:34    INFO| OPEN to add array for FLUID
+19:33:03.870 (   1.082s) [simulati]ParticleData.cp:69    INFO| OPEN details struct
+19:33:03.875 (   1.087s) [Particle]ParticleObjectC:100   INFO| New object added to Simulation: type: 9, particles: 243
+19:33:03.875 (   1.087s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:03.882 (   1.094s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:33:03.889 (   1.101s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:03.926 (   1.138s) [simulati] Simulation.cpp:20    INFO| Simulation time: 24
+19:33:04.939 (   2.151s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 2, Glass 0, glVectors 0, details 2, objects 0
+19:33:04.946 (   2.158s) [simulati]ParticleData.cp:85    INFO| COMMIT fluid 243 particles, we had 0 fluid & 0 glass
+19:33:04.953 (   2.165s) [simulati]ParticleData.cp:122   INFO| COMMIT details
+19:33:04.961 (   2.173s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:04.968 (   2.180s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:04.976 (   2.188s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
+19:33:04.996 (   2.208s) [simulati]ParticleObjectC:256   INFO| New object assign: type: -1
+19:33:05.103 (   2.315s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 1, glVectors 0, details 1, objects 0
+19:33:05.111 (   2.323s) [simulati]ParticleData.cp:49    INFO| OPEN to add array for GLASS
+19:33:05.117 (   2.329s) [simulati]ParticleData.cp:69    INFO| OPEN details struct
+19:33:05.123 (   2.335s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:05.130 (   2.342s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:05.137 (   2.349s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.154 (   3.367s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 1, details 0, objects 0
+19:33:06.161 (   3.374s) [simulati]ParticleData.cp:59    INFO| OPEN to add array for GLASS VECTOR
+19:33:06.166 (   3.378s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.171 (   3.383s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.174 (   3.386s) [Particle]ParticleObjectC:100   INFO| New object added to Simulation: type: -1, particles: 716
+19:33:06.181 (   3.394s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.186 (   3.398s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+19:33:06.222 (   3.434s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 2, glVectors 2, details 2, objects 0
+19:33:06.230 (   3.443s) [simulati]ParticleData.cp:100   INFO| COMMIT glass 716 particles, we had 243 fluid & 0 glass
+19:33:06.236 (   3.448s) [simulati]ParticleData.cp:112   INFO| COMMIT glass vectors 716 particles, we had 243 fluid & 716 glass
+19:33:06.246 (   3.458s) [simulati]ParticleData.cp:122   INFO| COMMIT details
+19:33:06.252 (   3.464s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.263 (   3.475s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.271 (   3.483s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
+19:33:06.313 (   3.526s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.322 (   3.534s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.328 (   3.540s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.338 (   3.550s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.378 (   3.590s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.386 (   3.598s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.392 (   3.604s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.398 (   3.610s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.426 (   3.638s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.433 (   3.645s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.439 (   3.651s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.449 (   3.661s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.488 (   3.701s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.497 (   3.709s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.504 (   3.716s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.517 (   3.729s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.551 (   3.763s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.558 (   3.770s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.566 (   3.778s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.575 (   3.788s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.613 (   3.825s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.621 (   3.833s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.627 (   3.839s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.634 (   3.846s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.676 (   3.888s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.684 (   3.896s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.693 (   3.905s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.699 (   3.911s) [simulati] Simulation.cpp:20    INFO| Simulation time: 4
+19:33:06.738 (   3.950s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.751 (   3.964s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.758 (   3.971s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.765 (   3.977s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.837 (   4.049s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.844 (   4.056s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.849 (   4.061s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.854 (   4.066s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.892 (   4.104s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.900 (   4.113s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.911 (   4.123s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.921 (   4.133s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:06.957 (   4.169s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:06.966 (   4.178s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:06.973 (   4.185s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:06.982 (   4.194s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:07.011 (   4.223s) [simulati] Simulation.cpp:7     INFO| simulation running, orders: Particle 0, Glass 0, glVectors 0, details 0, objects 0
+19:33:07.018 (   4.230s) [simulati]ParticleData.cp:76    INFO| OPEN Particle Objects Array
+19:33:07.024 (   4.236s) [simulati]ParticleData.cp:132   INFO| COMMIT Particle Objects Array
+19:33:07.029 (   4.241s) [simulati] Simulation.cpp:20    INFO| Simulation time: 0
+19:33:07.058 (   4.270s) [simulati]     loguru.cpp:478   INFO| atexit
+19:33:07.064 (   4.276s) [simulati]       Main.cpp:166   INFO| Clean Up
