@@ -1,31 +1,140 @@
 #version 430 core
 
-#define LOCAL_SIZE_X 1//&
 
-layout(local_size_x = LOCAL_SIZE_X, local_size_y = 1, local_size_z = 1) in;
+#define NUM_THREADS 100
+#define MAX_FLUID 3072
+#define MAX_GLASS 3072
+#define MAX_FLUID_TYPES 10
+#define MAX_PARTICLE_OBJECTS 10
+#define MAX_SPEED 1
 
-layout(std430, binding = 10) buffer positionsBuf
-{
-	float positions[];
+#define INSERT_VARIABLES_HERE
+
+layout(local_size_x = NUM_THREADS, local_size_y = 1, local_size_z = 1) in;
+
+//////////////////////////////////////////////////
+//	STRUCT
+
+struct ParticleObject {
+
+	vec4 currentPosition;
+	vec4 targetPosition;
+
+	vec4 currentVector;
+	vec4 targetVector;
+
+	int indBegin;
+	int indEnd;
+
+	float _padding[2];
 };
 
-layout(std430, binding = 11) buffer glassPositionsBuf
-{
-	float glassPositions[];
+struct FluidType {
+	float mass;
+	float tiffness;
+	float viscosity;
+	float density;
 };
 
-layout(std430, binding = 12) buffer newParticlesBuf
+//////////////////////////////////////////////////
+//	STORAGE
+
+layout(std430, binding = 1) buffer positionsBuf
 {
-	int newPartType;
-	int numOfNewParticles;
-	float newPartPositions[];
+	float fluidPositions[3*MAX_FLUID];
 };
 
-layout(std430, binding = 13) buffer detailsBuf
+layout(std430, binding = 2) buffer partFluidTypeBuf
+{
+	int particleFluidType[MAX_FLUID];
+};
+
+layout(std430, binding = 3) buffer glassPositionsBuf
+{
+	float glassPositions[3*MAX_GLASS];
+};
+
+layout(std140, binding = 4) buffer glassVectorsBuf
+{
+	float glassVectors[3*MAX_GLASS];
+};
+
+layout(std430, binding = 5) buffer objectsBuf
+{
+	ParticleObject objects[];
+};
+
+layout(std430, binding = 6) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
 };
+
+layout(std140, binding = 7) uniform fluidTypesBuf
+{
+	FluidType fluidTypeArray[MAX_FLUID_TYPES];
+};
+
+layout(std430, binding = 8) buffer simVariablesBuf
+{
+	float fluidVelocity[3 * MAX_FLUID];
+	float fluidAcceleration[3 * MAX_FLUID];
+	float fluidSurfaceVector[3 * MAX_FLUID];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensity[MAX_FLUID];
+	float fluidPressure[MAX_FLUID];
+};
+
+// section in array to know what particles should be calculated by this thread, ...Last -> 1 after last that should be calculated
+uint myGlassFirst, myGlassLast;
+uint myFluidFirst, myFluidLast;
+
+//////////////////////////////////////////////////
+//	FUNCTIONS
+	/*	setup	uint myGlassFirst, myGlassLast;
+				uint myFluidFirst, myFluidLast;
+		to know what particles should be calculated by this thread
+	*/
+	void findMyArraySections();
+
+//////////////////////////////////////////////////
+//	CODE
+
+
+void main(void)
+{
+	/*	setup	uint myGlassFirst, myGlassLast;
+				uint myFluidFirst, myFluidLast;
+		to know what particles should be calculated by this thread
+	*/
+	findMyArraySections();
+
+
+
+	// SPH
+	for(int i=0; i<numOfParticles; i++) {
+		fluidPositions[3*i+1] -= 0.05;
+	}
+}
+
+
+void findMyArraySections() {
+	// calculate first and last GLASS index for this thread (later refered as "my")
+	const uint glassInterval = uint(round(numOfGlassParticles / NUM_THREADS));
+	myGlassFirst = gl_LocalInvocationIndex * glassInterval;
+	if(gl_LocalInvocationIndex < NUM_THREADS - 1) 
+		myGlassLast = (gl_LocalInvocationIndex + 1)* glassInterval;
+	else
+		myGlassLast = numOfGlassParticles;
+
+	// calculate first and last FLUID index for this thread (later refered as "my")
+	const uint particleInterval = uint(round(numOfParticles / NUM_THREADS));
+	myFluidFirst = gl_LocalInvocationIndex * particleInterval;
+	if(gl_LocalInvocationIndex < NUM_THREADS - 1) 
+		myFluidLast = (gl_LocalInvocationIndex + 1)* particleInterval;
+	else
+		myFluidLast = numOfParticles;
+}
 
 /*
 in uvec3 gl_NumWorkGroups;
@@ -35,61 +144,3 @@ in uvec3 gl_GlobalInvocationID	== contains the global index of work item current
 in uint  gl_LocalInvocationIndex;
 in uvec3 gl_WorkGroupSize		== layout
 */
-
-uint globalInvocationIndex() {
-	const uvec3 size = gl_WorkGroupSize + uvec3(1, 1, 1);
-	return gl_GlobalInvocationID.z * size.x * size.y + gl_GlobalInvocationID.y * size.x + gl_GlobalInvocationID.x;
-}
-
-void handleNewParticles();
-bool hasNewParticles();
-
-void main(void)
-{
-	int ind = int(gl_LocalInvocationIndex);
-	//for(int i=0; i<1000000; i++) {}
-
-	positions[0] += 0.005;
-	if(positions[0] >=1) positions[0] = 0;
-
-	positions[1] -= 0.008;
-	if(positions[1] <0) positions[1] = 1;
-
-	positions[2] += 0.003;
-	if(positions[2] >=1) positions[2] = 0;
-	if(hasNewParticles()) {
-		handleNewParticles();
-	}
-	//vec3 pos = getVec3FromData(positions, ind);
-	//pos.x *= temp[ind];
-	//positions[3 * ind] = pos.x;
-	//barrier();
-	//for(int i=0; i<1000*ind; i++) {}
-	//barrier();
-	//positions[ind] = 2;//newPartPositions[ind];
-}
-
-bool hasNewParticles()
-{
-	return numOfNewParticles >0;
-}
-
-void handleNewParticles() {
-	if(gl_LocalInvocationIndex == 0) {
-		uint i=0;
-		while(i < 3*numOfNewParticles) {
-			if(newPartType > 0) {
-				positions[3*numOfParticles + i] = newPartPositions[i];
-			} else {
-				glassPositions[3*numOfGlassParticles + i] = newPartPositions[i];
-			}
-			i++;
-		}
-		if(newPartType > 0) {
-			numOfParticles += numOfNewParticles;
-		} else {
-			numOfGlassParticles += numOfNewParticles;
-		}
-		numOfNewParticles = 0;
-	}
-}

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\dataStructures\FluidType.cpp" />
+    <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleObjectCreator.cpp" />
@@ -34,6 +36,10 @@
     <ClCompile Include="Source\TEMP_graphic.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\dataStructures\FluidType.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectManager.h" />
+    <ClInclude Include="Source\shaders\ShaderCodeEditor.h" />
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
     <ClInclude Include="Source\particleObjects\ParticleObject.h" />
     <ClInclude Include="Source\Simulation.h" />

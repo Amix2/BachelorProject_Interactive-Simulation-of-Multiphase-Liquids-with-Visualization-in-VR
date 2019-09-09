@@ -5,9 +5,12 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 	GLuint csCreatorID = glCreateShader(GL_COMPUTE_SHADER);
 
 	std::ifstream csInputFileStream(shaderFileName);
-	const std::string computeShaderCode((std::istreambuf_iterator<char>(csInputFileStream)), std::istreambuf_iterator<char>());
+	std::string computeShaderCode((std::istreambuf_iterator<char>(csInputFileStream)), std::istreambuf_iterator<char>());
+
+	ShaderCodeEditor::insertVariables(computeShaderCode);
 
 	const char* c_source = computeShaderCode.c_str();
+
 	glShaderSource(csCreatorID, 1, &c_source, NULL);
 	glCompileShader(csCreatorID);
 
@@ -22,7 +25,7 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 		int length;
 		glGetShaderiv(csCreatorID, GL_INFO_LOG_LENGTH, &length);
 
-		GLchar* strInfoLog = new GLchar[length + 1];
+		GLchar* strInfoLog = new GLchar[(size_t)length + 1];
 		glGetShaderInfoLog(csCreatorID, length, &length, strInfoLog);
 
 		fprintf(stderr, "Compilation error in shader: %s\n", strInfoLog);
@@ -45,8 +48,9 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 	glUseProgram(this->csProgram);
 	glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);  
 	//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
-	glMemoryBarrier(GL_ALL_BARRIER_BITS);
+	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 	if (block) {
 		glFinish();
 	}
+	checkOpenGLErrors();
 }
