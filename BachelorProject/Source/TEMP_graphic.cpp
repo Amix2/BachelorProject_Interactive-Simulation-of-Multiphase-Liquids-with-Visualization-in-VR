@@ -1,4 +1,5 @@
 #include "TEMP_graphic.h"
+#include <Utils.h>
 
 void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void TUTORIAL_processInput(GLFWwindow* window);
@@ -62,7 +63,7 @@ void TEMP_graphic::initGraphic(GLFWwindow* window)
 	glUniform4f(vertexColorLocation, 1.0f, 0.5f, color, 1.0f);
 
 }
-
+float greenValue = 0;
 void TEMP_graphic::showFrame(GLFWwindow* window)
 {
 	TUTORIAL_processInput(window);
@@ -77,7 +78,8 @@ void TEMP_graphic::showFrame(GLFWwindow* window)
 
 	// update shader uniform
 	float timeValue = glfwGetTime();
-	float greenValue = sin(timeValue) / 2.0f + 0.5f;
+	greenValue += 0.7;
+	if (greenValue > 1) greenValue = 0;
 	int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
 	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
@@ -86,8 +88,11 @@ void TEMP_graphic::showFrame(GLFWwindow* window)
 
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	// ------------------------
+	long tStart = getTime();
 	glfwSwapBuffers(window);
+	long tEnd = getTime();
 	glfwPollEvents();
+	LOG_F(INFO, "DRAW time: %d", tEnd - tStart);
 }
 
 void TUTORIAL_processInput(GLFWwindow* window)

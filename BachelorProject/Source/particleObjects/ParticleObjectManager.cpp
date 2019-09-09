@@ -8,6 +8,24 @@ void ParticleObjectManager::moveObject(int objectNumber, glm::vec3 targetPositio
 	m_partObjectsArray[objectNumber].m_targetVector = targetDirection;
 }
 
+glm::vec3* ParticleObjectManager::getObjectsPositions()
+{
+	static glm::vec3 positions[Configuration.MAX_PARTICLE_OBJECTS];
+	for (int i = 0; i < m_numOfObjects; i++) {
+		positions[i] = m_partObjectsArray[i].m_currentPosition;
+	}
+	return positions;
+}
+
+glm::vec3* ParticleObjectManager::getObjectsDirections()
+{
+	static glm::vec3 directions[Configuration.MAX_PARTICLE_OBJECTS];
+	for (int i = 0; i < m_numOfObjects; i++) {
+		directions[i] = m_partObjectsArray[i].m_currentVector;
+	}
+	return directions;
+}
+
 void ParticleObjectManager::init()
 {
 }

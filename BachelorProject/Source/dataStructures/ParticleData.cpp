@@ -18,13 +18,14 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createSSBO(BufferDatails.glassVectorName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassVectorBinding);
 
 	// create SSBO for particle objects
-	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleObject), NULL, BufferDatails.partObjectsBinding);
+	ParticleObject objectsArray[Configuration.MAX_PARTICLE_OBJECTS];
+	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleObject), objectsArray, BufferDatails.partObjectsBinding);
 
 	// create SSBO for simulation details
 	SimDetails simDetails{ 0,0 };
 	GpuResources::createSSBO(BufferDatails.detailsName, sizeof(simDetails), &simDetails, BufferDatails.detailsBinding);
 
-
+	GpuResources::createSSBO(BufferDatails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_FLUID_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDatails.SPHVariablesBinding);
 
 	checkOpenGLErrors();
 }
@@ -163,7 +164,7 @@ void ParticleData::printParticleData(int limit)
 	}
 
 	LOG_F(INFO, "\tNum of particles in simulation: %d, on CPU side: %d", details->numOfParticles, m_FluidParticlesNum);
-	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && (i < std::min((int)details->numOfParticles, m_FluidParticlesNum) || i < limit); i++) {
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && (i < std::min((int)details->numOfParticles, m_FluidParticlesNum) && i < limit); i++) {
 		LOG_F(INFO, "\tParticle %d:\t( %.4f  %.4f  %.4f )", i, partPositions[3 * i], partPositions[3 * i + 1], partPositions[3 * i + 2]);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -214,6 +215,9 @@ void ParticleData::printParticleObjectsData(int limit)
 
 void ParticleData::logParticlePositions()
 {
+	if (ParticleData::m_resGlassArray != nullptr || ParticleData::m_resFluidArray != nullptr) {
+		return;
+	}
 	SimDetails* details;
 	if (ParticleData::m_resDetails == nullptr) {
 		details = ParticleData::getDetails();
@@ -222,23 +226,15 @@ void ParticleData::logParticlePositions()
 		details = ParticleData::m_resDetails;
 	}
 	float* partPositions;
-	if (ParticleData::m_resFluidArray == nullptr) {
-		partPositions = (float*)ParticleData::getPositions();
-	}
-	else {
-		partPositions = ParticleData::m_resFluidArray;
-	}
+	partPositions = (float*)ParticleData::getPositions();
+
 	for (int i = 0; i < (int)details->numOfParticles; i++) {
 		partFile << partPositions[3 * i] << " " << partPositions[3 * i + 1] << " " << partPositions[3 * i + 2] << " " << 1 << " ";
 	}
 
 	float* glassPositions;
-	if (ParticleData::m_resGlassArray == nullptr) {
-		glassPositions = (float*)ParticleData::getGlassPositions();
-	}
-	else {
-		glassPositions = ParticleData::m_resGlassArray;
-	}
+	glassPositions = (float*)ParticleData::getGlassPositions();
+
 	for (int i = 0; i < (int)details->numOfGlassParticles; i++) {
 		partFile << glassPositions[3 * i] << " " << glassPositions[3 * i + 1] << " " << glassPositions[3 * i + 2] << " " << 0 << " ";
 	}

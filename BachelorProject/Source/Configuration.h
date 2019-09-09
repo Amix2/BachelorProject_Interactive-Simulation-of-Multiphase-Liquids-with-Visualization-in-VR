@@ -19,6 +19,8 @@ const struct Configuration {
 
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 
+	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
+
 } Configuration;
 
 const struct BufferDatails {
@@ -42,6 +44,10 @@ const struct BufferDatails {
 
 	inline static const std::string fluidTypesName = "FluidTypes";	// UBO
 	inline static const int fluidTypesBinding = 7;
+
+	inline static const std::string SPHVariablesName = "SPHVariables";	// SSBO
+	inline static const int SPHVariablesBinding = 8;
+
 
 } BufferDatails;
 

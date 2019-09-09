@@ -36,13 +36,17 @@ class ParticleObject {
 
 public:
 	glm::vec3 m_currentPosition;	// 3
+	float _padding1;
 	glm::vec3 m_targetPosition;		// 6
+	float _padding2;
 
 	glm::vec3 m_currentVector;		// 9
+	float _padding3;
 	glm::vec3 m_targetVector;		// 12
+	float _padding4;
 
-	int m_indBegin;					// 13
-	int m_indEnd;					// 14
+	int m_indBegin = 0;					// 13
+	int m_indEnd = 0;					// 14
 
 	float _padding[2];	// force 4 x N variables (4 B each)
 

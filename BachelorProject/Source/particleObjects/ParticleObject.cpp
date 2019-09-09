@@ -208,5 +208,10 @@ std::string ParticleObject::print()
 }
 
 ParticleObject::ParticleObject() {
-
+	m_currentPosition = glm::vec3(0,0,0);
+	m_currentVector = glm::vec3(0, 0, 0);
+	m_indBegin = 0;
+	m_indEnd = 0;
+	m_targetPosition = glm::vec3(0, 0, 0);
+	m_targetVector = glm::vec3(0, 0, 0);
 }

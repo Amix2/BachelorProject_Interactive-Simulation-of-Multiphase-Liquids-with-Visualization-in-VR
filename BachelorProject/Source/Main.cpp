@@ -37,7 +37,7 @@ void initTools();
 // atExit function
 void cleanUp();
 
-void funWithCompShader();
+void setupSimObjects();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -63,7 +63,6 @@ MessageCallback(GLenum source,
 
 
 int main(int argc, char ** argv) {
-	ShaderCodeEditor::init();
 	atexit(cleanUp);
 
 	if (LOG_TO_FILE) {
@@ -72,50 +71,34 @@ int main(int argc, char ** argv) {
 	}
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
-	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+/////////////////////////////////////////////////////////////////////////////////////
 
-	/* ----- Init window ----- */
 
 	initGL();
 
 	printWorkGroupsCapabilities();
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 	TEMP_graphic::initGraphic(window);
 
+	// init simulation modules
 	initTools();
 
-	ParticleObject* prtQ = nullptr ;
-	checkOpenGLErrors();
-	//Simulation sim2;
-	//sim2.runSimulation();
-	funWithCompShader();
-	return 1;
-	//ParticleData::printParticleObjectsData();
+	// create 1 glass and 1 fluid and add them into simulation (runs compute shader couple of times)
+	setupSimObjects();
 
-	//Simulation::runSimulation();
-
-
-	// render loop
-	// -----------
+	// main loop
 	while (!glfwWindowShouldClose(window))
 	{
+		// run simulation 1 turn
 		Simulation::runSimulation();
 		TEMP_graphic::showFrame(window);
 
 	}
 
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-	//glDeleteVertexArrays(1, &VAO);
-	//glDeleteBuffers(1, &VBO);
-
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
 	glfwTerminate();
 	return 0;
-
 }
 
 void initGL()
@@ -125,7 +108,6 @@ void initGL()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Window name", NULL, NULL);
 	if (window == NULL)
 	{
@@ -134,6 +116,7 @@ void initGL()
 		return;
 	}
 
+	glfwSwapInterval(100);
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, TUTORIAL_framebuffer_size_callback);
 
@@ -159,6 +142,7 @@ void initTools()
 	ParticleObjectCreator::init();
 	ParticleObjectManager::init();
 	FluidType::init();
+	ShaderCodeEditor::init();
 }
 
 void cleanUp()
@@ -174,43 +158,25 @@ void cleanUp()
 	}
 }
 
-void funWithCompShader()
+void setupSimObjects()
 {
 	ParticleObjectCreator::canAddObject();
-	ParticleObjectDetais details{ 9, 3,9,3, 7,10,7 };
+	ParticleObjectDetais details{ 1, 3,9,3, 7,10,7 };
 	ParticleObjectCreator::addObject(details);
 
 	Sleep(100);
 	Simulation::runSimulation();	// open resources
-	Sleep(1000);
+	Sleep(500);
 	Simulation::runSimulation();	// commit
 
 	ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details2);
 
-	Sleep(100);
-	Simulation::runSimulation();	// open resources
-	Sleep(1000);
-	Simulation::runSimulation();	// commit
-
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-	Simulation::runSimulation();	// move particles
-
-	//Sleep(1000);
-	//ParticleData::printParticleData(-1);
+	//Sleep(100);
+	ParticleData::printParticleData();
 	//ParticleData::printGlassData();
 	//ParticleObjectManager::printObjects();
+	//ParticleData::printParticleObjectsData();
 }
 
 void printWorkGroupsCapabilities() {

@@ -13,7 +13,8 @@ get data (open & commit) -> returns array (debug only)
 class GpuResources
 {
 	// map with bufferIDs
-	inline static std::unordered_map<std::string, GLuint> m_ResourceMap;
+	inline static std::unordered_map<std::string, GLuint> m_NamesMap;
+	inline static std::unordered_map<std::string, GLsizeiptr> m_SizesMap;
 
 	static GLuint	createResource(GLenum target, std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex);
 

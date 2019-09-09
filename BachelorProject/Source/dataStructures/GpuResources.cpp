@@ -2,6 +2,7 @@
 
 //////////////////////
 //	GENERAL
+
 GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex)
 {
 	GLuint index;
@@ -15,16 +16,17 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 	checkOpenGLErrors();
 
 	// store resource ID in local map
-	GpuResources::m_ResourceMap.insert({ name, index });
+	GpuResources::m_NamesMap.insert({ name, index });
+	GpuResources::m_SizesMap.insert({ name, size });
 
 	return index;
 }
 
 void* GpuResources::getDataResource(GLenum target, std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contains
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contains
 
-		GLuint index = GpuResources::m_ResourceMap[name];
+		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
 		void* p = glMapBuffer(target, GL_READ_WRITE);
@@ -39,11 +41,14 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 
 void* GpuResources::openResource(GLenum target, std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contains
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contains
 
-		GLuint index = GpuResources::m_ResourceMap[name];
+		GLuint index = GpuResources::m_NamesMap[name];
+		GLsizeiptr length = GpuResources::m_SizesMap[name];
+
 		glBindBuffer(target, index);
 		void* p = glMapBuffer(target, GL_READ_WRITE);
+		//void* p = glMapNamedBufferRange(index, 0, length, GL_MAP_UNSYNCHRONIZED_BIT  | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_WRITE_BIT);
 		checkOpenGLErrors();
 		return p;
 	}
@@ -54,9 +59,9 @@ void* GpuResources::openResource(GLenum target, std::string name)
 
 void* GpuResources::openPartResource(GLenum target, std::string name, GLintptr offset, GLsizeiptr length)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contsins
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
 
-		GLuint index = GpuResources::m_ResourceMap[name];
+		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
 		//LOG_F(INFO, "open part, offset %d, length %d", (int)offset, (int)length);
@@ -72,9 +77,9 @@ void* GpuResources::openPartResource(GLenum target, std::string name, GLintptr o
 
 void GpuResources::commitResource(GLenum target, std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {	// if contsins
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
 
-		GLuint index = GpuResources::m_ResourceMap[name];
+		GLuint index = GpuResources::m_NamesMap[name];
 		glBindBuffer(target, index);
 		glUnmapBuffer(target);
 		checkOpenGLErrors();
@@ -113,7 +118,6 @@ void GpuResources::commitSSBO(std::string name)
 {
 	commitResource(GL_SHADER_STORAGE_BUFFER, name);
 }
-
 
 //	-end- SSBO
 //////////////////////
@@ -155,8 +159,8 @@ void GpuResources::commitUBO(std::string name)
 
 GLuint GpuResources::getIndex(std::string name)
 {
-	if (GpuResources::m_ResourceMap.find(name) != GpuResources::m_ResourceMap.end()) {
-		return GpuResources::m_ResourceMap[name];
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {
+		return GpuResources::m_NamesMap[name];
 	}
 	else {
 		throw "no SSBO for given name";

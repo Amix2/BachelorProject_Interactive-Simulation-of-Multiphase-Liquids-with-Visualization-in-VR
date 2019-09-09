@@ -3,25 +3,23 @@
 
 void Simulation::runSimulation()
 {
-	loguru::set_thread_name("simulation");
-	LOG_F(INFO, "simulation running, orders: Particle %d, Glass %d, glVectors %d, details %d, objects %d", (int)m_reqFluidArray, (int)m_reqGlassArray, (int)m_reqGlassVectorsArray, (int)m_reqDetils, (int)m_reqObjects);
+	//LOG_F(INFO, "simulation running, orders: Particle %d, Glass %d, glVectors %d, details %d, objects %d", (int)m_reqFluidArray, (int)m_reqGlassArray, (int)m_reqGlassVectorsArray, (int)m_reqDetils, (int)m_reqObjects);
 
 	parseResourceRequest();
+	long tStart = getTime();
 
 	ParticleObjectManager::synchronizeWithGpu();
 
-
 	// compute shader (change values)
-	long tStart = getTime();
 	shader.runShader(1, 1, 1, true);
-	long tEnd = getTime();
 
+	long tEnd = getTime();
 	
-	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
 	if (LOG_TO_FILE) {
 		ParticleData::logParticlePositions();
 	}
 	checkOpenGLErrors();
+	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
 }
 
 void Simulation::init()
