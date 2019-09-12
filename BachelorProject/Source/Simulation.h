@@ -1,6 +1,8 @@
 #pragma once
 #include <atomic>
 #include <Configuration.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <Logger.h>
 #include <shaders/ComputeShader.h>
 #include <dataStructures/ParticleData.h>
@@ -8,12 +10,16 @@
 #include <Utils.h>
 #include <condition_variable>
 #include <mutex>
+#include <thread>
 
 enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
 class Simulation
 {
-	inline static ComputeShader shader;
+	inline static GLFWwindow* m_simulationWindow;
+	inline static std::thread m_simulationThread;
+
+	inline static ComputeShader m_TESTshader;
 public:
 
 	inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
@@ -23,8 +29,12 @@ public:
 	inline static std::atomic<Resource_Request> m_reqObjects	= NO_ORDER;
 
 
-	// main simulation function
-	static void runSimulation();
+	// calculate 1 frame of simulation 
+	static void runSimulationFrame();
+
+	static void startSimulation(GLFWwindow* baseWindow);
+
+	static void main();
 
 	static void init();
 

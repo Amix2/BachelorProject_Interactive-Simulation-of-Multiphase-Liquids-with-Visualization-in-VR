@@ -1,7 +1,7 @@
 #version 430 core
 
 
-#define NUM_THREADS 100
+#define NUM_THREADS 1
 #define MAX_FLUID 3072
 #define MAX_GLASS 3072
 #define MAX_FLUID_TYPES 10
@@ -103,6 +103,10 @@ uint myFluidFirst, myFluidLast;
 
 void main(void)
 {
+	// to see changes in visualizer
+	fluidPositions[0] += 0.018;
+	if(fluidPositions[0]>=1) fluidPositions[0] = 0;
+
 	/*	setup	uint myGlassFirst, myGlassLast;
 				uint myFluidFirst, myFluidLast;
 		to know what particles should be calculated by this thread
@@ -113,7 +117,7 @@ void main(void)
 
 	// SPH
 	for(int i=0; i<numOfParticles; i++) {
-		fluidPositions[3*i+1] -= 0.05;
+		fluidPositions[3*i+1] -= 0.05;	// move particles
 	}
 }
 

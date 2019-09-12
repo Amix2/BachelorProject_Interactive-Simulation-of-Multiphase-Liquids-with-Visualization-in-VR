@@ -3,6 +3,7 @@
 #include <glm/vec3.hpp>
 #include <dataStructures/GpuResources.h>
 #include <particleObjects/ParticleObject.h>
+#include <dataStructures/FluidType.h>
 #include <algorithm>
 #include <Configuration.h>
 #include <Logger.h>

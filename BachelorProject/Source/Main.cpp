@@ -23,6 +23,7 @@
 #include <fstream>
 #include <ThreadManager.h>
 #include <stdlib.h> 
+#include <thread>
 
 #include <TEMP_graphic.h>
 
@@ -37,13 +38,11 @@ void initTools();
 // atExit function
 void cleanUp();
 
-void setupSimObjects();
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
 
 GLFWwindow* window;
 
@@ -76,25 +75,19 @@ int main(int argc, char ** argv) {
 
 
 	initGL();
-
-	printWorkGroupsCapabilities();
-
+	initTools();
 
 	TEMP_graphic::initGraphic(window);
 
-	// init simulation modules
-	initTools();
+	Simulation::startSimulation(window);
+	//ParticleData::initArraysOnGPU();
+	//printWorkGroupsCapabilities();
 
-	// create 1 glass and 1 fluid and add them into simulation (runs compute shader couple of times)
-	setupSimObjects();
 
 	// main loop
 	while (!glfwWindowShouldClose(window))
 	{
-		// run simulation 1 turn
-		Simulation::runSimulation();
 		TEMP_graphic::showFrame(window);
-
 	}
 
 	glfwTerminate();
@@ -115,8 +108,7 @@ void initGL()
 		glfwTerminate();
 		return;
 	}
-
-	glfwSwapInterval(100);
+	
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, TUTORIAL_framebuffer_size_callback);
 
@@ -137,12 +129,12 @@ void initGL()
 
 void initTools()
 {
-	Simulation::init();
-	ParticleData::initArraysOnGPU();
 	ParticleObjectCreator::init();
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();
+
+	ParticleData::initArraysOnGPU();	// HAS to be fired at the end (FluidType must be initialized before)
 }
 
 void cleanUp()
@@ -156,27 +148,6 @@ void cleanUp()
 		ParticleData::partFile << "\".split(\"|\")";
 		ParticleData::partFile.close();
 	}
-}
-
-void setupSimObjects()
-{
-	ParticleObjectCreator::canAddObject();
-	ParticleObjectDetais details{ 1, 3,9,3, 7,10,7 };
-	ParticleObjectCreator::addObject(details);
-
-	Sleep(100);
-	Simulation::runSimulation();	// open resources
-	Sleep(500);
-	Simulation::runSimulation();	// commit
-
-	ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
-	ParticleObjectCreator::addObject(details2);
-
-	//Sleep(100);
-	ParticleData::printParticleData();
-	//ParticleData::printGlassData();
-	//ParticleObjectManager::printObjects();
-	//ParticleData::printParticleObjectsData();
 }
 
 void printWorkGroupsCapabilities() {

@@ -3,14 +3,14 @@
 #include <random>
 
 // put on if you want to see particles in Simple Visualizer, it will erase previous content
-#define LOG_TO_FILE true
+#define LOG_TO_FILE false
 
 // in case of "inline" errors enable c++17
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_FLUID_PARTICLES = 10000;
-	inline static const int MAX_GLASS_PARTICLES = 10000;
+	inline static const int MAX_FLUID_PARTICLES = 5000;
+	inline static const int MAX_GLASS_PARTICLES = 5000;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
 
@@ -22,6 +22,7 @@ const struct Configuration {
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
 
 } Configuration;
+
 
 const struct BufferDatails {
 	inline static const std::string particlePositionsName = "ParticlePositions";	// SSBO
@@ -50,6 +51,14 @@ const struct BufferDatails {
 
 
 } BufferDatails;
+
+
+const struct ShaderFiles {
+	inline static const std::string TEST_ComputeShader = "./Source/shaders/compute.glsl";
+
+} ShaderFiles;
+
+
 
 class Random {
 	inline static std::mt19937 rng;

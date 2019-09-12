@@ -4,7 +4,6 @@
 
 void ParticleData::initArraysOnGPU()
 {
-
 	// create SSBO for particle positions
 	GpuResources::createSSBO(BufferDatails.particlePositionsName, 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float), NULL, BufferDatails.particlePositionsBinding);
 
@@ -26,6 +25,9 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createSSBO(BufferDatails.detailsName, sizeof(simDetails), &simDetails, BufferDatails.detailsBinding);
 
 	GpuResources::createSSBO(BufferDatails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_FLUID_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDatails.SPHVariablesBinding);
+
+	// create UBO with this data
+	GpuResources::createUBO(BufferDatails.fluidTypesName, Configuration.MAX_FLUID_TYPES * sizeof(FluidType), FluidType::m_fluidTypes, BufferDatails.fluidTypesBinding);
 
 	checkOpenGLErrors();
 }
@@ -225,17 +227,21 @@ void ParticleData::logParticlePositions()
 	else {
 		details = ParticleData::m_resDetails;
 	}
+	const int numOfFluidParts = details->numOfParticles;
+	const int numOfGlassParts = details->numOfGlassParticles;
 	float* partPositions;
 	partPositions = (float*)ParticleData::getPositions();
 
-	for (int i = 0; i < (int)details->numOfParticles; i++) {
+	if (numOfFluidParts > Configuration.MAX_FLUID_PARTICLES) return;
+	if (numOfGlassParts > Configuration.MAX_GLASS_PARTICLES) return;
+
+	for (int i = 0; i < numOfFluidParts; i++) {
 		partFile << partPositions[3 * i] << " " << partPositions[3 * i + 1] << " " << partPositions[3 * i + 2] << " " << 1 << " ";
 	}
 
 	float* glassPositions;
 	glassPositions = (float*)ParticleData::getGlassPositions();
-
-	for (int i = 0; i < (int)details->numOfGlassParticles; i++) {
+	for (int i = 0; i < numOfGlassParts; i++) {
 		partFile << glassPositions[3 * i] << " " << glassPositions[3 * i + 1] << " " << glassPositions[3 * i + 2] << " " << 0 << " ";
 	}
 	partFile << "|";

@@ -14,7 +14,4 @@ void FluidType::init()
 	// define all avaliable fluid types
 	addFluidType(99, 88, 77, 66);
 	addFluidType(199, 188, 177, 166);
-
-	// create UBO with this data
-	GpuResources::createUBO(BufferDatails.fluidTypesName, Configuration.MAX_FLUID_TYPES * sizeof(FluidType), m_fluidTypes, BufferDatails.fluidTypesBinding);
 }

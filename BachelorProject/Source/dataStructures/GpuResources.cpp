@@ -89,14 +89,29 @@ void GpuResources::commitResource(GLenum target, std::string name)
 	}
 }
 
+void GpuResources::attachResource(GLenum target, GLuint bindingPointIndex, GLuint resourceIndexName)
+{
+	glBindBufferBase(target, bindingPointIndex, resourceIndexName);
+	checkOpenGLErrors();
+}
+
 //////////////////////
 //	SSBO
 
 void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * data, GLuint bindingPointIndex)
 {
-	GLuint ssbo = createResource(GL_SHADER_STORAGE_BUFFER, name, size, data, bindingPointIndex);
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {
+		// resource already made, attach it
+		GLuint index = GpuResources::m_NamesMap[name];
+		attachResource(GL_SHADER_STORAGE_BUFFER, bindingPointIndex, index);
+		LOG_F(INFO, "SSBO attached, name: %s, \tid: %d", name.c_str(), index);
+	}
+	else {
+		// resource not yet made
+		GLuint ssbo = createResource(GL_SHADER_STORAGE_BUFFER, name, size, data, bindingPointIndex);
+		LOG_F(INFO, "new SSBO, name: %s, \tid: %d", name.c_str(), ssbo);
+	}
 
-	LOG_F(INFO, "new SSBO, name: %s, \tid: %d", name.c_str(), ssbo);
 }
 
 void * GpuResources::getDataSSBO(std::string name)
@@ -119,6 +134,20 @@ void GpuResources::commitSSBO(std::string name)
 	commitResource(GL_SHADER_STORAGE_BUFFER, name);
 }
 
+void GpuResources::attachSSBO(std::string name, GLuint bindingPointIndex)
+{
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
+
+		GLuint index = GpuResources::m_NamesMap[name];
+		attachResource(GL_SHADER_STORAGE_BUFFER, bindingPointIndex, index);
+		checkOpenGLErrors();
+	}
+	else {
+		throw "no SSBO for given name";
+	}
+}
+
+
 //	-end- SSBO
 //////////////////////
 
@@ -128,9 +157,17 @@ void GpuResources::commitSSBO(std::string name)
 
 void GpuResources::createUBO(std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex)
 {
-	GLuint ubo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {
+		// resource already made, attach it
+		GLuint index = GpuResources::m_NamesMap[name];
+		attachResource(GL_UNIFORM_BUFFER, bindingPointIndex, index);
+		LOG_F(INFO, "UBO attached, name: %s, \tid: %d", name.c_str(), index);
+	}
+	else {
+		GLuint ubo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);
 
-	LOG_F(INFO, "new UBO, name: %s, \tid: %d", name.c_str(), ubo);
+		LOG_F(INFO, "new UBO, name: %s, \tid: %d", name.c_str(), ubo);
+	}
 }
 
 void* GpuResources::getDataUBO(std::string name)
@@ -152,6 +189,20 @@ void GpuResources::commitUBO(std::string name)
 {
 	commitResource(GL_UNIFORM_BUFFER, name);
 }
+
+void GpuResources::attachUBO(std::string name, GLuint bindingPointIndex)
+{
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
+
+		GLuint index = GpuResources::m_NamesMap[name];
+		attachResource(GL_UNIFORM_BUFFER, bindingPointIndex, index);
+		checkOpenGLErrors();
+	}
+	else {
+		throw "no UBO for given name";
+	}
+}
+
 
 //	-end- UBO
 //////////////////////

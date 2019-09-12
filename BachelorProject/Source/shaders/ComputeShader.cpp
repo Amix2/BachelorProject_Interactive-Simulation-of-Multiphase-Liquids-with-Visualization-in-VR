@@ -47,8 +47,8 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 {
 	glUseProgram(this->csProgram);
 	glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);  
-	//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
-	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+	//glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 	if (block) {
 		glFinish();
 	}
