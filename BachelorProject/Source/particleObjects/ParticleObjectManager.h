@@ -17,7 +17,8 @@
 class ParticleObjectManager {
 	inline static std::atomic_bool m_positionChanged = false;
 public:
-	inline static ParticleObject m_partObjectsArray[Configuration.MAX_PARTICLE_OBJECTS];
+	inline static ParticleObject m_partObjectsArray[Configuration.MAX_PARTICLE_OBJECTS];	
+	inline static ParticleVectors m_partVectorsArray[Configuration.MAX_PARTICLE_OBJECTS];	// for particle vectors to send them to gpu
 	inline static int m_numOfObjects = 0;
 
 	////////////////////////////////////////////////////////////////////////////

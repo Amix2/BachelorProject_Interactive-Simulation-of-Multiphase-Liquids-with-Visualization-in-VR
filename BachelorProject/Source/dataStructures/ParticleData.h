@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <dataStructures/GpuResources.h>
-#include <particleObjects/ParticleObject.h>
+#include <particleObjects/ParticleVectors.h>
 #include <algorithm>
 #include <Configuration.h>
 #include <Logger.h>
@@ -48,7 +48,7 @@ public:
 	static float* getPositions();
 	static float* getGlassPositions();
 	static float* getGlassVectors();
-	static ParticleObject* getParticleObjects();
+	static ParticleVectors* getParticleObjects();
 	static SimDetails* getDetails();
 
 	// resource pointers, array size is currently not used

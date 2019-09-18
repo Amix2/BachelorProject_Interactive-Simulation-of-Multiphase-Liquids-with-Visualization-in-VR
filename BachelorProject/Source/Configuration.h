@@ -48,6 +48,9 @@ const struct BufferDatails {
 	inline static const std::string SPHVariablesName = "SPHVariables";	// SSBO
 	inline static const int SPHVariablesBinding = 8;
 
+	inline static const std::string moveGlassParticlesName = "MoveGlassParticles";	// SSBO
+	inline static const int moveGlassParticlesBinding = 9;
+
 
 } BufferDatails;
 

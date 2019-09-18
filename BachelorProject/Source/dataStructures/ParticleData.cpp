@@ -17,15 +17,18 @@ void ParticleData::initArraysOnGPU()
 	// create UBO for glass vectors
 	GpuResources::createSSBO(BufferDatails.glassVectorName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassVectorBinding);
 
-	// create SSBO for particle objects
-	ParticleObject objectsArray[Configuration.MAX_PARTICLE_OBJECTS];
-	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleObject), objectsArray, BufferDatails.partObjectsBinding);
+	// create SSBO for particle vectors
+	ParticleVectors objectsArray[Configuration.MAX_PARTICLE_OBJECTS];
+	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleVectors), objectsArray, BufferDatails.partObjectsBinding);
 
 	// create SSBO for simulation details
 	SimDetails simDetails{ 0,0 };
 	GpuResources::createSSBO(BufferDatails.detailsName, sizeof(simDetails), &simDetails, BufferDatails.detailsBinding);
 
 	GpuResources::createSSBO(BufferDatails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_FLUID_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDatails.SPHVariablesBinding);
+
+	// create SSBO for particle positions
+	GpuResources::createSSBO(BufferDatails.moveGlassParticlesName, 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float), NULL, BufferDatails.moveGlassParticlesBinding);
 
 	checkOpenGLErrors();
 }
