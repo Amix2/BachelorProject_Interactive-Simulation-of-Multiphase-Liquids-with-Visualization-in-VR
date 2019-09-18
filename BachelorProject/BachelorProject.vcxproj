@@ -52,6 +52,9 @@
     <ClInclude Include="Source\Utils.h" />
     <ClInclude Include="Source\TEMP_graphic.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\shaders\CountingMergeSort.glsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E70769CF-90CF-45DA-AAE4-30A662690E30}</ProjectGuid>

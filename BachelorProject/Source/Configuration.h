@@ -9,17 +9,18 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_FLUID_PARTICLES = 5000;
-	inline static const int MAX_GLASS_PARTICLES = 5000;
+	inline static const int MAX_FLUID_PARTICLES = 2048;
+	inline static const int MAX_GLASS_PARTICLES = 2048;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
-
+	inline static const int SORT_ARRAY_SIZE = MAX_FLUID_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
+	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2 * SORT_ARRAY_SIZE + 7 * MAX_FLUID_PARTICLES;
 
 } Configuration;
 
@@ -49,12 +50,17 @@ const struct BufferDatails {
 	inline static const std::string SPHVariablesName = "SPHVariables";	// SSBO
 	inline static const int SPHVariablesBinding = 8;
 
+	inline static const std::string SortVariablesName = "SortVariables";	// SSBO
+	inline static const int SortVariablesBinding = 9;
+
 
 } BufferDatails;
 
 
 const struct ShaderFiles {
 	inline static const std::string TEST_ComputeShader = "./Source/shaders/compute.glsl";
+	inline static const std::string MergeSort = "./Source/shaders/CountingMergeSort.glsl";
+	inline static const std::string CellCountingForSort = "./Source/shaders/CellCountingForSort.glsl";
 
 } ShaderFiles;
 

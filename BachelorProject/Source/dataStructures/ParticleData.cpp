@@ -29,6 +29,9 @@ void ParticleData::initArraysOnGPU()
 	// create UBO with this data
 	GpuResources::createUBO(BufferDatails.fluidTypesName, Configuration.MAX_FLUID_TYPES * sizeof(FluidType), FluidType::m_fluidTypes, BufferDatails.fluidTypesBinding);
 
+	// SSBO for sorting
+	GpuResources::createSSBO(BufferDatails.SortVariablesName, Configuration.NUM_OF_SORTING_FLOATS_IN_ARRAY * sizeof(float), NULL, BufferDatails.SortVariablesBinding);
+	
 	checkOpenGLErrors();
 }
 
@@ -189,7 +192,7 @@ void ParticleData::printGlassData(int limit)
 	}
 
 	LOG_F(INFO, "\tNum of glass particles in simulation: %d, on CPU side: %d", details->numOfGlassParticles, m_GlassParticlesNum);
-	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < std::max((int)details->numOfGlassParticles, m_GlassParticlesNum) && i < limit; i++) {
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < std::max((int)details->numOfGlassParticles, m_GlassParticlesNum) || i < limit; i++) {
 		LOG_F(INFO, "\tGlass %d: \t( %.4f  %.4f  %.4f ) v: [ %.4f  %.4f  %.4f ]"
 			, i, partPositions[3 * i], partPositions[3 * i + 1], partPositions[3 * i + 2], glassVectors[3 * i], glassVectors[3 * i + 1], glassVectors[3 * i + 2]);
 	}
@@ -211,6 +214,23 @@ void ParticleData::printParticleObjectsData(int limit)
 
 	for (int i = 0; i < Configuration.MAX_PARTICLE_OBJECTS && i < limit; i++) {
 		LOG_F(INFO, "\tObject %d: %s", i, partObjects[i].print().c_str());
+	}
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+}
+
+void ParticleData::printSortingData()
+{
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "SORTING print");
+	unsigned int* array = ParticleData::getSortingData();
+	if (array == nullptr) {
+		LOG_F(ERROR, "Error while printing SORTING DATA");
+		return;
+	}
+
+	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {
+		LOG_F(INFO, "\t %d: %u", i, array[i]);
+
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
@@ -263,6 +283,11 @@ float* ParticleData::getGlassPositions()
 float* ParticleData::getGlassVectors()
 {
 	return (float*)GpuResources::getDataSSBO(BufferDatails.glassVectorName);;
+}
+
+unsigned int* ParticleData::getSortingData()
+{
+	return (unsigned int*)GpuResources::getDataSSBO(BufferDatails.SortVariablesName);
 }
 
 ParticleObject* ParticleData::getParticleObjects()

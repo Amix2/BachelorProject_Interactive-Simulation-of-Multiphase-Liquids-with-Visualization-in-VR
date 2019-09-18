@@ -5,12 +5,19 @@ void setupSimObjects();
 void Simulation::runSimulationFrame()
 {
 	long tStart = getTime();
-
 	// open or close resources required by other threads
 	parseResourceRequest();
 
 	// exchange information about glass objects with gpu
 	ParticleObjectManager::synchronizeWithGpu();
+
+	int sortingDispathSize = 1;	// max power of 2 less than num of fluid particles
+	while (sortingDispathSize < ParticleData::m_FluidParticlesNum) {
+		sortingDispathSize *= 2;
+	}
+	sortingDispathSize /= 2;
+
+	sortingDispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
 
 	////////////////////////////////////////////////
 	//	SHADERS 
@@ -19,27 +26,30 @@ void Simulation::runSimulationFrame()
 
 
 	// Sort fluid particle array
-
+	LOG_F(INFO, "Starting compute shader witn (%d, 1, 1)", sortingDispathSize);
+	auto ntStart = getNanoTime();
+	for(int i=0; i<100000; i++) m_CellCounting.runShader(sortingDispathSize, 1, 1, true);
 
 	// Calculate SPH
 
 
 	// TEMP
 		// compute shader (change values)
-		m_TESTshader.runShader(1, 1, 1, true);
+		//m_TESTshader.runShader(1, 1, 1, true);
+	auto ntEnd = getNanoTime();
 
 	//	-end- SHADERS
 	////////////////////////////////////////////////
 
-	long tEnd = getTime();
 	
+	long tEnd = getTime();
 	// if enabled - log all particles positions into file
 	if (LOG_TO_FILE) {
 		ParticleData::logParticlePositions();
 	}
 
 	checkOpenGLErrors();
-	LOG_F(INFO, "Simulation time: %d", tEnd - tStart);
+	LOG_F(INFO, "Simulation time: %d, %f", tEnd - tStart, getNanoTimeDif(ntStart, ntEnd));
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -64,13 +74,16 @@ void Simulation::main()
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
-		//ParticleData::printParticleData();
+		//ParticleData::printParticleData(2);
+		//ParticleData::printGlassData(20);
+		ParticleData::printSortingData();
 	}
 }
 
 void Simulation::init()
 {
 	m_TESTshader = ComputeShader(ShaderFiles.TEST_ComputeShader);
+	m_CellCounting = ComputeShader(ShaderFiles.CellCountingForSort);
 }
 
 void Simulation::parseResourceRequest()
@@ -152,17 +165,17 @@ void Simulation::parseResourceRequest()
 void setupSimObjects()
 {
 	ParticleObjectCreator::canAddObject();
-	ParticleObjectDetais details{ 1, 3,9,3, 7,10,7 };
+	ParticleObjectDetais details{ 1, 3,9,3, 22,10,7 };
 	ParticleObjectCreator::addObject(details);
 
-	Sleep(10);
+	Sleep(100);
 	Simulation::runSimulationFrame();	// open resources
 	Sleep(500);
 	Simulation::runSimulationFrame();	// commit
 
-	ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
-	ParticleObjectCreator::addObject(details2);
-	Sleep(10);
+	//ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
+	//ParticleObjectCreator::addObject(details2);
+	Sleep(100);
 	Simulation::runSimulationFrame();	// open resources
 	Sleep(500);
 	Simulation::runSimulationFrame();	// commit

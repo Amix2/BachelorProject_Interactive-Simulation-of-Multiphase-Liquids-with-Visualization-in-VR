@@ -75,19 +75,18 @@ int main(int argc, char ** argv) {
 
 
 	initGL();
+	printWorkGroupsCapabilities();
 	initTools();
 
 	TEMP_graphic::initGraphic(window);
 
 	Simulation::startSimulation(window);
+	Sleep(1000000);
 	//ParticleData::initArraysOnGPU();
-	//printWorkGroupsCapabilities();
-
-
 	// main loop
 	while (!glfwWindowShouldClose(window))
 	{
-		TEMP_graphic::showFrame(window);
+		//TEMP_graphic::showFrame(window);
 	}
 
 	glfwTerminate();

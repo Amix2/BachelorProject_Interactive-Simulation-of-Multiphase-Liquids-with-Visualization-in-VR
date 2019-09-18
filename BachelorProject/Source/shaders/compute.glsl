@@ -1,7 +1,7 @@
 #version 430 core
 
 
-#define NUM_THREADS 1
+#define NUM_THREADS 3
 #define MAX_FLUID 3072
 #define MAX_GLASS 3072
 #define MAX_FLUID_TYPES 10
@@ -36,6 +36,7 @@ struct FluidType {
 	float density;
 };
 
+shared float mems[10];
 //////////////////////////////////////////////////
 //	STORAGE
 
@@ -112,13 +113,26 @@ void main(void)
 		to know what particles should be calculated by this thread
 	*/
 	findMyArraySections();
+	int val  = 0;
+	for(int i=0; i<1000000; i++) {
+		val++;
+	}
+	float qq = 0;
+	for(int i=0; i<100; i++) {
+		qq++;
+	}
+	mems[gl_LocalInvocationIndex] = qq;
 
+	barrier();
 
 
 	// SPH
 	for(int i=0; i<numOfParticles; i++) {
-		fluidPositions[3*i+1] -= 0.05;	// move particles
+		fluidPositions[3*i+1] -= 0.05 + val;	// move particles
+		if(gl_LocalInvocationIndex == 0) fluidPositions[3*i+2] = mems[0] + mems[1] + mems[2];
 	}
+
+	//fluidPositions[0] = gl_WorkGroupID.x;
 }
 
 
@@ -139,6 +153,33 @@ void findMyArraySections() {
 	else
 		myFluidLast = numOfParticles;
 }
+
+//void findMyArraySections2() {
+//	const uint numOfThreads = gl_WorkGroupSize.x * gl_WorkGroupSize.y * gl_WorkGroupSize.z 
+//		* gl_NumWorkGroups.x * gl_NumWorkGroups.y * gl_NumWorkGroups.z;
+//		//	= num of Work Groups * size of Work Group
+//
+//	const uint myThreadNumber = max(gl_WorkGroupID.x * gl_WorkGroupID.y * gl_WorkGroupID.z - 1, 0) 
+//		* (gl_WorkGroupSize.x * gl_WorkGroupSize.y * gl_WorkGroupSize.z)
+//		+ gl_LocalInvocationIndex;
+//		//	= num of Work Groups before * size of Work Group + my Id in this Work Group
+//
+//	// calculate first and last GLASS index for this thread (later refered as "my")
+//	const uint glassInterval = uint(round(numOfGlassParticles / numOfThreads));
+//	myGlassFirst = myThreadNumber * glassInterval;
+//	if(myThreadNumber < numOfThreads - 1) 
+//		myGlassLast = (myThreadNumber + 1) * glassInterval;
+//	else
+//		myGlassLast = numOfGlassParticles;
+//
+//	// calculate first and last FLUID index for this thread (later refered as "my")
+//	const uint fluidInterval = uint(round(numOfParticles / numOfThreads));
+//	myFluidFirst = myThreadNumber * fluidInterval;
+//	if(myThreadNumber < numOfThreads - 1) 
+//		myFluidLast = (myThreadNumber + 1) * fluidInterval;
+//	else
+//		myFluidLast = numOfParticles;
+//}
 
 /*
 in uvec3 gl_NumWorkGroups;
