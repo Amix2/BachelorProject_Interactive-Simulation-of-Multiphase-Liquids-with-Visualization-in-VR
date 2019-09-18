@@ -36,8 +36,8 @@ const struct BufferDatails {
 	inline static const std::string glassVectorName = "GlassVector";	// UBO
 	inline static const int glassVectorBinding = 4;
 
-	inline static const std::string partObjectsName = "ParticleObjects";	// SSBO
-	inline static const int partObjectsBinding = 5;
+	inline static const std::string partVectorsName = "ParticleObjects";	// SSBO
+	inline static const int partVectorsBinding = 5;
 
 	inline static const std::string detailsName = "Details";	// SSBO 
 	inline static const int detailsBinding = 6;
@@ -47,10 +47,6 @@ const struct BufferDatails {
 
 	inline static const std::string SPHVariablesName = "SPHVariables";	// SSBO
 	inline static const int SPHVariablesBinding = 8;
-
-	inline static const std::string moveGlassParticlesName = "MoveGlassParticles";	// SSBO
-	inline static const int moveGlassParticlesBinding = 9;
-
 
 } BufferDatails;
 

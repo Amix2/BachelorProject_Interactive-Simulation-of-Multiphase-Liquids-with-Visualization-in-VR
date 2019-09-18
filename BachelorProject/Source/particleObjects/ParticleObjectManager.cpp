@@ -33,23 +33,11 @@ void ParticleObjectManager::init()
 
 void ParticleObjectManager::synchronizeWithGpu()
 {
-	ParticleData::openObjects();
+	ParticleData::openPartVectors();
 	for (int i = 0; i < m_numOfObjects; i++) {
-		if (m_partObjectsArray[i].m_indEnd != ParticleData::m_resObjectsArray[i].m_indEnd) {
-			// this object is only on CPU not on GPU -> copy all data
-			ParticleData::m_resObjectsArray[i] = m_partObjectsArray[i];
-		}
-		else {
-			// copy only target position and vector
-			ParticleData::m_resObjectsArray[i].m_targetPosition = m_partObjectsArray[i].m_targetPosition;
-			ParticleData::m_resObjectsArray[i].m_targetVector = m_partObjectsArray[i].m_targetVector;
-
-			// get current position and vector
-			m_partObjectsArray[i].m_currentPosition = ParticleData::m_resObjectsArray[i].m_currentPosition;
-			m_partObjectsArray[i].m_currentVector = ParticleData::m_resObjectsArray[i].m_currentVector;
-		}
+		ParticleData::m_resObjectsArray[i] = m_partVectorsArray[i];
 	}
-	ParticleData::commitObjects();
+	ParticleData::commitPartVectors();
 }
 
 int ParticleObjectManager::addObject(const ParticleObject& object)

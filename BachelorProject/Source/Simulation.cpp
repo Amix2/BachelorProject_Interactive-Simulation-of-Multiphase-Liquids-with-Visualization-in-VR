@@ -84,16 +84,16 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqObjects) {
 	case OPEN:
-		ParticleData::openObjects();
+		ParticleData::openPartVectors();
 		m_reqObjects = NO_ORDER;
 		break;
 	case COMMIT:
-		ParticleData::commitObjects();
+		ParticleData::commitPartVectors();
 		m_reqObjects = NO_ORDER;
 		break;
 	case COMMIT_AND_OPEN:
-		ParticleData::commitObjects();
-		ParticleData::openObjects();
+		ParticleData::commitPartVectors();
+		ParticleData::openPartVectors();
 		m_reqObjects = NO_ORDER;
 	case NO_ORDER:
 		break;

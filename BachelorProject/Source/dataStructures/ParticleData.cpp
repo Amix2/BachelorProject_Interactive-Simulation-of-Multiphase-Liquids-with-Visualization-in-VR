@@ -18,17 +18,14 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createSSBO(BufferDatails.glassVectorName, 3 * Configuration.MAX_GLASS_PARTICLES * sizeof(float), NULL, BufferDatails.glassVectorBinding);
 
 	// create SSBO for particle vectors
-	ParticleVectors objectsArray[Configuration.MAX_PARTICLE_OBJECTS];
-	GpuResources::createSSBO(BufferDatails.partObjectsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleVectors), objectsArray, BufferDatails.partObjectsBinding);
+	ParticleVectors partVectorsArray[Configuration.MAX_PARTICLE_OBJECTS];
+	GpuResources::createSSBO(BufferDatails.partVectorsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(ParticleVectors), partVectorsArray, BufferDatails.partVectorsBinding);
 
 	// create SSBO for simulation details
 	SimDetails simDetails{ 0,0 };
 	GpuResources::createSSBO(BufferDatails.detailsName, sizeof(simDetails), &simDetails, BufferDatails.detailsBinding);
 
 	GpuResources::createSSBO(BufferDatails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_FLUID_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDatails.SPHVariablesBinding);
-
-	// create SSBO for particle positions
-	GpuResources::createSSBO(BufferDatails.moveGlassParticlesName, 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float), NULL, BufferDatails.moveGlassParticlesBinding);
 
 	checkOpenGLErrors();
 }
@@ -75,10 +72,10 @@ void ParticleData::openDetails()
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
-void ParticleData::openObjects()
+void ParticleData::openPartVectors()
 {
-	LOG_F(INFO, "OPEN Particle Objects Array");
-	m_resObjectsArray = (ParticleObject*)GpuResources::openSSBO(BufferDatails.partObjectsName);
+	LOG_F(INFO, "OPEN Particle Vectors Array");
+	m_resObjectsArray = (ParticleVectors*)GpuResources::openSSBO(BufferDatails.partVectorsName);
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -131,11 +128,11 @@ void ParticleData::commitDetails()
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
-void ParticleData::commitObjects()
+void ParticleData::commitPartVectors()
 {
-	LOG_F(INFO, "COMMIT Particle Objects Array");
+	LOG_F(INFO, "COMMIT Particle Vectors Array");
 
-	GpuResources::commitSSBO(BufferDatails.partObjectsName);
+	GpuResources::commitSSBO(BufferDatails.partVectorsName);
 
 	m_resObjectsArray = nullptr;
 	ParticleData::m_ResourceCondVariable.notify_all();
@@ -200,8 +197,8 @@ void ParticleData::printGlassData(int limit)
 void ParticleData::printParticleObjectsData(int limit)
 {
 	LOG_F(INFO, "==============================");
-	LOG_F(INFO, "Simulation Particle Objects print");
-	ParticleObject* partObjects = ParticleData::getParticleObjects();
+	LOG_F(INFO, "Simulation Particle Objects print\nTODO!");
+	ParticleVectors* partObjects = ParticleData::getParticleObjects();
 	if (partObjects == nullptr) {
 		LOG_F(ERROR, "Error while printing Simulation Particle Objects");
 		return;
@@ -211,7 +208,7 @@ void ParticleData::printParticleObjectsData(int limit)
 	}
 
 	for (int i = 0; i < Configuration.MAX_PARTICLE_OBJECTS && i < limit; i++) {
-		LOG_F(INFO, "\tObject %d: %s", i, partObjects[i].print().c_str());
+		//LOG_F(INFO, "\tObject %d: %s", i, partObjects[i].print().c_str());
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
@@ -262,9 +259,9 @@ float* ParticleData::getGlassVectors()
 	return (float*)GpuResources::getDataSSBO(BufferDatails.glassVectorName);;
 }
 
-ParticleObject* ParticleData::getParticleObjects()
+ParticleVectors* ParticleData::getParticleObjects()
 {
-	return (ParticleObject*) GpuResources::getDataSSBO(BufferDatails.partObjectsName);
+	return (ParticleVectors*) GpuResources::getDataSSBO(BufferDatails.partVectorsName);
 }
 
 SimDetails* ParticleData::getDetails()

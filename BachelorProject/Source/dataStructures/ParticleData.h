@@ -62,7 +62,7 @@ public:
 	inline static int m_resGlassArraySize;
 	inline static std::atomic_int m_numOfAddedGlass;
 
-	inline static ParticleObject* m_resObjectsArray = nullptr;
+	inline static ParticleVectors* m_resObjectsArray = nullptr;
 	inline static int m_resObjectsArraySize;
 	inline static int m_numOfObjectsInArray = 0;
 
@@ -80,13 +80,13 @@ public:
 	static void openGlassArray();
 	static void openGlassVectors();
 	static void openDetails();
-	static void openObjects();
+	static void openPartVectors();
 
 	static void commitFluidArray();
 	static void commitGlassArray();
 	static void commitGlassVectors();
 	static void commitDetails();
-	static void commitObjects();
+	static void commitPartVectors();
 
 	// Prints info about fluid particles
 	static void printParticleData(int limit = 10);
