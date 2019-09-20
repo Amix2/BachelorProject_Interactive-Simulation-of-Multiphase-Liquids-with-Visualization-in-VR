@@ -218,7 +218,7 @@ void ParticleData::printParticleObjectsData(int limit)
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
 
-void ParticleData::printSortingData()
+void ParticleData::printSortingData(int limit)
 {
 	LOG_F(INFO, "==============================");
 	LOG_F(INFO, "SORTING print");
@@ -227,11 +227,20 @@ void ParticleData::printSortingData()
 		LOG_F(ERROR, "Error while printing SORTING DATA");
 		return;
 	}
-
-	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {
-		LOG_F(INFO, "\t %d: %u", i, array[i]);
-
+	if (limit <= 0) {
+		limit = INT_MAX;
 	}
+
+	unsigned int prevValue = INT_MAX;
+	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE && i < limit; i++) {
+		LOG_F(INFO, "\t %d: %u", i, array[i]);
+	}
+	bool sorted = true;
+	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {
+		if (array[i] > prevValue) sorted = false;
+		prevValue = array[i];
+	}
+	LOG_F(INFO, "SORTED: %d", sorted);
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
 

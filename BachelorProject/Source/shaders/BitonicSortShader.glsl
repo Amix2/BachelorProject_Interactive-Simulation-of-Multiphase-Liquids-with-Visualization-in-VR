@@ -23,14 +23,14 @@ ASSUMPTIONS:
 
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
 
-layout(local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 
 //////////////////////////////////////////////////
 //	STORAGE
 
-uniform int u_stage;
-uniform int u_turnInStage;
+layout( location=1 ) uniform int u_stage;
+layout( location=2 ) uniform int u_turnInStage;
 
 layout(std430, binding = 9) buffer sortingHelpBuf
 {
@@ -44,10 +44,28 @@ layout(std430, binding = 9) buffer sortingHelpBuf
 
 void main(void)
 {
-	//const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
-	sortIndexArray[0] = uint(u_stage);
-	sortIndexArray[1] = uint(u_turnInStage);
-	sortIndexArray[2] =  99 ;
+	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+
+	const uint myFirst = myThreadNumber + uint(floor(float(myThreadNumber) / pow(2, u_stage - u_turnInStage)) * pow(2, u_stage - u_turnInStage));
+	const uint myFirstValue = sortIndexArray[myFirst];
+	const uint mySecond = myFirst + uint(pow(2, u_stage - u_turnInStage));
+	const uint mySecondValue = sortIndexArray[mySecond];
+
+	const uint myGroupNumber = uint(myThreadNumber / pow(2, u_stage - 1));
+	const bool dir_up = myGroupNumber%2 == 0;	// true -> first > last || false -> first < last
+
+	if(!dir_up) {	// UP
+		if(myFirstValue < mySecondValue) {
+			sortIndexArray[myFirst] = mySecondValue;
+			sortIndexArray[mySecond] = myFirstValue;
+		} 
+	} else {	// DOWN
+		if(myFirstValue > mySecondValue) {
+			sortIndexArray[myFirst] = mySecondValue;
+			sortIndexArray[mySecond] = myFirstValue;
+		}
+	}
+
 }
 
 /*

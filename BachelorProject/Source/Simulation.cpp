@@ -2,6 +2,9 @@
 
 void setupSimObjects();
 
+const std::string stageUniform = "u_stage";
+const std::string turnUniform = "u_turnInStage";
+
 void Simulation::runSimulationFrame()
 {
 	long tStart = getTime();
@@ -11,13 +14,7 @@ void Simulation::runSimulationFrame()
 	// exchange information about glass objects with gpu
 	ParticleObjectManager::synchronizeWithGpu();
 
-	int sortingDispathSize = 1;	// max power of 2 less than num of fluid particles
-	while (sortingDispathSize < ParticleData::m_FluidParticlesNum) {
-		sortingDispathSize *= 2;
-	}
-	sortingDispathSize /= 2;
-
-	sortingDispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
+	int dispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
 
 	////////////////////////////////////////////////
 	//	SHADERS 
@@ -26,17 +23,32 @@ void Simulation::runSimulationFrame()
 
 
 	// Sort fluid particle array
-	LOG_F(INFO, "Starting compute shader witn (%d, 1, 1)", sortingDispathSize);
 	auto ntStart = getNanoTime();
-	for(int i=0; i<100000; i++) m_CellCounting.runShader(sortingDispathSize, 1, 1, true);
+	for (int i = 0; i < 1000; i++) {
+	const int cellCountingWorkGroups = ceil(ParticleData::m_FluidParticlesNum / 256.0);
+	//LOG_F(INFO, "CELLS compute shader witn (%d, 1, 1)", cellCountingWorkGroups);
+	m_CellCounting.runShader(cellCountingWorkGroups, 1, 1, true);
 
+	const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_FluidParticlesNum))) / 256);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
+	//LOG_F(INFO, "SORTING compute shader witn (%d, 1, 1)", bitonicSortWorkGroups);
+	const int numOfStages = ceil(log2(ParticleData::m_FluidParticlesNum));
+	for (int currentStage = 1; currentStage <= numOfStages; currentStage++) {
+		for (int currentTurn = 1; currentTurn <= currentStage; currentTurn++) {
+			m_BitonicSort.setUniformVariable(stageUniform, currentStage);
+			m_BitonicSort.setUniformVariable(turnUniform, currentTurn);
+			m_BitonicSort.runShader(dispathSize, 1, 1, true);
+		}
+	}
+	}
+	auto ntEnd = getNanoTime();
+
+	checkOpenGLErrors();
 	// Calculate SPH
 
 
 	// TEMP
 		// compute shader (change values)
 		//m_TESTshader.runShader(1, 1, 1, true);
-	auto ntEnd = getNanoTime();
 
 	//	-end- SHADERS
 	////////////////////////////////////////////////
@@ -48,7 +60,6 @@ void Simulation::runSimulationFrame()
 		ParticleData::logParticlePositions();
 	}
 
-	checkOpenGLErrors();
 	LOG_F(INFO, "Simulation time: %d, %f", tEnd - tStart, getNanoTimeDif(ntStart, ntEnd));
 }
 
@@ -66,7 +77,28 @@ void Simulation::main()
 	glfwMakeContextCurrent(Simulation::m_simulationWindow);
 	Simulation::init();
 	ParticleData::initArraysOnGPU();
+	Simulation::runSimulationFrame();
+	ParticleObjectDetais details{ 1, 1,1,1, 40,10,10 };
+	ParticleObjectCreator::addObject(details);
 
+	Sleep(100);
+	Simulation::runSimulationFrame();	// open resources
+	Sleep(500);
+	Simulation::runSimulationFrame();	// commit
+	ParticleObjectDetais details2{ 1, 1,1,1, 40,10,10 };
+	//ParticleObjectCreator::addObject(details2);
+
+	Sleep(100);
+	Simulation::runSimulationFrame();	// open resources
+	Sleep(500);
+	Simulation::runSimulationFrame();	// commit
+	ParticleData::printSortingData();
+	ParticleData::printParticleData(2);
+
+
+
+
+	return;
 	setupSimObjects();
 	checkOpenGLErrors();
 
@@ -84,6 +116,7 @@ void Simulation::init()
 {
 	m_TESTshader = ComputeShader(ShaderFiles.TEST_ComputeShader);
 	m_CellCounting = ComputeShader(ShaderFiles.CellCountingForSort);
+	m_BitonicSort = ComputeShader(ShaderFiles.BitonicSort);
 }
 
 void Simulation::parseResourceRequest()

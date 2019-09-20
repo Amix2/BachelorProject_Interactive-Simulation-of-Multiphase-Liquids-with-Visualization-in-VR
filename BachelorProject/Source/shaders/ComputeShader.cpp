@@ -48,17 +48,23 @@ ComputeShader::~ComputeShader()
 
 void ComputeShader::setUniformVariable(const std::string& name, bool value) const
 {
+	glUseProgram(this->csProgram);
 	glUniform1i(glGetUniformLocation(csProgram, name.c_str()), (int)value);
+	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, int value) const
 {
-	glUniform1i(glGetUniformLocation(csProgram, name.c_str()), value);
+	glUseProgram(this->csProgram);
+	glUniform1i(glGetUniformLocation(csProgram, name.c_str()),value);
+	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, float value) const
 {
+	glUseProgram(this->csProgram);
 	glUniform1f(glGetUniformLocation(csProgram, name.c_str()), value);
+	checkOpenGLErrors();
 }
 
 void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, bool block)

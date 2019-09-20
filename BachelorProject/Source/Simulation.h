@@ -22,6 +22,7 @@ class Simulation
 	inline static std::thread m_simulationThread;
 
 	inline static ComputeShader m_CellCounting;
+	inline static ComputeShader m_BitonicSort;
 
 	inline static ComputeShader m_TESTshader;
 public:

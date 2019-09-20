@@ -109,6 +109,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\shaders\CountingMergeSort.glsl" />
+    <None Include="Source\shaders\BitonicSortShader.glsl" />
+    <None Include="Source\shaders\CellCountingForSort.glsl" />
+    <None Include="Source\shaders\compute.glsl" />
   </ItemGroup>
 </Project>

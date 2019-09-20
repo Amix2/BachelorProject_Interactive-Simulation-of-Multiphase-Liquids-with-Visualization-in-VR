@@ -101,7 +101,7 @@ public:
 	// Prints info about particle objects
 	static void printParticleObjectsData(int limit = 10);
 
-	static void printSortingData();
+	static void printSortingData(int limit = 16);
 
 	static void logParticlePositions();
 	

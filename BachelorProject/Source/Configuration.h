@@ -9,12 +9,12 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_FLUID_PARTICLES = 2048;
+	inline static const int MAX_FLUID_PARTICLES = 4*2048;
 	inline static const int MAX_GLASS_PARTICLES = 2048;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
-	inline static const int SORT_ARRAY_SIZE = MAX_FLUID_PARTICLES;
-	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
+	inline static const int SORT_ARRAY_SIZE = 2*MAX_FLUID_PARTICLES;
+	inline static const float FLUID_PARTICLE_BUILD_GAP = 1.0f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
@@ -59,7 +59,7 @@ const struct BufferDatails {
 
 const struct ShaderFiles {
 	inline static const std::string TEST_ComputeShader = "./Source/shaders/compute.glsl";
-	inline static const std::string MergeSort = "./Source/shaders/CountingMergeSort.glsl";
+	inline static const std::string BitonicSort = "./Source/shaders/BitonicSortShader.glsl";
 	inline static const std::string CellCountingForSort = "./Source/shaders/CellCountingForSort.glsl";
 
 } ShaderFiles;

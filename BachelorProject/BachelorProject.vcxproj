@@ -53,7 +53,9 @@
     <ClInclude Include="Source\TEMP_graphic.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\shaders\CountingMergeSort.glsl" />
+    <None Include="Source\shaders\BitonicSortShader.glsl" />
+    <None Include="Source\shaders\CellCountingForSort.glsl" />
+    <None Include="Source\shaders\compute.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
