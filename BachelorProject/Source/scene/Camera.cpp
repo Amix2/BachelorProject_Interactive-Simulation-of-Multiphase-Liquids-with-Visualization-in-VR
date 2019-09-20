@@ -1,9 +1,9 @@
 #include "Camera.h"
-
-
+#include <iostream>
 namespace Scene {
-	Camera::Camera(glm::vec3& position, float pitch, float yaw, float rotation)
-		: position { position }
+	Camera::Camera(ViewPort& viewPort, const glm::vec3& position, float pitch, float yaw, float roll)
+		: viewPort{ &viewPort }
+		, position { position }
 		, pitch{ pitch }
 		, yaw{ yaw }
 		, roll{ roll }
@@ -11,10 +11,27 @@ namespace Scene {
 		updateCameraVectors();
 	}
 
+	Camera::Camera(ViewPort& viewPort, const glm::vec3& position)
+		: viewPort{ &viewPort }
+		, position{ position }
+		, pitch{ DEFAULT_CAM_PITCH }
+		, yaw{ DEFAULT_CAM_YAW }
+		, roll{ DEFAULT_CAM_ROLL }
+	{
+		updateCameraVectors();
+	}
+
+
 	glm::mat4 Camera::getViewMatrix() const
 	{
 		return glm::lookAt(position, position + front, up);
 	}
+
+	void Camera::select() const
+	{
+		glViewport(viewPort->getX(), viewPort->getY(), viewPort->getWidth(), viewPort->getHeight());
+	}
+
 
 	void Camera::set(glm::vec3 position, float pitch, float yaw, float roll)
 	{
@@ -33,6 +50,21 @@ namespace Scene {
 		updateCameraAngles();
 	}
 
+	void Camera::changePitch(double offset)
+	{
+		pitch += offset;
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+		updateCameraVectors();
+	}
+
+	void Camera::changeYaw(double offset)
+	{
+		yaw += offset;
+	}
+
 	void Camera::updateCameraVectors() {
 		glm::vec3 newFront;
 		newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -48,7 +80,7 @@ namespace Scene {
 	}
 
 	void Camera::updateCameraAngles() {
-		pitch = asin(front.y / front.length())
+		pitch = asin(front.y / front.length());
 		//TODO
 	}
 }

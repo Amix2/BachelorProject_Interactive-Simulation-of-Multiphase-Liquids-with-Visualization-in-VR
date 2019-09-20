@@ -6,10 +6,10 @@ ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentS
 	Shader fragmentShader{ fragmentShaderPath, "FRAGMENT" };
 
 	ID = glCreateProgram();
-	glAttachShader(ID, vertexShader.getID);
-	glAttachShader(ID, fragmentShader.getID);
+	glAttachShader(ID, vertexShader.getID());
+	glAttachShader(ID, fragmentShader.getID());
 	glLinkProgram(ID);
-	checkCompileErrors(ID, "PROGRAM");
+	checkLinkingErrors();
 }
 
 void ShaderProgram::setUniformVariable(const std::string& name, bool value) const
@@ -29,18 +29,21 @@ void ShaderProgram::setUniformVariable(const std::string& name, float value) con
 
 void ShaderProgram::setUniformVariable(const std::string& name, const glm::mat4& value) const
 {
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
 
-void ShaderProgram::checkCompileErrors(unsigned int shader, std::string type)
+void ShaderProgram::checkLinkingErrors()
 {
 	int success;
 	char infoLog[INFO_LOG_SIZE];
 
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-	if (!success)
+	glGetProgramiv(ID, GL_LINK_STATUS, &success);
+	if (success == GL_FALSE)
 	{
-		glGetShaderInfoLog(shader, INFO_LOG_SIZE, NULL, infoLog);
-		std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+		glGetProgramInfoLog(ID, INFO_LOG_SIZE, NULL, infoLog);
+		std::cout << "ERROR::PROGRAM_LINKING_ERROR" << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+	}
+	else {
+		std::cout << "SUCCESS successful linking of program no. " << ID << std::endl;
 	}
 }

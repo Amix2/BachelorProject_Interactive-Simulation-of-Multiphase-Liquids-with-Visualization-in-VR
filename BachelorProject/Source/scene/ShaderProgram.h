@@ -1,5 +1,7 @@
 #pragma once
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include <glm/glm.hpp>
 #include <string>
 #include <iostream>
@@ -20,11 +22,9 @@ public:
 	void setUniformVariable(const std::string& name, float value) const;
 	void setUniformVariable(const std::string& name, const glm::mat4& value) const;
 private:
-	static const unsigned int INFO_LOG_SIZE;
+	inline static const unsigned int INFO_LOG_SIZE{ 1024 };
 	unsigned int ID;
 
-	void checkCompileErrors(unsigned int shader, std::string type);
+	void checkLinkingErrors();
 };
-
-const unsigned int ShaderProgram::INFO_LOG_SIZE = 1024;
 

@@ -3,7 +3,10 @@
 Window::Window(int width, int height, std::string name)
 	: width { width }
 	, height { height } 
-	, name { name } {}
+	, name { name } 
+	, glfwWindow { nullptr }
+	, mousePosX { -1 }
+	, mousePosY { -1 } {}
 
 Window::~Window()
 {
@@ -18,7 +21,7 @@ bool Window::init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
-	glfwWindow = glfwCreateWindow(width, height, name.c_str, NULL, NULL);
+	glfwWindow = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
 	if (glfwWindow == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -35,23 +38,55 @@ bool Window::init()
 
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to init GLAD";
+		exit(1);
+	}
+
+	return true;
 }
 
 bool Window::refresh()
 {
 	glfwSwapBuffers(glfwWindow);
 	glfwPollEvents();
-	return glfwWindowShouldClose(glfwWindow)
+	return glfwWindowShouldClose(glfwWindow);
 }
 
-void Window::subscribeForMousePositionChanges(MousePositionListener& listener)
+void Window::processInput() const
 {
-	this->mousePositionListener = &listener;
+
 }
 
-void Window::subscribeForMouseScrollChanges(MouseScrollListener& listener)
+void Window::subscribeForMousePositionChanges(MousePositionListener* listener)
 {
-	this->mouseScrollListener = &listener;
+	this->mousePositionListeners.push_back(listener);
+}
+
+void Window::subscribeForMouseScrollChanges(MouseScrollListener* listener)
+{
+	this->mouseScrollListeners.push_back(listener);
+}
+
+void Window::subscribeForWindowSizeChanges(WindowSizeListener* listener)
+{
+	this->windowSizeListeners.push_back(listener);
+}
+
+void Window::unsubscribeMousePositionListener(MousePositionListener* listener)
+{
+	std::remove(mousePositionListeners.begin(), mousePositionListeners.end(), listener);
+}
+
+void Window::unsubscribeMouseScrollListener(MouseScrollListener* listener)
+{
+	std::remove(mouseScrollListeners.begin(), mouseScrollListeners.end(), listener);
+}
+
+void Window::unsubscribeWindowSizeListener(WindowSizeListener* listener)
+{
+	std::remove(windowSizeListeners.begin(), windowSizeListeners.end(), listener);
 }
 
 void Window::GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y)
@@ -68,7 +103,6 @@ void Window::GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, d
 
 void Window::GlfwWindowResizeCallback(GLFWwindow* window, int width, int height)
 {
-	glViewport(0, 0, width, height);
 	Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
 	actualWindow->handleResize(width, height);
 }
@@ -77,6 +111,11 @@ void Window::handleResize(int width, int height)
 {
 	this->width = width;
 	this->height = height;
+	if (!windowSizeListeners.empty())
+		for_each(windowSizeListeners.begin(), windowSizeListeners.end(), [width, height](WindowSizeListener* listener)
+		{
+			listener->handleWindowResize(width, height);
+		});
 }
 
 void Window::handleMouseMove(double x, double y)
@@ -88,20 +127,26 @@ void Window::handleMouseMove(double x, double y)
 		mousePosY = y;
 	}
 
-	float xoffset = x - mousePosX;
-	float yoffset = mousePosY - y;
+	double xoffset = x - mousePosX;
+	double yoffset = mousePosY - y;
 
 	mousePosX = x;
 	mousePosY = y;
 
-	if (mousePositionListener != nullptr)
-		mousePositionListener->handleMouseMove(xoffset, yoffset);
+	if (!mousePositionListeners.empty())
+		for_each(mousePositionListeners.begin(), mousePositionListeners.end(), [xoffset, yoffset](MousePositionListener* listener)
+		{
+			listener->handleMouseMove(xoffset, yoffset);
+		});
 }
 
 void Window::handleMouseScroll(double xoffset, double yoffset)
 {
-	if (mouseScrollListener != nullptr)
-		mouseScrollListener->handleMouseScroll(yoffset);
+	if (!mouseScrollListeners.empty())
+		for_each(mouseScrollListeners.begin(), mouseScrollListeners.end(), [yoffset](MouseScrollListener* listener)
+		{
+			listener->handleMouseScroll(yoffset);
+		});
 }
 
 

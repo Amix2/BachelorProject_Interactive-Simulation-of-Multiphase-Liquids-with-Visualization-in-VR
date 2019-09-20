@@ -21,21 +21,29 @@ Shader::Shader(std::string shaderPath, std::string type)
 	}
 
 	const char* shaderCodeC = shaderCode.c_str();
-	ID = glCreateShader(GL_VERTEX_SHADER);
+	if (type == "VERTEX")
+		ID = glCreateShader(GL_VERTEX_SHADER);
+	else if (type == "FRAGMENT")
+		ID = glCreateShader(GL_FRAGMENT_SHADER);
+	else
+		std::cout << "ERROR::INTERNAL bad shader type: " << type << std::endl;
 	glShaderSource(ID, 1, &shaderCodeC, NULL);
 	glCompileShader(ID);
-	checkCompileErrors(ID, type);
+	checkCompileErrors(type);
 }
 
-void Shader::checkCompileErrors(unsigned int shader, std::string type)
+void Shader::checkCompileErrors(std::string type)
 {
 	int success;
 	char infoLog[INFO_LOG_SIZE];
 
-	glGetProgramiv(shader, GL_LINK_STATUS, &success);
-	if (!success)
+	glGetShaderiv(ID, GL_COMPILE_STATUS, &success);
+	if (success == GL_FALSE)
 	{
-		glGetProgramInfoLog(shader, INFO_LOG_SIZE, NULL, infoLog);
-		std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+		glGetShaderInfoLog(ID, INFO_LOG_SIZE, NULL, infoLog);
+		std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+	}
+	else {
+		std::cout << "SUCCESS successful compilation of shader no. " << ID << ", of type: " << type << std::endl;
 	}
 }

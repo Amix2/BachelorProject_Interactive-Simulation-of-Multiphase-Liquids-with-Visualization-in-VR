@@ -2,6 +2,7 @@
 #define SHADER_H
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include <string>
 #include <fstream>
@@ -17,12 +18,10 @@ public:
 	unsigned int getID() { return ID; }
 
 private:
-	static const unsigned int INFO_LOG_SIZE;
+	inline static const unsigned int INFO_LOG_SIZE{ 1024 };
 
 	unsigned int ID;
 
-	void checkCompileErrors(unsigned int shader, std::string type);
+	void checkCompileErrors(std::string type);
 };
-
-const unsigned int Shader::INFO_LOG_SIZE = 1024;
 #endif

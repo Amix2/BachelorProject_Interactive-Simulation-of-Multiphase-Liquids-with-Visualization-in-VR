@@ -2,55 +2,59 @@
 #include "MaterialObject.h"
 
 #include <vector>
-#include <glm\glm.hpp>
+#include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 
 
 class TestMaterialObject : public MaterialObject
 {
-	float vertices[180] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+public:
+	TestMaterialObject(const ShaderProgram& shaderProgram);
+	void load(const glm::mat4& view, const glm::mat4& projection) const override;
+private:
+	float vertices[108] = {
+	-0.5f, -0.5f, -0.5f,  
+	 0.5f, -0.5f, -0.5f,  
+	 0.5f,  0.5f, -0.5f,  
+	 0.5f,  0.5f, -0.5f, 
+	-0.5f,  0.5f, -0.5f, 
+	-0.5f, -0.5f, -0.5f,  
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  
+	 0.5f, -0.5f,  0.5f,  
+	 0.5f,  0.5f,  0.5f,  
+	 0.5f,  0.5f,  0.5f,  
+	-0.5f,  0.5f,  0.5f,  
+	-0.5f, -0.5f,  0.5f,  
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  
+	-0.5f,  0.5f, -0.5f, 
+	-0.5f, -0.5f, -0.5f,  
+	-0.5f, -0.5f, -0.5f,  
+	-0.5f, -0.5f,  0.5f, 
+	-0.5f,  0.5f,  0.5f,  
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f, 
+	 0.5f,  0.5f, -0.5f,  
+	 0.5f, -0.5f, -0.5f,  
+	 0.5f, -0.5f, -0.5f,  
+	 0.5f, -0.5f,  0.5f,  
+	 0.5f,  0.5f,  0.5f,  
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  
+	 0.5f, -0.5f, -0.5f,  
+	 0.5f, -0.5f,  0.5f,  
+	 0.5f, -0.5f,  0.5f,  
+	-0.5f, -0.5f,  0.5f, 
+	-0.5f, -0.5f, -0.5f, 
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	-0.5f,  0.5f, -0.5f,  
+	 0.5f,  0.5f, -0.5f, 
+	 0.5f,  0.5f,  0.5f,  
+	 0.5f,  0.5f,  0.5f,  
+	-0.5f,  0.5f,  0.5f, 
+	-0.5f,  0.5f, -0.5f
 	};
 
 	glm::vec3 cubePositions[10] = {
@@ -65,8 +69,5 @@ class TestMaterialObject : public MaterialObject
 		glm::vec3(1.5f,  0.2f, -1.5f),
 		glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
-
-	TestMaterialObject(const ShaderProgram& shaderProgram);
-	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 };
 

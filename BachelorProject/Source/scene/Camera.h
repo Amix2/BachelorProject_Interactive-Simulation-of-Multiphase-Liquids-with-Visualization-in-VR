@@ -4,22 +4,30 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "ViewPort.h"
 
 namespace Scene {
 	class Camera
 	{
 	public:
-		Camera(glm::vec3& position, float pitch, float yaw, float rotation);
+		Camera(ViewPort& viewPort, const glm::vec3& position, float pitch, float yaw, float roll);
+		Camera(ViewPort& viewPort, const glm::vec3& position);
 
 		glm::mat4 getViewMatrix() const;
+		void select() const;
 		void set(glm::vec3 position, float pitch, float yaw, float roll);
 		void set(glm::vec3 position, glm::vec3 front, glm::vec3 up, glm::vec3 right);
+		void changePitch(double offset);
+		void changeYaw(double offset);
+		
 	protected:
 	private:
-		static const glm::vec3 WORLD_UP;
-		static const float DEFAULT_PITCH;
-		static const float DEFAULT_YAW;
-		static const float DEFAULT_ROLL;
+		inline static const glm::vec3 WORLD_UP{ 0.0f, 1.0f, 0.0f };
+		inline static const float DEFAULT_CAM_PITCH{ 0.0f };
+		inline static const float DEFAULT_CAM_YAW{ 0.0f };
+		inline static const float DEFAULT_CAM_ROLL{ 0.0f };
 
 		glm::vec3 headUp;
 		glm::vec3 position;
@@ -31,14 +39,11 @@ namespace Scene {
 		float yaw;
 		float roll;
 
+		ViewPort* viewPort;
+
 		void updateCameraVectors();
 		void updateCameraAngles();
 		};
-
-	const glm::vec3 Camera::WORLD_UP = glm::vec3(0.0f, 1.0f, 0.0f);
-	const float Camera::DEFAULT_PITCH{ 0.0f };
-	const float Camera::DEFAULT_YAW{ 0.0f };
-	const float Camera::DEFAULT_ROLL{ 0.0f };
 }
 
 #endif //CAMERA_H
