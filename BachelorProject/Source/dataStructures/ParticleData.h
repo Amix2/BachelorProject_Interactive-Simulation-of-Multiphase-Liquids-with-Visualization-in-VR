@@ -70,7 +70,7 @@ public:
 
 	inline static SimDetails* m_resDetails = nullptr;
 
-	// mutex and condition vaciable for threads to wait for resource
+	// mutex and condition variable for threads to wait for resource
 	inline static std::condition_variable m_ResourceCondVariable;
 	inline static std::mutex m_ResourceMutex;
 
@@ -90,13 +90,13 @@ public:
 	static void commitDetails();
 	static void commitObjects();
 
+	static void copyDataForSorting();	// GOD help this function
+
 	// Prints info about fluid particles
 	static void printParticleData(int limit = 10);
 
 	// Prints info about glass particles
 	static void printGlassData(int limit = 10);
-
-	static void printGlassVectorsData(int limit = 10);
 
 	// Prints info about particle objects
 	static void printParticleObjectsData(int limit = 10);

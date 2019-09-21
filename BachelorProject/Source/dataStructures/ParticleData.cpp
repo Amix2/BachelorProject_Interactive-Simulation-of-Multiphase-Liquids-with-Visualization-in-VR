@@ -79,7 +79,7 @@ void ParticleData::openDetails()
 
 void ParticleData::openObjects()
 {
-	LOG_F(INFO, "OPEN Particle Objects Array");
+	//LOG_F(INFO, "OPEN Particle Objects Array");
 	m_resObjectsArray = (ParticleObject*)GpuResources::openSSBO(BufferDatails.partObjectsName);
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
@@ -135,12 +135,42 @@ void ParticleData::commitDetails()
 
 void ParticleData::commitObjects()
 {
-	LOG_F(INFO, "COMMIT Particle Objects Array");
+	//LOG_F(INFO, "COMMIT Particle Objects Array");
 
 	GpuResources::commitSSBO(BufferDatails.partObjectsName);
 
 	m_resObjectsArray = nullptr;
 	ParticleData::m_ResourceCondVariable.notify_all();
+}
+
+void ParticleData::copyDataForSorting()
+{
+	// check "layout(std430, binding = 9) buffer sortingHelpBuf" buffer for details
+	/*
+	uint sortIndexArray[SORT_ARRAY_SIZE];
+	uint originalIndex[SORT_ARRAY_SIZE];
+	float	CPY_Positions[3 * MAX_FLUID];
+	float	CPY_Velocity[3 * MAX_FLUID];
+	int		CPY_FluidTypes[MAX_FLUID];
+	*/
+	const int sortIdSize = 2*Configuration.SORT_ARRAY_SIZE * sizeof(float);
+	const int cpyPosSize = 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float);
+	const int cpyVelSize = 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float);
+	const int cpyTypesSize = Configuration.MAX_FLUID_PARTICLES * sizeof(float);
+	const std::string sortTargetName = BufferDatails.SortVariablesName;
+	const std::string positionsSourceName = BufferDatails.particlePositionsName;
+	const std::string velositySourceName = BufferDatails.SPHVariablesName;
+	const std::string typesSourceName = BufferDatails.particlesFluidTypeName;
+
+	GpuResources::setAsCopyTarget(sortTargetName);
+	GpuResources::setAsCopySource(positionsSourceName);
+	GpuResources::copyResourceSubData(positionsSourceName, sortTargetName, 0, sortIdSize, 0);
+	GpuResources::setAsCopySource(velositySourceName);
+	GpuResources::copyResourceSubData(velositySourceName, sortTargetName, 0, sortIdSize + cpyPosSize, 0);
+	GpuResources::setAsCopySource(typesSourceName);
+	GpuResources::copyResourceSubData(typesSourceName, sortTargetName, 0, sortIdSize + cpyPosSize + cpyVelSize, 0);
+
+	checkOpenGLErrors();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +263,7 @@ void ParticleData::printSortingData(int limit)
 
 	unsigned int prevValue = INT_MAX;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE && i < limit; i++) {
-		LOG_F(INFO, "\t %d: %u", i, array[i]);
+		LOG_F(INFO, "\t %d: %u [%u]", i, array[i], array[Configuration.SORT_ARRAY_SIZE+i]);
 	}
 	bool sorted = true;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {

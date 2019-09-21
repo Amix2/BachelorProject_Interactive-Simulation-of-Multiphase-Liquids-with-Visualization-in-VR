@@ -11,6 +11,7 @@ void ShaderCodeEditor::init()
 	addVariable(	"MAX_GLASS",	Configuration.MAX_GLASS_PARTICLES	);
 	addVariable(	"MAX_SPEED",	Configuration.MAX_PARTICLE_SPEED	);
 	addVariable(	"MAX_FLUID_TYPES",	Configuration.MAX_FLUID_TYPES	);
+	addVariable(	"SORT_ARRAY_SIZE",	Configuration.SORT_ARRAY_SIZE	);
 }
 
 template<typename V>

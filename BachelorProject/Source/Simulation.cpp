@@ -16,6 +16,8 @@ void Simulation::runSimulationFrame()
 
 	int dispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
 
+	ParticleData::copyDataForSorting();
+
 	////////////////////////////////////////////////
 	//	SHADERS 
 
@@ -24,21 +26,22 @@ void Simulation::runSimulationFrame()
 
 	// Sort fluid particle array
 	auto ntStart = getNanoTime();
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 10; i++) {
 	const int cellCountingWorkGroups = ceil(ParticleData::m_FluidParticlesNum / 256.0);
 	//LOG_F(INFO, "CELLS compute shader witn (%d, 1, 1)", cellCountingWorkGroups);
 	m_CellCounting.runShader(cellCountingWorkGroups, 1, 1, true);
 
-	const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_FluidParticlesNum))) / 256);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
+	const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_FluidParticlesNum))) / 256.0);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
 	//LOG_F(INFO, "SORTING compute shader witn (%d, 1, 1)", bitonicSortWorkGroups);
 	const int numOfStages = ceil(log2(ParticleData::m_FluidParticlesNum));
 	for (int currentStage = 1; currentStage <= numOfStages; currentStage++) {
 		for (int currentTurn = 1; currentTurn <= currentStage; currentTurn++) {
 			m_BitonicSort.setUniformVariable(stageUniform, currentStage);
 			m_BitonicSort.setUniformVariable(turnUniform, currentTurn);
-			m_BitonicSort.runShader(dispathSize, 1, 1, true);
+			m_BitonicSort.runShader(dispathSize, 1, 1, false);
 		}
 	}
+	glFinish();
 	}
 	auto ntEnd = getNanoTime();
 
@@ -77,23 +80,16 @@ void Simulation::main()
 	glfwMakeContextCurrent(Simulation::m_simulationWindow);
 	Simulation::init();
 	ParticleData::initArraysOnGPU();
+
 	Simulation::runSimulationFrame();
-	ParticleObjectDetais details{ 1, 1,1,1, 40,10,10 };
+	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
+	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,10.1, 60 };
 	ParticleObjectCreator::addObject(details);
+	ParticleObjectCreator::addObject(details2);
 
-	Sleep(100);
-	Simulation::runSimulationFrame();	// open resources
-	Sleep(500);
-	Simulation::runSimulationFrame();	// commit
-	ParticleObjectDetais details2{ 1, 1,1,1, 40,10,10 };
-	//ParticleObjectCreator::addObject(details2);
-
-	Sleep(100);
-	Simulation::runSimulationFrame();	// open resources
-	Sleep(500);
-	Simulation::runSimulationFrame();	// commit
+	for(int i=0; i<100; i++) Simulation::runSimulationFrame();
 	ParticleData::printSortingData();
-	ParticleData::printParticleData(2);
+	ParticleData::printParticleData(20);
 
 
 
@@ -197,7 +193,6 @@ void Simulation::parseResourceRequest()
 
 void setupSimObjects()
 {
-	ParticleObjectCreator::canAddObject();
 	ParticleObjectDetais details{ 1, 3,9,3, 22,10,7 };
 	ParticleObjectCreator::addObject(details);
 

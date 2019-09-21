@@ -18,10 +18,10 @@ ASSUMPTIONS:
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
+#define SORT_ARRAY_SIZE 2*MAX_FLUID
 
 #define INSERT_VARIABLES_HERE
 
-#define SORT_ARRAY_SIZE 2*MAX_FLUID
 
 layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
@@ -29,12 +29,13 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 //////////////////////////////////////////////////
 //	STORAGE
 
-layout( location=1 ) uniform int u_stage;
-layout( location=2 ) uniform int u_turnInStage;
+uniform int u_stage;
+uniform int u_turnInStage;
 
 layout(std430, binding = 9) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
+	uint originalIndex[SORT_ARRAY_SIZE];
 	float	CPY_Positions[3 * MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
 	int		CPY_FluidTypes[MAX_FLUID];
@@ -54,15 +55,21 @@ void main(void)
 	const uint myGroupNumber = uint(myThreadNumber / pow(2, u_stage - 1));
 	const bool dir_up = myGroupNumber%2 == 0;	// true -> first > last || false -> first < last
 
-	if(!dir_up) {	// UP
+	if(dir_up) {	// UP
 		if(myFirstValue < mySecondValue) {
 			sortIndexArray[myFirst] = mySecondValue;
 			sortIndexArray[mySecond] = myFirstValue;
+			const uint temp = originalIndex[myFirst];
+			originalIndex[myFirst] = originalIndex[mySecond];
+			originalIndex[mySecond] = temp;
 		} 
 	} else {	// DOWN
 		if(myFirstValue > mySecondValue) {
 			sortIndexArray[myFirst] = mySecondValue;
 			sortIndexArray[mySecond] = myFirstValue;
+			const uint temp = originalIndex[myFirst];
+			originalIndex[myFirst] = originalIndex[mySecond];
+			originalIndex[mySecond] = temp;
 		}
 	}
 

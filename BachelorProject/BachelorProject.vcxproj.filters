@@ -112,5 +112,6 @@
     <None Include="Source\shaders\BitonicSortShader.glsl" />
     <None Include="Source\shaders\CellCountingForSort.glsl" />
     <None Include="Source\shaders\compute.glsl" />
+    <None Include="Source\shaders\SortingFinalizer.glsl" />
   </ItemGroup>
 </Project>

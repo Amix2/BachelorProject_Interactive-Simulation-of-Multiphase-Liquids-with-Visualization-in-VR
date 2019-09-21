@@ -33,15 +33,22 @@ void ParticleObjectCreator::runWorkerThread()
 		LOG_F(INFO, "ParticleObjectCreator::runWorkerThread LOOP");
 		// check for new order
 		std::unique_lock<std::mutex> lock_ParticleObjectDetails(m_mutex_partObjectDetails);
-		while(ParticleObjectCreator::m_ParticleObjectDetaisReady == false)	m_condVariable_partObjectDetails.wait(lock_ParticleObjectDetails);
+		while(ParticleObjectCreator::m_ParticleObjectDetaisVector.size() == 0)	m_condVariable_partObjectDetails.wait(lock_ParticleObjectDetails);
 		lock_ParticleObjectDetails.unlock();
+
+		// take last element from vector
+		ParticleObjectDetais currentDetails = ParticleObjectCreator::m_ParticleObjectDetaisVector[m_ParticleObjectDetaisVector.size()-1];
+		ParticleObjectCreator::m_ParticleObjectDetaisVector.pop_back();
+
+		LOG_F(INFO, "New object to create, type: %d", currentDetails.fluidType);
+
 
 		int numOfParticles = 0;
 
 		// if details is not open request it, we will need it later;
 		weakOpenDetails();
 
-		if (m_ParticleObjectDetais.fluidType > 0) {
+		if (currentDetails.fluidType > 0) {
 		////////////////////////////////////////////
 		//		FLUID
 
@@ -52,7 +59,7 @@ void ParticleObjectCreator::runWorkerThread()
 			int* fluidTypesArray = ParticleData::m_resFluidTypesArray;
 
 			// create fluid particles
-			ParticleObjectCreator::createFluid(fluidArray, fluidTypesArray, numOfParticles);
+			ParticleObjectCreator::createFluid(currentDetails, fluidArray, fluidTypesArray, numOfParticles);
 
 			ParticleData::m_numOfAddedFluid = numOfParticles;
 
@@ -79,7 +86,7 @@ void ParticleObjectCreator::runWorkerThread()
 
 			// create particles
 			ParticleObject mug;
-			mug.createMug(ParticleObjectCreator::m_ParticleObjectDetais, glassPositions, glassVectors, numOfParticles);
+			mug.createMug(currentDetails, glassPositions, glassVectors, numOfParticles);
 
 			ParticleData::m_numOfAddedGlass = numOfParticles;
 
@@ -97,15 +104,20 @@ void ParticleObjectCreator::runWorkerThread()
 		}
 
 	
-		LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d", m_ParticleObjectDetais.fluidType, numOfParticles);
+		LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d", currentDetails.fluidType, numOfParticles);
 
-		// loop complete, we are ready to receive next order
-		ParticleObjectCreator::m_ParticleObjectDetaisReady = false;
 	}
 }
 
 void forceOpenFluid() {
-	if (ParticleData::m_resFluidArray == nullptr) {
+	if (Simulation::m_reqFluidArray != NO_ORDER) {	// wait for simulation to finish last order
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);
+		while (Simulation::m_reqFluidArray != NO_ORDER) {
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
+	if (ParticleData::m_resFluidArray == nullptr) {	// wait for wimulation to open array
 		// request open 
 		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
 		while (ParticleData::m_resFluidArray == nullptr) {
@@ -118,6 +130,13 @@ void forceOpenFluid() {
 }
 
 void forceOpenGlass() {
+	if (Simulation::m_reqGlassArray != NO_ORDER) {	// wait for simulation to finish last order
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);
+		while (Simulation::m_reqGlassArray != NO_ORDER) {
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
 	if (ParticleData::m_resFluidArray == nullptr) {
 		// request open 
 		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
@@ -132,6 +151,13 @@ void forceOpenGlass() {
 
 void forceOpenGlassVectors()
 {
+	if (Simulation::m_reqGlassVectorsArray != NO_ORDER) {	// wait for simulation to finish last order
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);
+		while (Simulation::m_reqGlassVectorsArray != NO_ORDER) {
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
 	if (ParticleData::m_resGlassVectorsArray == nullptr) {
 		// request open 
 		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
@@ -145,6 +171,13 @@ void forceOpenGlassVectors()
 }
 
 void forceOpenDetails() {
+	if (Simulation::m_reqDetils != NO_ORDER) {	// wait for simulation to finish last order
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);
+		while (Simulation::m_reqDetils != NO_ORDER) {
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
 	if (ParticleData::m_resDetails == nullptr) {
 		std::unique_lock<std::mutex> lock_details(ParticleData::m_ResourceMutex);	// take resource mutex
 		while (ParticleData::m_resDetails == nullptr) {
@@ -158,6 +191,13 @@ void forceOpenDetails() {
 
 void forceOpenObjects()
 {
+	if (Simulation::m_reqObjects != NO_ORDER) {	// wait for simulation to finish last order
+		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);
+		while (Simulation::m_reqObjects != NO_ORDER) {
+			ParticleData::m_ResourceCondVariable.wait(lock_resource);
+		}
+		lock_resource.unlock();
+	}
 	if (ParticleData::m_resObjectsArray == nullptr) {
 		std::unique_lock<std::mutex> lock_details(ParticleData::m_ResourceMutex);	// take resource mutex
 		while (ParticleData::m_resObjectsArray == nullptr) {
@@ -207,17 +247,17 @@ void commitObjects()
 	Simulation::m_reqObjects = COMMIT;
 }
 
-void ParticleObjectCreator::createFluid(float positions[], int fluidTypes[], int &numOfParts) {
+void ParticleObjectCreator::createFluid(ParticleObjectDetais details, float positions[], int fluidTypes[], int &numOfParts) {
 
 	const float gap = Configuration.FLUID_PARTICLE_BUILD_GAP;
 
-	const float startX = ParticleObjectCreator::m_ParticleObjectDetais.lowX;
-	const float startY = ParticleObjectCreator::m_ParticleObjectDetais.lowY;
-	const float startZ = ParticleObjectCreator::m_ParticleObjectDetais.lowZ;
-	const float endX = ParticleObjectCreator::m_ParticleObjectDetais.highX;
-	const float endY = ParticleObjectCreator::m_ParticleObjectDetais.highY;
-	const float endZ = ParticleObjectCreator::m_ParticleObjectDetais.highZ;
-	const int fluidType = ParticleObjectCreator::m_ParticleObjectDetais.fluidType;
+	const float startX = details.lowX;
+	const float startY = details.lowY;
+	const float startZ = details.lowZ;
+	const float endX = details.highX;
+	const float endY = details.highY;
+	const float endZ = details.highZ;
+	const int fluidType = details.fluidType;
 
 	numOfParts = 0;
 
@@ -243,15 +283,9 @@ void ParticleObjectCreator::init()
 	Threads::addThreadToList(&m_workerThread);
 }
 
-bool ParticleObjectCreator::canAddObject()
-{
-	return m_ParticleObjectDetaisReady == false;
-}
-
 void ParticleObjectCreator::addObject(ParticleObjectDetais details)
 {
-	memcpy(&ParticleObjectCreator::m_ParticleObjectDetais, &details, sizeof(ParticleObjectDetais));
-	ParticleObjectCreator::m_ParticleObjectDetaisReady = true;
+	LOG_F(INFO, "New object assign: type: %d", details.fluidType);
+	ParticleObjectCreator::m_ParticleObjectDetaisVector.push_back(details);
 	ParticleObjectCreator::m_condVariable_partObjectDetails.notify_all();
-	LOG_F(INFO, "New object assign: type: %d", ParticleObjectCreator::m_ParticleObjectDetais.fluidType);
 }

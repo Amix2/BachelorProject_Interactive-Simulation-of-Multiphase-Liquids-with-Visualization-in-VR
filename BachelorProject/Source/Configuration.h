@@ -20,7 +20,7 @@ const struct Configuration {
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
-	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2 * SORT_ARRAY_SIZE + 7 * MAX_FLUID_PARTICLES;
+	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 7 * MAX_FLUID_PARTICLES;
 
 } Configuration;
 

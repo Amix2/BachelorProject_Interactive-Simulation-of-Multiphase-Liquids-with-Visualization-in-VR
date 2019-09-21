@@ -1,18 +1,14 @@
 #version 430 core
-/*
-INFO:
-	Work Group Size == (1, 1, 1)
-	Number Of Work Groups ==  number of particles
-*/
+
 #define NUM_THREADS 1
 #define MAX_FLUID 8192
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
+#define SORT_ARRAY_SIZE 2*MAX_FLUID
 
 #define INSERT_VARIABLES_HERE
 
-#define SORT_ARRAY_SIZE 2*MAX_FLUID
 
 layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
@@ -23,6 +19,7 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 layout(std430, binding = 9) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
+	uint originalIndex[SORT_ARRAY_SIZE];
 	float	CPY_Positions[3 * MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
 	int		CPY_FluidTypes[MAX_FLUID];
@@ -72,6 +69,7 @@ void main(void)
 		sortIndexArray[myThreadNumber] = getCellIndex(fluidPositions[3*myThreadNumber + 0]
 											, fluidPositions[3*myThreadNumber + 1]
 											, fluidPositions[3*myThreadNumber + 2]);
+		originalIndex[myThreadNumber] = myThreadNumber;
 	//}
 
 //	if(myFluidFirst == myFluidLast) {
