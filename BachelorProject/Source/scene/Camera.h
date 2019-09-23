@@ -20,7 +20,7 @@ namespace Scene {
 		void select() const;
 		void set(glm::vec3 position, float pitch, float yaw, float roll);
 		void set(glm::vec3 position, glm::vec3 front, glm::vec3 up, glm::vec3 right);
-		void set(const vr::HmdMatrix44_t& data);
+		void set(const vr::HmdMatrix34_t& data);
 		
 	protected:
 	private:

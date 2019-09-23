@@ -28,7 +28,11 @@
 #include <thread>
 #include <fstream>
 #include <ThreadManager.h>
-#include <thread>
+#include <VR/VRCore.h>
+#include <VR/VRGeometry.h>
+#include <VR/VRInput.h>
+#include <VR/InputConfig.h>
+#include <memory>
 
 void printWorkGroupsCapabilities();
 
@@ -44,7 +48,18 @@ std::string NAME = "Random window";
 constexpr unsigned int SCR_WIDTH = 1200;
 constexpr unsigned int SCR_HEIGHT = 600;
 
+const static std::unique_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
+const static std::unique_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
+const static std::unique_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
+
 int main(int argc, char ** argv) {
+	if (!VrCore->InitializeCore()) {
+		std::cerr << "Couldn't init VR Core!" << std::endl;
+	}
+	else {
+		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
+		VrGeometry->SetIVRSystem(VrCore->GetVrSystem());
+	}
 
 	if (LOG_TO_FILE) {
 		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
@@ -94,6 +109,12 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+		VrGeometry->SetupCameras();
+		VrGeometry->UpdateHMDMatrixPose();
+		VrInput->DetectPressedButtons();
+		VrInput->HandleInput();
+		cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking, VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
+		std::cout << VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking.m[0][0] << std::endl;
 		window.processInput();
 		scene.renderScene();
 	} while (!window.refresh());

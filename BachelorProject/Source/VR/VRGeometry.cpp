@@ -1,48 +1,33 @@
 #include "VRGeometry.h"
 
 namespace VR {
-	VRGeometry::VRGeometry(std::shared_ptr<vr::IVRSystem> VrSystem ) {
-		this->VrHandle = VrSystem;
+	VRGeometry::VRGeometry() {
+		//
+	}
+
+	void VRGeometry::SetIVRSystem(vr::IVRSystem* ivrSystem) {
+		this->VrHandle = ivrSystem;
 		this->VrHandle->GetRecommendedRenderTargetSize(&RenderWidth, &RenderHeight);
 	}
 
-	Matrix4 VRGeometry::GetHMDMatrixProjectionEye(vr::Hmd_Eye HmdEye) {
+	vr::HmdMatrix44_t VRGeometry::GetHMDMatrixProjectionEye(vr::Hmd_Eye HmdEye) {
 		if (!this->VrHandle) {
-			return Matrix4(); // error
+			return vr::HmdMatrix44_t(); // error
 		}
 
 		vr::HmdMatrix44_t HmdMatrix = this->VrHandle->GetProjectionMatrix(HmdEye, this->NearClip, this->FarClip);
 
-		return Matrix4(
-			HmdMatrix.m[0][0], HmdMatrix.m[1][0], HmdMatrix.m[2][0], HmdMatrix.m[3][0],
-			HmdMatrix.m[0][1], HmdMatrix.m[1][1], HmdMatrix.m[2][1], HmdMatrix.m[3][1],
-			HmdMatrix.m[0][2], HmdMatrix.m[1][2], HmdMatrix.m[2][2], HmdMatrix.m[3][2],
-			HmdMatrix.m[0][3], HmdMatrix.m[1][3], HmdMatrix.m[2][3], HmdMatrix.m[3][3]
-		);
+		return HmdMatrix;
 	}
 
-	Matrix4 VRGeometry::GetHMDMatrixPoseEye(vr::Hmd_Eye HmdEye) {
+	vr::HmdMatrix34_t VRGeometry::GetHMDMatrixPoseEye(vr::Hmd_Eye HmdEye) {
 		if (!this->VrHandle) {
-			return Matrix4(); // error
+			return vr::HmdMatrix34_t(); // error
 		}
 
 		vr::HmdMatrix34_t HmdMatrix = this->VrHandle->GetEyeToHeadTransform(HmdEye);
 
-		Matrix4 Matrix = SteamVRMatrixToMatrix4(HmdMatrix);
-
-		return Matrix;
-	}
-
-	Matrix4 VRGeometry::GetCurrentViewProjectionMatrix(vr::Hmd_Eye HmdEye) {
-		Matrix4 matMVP;
-		if (HmdEye == vr::Eye_Left) {
-			matMVP = this->HmdMatrixProjectionEyes["left"] * this->HmdMatrixPoseEyes["left"] * this->HmdPose;
-		}
-		else if (HmdEye == vr::Eye_Right) {
-			matMVP = this->HmdMatrixProjectionEyes["right"] * this->HmdMatrixPoseEyes["right"] * this->HmdPose;
-		}
-
-		return matMVP;
+		return HmdMatrix;
 	}
 
 	bool VRGeometry::UpdateHMDMatrixPose() {

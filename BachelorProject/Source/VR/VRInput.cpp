@@ -7,7 +7,7 @@
 
 namespace VR {
 	bool VRInput::InitializeVRInput(std::string PathToActions) {
-		//
+		this->ActionLoader = std::make_unique<VR::ActionLoader>(PathToActions);
 
 		return true;
 	}

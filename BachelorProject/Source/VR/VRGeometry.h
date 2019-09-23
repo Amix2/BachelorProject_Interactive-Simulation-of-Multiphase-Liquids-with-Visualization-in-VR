@@ -10,14 +10,15 @@
 namespace VR {
 	class VRGeometry {
 	public:
-		VRGeometry(std::shared_ptr<vr::IVRSystem>);
-		Matrix4 GetHMDMatrixProjectionEye(vr::Hmd_Eye);
-		Matrix4 GetHMDMatrixPoseEye(vr::Hmd_Eye);
-		Matrix4 GetCurrentViewProjectionMatrix(vr::Hmd_Eye);
+		VRGeometry();
+		void SetIVRSystem(vr::IVRSystem*);
+		vr::HmdMatrix44_t GetHMDMatrixProjectionEye(vr::Hmd_Eye);
+		vr::HmdMatrix34_t GetHMDMatrixPoseEye(vr::Hmd_Eye);
 		bool UpdateHMDMatrixPose();
 		bool SetupCameras();
 		unsigned int GetRenderHeight();
 		unsigned int GetRenderWidth();
+		vr::TrackedDevicePose_t TrackedDevicePose[vr::k_unMaxTrackedDeviceCount];
 
 	protected:
 		//
@@ -25,11 +26,10 @@ namespace VR {
 	private:
 		Matrix4 SteamVRMatrixToMatrix4(const vr::HmdMatrix34_t&);
 
-		vr::TrackedDevicePose_t TrackedDevicePose[vr::k_unMaxTrackedDeviceCount];
-		std::map<std::string, Matrix4> HmdMatrixProjectionEyes;
-		std::map<std::string, Matrix4> HmdMatrixPoseEyes;
+		std::map<std::string, vr::HmdMatrix44_t> HmdMatrixProjectionEyes;
+		std::map<std::string, vr::HmdMatrix34_t> HmdMatrixPoseEyes;
 		Matrix4 HmdPose;
-		std::shared_ptr<vr::IVRSystem> VrHandle;
+		vr::IVRSystem * VrHandle;
 		unsigned int ValidPosesCount;
 		unsigned int RenderHeight;
 		unsigned int RenderWidth;

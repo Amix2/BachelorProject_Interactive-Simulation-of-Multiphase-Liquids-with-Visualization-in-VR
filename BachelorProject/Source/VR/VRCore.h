@@ -8,12 +8,13 @@ namespace VR {
 	class VRCore {
 	public:
 		bool InitializeCore();
+		vr::IVRSystem * GetVrSystem();
 
 	protected:
 		//
 
 	private:
 		bool InitializeCompositor();
-		// std::shared_ptr<vr::IVRSystem> VrSystem;
+		vr::IVRSystem *VrSystem;
 	};
 }
