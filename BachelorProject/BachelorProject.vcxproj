@@ -44,7 +44,6 @@
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
     <ClCompile Include="Source\ThreadManager.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
-    <ClCompile Include="Source\TEMP_graphic.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -75,7 +74,6 @@
     <ClInclude Include="Source\shaders\ComputeShader.h" />
     <ClInclude Include="Source\ThreadManager.h" />
     <ClInclude Include="Source\Utils.h" />
-    <ClInclude Include="Source\TEMP_graphic.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\scene\ball.png" />

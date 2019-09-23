@@ -51,9 +51,6 @@
     <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\TEMP_graphic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,9 +123,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TEMP_graphic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\shaders\ShaderCodeEditor.h">

@@ -39,6 +39,9 @@ bool Window::init()
 
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	//TODO: Check errors
+	glewInit();
+
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(Window::GlfwWindowMessageCallback, 0);
@@ -46,11 +49,6 @@ bool Window::init()
 	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
 		GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Started debugging");
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to init GLAD";
-		exit(1);
-	}
 
 	return true;
 }

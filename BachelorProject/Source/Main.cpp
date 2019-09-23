@@ -188,4 +188,3 @@ void printWorkGroupsCapabilities() {
 
 	checkOpenGLErrors();
 }
-}
