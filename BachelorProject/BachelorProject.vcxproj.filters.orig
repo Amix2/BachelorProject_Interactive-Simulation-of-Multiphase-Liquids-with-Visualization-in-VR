@@ -102,9 +102,12 @@
     <ClCompile Include="Source\VR\VRInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="Source\utilities\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\shaders\ComputeShader.h">
@@ -200,12 +203,15 @@
     <ClInclude Include="Source\VR\VRInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="Source\utilities\Matrices.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\utilities\Vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\scene\ball.png">
@@ -217,11 +223,5 @@
     <None Include="Source\scene\bilboard.vs" />
     <None Include="Source\scene\testObject.f" />
     <None Include="Source\scene\testObject.v" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\shaders\BitonicSortShader.glsl" />
-    <None Include="Source\shaders\CellCountingForSort.glsl" />
-    <None Include="Source\shaders\compute.glsl" />
-    <None Include="Source\shaders\SortingFinalizer.glsl" />
   </ItemGroup>
 </Project>

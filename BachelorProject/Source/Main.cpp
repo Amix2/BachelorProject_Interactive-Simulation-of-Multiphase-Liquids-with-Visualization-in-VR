@@ -4,8 +4,14 @@
 #include <cstdlib>
 #include <cstring>
 #include <Windows.h>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <stdlib.h> 
+#include "scene/Window.h"
+#include "scene/ViewPort.h"
+#include "scene/Scene.h"
+#include "scene/Camera.h"
+#include "scene/TestMaterialObject.h"
+#include "scene/OcularCameraController.h"
+#include "scene/TestBilboardObject.h"
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -22,15 +28,9 @@
 #include <thread>
 #include <fstream>
 #include <ThreadManager.h>
-#include <stdlib.h> 
 #include <thread>
 
-#include <TEMP_graphic.h>
-
 void printWorkGroupsCapabilities();
-
-// init openGL functions
-void initGL();
 
 // init app elements
 void initTools();
@@ -40,29 +40,11 @@ void cleanUp();
 
 
 // settings
-const unsigned int SCR_WIDTH = 80;
-const unsigned int SCR_HEIGHT = 60;
-void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-GLFWwindow* window;
-
-void GLAPIENTRY
-MessageCallback(GLenum source,
-	GLenum type,
-	GLuint id,
-	GLenum severity,
-	GLsizei length,
-	const GLchar* message,
-	const void* userParam)
-{
-	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-		(type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-		type, severity, message);
-}
-
+std::string NAME = "Random window";
+constexpr unsigned int SCR_WIDTH = 1200;
+constexpr unsigned int SCR_HEIGHT = 600;
 
 int main(int argc, char ** argv) {
-	atexit(cleanUp);
 
 	if (LOG_TO_FILE) {
 		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
@@ -70,59 +52,55 @@ int main(int argc, char ** argv) {
 	}
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
-	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+
+	atexit(cleanUp);
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME };
+	if (window.init() == false) {
+		std::cout << "Failed to init window";
+		exit(1);
+	}
+
+	Scene::Scene scene{};
+
+	ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
+	ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
+	OcularCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+
+	ShaderProgram programCubes{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
+	TestMaterialObject cubes{ programCubes };
+
+	ShaderProgram programBilboard{ "./Source/scene/bilboard.vs", "./Source/scene/bilboard.fs" };
+	TestBilboardObject bilboard{ programBilboard };
+
+	//printWorkGroupsCapabilities();
+/////////////////////////////////////////////////////////////////////////////////////
+
+	initTools();
+
+	Simulation::startSimulation(window.glfwWindow);
+	
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-	initGL();
-	printWorkGroupsCapabilities();
-	initTools();
 
-	TEMP_graphic::initGraphic(window);
+	scene.addCamera(&cameraController.getLeftCamera());
+	scene.addCamera(&cameraController.getRightCamera());
+    scene.addMaterialObject(&cubes);
+	scene.addMaterialObject(&bilboard);
 
-	Simulation::startSimulation(window);
-	//ParticleData::initArraysOnGPU();
-	// main loop
-	while (!glfwWindowShouldClose(window))
+	do 
 	{
-		TEMP_graphic::showFrame(window);
-	}
+		window.processInput();
+		scene.renderScene();
+	} while (!window.refresh());
 
 	glfwTerminate();
 	return 0;
-}
-
-void initGL()
-{
-	glfwInit();
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Window name", NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return;
-	}
-	
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, TUTORIAL_framebuffer_size_callback);
-
-	glewExperimental = GL_TRUE;
-
-	if (glewInit() != 0) {
-		exit(-3);
-	}
-
-	// During init, enable debug output
-	glEnable(GL_DEBUG_OUTPUT);
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback(MessageCallback, 0);
-	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
-	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
-		GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Started debugging");
 }
 
 void initTools()
@@ -212,13 +190,4 @@ void printWorkGroupsCapabilities() {
 
 
 	checkOpenGLErrors();
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
 }

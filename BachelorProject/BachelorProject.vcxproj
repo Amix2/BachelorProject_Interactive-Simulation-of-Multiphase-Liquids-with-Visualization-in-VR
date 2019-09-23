@@ -19,7 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Source\dataStructures\FluidType.cpp" />
+    <ClCompile Include="Source\scene\Camera.cpp" />
+    <ClCompile Include="Source\scene\MaterialObject.cpp" />
+    <ClCompile Include="Source\scene\OcularCameraController.cpp" />
+    <ClCompile Include="Source\scene\Scene.cpp" />
+    <ClCompile Include="Source\scene\Shader.cpp" />
+    <ClCompile Include="Source\scene\ShaderProgram.cpp" />
+    <ClCompile Include="Source\scene\TestBilboardObject.cpp" />
+    <ClCompile Include="Source\scene\TestMaterialObject.cpp" />
+    <ClCompile Include="Source\scene\ViewPort.cpp" />
+    <ClCompile Include="Source\scene\Window.cpp" />
     <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
@@ -32,13 +43,30 @@
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\shaders\ComputeShader.cpp" />
     <ClCompile Include="Source\ThreadManager.cpp" />
+    <ClCompile Include="Source\utilities\Matrices.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
-    <ClCompile Include="Source\TEMP_graphic.cpp" />
+    <ClCompile Include="Source\VR\VRCore.cpp" />
+    <ClCompile Include="Source\VR\VRGeometry.cpp" />
+    <ClCompile Include="Source\VR\VRInput.cpp" />
+    <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\dataStructures\FluidType.h" />
     <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
     <ClInclude Include="Source\particleObjects\ParticleObjectManager.h" />
+    <ClInclude Include="Source\scene\Camera.h" />
+    <ClInclude Include="Source\scene\MaterialObject.h" />
+    <ClInclude Include="Source\scene\MousePositionListener.h" />
+    <ClInclude Include="Source\scene\MouseScrollListener.h" />
+    <ClInclude Include="Source\scene\OcularCameraController.h" />
+    <ClInclude Include="Source\scene\Scene.h" />
+    <ClInclude Include="Source\scene\Shader.h" />
+    <ClInclude Include="Source\scene\ShaderProgram.h" />
+    <ClInclude Include="Source\scene\TestBilboardObject.h" />
+    <ClInclude Include="Source\scene\TestMaterialObject.h" />
+    <ClInclude Include="Source\scene\ViewPort.h" />
+    <ClInclude Include="Source\scene\Window.h" />
+    <ClInclude Include="Source\scene\WindowSizeListener.h" />
     <ClInclude Include="Source\shaders\ShaderCodeEditor.h" />
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
     <ClInclude Include="Source\particleObjects\ParticleObject.h" />
@@ -49,8 +77,22 @@
     <ClInclude Include="Source\Configuration.h" />
     <ClInclude Include="Source\shaders\ComputeShader.h" />
     <ClInclude Include="Source\ThreadManager.h" />
+    <ClInclude Include="Source\utilities\Matrices.h" />
+    <ClInclude Include="Source\utilities\Vectors.h" />
     <ClInclude Include="Source\Utils.h" />
-    <ClInclude Include="Source\TEMP_graphic.h" />
+    <ClInclude Include="Source\VR\InputConfig.h" />
+    <ClInclude Include="Source\VR\VRCore.h" />
+    <ClInclude Include="Source\VR\VRGeometry.h" />
+    <ClInclude Include="Source\VR\VRInput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Source\scene\ball.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\scene\bilboard.fs" />
+    <None Include="Source\scene\bilboard.vs" />
+    <None Include="Source\scene\testObject.f" />
+    <None Include="Source\scene\testObject.v" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\BitonicSortShader.glsl" />
