@@ -7,6 +7,7 @@
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 #include "ViewPort.h"
+#include <OpenVR/openvr.h>
 
 namespace Scene {
 	class Camera
@@ -19,6 +20,7 @@ namespace Scene {
 		void select() const;
 		void set(glm::vec3 position, float pitch, float yaw, float roll);
 		void set(glm::vec3 position, glm::vec3 front, glm::vec3 up, glm::vec3 right);
+		void set(const vr::HmdMatrix44_t& data);
 		
 	protected:
 	private:
