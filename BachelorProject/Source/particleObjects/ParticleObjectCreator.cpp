@@ -224,6 +224,7 @@ void weakOpenObjects()
 
 void commitFluid()
 {
+	//LOG_F(INFO, "commitFluid request");
 	Simulation::m_reqFluidArray = COMMIT;
 }
 

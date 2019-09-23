@@ -42,22 +42,34 @@ layout(std430, binding = 6) buffer detailsBuf
 	uint numOfGlassParticles;
 };
 
-layout(std430, binding = 3) buffer glassPositionsBuf
+layout(std430, binding = 8) buffer simVariablesBuf
 {
-	float glassPositions[3*MAX_FLUID];
+	float fluidVelocity[3 * MAX_FLUID];
+	float fluidAcceleration[3 * MAX_FLUID];
+	float fluidSurfaceVector[3 * MAX_FLUID];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensity[MAX_FLUID];
+	float fluidPressure[MAX_FLUID];
 };
-
-uint getCellIndex(in float pX, in float pY, in float pZ);
 
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x
 			+ gl_LocalInvocationIndex;
-	//if(particleFluidType[myThreadNumber] != 0) {
-		sortIndexArray[myThreadNumber] = getCellIndex(fluidPositions[3*myThreadNumber + 0]
-											, fluidPositions[3*myThreadNumber + 1]
-											, fluidPositions[3*myThreadNumber + 2]);
-	//}
+	const uint myTakeFromId = originalIndex[myThreadNumber];
+	const uint myInsertToId = myThreadNumber;
+	if(myThreadNumber>=numOfParticles || myTakeFromId == myInsertToId) return;
+
+	fluidPositions[3*myInsertToId+0] = CPY_Positions[3*myTakeFromId+0];
+	fluidPositions[3*myInsertToId+1] = CPY_Positions[3*myTakeFromId+1];
+	fluidPositions[3*myInsertToId+2] = CPY_Positions[3*myTakeFromId+2];
+
+	fluidVelocity[3*myInsertToId+0] = CPY_Velocity[3*myTakeFromId+0];
+	fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
+	fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
+
+	particleFluidType[myInsertToId] = CPY_FluidTypes[myTakeFromId];
+	
 }
 /*
 in uvec3 gl_NumWorkGroups;

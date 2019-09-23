@@ -61,6 +61,8 @@ const struct ShaderFiles {
 	inline static const std::string TEST_ComputeShader = "./Source/shaders/compute.glsl";
 	inline static const std::string BitonicSort = "./Source/shaders/BitonicSortShader.glsl";
 	inline static const std::string CellCountingForSort = "./Source/shaders/CellCountingForSort.glsl";
+	inline static const std::string VariablesArrangementAfterSort = "./Source/shaders/SortingFinalizer.glsl";
+	
 
 } ShaderFiles;
 

@@ -46,6 +46,7 @@ void ParticleData::openFluidArray()
 		, (GLintptr)m_FluidParticlesNum  * sizeof(int)	// offset
 		, ((GLsizeiptr)Configuration.MAX_FLUID_PARTICLES - m_FluidParticlesNum) * sizeof(int)	// length
 	);
+	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -57,6 +58,7 @@ void ParticleData::openGlassArray()
 		, (GLintptr) m_GlassParticlesNum * 3 * sizeof(float)	// offset
 		, ((GLsizeiptr) Configuration.MAX_GLASS_PARTICLES - m_GlassParticlesNum) * 3 * sizeof(float)	// length
 	);
+	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -67,6 +69,7 @@ void ParticleData::openGlassVectors()
 		, (GLintptr)m_GlassParticlesNum * 3 * sizeof(float)	// offset
 		, ((GLsizeiptr)Configuration.MAX_GLASS_PARTICLES - m_GlassParticlesNum) * 3 * sizeof(float)	// length
 	);
+	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -74,6 +77,7 @@ void ParticleData::openDetails()
 {
 	LOG_F(INFO, "OPEN details struct");
 	m_resDetails = (SimDetails*)GpuResources::openSSBO(BufferDatails.detailsName);
+	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -81,6 +85,7 @@ void ParticleData::openObjects()
 {
 	//LOG_F(INFO, "OPEN Particle Objects Array");
 	m_resObjectsArray = (ParticleObject*)GpuResources::openSSBO(BufferDatails.partObjectsName);
+	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -98,6 +103,7 @@ void ParticleData::commitFluidArray()
 
 	m_resFluidArray = nullptr;
 	m_resFluidTypesArray = nullptr;
+	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -110,6 +116,7 @@ void ParticleData::commitGlassArray()
 	GpuResources::commitSSBO(BufferDatails.glassPositionsName);
 
 	m_resGlassArray = nullptr;
+	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -120,6 +127,7 @@ void ParticleData::commitGlassVectors()
 	GpuResources::commitSSBO(BufferDatails.glassVectorName);
 
 	m_resGlassVectorsArray = nullptr;
+	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -130,6 +138,7 @@ void ParticleData::commitDetails()
 	GpuResources::commitSSBO(BufferDatails.detailsName);
 
 	m_resDetails = nullptr;
+	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -140,6 +149,7 @@ void ParticleData::commitObjects()
 	GpuResources::commitSSBO(BufferDatails.partObjectsName);
 
 	m_resObjectsArray = nullptr;
+	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
@@ -155,21 +165,27 @@ void ParticleData::copyDataForSorting()
 	*/
 	const int sortIdSize = 2*Configuration.SORT_ARRAY_SIZE * sizeof(float);
 	const int cpyPosSize = 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float);
-	const int cpyVelSize = 3 * Configuration.MAX_FLUID_PARTICLES * sizeof(float);
-	const int cpyTypesSize = Configuration.MAX_FLUID_PARTICLES * sizeof(float);
+	const int cpyPosSizeUsed = 3 * ParticleData::m_FluidParticlesNum * sizeof(float);
+	const int cpyVelSize = cpyPosSize;
+	const int cpyVelSizeUsed = cpyPosSizeUsed;
+	const int cpyTypesSize = cpyPosSize/3;
+	const int cpyTypesSizeUsed = cpyPosSizeUsed/3;
 	const std::string sortTargetName = BufferDatails.SortVariablesName;
 	const std::string positionsSourceName = BufferDatails.particlePositionsName;
 	const std::string velositySourceName = BufferDatails.SPHVariablesName;
 	const std::string typesSourceName = BufferDatails.particlesFluidTypeName;
 
+	//glFinish();	auto start = getNanoTime();
 	GpuResources::setAsCopyTarget(sortTargetName);
 	GpuResources::setAsCopySource(positionsSourceName);
-	GpuResources::copyResourceSubData(positionsSourceName, sortTargetName, 0, sortIdSize, 0);
+	GpuResources::copyResourceSubData(positionsSourceName, sortTargetName, 0, sortIdSize, cpyPosSizeUsed);
 	GpuResources::setAsCopySource(velositySourceName);
-	GpuResources::copyResourceSubData(velositySourceName, sortTargetName, 0, sortIdSize + cpyPosSize, 0);
+	GpuResources::copyResourceSubData(velositySourceName, sortTargetName, 0, sortIdSize + cpyPosSize, cpyVelSizeUsed);
 	GpuResources::setAsCopySource(typesSourceName);
-	GpuResources::copyResourceSubData(typesSourceName, sortTargetName, 0, sortIdSize + cpyPosSize + cpyVelSize, 0);
+	GpuResources::copyResourceSubData(typesSourceName, sortTargetName, 0, sortIdSize + cpyPosSize + cpyVelSize, cpyTypesSizeUsed);
+	//glFinish();  auto end = getNanoTime();
 
+	//LOG_F(ERROR, "TIIMEEE:   %f", getNanoTimeDif(start, end));
 	checkOpenGLErrors();
 }
 

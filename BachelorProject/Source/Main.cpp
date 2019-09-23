@@ -40,8 +40,8 @@ void cleanUp();
 
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 8;
+const unsigned int SCR_HEIGHT = 6;
 void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 GLFWwindow* window;
@@ -70,7 +70,7 @@ int main(int argc, char ** argv) {
 	}
 	loguru::g_preamble_date = false;
 	loguru::init(argc, argv);
-	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 /////////////////////////////////////////////////////////////////////////////////////
 
 

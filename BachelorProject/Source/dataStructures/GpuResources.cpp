@@ -67,7 +67,7 @@ void* GpuResources::openPartResource(GLenum target, std::string name, GLintptr o
 
 		glBindBuffer(target, index);
 		LOG_F(INFO, "open part, offset %d, length %d", (int)offset, (int)length);
-		void* ptr = glMapNamedBufferRange(index, offset, length, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+		void* ptr = glMapNamedBufferRange(index, offset, length, GL_MAP_WRITE_BIT);
 		checkOpenGLErrors();
 		return ptr;
 
@@ -104,6 +104,7 @@ void GpuResources::copyResourceSubData(GLuint source, GLuint target, GLintptr so
 	//LOG_F(INFO, "CPY Resource SubData from %d ::%d to %d ::%d, size: %d", source, sourceOffset, target, targetOffset, size);
 
 	glCopyNamedBufferSubData(source, target, sourceOffset, targetOffset, size);
+	//LOG_F(INFO, " 1sd");
 	checkOpenGLErrors();
 }
 
@@ -231,7 +232,7 @@ void GpuResources::setAsCopyTarget(std::string targetName)
 
 void GpuResources::copyResourceSubData(std::string source, std::string target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size)
 {
-	LOG_F(INFO, "CPY Resource SubData from %s ::%d to %s ::%d, size: %d", source.c_str(), sourceOffset, target.c_str(), targetOffset, size);
+	//LOG_F(INFO, "CPY Resource SubData from %s ::%d to %s ::%d, size: %d", source.c_str(), sourceOffset, target.c_str(), targetOffset, size);
 	if (GpuResources::m_NamesMap.find(source) == GpuResources::m_NamesMap.end()
 		|| GpuResources::m_NamesMap.find(target) == GpuResources::m_NamesMap.end()) {
 		LOG_F(ERROR, "no Resource for given name");

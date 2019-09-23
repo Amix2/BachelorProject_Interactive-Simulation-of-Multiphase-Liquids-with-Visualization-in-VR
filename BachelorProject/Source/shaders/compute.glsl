@@ -86,10 +86,6 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidPressure[MAX_FLUID];
 };
 
-// section in array to know what particles should be calculated by this thread, ...Last -> 1 after last that should be calculated
-uint myGlassFirst, myGlassLast;
-uint myFluidFirst, myFluidLast;
-
 //////////////////////////////////////////////////
 //	FUNCTIONS
 	/*	setup	uint myGlassFirst, myGlassLast;
@@ -104,55 +100,13 @@ uint myFluidFirst, myFluidLast;
 
 void main(void)
 {
-	// to see changes in visualizer
-	fluidPositions[0] += 0.018;
-	if(fluidPositions[0]>=1) fluidPositions[0] = 0;
-
-	/*	setup	uint myGlassFirst, myGlassLast;
-				uint myFluidFirst, myFluidLast;
-		to know what particles should be calculated by this thread
-	*/
-	findMyArraySections();
-	int val  = 0;
-	for(int i=0; i<1000000; i++) {
-		val++;
-	}
-	float qq = 0;
-	for(int i=0; i<100; i++) {
-		qq++;
-	}
-	mems[gl_LocalInvocationIndex] = qq;
-
-	barrier();
-
 
 	// SPH
 	for(int i=0; i<numOfParticles; i++) {
-		fluidPositions[3*i+1] -= 0.05 + val;	// move particles
-		if(gl_LocalInvocationIndex == 0) fluidPositions[3*i+2] = mems[0] + mems[1] + mems[2];
+		fluidPositions[3*i+1] -= 0.05;	// move particles
 	}
-
-	//fluidPositions[0] = gl_WorkGroupID.x;
 }
 
-
-void findMyArraySections() {
-	// calculate first and last GLASS index for this thread (later refered as "my")
-	const uint glassInterval = uint(round(numOfGlassParticles / NUM_THREADS));
-	myGlassFirst = gl_LocalInvocationIndex * glassInterval;
-	if(gl_LocalInvocationIndex < NUM_THREADS - 1) 
-		myGlassLast = (gl_LocalInvocationIndex + 1)* glassInterval;
-	else
-		myGlassLast = numOfGlassParticles;
-
-	// calculate first and last FLUID index for this thread (later refered as "my")
-	const uint particleInterval = uint(round(numOfParticles / NUM_THREADS));
-	myFluidFirst = gl_LocalInvocationIndex * particleInterval;
-	if(gl_LocalInvocationIndex < NUM_THREADS - 1) 
-		myFluidLast = (gl_LocalInvocationIndex + 1)* particleInterval;
-	else
-		myFluidLast = numOfParticles;
-}
 
 //void findMyArraySections2() {
 //	const uint numOfThreads = gl_WorkGroupSize.x * gl_WorkGroupSize.y * gl_WorkGroupSize.z 

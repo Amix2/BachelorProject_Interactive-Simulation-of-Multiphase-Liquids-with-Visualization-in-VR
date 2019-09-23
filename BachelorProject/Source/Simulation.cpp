@@ -7,63 +7,73 @@ const std::string turnUniform = "u_turnInStage";
 
 void Simulation::runSimulationFrame()
 {
-	long tStart = getTime();
-	// open or close resources required by other threads
-	parseResourceRequest();
-
-	// exchange information about glass objects with gpu
-	ParticleObjectManager::synchronizeWithGpu();
-
-	int dispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
-
-	ParticleData::copyDataForSorting();
-
-	////////////////////////////////////////////////
-	//	SHADERS 
-
-	// Move glass particles
+	std::chrono::time_point<std::chrono::steady_clock> 
+		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars;
+	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime;
+	_ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = 0;
+	for (int i = 0; i < 1000; i++) {
+		glFinish();
+		_ntStart = getNanoTime();
 
 
-	// Sort fluid particle array
-	auto ntStart = getNanoTime();
-	for (int i = 0; i < 10; i++) {
-	const int cellCountingWorkGroups = ceil(ParticleData::m_FluidParticlesNum / 256.0);
-	//LOG_F(INFO, "CELLS compute shader witn (%d, 1, 1)", cellCountingWorkGroups);
-	m_CellCounting.runShader(cellCountingWorkGroups, 1, 1, true);
+		// open or close resources required by other threads
+		parseResourceRequest();
+		if (ParticleData::m_OpenedResources > 0) return;
 
-	const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_FluidParticlesNum))) / 256.0);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
-	//LOG_F(INFO, "SORTING compute shader witn (%d, 1, 1)", bitonicSortWorkGroups);
-	const int numOfStages = ceil(log2(ParticleData::m_FluidParticlesNum));
-	for (int currentStage = 1; currentStage <= numOfStages; currentStage++) {
-		for (int currentTurn = 1; currentTurn <= currentStage; currentTurn++) {
-			m_BitonicSort.setUniformVariable(stageUniform, currentStage);
-			m_BitonicSort.setUniformVariable(turnUniform, currentTurn);
-			m_BitonicSort.runShader(dispathSize, 1, 1, false);
+		glFinish();		_ntParseRequests = getNanoTime();		_ntParseRequestsTime += getNanoTimeDif(_ntStart, _ntParseRequests);
+
+		// exchange information about glass objects with gpu
+		ParticleObjectManager::synchronizeWithGpu();
+
+		glFinish();		_ntSynchronizeWithGpu = getNanoTime();		_ntSynchronizeWithGpuTime += getNanoTimeDif(_ntParseRequests, _ntSynchronizeWithGpu);
+
+		ParticleData::copyDataForSorting();
+
+		glFinish();		_ntCopyForSort = getNanoTime();		_ntCopyForSortTime += getNanoTimeDif(_ntSynchronizeWithGpu, _ntCopyForSort);
+
+		////////////////////////////////////////////////
+		//	SHADERS 
+		const int dispathSize = ceil(ParticleData::m_FluidParticlesNum / 256.0);
+
+		// Move glass particles
+
+
+		// ASSIGN cells to particles
+		m_CellCounting.runShader(dispathSize, 1, 1, false);
+
+		glFinish(); _ntCellCounting = getNanoTime();		_ntCellCountingTime += getNanoTimeDif(_ntCopyForSort, _ntCellCounting);
+
+		// SORT
+		const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_FluidParticlesNum))) / 256.0);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
+		const int numOfStages = ceil(log2(ParticleData::m_FluidParticlesNum));
+		for (int currentStage = 1; currentStage <= numOfStages; currentStage++) {
+			for (int currentTurn = 1; currentTurn <= currentStage; currentTurn++) {
+				m_BitonicSort.setUniformVariable(stageUniform, currentStage);
+				m_BitonicSort.setUniformVariable(turnUniform, currentTurn);
+				m_BitonicSort.runShader(dispathSize, 1, 1, false);
+			}
 		}
+		glFinish();		_ntBitonicSort = getNanoTime();		_ntBitonicSortTime += getNanoTimeDif(_ntCellCounting, _ntBitonicSort);
+		// ARRANGE variables after sorting
+		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
+		glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
+
+		m_TESTshader.runShader(1, 1, 1, true);	glFinish();
+
 	}
-	glFinish();
-	}
-	auto ntEnd = getNanoTime();
 
 	checkOpenGLErrors();
-	// Calculate SPH
 
-
-	// TEMP
-		// compute shader (change values)
-		//m_TESTshader.runShader(1, 1, 1, true);
-
-	//	-end- SHADERS
 	////////////////////////////////////////////////
 
 	
-	long tEnd = getTime();
 	// if enabled - log all particles positions into file
 	if (LOG_TO_FILE) {
 		ParticleData::logParticlePositions();
 	}
 
-	LOG_F(INFO, "Simulation time: %d, %f", tEnd - tStart, getNanoTimeDif(ntStart, ntEnd));
+	LOG_F(INFO, "Simulation time: Requests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f"
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime);
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -83,11 +93,11 @@ void Simulation::main()
 
 	Simulation::runSimulationFrame();
 	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
-	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,10.1, 60 };
+	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60.1, 100 };
 	ParticleObjectCreator::addObject(details);
 	ParticleObjectCreator::addObject(details2);
 
-	for(int i=0; i<100; i++) Simulation::runSimulationFrame();
+	for(int i=0; i<10; i++) Simulation::runSimulationFrame();
 	ParticleData::printSortingData();
 	ParticleData::printParticleData(20);
 
@@ -113,6 +123,7 @@ void Simulation::init()
 	m_TESTshader = ComputeShader(ShaderFiles.TEST_ComputeShader);
 	m_CellCounting = ComputeShader(ShaderFiles.CellCountingForSort);
 	m_BitonicSort = ComputeShader(ShaderFiles.BitonicSort);
+	m_VariablesArrangement = ComputeShader(ShaderFiles.VariablesArrangementAfterSort);
 }
 
 void Simulation::parseResourceRequest()
@@ -120,12 +131,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqFluidArray) {
 	case OPEN:
-		ParticleData::openFluidArray();
 		m_reqFluidArray = NO_ORDER;
+		ParticleData::openFluidArray();
 		break;
 	case COMMIT:
-		ParticleData::commitFluidArray();
 		m_reqFluidArray = NO_ORDER;
+		ParticleData::commitFluidArray();
 		break;
 	case NO_ORDER:
 		break;
@@ -133,12 +144,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqGlassArray) {
 	case OPEN:
-		ParticleData::openGlassArray();
 		m_reqGlassArray = NO_ORDER;
+		ParticleData::openGlassArray();
 		break;
 	case COMMIT:
-		ParticleData::commitGlassArray();
 		m_reqGlassArray = NO_ORDER;
+		ParticleData::commitGlassArray();
 		break;
 	case NO_ORDER:
 		break;
@@ -146,12 +157,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqGlassVectorsArray) {
 	case OPEN:
-		ParticleData::openGlassVectors();
 		m_reqGlassVectorsArray = NO_ORDER;
+		ParticleData::openGlassVectors();
 		break;
 	case COMMIT:
-		ParticleData::commitGlassVectors();
 		m_reqGlassVectorsArray = NO_ORDER;
+		ParticleData::commitGlassVectors();
 		break;
 	case NO_ORDER:
 		break;
@@ -159,12 +170,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqDetils) {
 	case OPEN:
-		ParticleData::openDetails();
 		m_reqDetils = NO_ORDER;
+		ParticleData::openDetails();
 		break;
 	case COMMIT:
-		ParticleData::commitDetails();
 		m_reqDetils = NO_ORDER;
+		ParticleData::commitDetails();
 		break;
 	case NO_ORDER:
 		break;
@@ -172,17 +183,17 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqObjects) {
 	case OPEN:
-		ParticleData::openObjects();
 		m_reqObjects = NO_ORDER;
+		ParticleData::openObjects();
 		break;
 	case COMMIT:
-		ParticleData::commitObjects();
 		m_reqObjects = NO_ORDER;
+		ParticleData::commitObjects();
 		break;
 	case COMMIT_AND_OPEN:
+		m_reqObjects = NO_ORDER;
 		ParticleData::commitObjects();
 		ParticleData::openObjects();
-		m_reqObjects = NO_ORDER;
 	case NO_ORDER:
 		break;
 	}

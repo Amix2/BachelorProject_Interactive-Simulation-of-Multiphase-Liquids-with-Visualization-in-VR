@@ -45,6 +45,8 @@ public:
 	inline static int m_GlassParticlesNum = 0;
 	inline static int m_FluidParticlesNum = 0;
 
+	inline static int m_OpenedResources = 0;
+
 	// getters - only this class can change data from gpu
 	static float* getPositions();
 	static float* getGlassPositions();
