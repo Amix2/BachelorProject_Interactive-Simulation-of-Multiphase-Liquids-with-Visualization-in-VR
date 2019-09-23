@@ -50,6 +50,16 @@ namespace Scene {
 		updateCameraAngles();
 	}
 
+	void Camera::set(const vr::HmdMatrix44_t& data)
+	{
+		right = -glm::vec3{ data.m[2][0], data.m[2][1], data.m[2][2] };
+		up = glm::vec3{ data.m[1][0], data.m[1][1], data.m[1][2] };
+		front = glm::vec3{ data.m[2][0], data.m[2][1], data.m[2][2] };
+		position = glm::vec3{ data.m[3][0], data.m[3][1], data.m[3][2] };
+		updateCameraAngles();
+
+	}
+
 	void Camera::updateCameraVectors() {
 		glm::vec3 newFront;
 		newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));

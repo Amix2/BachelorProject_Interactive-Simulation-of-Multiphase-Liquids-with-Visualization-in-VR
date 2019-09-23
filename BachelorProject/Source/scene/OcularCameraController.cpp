@@ -40,6 +40,12 @@ void OcularCameraController::handleMouseScroll(double scroll)
 {
 }
 
+void OcularCameraController::setHead(const  vr::HmdMatrix44_t& leftEye, const  vr::HmdMatrix44_t& rightEye)
+{
+	this->leftEye.set(leftEye);
+	this->rightEye.set(rightEye);
+}
+
 void OcularCameraController::updateHeadVectors()
 {
 	glm::vec3 newFront;

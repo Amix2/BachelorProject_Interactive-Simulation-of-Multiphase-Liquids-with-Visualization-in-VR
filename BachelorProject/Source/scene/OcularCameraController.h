@@ -6,7 +6,7 @@
 #include "Window.h"
 #include "Camera.h"
 #include <glm/glm.hpp>
-#include <utilities/Matrices.h>
+#include <OpenVR/openvr.h>
 
 class OcularCameraController
 	: public MousePositionListener
