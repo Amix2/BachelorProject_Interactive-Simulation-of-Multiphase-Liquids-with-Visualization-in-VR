@@ -6,17 +6,18 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
 	const float layerGap = (float)inCircleGap * (float)sqrt(3) / 2;	// gap on oY
 	const float innerRadius = details.innerRadius;
-	const glm::vec3 center = glm::vec3(details.cX, details.cY, details.cZ);
+	const glm::vec3 localCenter = glm::vec3(0,0,0);
+	const glm::vec3 objectCenter = glm::vec3(details.cX, details.cY, details.cZ);
 	const float thickness = details.thickness;
 	const float height = details.height;
-	const float top = center.y + height / 2;
-	const glm::vec3 topVec = center + glm::vec3(0, height / 2, 0);
-	const float bottom = center.y - height / 2;
-	const glm::vec3 bottomVec = center - glm::vec3(0, height / 2, 0);
+	const float top = localCenter.y + height / 2;
+	const glm::vec3 topVec = localCenter + glm::vec3(0, height / 2, 0);
+	const float bottom = localCenter.y - height / 2;
+	const glm::vec3 bottomVec = localCenter - glm::vec3(0, height / 2, 0);
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
 	// set up attributes
-	m_currentPosition = center;
+	m_currentPosition = objectCenter;
 	m_targetPosition = m_currentPosition;
 	m_indBegin = ParticleData::m_GlassParticlesNum;
 	m_currentVector = glm::vec3(0, 1, 0);
@@ -35,13 +36,13 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 		*/
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top		// heights
 			, innerRadius + layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top	// heights
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	
@@ -73,19 +74,19 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 		*/
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 2 * layerGap, top - layerGap / 2		// heights
 			, innerRadius + 2 * layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 2 * layerGap, top 	// heights
 			, innerRadius + layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::ZERO);	// always should be here
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top - layerGap / 2	// heights
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
@@ -122,25 +123,25 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 		*/
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 3 * layerGap, top - layerGap		// heights
 			, innerRadius + 3 * layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 3 * layerGap, top 	// heights
 			, innerRadius + 2 * layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top 	// heights
 			, innerRadius + layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
 
 		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(center.x, center.z)
+			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top - layerGap	// heights
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here

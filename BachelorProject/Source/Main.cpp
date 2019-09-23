@@ -77,13 +77,16 @@ int main(int argc, char ** argv) {
 	ShaderProgram programBilboard{ "./Source/scene/bilboard.vs", "./Source/scene/bilboard.fs" };
 	TestBilboardObject bilboard{ programBilboard };
 
+	//printWorkGroupsCapabilities();
 /////////////////////////////////////////////////////////////////////////////////////
 
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-	//ParticleData::initArraysOnGPU();
-	//printWorkGroupsCapabilities();
+	
+/////////////////////////////////////////////////////////////////////////////////////
+
+
 
 	scene.addCamera(&cameraController.getLeftCamera());
 	scene.addCamera(&cameraController.getRightCamera());

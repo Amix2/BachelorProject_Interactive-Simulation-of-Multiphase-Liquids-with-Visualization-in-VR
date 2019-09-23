@@ -11,13 +11,19 @@
 #include <condition_variable>
 #include <mutex>
 #include <thread>
+#include <math.h>
 
 enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
 class Simulation
 {
 	inline static GLFWwindow* m_simulationWindow;
+	inline static GLFWwindow* m_mainWindow;
 	inline static std::thread m_simulationThread;
+
+	inline static ComputeShader m_CellCounting;
+	inline static ComputeShader m_BitonicSort;
+	inline static ComputeShader m_VariablesArrangement;
 
 	inline static ComputeShader m_TESTshader;
 public:

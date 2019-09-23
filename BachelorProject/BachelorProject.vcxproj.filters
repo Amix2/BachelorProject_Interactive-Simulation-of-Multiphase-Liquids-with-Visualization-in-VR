@@ -218,4 +218,10 @@
     <None Include="Source\scene\testObject.f" />
     <None Include="Source\scene\testObject.v" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\shaders\BitonicSortShader.glsl" />
+    <None Include="Source\shaders\CellCountingForSort.glsl" />
+    <None Include="Source\shaders\compute.glsl" />
+    <None Include="Source\shaders\SortingFinalizer.glsl" />
+  </ItemGroup>
 </Project>

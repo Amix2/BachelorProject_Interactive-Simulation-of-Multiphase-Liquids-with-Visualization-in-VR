@@ -27,6 +27,8 @@ class GpuResources
 	static void		commitResource(GLenum target, std::string name);
 
 	static void		attachResource(GLenum target, GLuint bindingPointIndex, GLuint resourceIndexName);
+
+	static void		copyResourceSubData(GLuint  source, GLuint target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size);
 public:
 
 	static void		createSSBO(std::string name, GLsizeiptr size, const void *data, GLuint bindingPointIndex);	// create SSBO and add its name to local map
@@ -43,6 +45,9 @@ public:
 	static void		commitUBO(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
 	static void		attachUBO(std::string name, GLuint bindingPointIndex);	// bind existing UBO to this context
 
+	static void setAsCopySource(std::string  sourceName);
+	static void setAsCopyTarget(std::string  targetName);
+	static void		copyResourceSubData(std::string  source, std::string target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size);
 
 	// gets a gpu index of buffer
 	static GLuint	getIndex(std::string name);

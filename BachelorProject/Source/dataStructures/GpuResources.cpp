@@ -35,6 +35,7 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 		return p;
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no SSBO for given name";
 	}
 }
@@ -53,6 +54,7 @@ void* GpuResources::openResource(GLenum target, std::string name)
 		return p;
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no SSBO for given name";
 	}
 }
@@ -64,13 +66,14 @@ void* GpuResources::openPartResource(GLenum target, std::string name, GLintptr o
 		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
-		//LOG_F(INFO, "open part, offset %d, length %d", (int)offset, (int)length);
+		LOG_F(INFO, "open part %s, offset %d, length %d", name.c_str(),  (int)offset, (int)length);
 		void* ptr = glMapNamedBufferRange(index, offset, length, GL_MAP_WRITE_BIT);
 		checkOpenGLErrors();
 		return ptr;
 
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no SSBO for given name";
 	}
 }
@@ -85,6 +88,7 @@ void GpuResources::commitResource(GLenum target, std::string name)
 		checkOpenGLErrors();
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no SSBO for given name";
 	}
 }
@@ -92,6 +96,15 @@ void GpuResources::commitResource(GLenum target, std::string name)
 void GpuResources::attachResource(GLenum target, GLuint bindingPointIndex, GLuint resourceIndexName)
 {
 	glBindBufferBase(target, bindingPointIndex, resourceIndexName);
+	checkOpenGLErrors();
+}
+
+void GpuResources::copyResourceSubData(GLuint source, GLuint target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size)
+{
+	//LOG_F(INFO, "CPY Resource SubData from %d ::%d to %d ::%d, size: %d", source, sourceOffset, target, targetOffset, size);
+
+	glCopyNamedBufferSubData(source, target, sourceOffset, targetOffset, size);
+	//LOG_F(INFO, " 1sd");
 	checkOpenGLErrors();
 }
 
@@ -143,6 +156,7 @@ void GpuResources::attachSSBO(std::string name, GLuint bindingPointIndex)
 		checkOpenGLErrors();
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no SSBO for given name";
 	}
 }
@@ -199,8 +213,32 @@ void GpuResources::attachUBO(std::string name, GLuint bindingPointIndex)
 		checkOpenGLErrors();
 	}
 	else {
+		LOG_F(ERROR, "no Resource for given name");
 		throw "no UBO for given name";
 	}
+}
+
+void GpuResources::setAsCopySource(std::string sourceName)
+{
+	glBindBuffer(GL_COPY_READ_BUFFER, m_NamesMap[sourceName]);
+	checkOpenGLErrors();
+}
+
+void GpuResources::setAsCopyTarget(std::string targetName)
+{
+	glBindBuffer(GL_COPY_WRITE_BUFFER, m_NamesMap[targetName]);
+	checkOpenGLErrors();
+}
+
+void GpuResources::copyResourceSubData(std::string source, std::string target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size)
+{
+	//LOG_F(INFO, "CPY Resource SubData from %s ::%d to %s ::%d, size: %d", source.c_str(), sourceOffset, target.c_str(), targetOffset, size);
+	if (GpuResources::m_NamesMap.find(source) == GpuResources::m_NamesMap.end()
+		|| GpuResources::m_NamesMap.find(target) == GpuResources::m_NamesMap.end()) {
+		LOG_F(ERROR, "no Resource for given name");
+		throw "no Resource for given name";
+	}
+	GpuResources::copyResourceSubData(m_NamesMap[source], m_NamesMap[target], sourceOffset, targetOffset, size);
 }
 
 

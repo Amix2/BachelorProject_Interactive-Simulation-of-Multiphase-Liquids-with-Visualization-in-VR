@@ -94,6 +94,12 @@
     <None Include="Source\scene\testObject.f" />
     <None Include="Source\scene\testObject.v" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\shaders\BitonicSortShader.glsl" />
+    <None Include="Source\shaders\CellCountingForSort.glsl" />
+    <None Include="Source\shaders\compute.glsl" />
+    <None Include="Source\shaders\SortingFinalizer.glsl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E70769CF-90CF-45DA-AAE4-30A662690E30}</ProjectGuid>
