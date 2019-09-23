@@ -78,9 +78,21 @@ void Simulation::runSimulationFrame()
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
 {
+	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	m_simulationWindow = glfwCreateWindow(10, 10, "OTHER", NULL, baseWindow);
+	m_mainWindow = baseWindow;
 	Simulation::m_simulationThread =  std::thread(Simulation::main);
 	Threads::addThreadToList(&Simulation::m_simulationThread);
+}
+
+void setupSimObjects()
+{
+	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
+	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60.1, 20 };
+	ParticleObjectDetais details3{ -1, 5,4,5, 2.5,0,2.5 };
+	ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(details3);
 }
 
 void Simulation::main()
@@ -91,31 +103,17 @@ void Simulation::main()
 	Simulation::init();
 	ParticleData::initArraysOnGPU();
 
-	Simulation::runSimulationFrame();
-	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
-	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60.1, 100 };
-	ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
-
-	for(int i=0; i<10; i++) Simulation::runSimulationFrame();
-	ParticleData::printSortingData();
-	ParticleData::printParticleData(20);
-
-
-
-
-	return;
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	while (!glfwWindowShouldClose(m_simulationWindow))
+	while (!glfwWindowShouldClose(m_mainWindow))
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
-		//ParticleData::printParticleData(2);
 		//ParticleData::printGlassData(20);
-		ParticleData::printSortingData();
+		//ParticleData::printSortingData();
 	}
+		ParticleData::printParticleData(20);
 }
 
 void Simulation::init()
@@ -131,12 +129,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqFluidArray) {
 	case OPEN:
-		m_reqFluidArray = NO_ORDER;
 		ParticleData::openFluidArray();
+		m_reqFluidArray = NO_ORDER;
 		break;
 	case COMMIT:
-		m_reqFluidArray = NO_ORDER;
 		ParticleData::commitFluidArray();
+		m_reqFluidArray = NO_ORDER;
 		break;
 	case NO_ORDER:
 		break;
@@ -144,12 +142,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqGlassArray) {
 	case OPEN:
-		m_reqGlassArray = NO_ORDER;
 		ParticleData::openGlassArray();
+		m_reqGlassArray = NO_ORDER;
 		break;
 	case COMMIT:
-		m_reqGlassArray = NO_ORDER;
 		ParticleData::commitGlassArray();
+		m_reqGlassArray = NO_ORDER;
 		break;
 	case NO_ORDER:
 		break;
@@ -157,12 +155,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqGlassVectorsArray) {
 	case OPEN:
-		m_reqGlassVectorsArray = NO_ORDER;
 		ParticleData::openGlassVectors();
+		m_reqGlassVectorsArray = NO_ORDER;
 		break;
 	case COMMIT:
-		m_reqGlassVectorsArray = NO_ORDER;
 		ParticleData::commitGlassVectors();
+		m_reqGlassVectorsArray = NO_ORDER;
 		break;
 	case NO_ORDER:
 		break;
@@ -170,12 +168,12 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqDetils) {
 	case OPEN:
-		m_reqDetils = NO_ORDER;
 		ParticleData::openDetails();
+		m_reqDetils = NO_ORDER;
 		break;
 	case COMMIT:
-		m_reqDetils = NO_ORDER;
 		ParticleData::commitDetails();
+		m_reqDetils = NO_ORDER;
 		break;
 	case NO_ORDER:
 		break;
@@ -183,17 +181,17 @@ void Simulation::parseResourceRequest()
 
 	switch (m_reqObjects) {
 	case OPEN:
-		m_reqObjects = NO_ORDER;
 		ParticleData::openObjects();
+		m_reqObjects = NO_ORDER;
 		break;
 	case COMMIT:
-		m_reqObjects = NO_ORDER;
 		ParticleData::commitObjects();
+		m_reqObjects = NO_ORDER;
 		break;
 	case COMMIT_AND_OPEN:
-		m_reqObjects = NO_ORDER;
 		ParticleData::commitObjects();
 		ParticleData::openObjects();
+		m_reqObjects = NO_ORDER;
 	case NO_ORDER:
 		break;
 	}
@@ -201,28 +199,3 @@ void Simulation::parseResourceRequest()
 	checkOpenGLErrors();
 }
 
-
-void setupSimObjects()
-{
-	ParticleObjectDetais details{ 1, 3,9,3, 22,10,7 };
-	ParticleObjectCreator::addObject(details);
-
-	Sleep(100);
-	Simulation::runSimulationFrame();	// open resources
-	Sleep(500);
-	Simulation::runSimulationFrame();	// commit
-
-	//ParticleObjectDetais details2{ -1, 5,4,5, 2.5,0,2.5 };
-	//ParticleObjectCreator::addObject(details2);
-	Sleep(100);
-	Simulation::runSimulationFrame();	// open resources
-	Sleep(500);
-	Simulation::runSimulationFrame();	// commit
-	Simulation::runSimulationFrame();
-	Simulation::runSimulationFrame();
-	//Sleep(100);
-	ParticleData::printParticleData();
-	ParticleData::printGlassData();
-	ParticleObjectManager::printObjects();
-	ParticleData::printParticleObjectsData();
-}

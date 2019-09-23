@@ -40,8 +40,8 @@ void cleanUp();
 
 
 // settings
-const unsigned int SCR_WIDTH = 8;
-const unsigned int SCR_HEIGHT = 6;
+const unsigned int SCR_WIDTH = 80;
+const unsigned int SCR_HEIGHT = 60;
 void TUTORIAL_framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 GLFWwindow* window;
@@ -81,12 +81,11 @@ int main(int argc, char ** argv) {
 	TEMP_graphic::initGraphic(window);
 
 	Simulation::startSimulation(window);
-	Sleep(1000000);
 	//ParticleData::initArraysOnGPU();
 	// main loop
 	while (!glfwWindowShouldClose(window))
 	{
-		//TEMP_graphic::showFrame(window);
+		TEMP_graphic::showFrame(window);
 	}
 
 	glfwTerminate();

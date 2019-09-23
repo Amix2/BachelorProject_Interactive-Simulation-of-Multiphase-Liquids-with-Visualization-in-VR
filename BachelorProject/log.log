@@ -2,55 +2,57 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Debug\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-14:16:20.192 (   0.149s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-14:16:20.534 (   0.491s) [main thr]ParticleObjectC:282   INFO| Initialize ParticleObjectCreator
-14:16:20.539 (   0.496s) [main thr]ThreadManager.c:16    INFO| New thread in list
-14:16:20.540 (   0.497s) [Particle]ParticleObjectC:30    INFO| ParticleObjectCreator::runWorkerThread
-14:16:20.543 (   0.500s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticlePositions, 	id: 1
-14:16:20.545 (   0.502s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-14:16:20.549 (   0.506s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticlesFluidTypes, 	id: 2
-14:16:20.555 (   0.512s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: GlassPositions, 	id: 3
-14:16:20.558 (   0.515s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: GlassVector, 	id: 4
-14:16:20.561 (   0.518s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticleObjects, 	id: 5
-14:16:20.566 (   0.523s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: Details, 	id: 6
-14:16:20.569 (   0.526s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: SPHVariables, 	id: 7
-14:16:20.573 (   0.530s) [main thr]GpuResources.cp:183   INFO| new UBO, name: FluidTypes, 	id: 8
-14:16:20.575 (   0.532s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: SortVariables, 	id: 9
-14:16:20.605 (   0.562s) [main thr]ThreadManager.c:16    INFO| New thread in list
-14:16:20.611 (   0.568s) [Sim     ] Simulation.cpp:89    INFO| Simulation Thread START
-14:16:20.619 (   0.576s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/compute.glsl compile successful
-14:16:20.625 (   0.582s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/CellCountingForSort.glsl compile successful
-14:16:20.630 (   0.587s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/BitonicSortShader.glsl compile successful
-14:16:20.636 (   0.593s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/SortingFinalizer.glsl compile successful
-14:16:20.640 (   0.597s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticlePositions, 	id: 1
-14:16:20.643 (   0.600s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticlesFluidTypes, 	id: 2
-14:16:20.646 (   0.603s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: GlassPositions, 	id: 3
-14:16:20.649 (   0.606s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: GlassVector, 	id: 4
-14:16:20.652 (   0.609s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticleObjects, 	id: 5
-14:16:20.655 (   0.612s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: Details, 	id: 6
-14:16:20.659 (   0.616s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: SPHVariables, 	id: 7
-14:16:20.662 (   0.619s) [Sim     ]GpuResources.cp:178   INFO| UBO attached, name: FluidTypes, 	id: 8
-14:16:20.665 (   0.622s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: SortVariables, 	id: 9
-14:16:21.530 (   1.487s) [Sim     ] Simulation.cpp:76    INFO| Simulation time: Requests 70.657204, SyncGPU 174.128250,  CopyBO 161.902313, CellCounting 71.864143, Sort 73.757965, Arrange 70.119667
-14:16:21.535 (   1.492s) [Sim     ]ParticleObjectC:289   INFO| New object assign: type: 1
-14:16:21.538 (   1.495s) [Sim     ]ParticleObjectC:289   INFO| New object assign: type: 2
-14:16:21.538 (   1.495s) [Particle]ParticleObjectC:43    INFO| New object to create, type: 1
-14:16:21.543 (   1.500s) [Sim     ]ParticleData.cp:40    INFO| OPEN to add array for FLUID
-14:16:21.547 (   1.504s) [Sim     ]GpuResources.cp:69    INFO| open part, offset 0, length 98304
-14:16:21.550 (   1.507s) [Sim     ]GpuResources.cp:69    INFO| open part, offset 0, length 32768
-14:16:21.552 (   1.509s) [Sim     ]ParticleData.cp:78    INFO| OPEN details struct
-14:16:21.555 (   1.512s) [Particle]ParticleObjectC:107   INFO| New object added to Simulation: type: 1, particles: 10
-14:16:21.555 (   1.512s) [Sim     ]ParticleData.cp:96    INFO| COMMIT fluid 10 particles, we had 0 fluid & 0 glass
-14:16:21.558 (   1.515s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-14:16:21.561 (   1.518s) [Sim     ]ParticleData.cp:136   INFO| COMMIT details
-14:16:21.565 (   1.522s) [Particle]ParticleObjectC:43    INFO| New object to create, type: 2
-14:16:21.570 (   1.527s) [Sim     ]ParticleData.cp:40    INFO| OPEN to add array for FLUID
-14:16:21.573 (   1.530s) [Sim     ]GpuResources.cp:69    INFO| open part, offset 120, length 98184
-14:16:21.576 (   1.533s) [Sim     ]GpuResources.cp:69    INFO| open part, offset 40, length 32728
-14:16:21.579 (   1.536s) [Sim     ]ParticleData.cp:78    INFO| OPEN details struct
-14:16:21.582 (   1.539s) [Particle]ParticleObjectC:107   INFO| New object added to Simulation: type: 2, particles: 4641
-14:16:21.582 (   1.539s) [Sim     ]ParticleData.cp:96    INFO| COMMIT fluid 4641 particles, we had 10 fluid & 0 glass
-14:16:21.585 (   1.542s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
-14:16:21.588 (   1.545s) [Sim     ]ParticleData.cp:136   INFO| COMMIT details
-14:16:27.462 (   7.419s) [Sim     ] Simulation.cpp:76    INFO| Simulation time: Requests 161.070068, SyncGPU 267.097046,  CopyBO 236.567230, CellCounting 116.704575, Sort 1028.297729, Arrange 119.538712
-14:16:33.336 (  13.293s) [Sim     ] Simulation.cpp:76    INFO| Simulation time: Requests 148.738083, SyncGPU 267.627319,  CopyBO 238.901459, CellCounting 115.552071, Sort 1021.415344, Arrange 120.025902
+18:07:54.546 (   0.182s) [main thr]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+18:07:54.859 (   0.495s) [main thr]ParticleObjectC:282   INFO| Initialize ParticleObjectCreator
+18:07:54.872 (   0.508s) [main thr]ThreadManager.c:16    INFO| New thread in list
+18:07:54.875 (   0.510s) [Particle]ParticleObjectC:30    INFO| ParticleObjectCreator::runWorkerThread
+18:07:54.878 (   0.514s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticlePositions, 	id: 1
+18:07:54.885 (   0.521s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+18:07:54.893 (   0.529s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticlesFluidTypes, 	id: 2
+18:07:54.905 (   0.540s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: GlassPositions, 	id: 3
+18:07:54.908 (   0.544s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: GlassVector, 	id: 4
+18:07:54.912 (   0.547s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: ParticleObjects, 	id: 5
+18:07:54.916 (   0.552s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: Details, 	id: 6
+18:07:54.922 (   0.557s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: SPHVariables, 	id: 7
+18:07:54.925 (   0.561s) [main thr]GpuResources.cp:183   INFO| new UBO, name: FluidTypes, 	id: 8
+18:07:54.928 (   0.563s) [main thr]GpuResources.cp:125   INFO| new SSBO, name: SortVariables, 	id: 9
+18:07:54.961 (   0.597s) [main thr]ThreadManager.c:16    INFO| New thread in list
+18:07:54.961 (   0.597s) [Sim     ] Simulation.cpp:101   INFO| Simulation Thread START
+18:07:55.001 (   0.636s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/compute.glsl compile successful
+18:07:55.163 (   0.798s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/CellCountingForSort.glsl compile successful
+18:07:55.304 (   0.940s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/BitonicSortShader.glsl compile successful
+18:07:55.533 (   1.168s) [Sim     ]ComputeShader.c:41    INFO| Shader ./Source/shaders/SortingFinalizer.glsl compile successful
+18:07:55.539 (   1.175s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticlePositions, 	id: 1
+18:07:55.549 (   1.184s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticlesFluidTypes, 	id: 2
+18:07:55.557 (   1.192s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: GlassPositions, 	id: 3
+18:07:55.562 (   1.198s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: GlassVector, 	id: 4
+18:07:55.571 (   1.207s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: ParticleObjects, 	id: 5
+18:07:55.578 (   1.214s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: Details, 	id: 6
+18:07:55.586 (   1.221s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: SPHVariables, 	id: 7
+18:07:55.592 (   1.227s) [Sim     ]GpuResources.cp:178   INFO| UBO attached, name: FluidTypes, 	id: 8
+18:07:55.598 (   1.234s) [Sim     ]GpuResources.cp:120   INFO| SSBO attached, name: SortVariables, 	id: 9
+18:07:55.604 (   1.239s) [Sim     ]ParticleObjectC:289   INFO| New object assign: type: 1
+18:07:55.609 (   1.245s) [Particle]ParticleObjectC:43    INFO| New object to create, type: 1
+18:07:55.609 (   1.245s) [Sim     ]ParticleObjectC:289   INFO| New object assign: type: -1
+18:07:55.622 (   1.258s) [Sim     ]ParticleData.cp:40    INFO| OPEN to add array for FLUID
+18:07:55.628 (   1.264s) [Sim     ]GpuResources.cp:69    INFO| open part ParticlePositions, offset 0, length 98304
+18:07:55.643 (   1.278s) [Sim     ]GpuResources.cp:69    INFO| open part ParticlesFluidTypes, offset 0, length 32768
+18:07:55.654 (   1.289s) [Sim     ]ParticleData.cp:78    INFO| OPEN details struct
+18:07:55.661 (   1.297s) [Particle]ParticleObjectC:107   INFO| New object added to Simulation: type: 1, particles: 10
+18:07:55.661 (   1.297s) [Sim     ]ParticleData.cp:96    INFO| COMMIT fluid 10 particles, we had 0 fluid & 0 glass
+18:07:55.670 (   1.306s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+18:07:55.675 (   1.311s) [Sim     ]ParticleData.cp:136   INFO| COMMIT details
+18:07:55.682 (   1.318s) [Particle]ParticleObjectC:43    INFO| New object to create, type: -1
+18:07:55.697 (   1.333s) [Sim     ]ParticleData.cp:56    INFO| OPEN to add array for GLASS
+18:07:55.702 (   1.338s) [Sim     ]GpuResources.cp:69    INFO| open part GlassPositions, offset 0, length 24576
+18:07:55.708 (   1.344s) [Sim     ]ParticleData.cp:78    INFO| OPEN details struct
+18:07:55.714 (   1.349s) [Sim     ]ParticleData.cp:67    INFO| OPEN to add array for GLASS VECTOR
+18:07:55.720 (   1.356s) [Sim     ]GpuResources.cp:69    INFO| open part GlassVector, offset 0, length 24576
+18:07:55.726 (   1.361s) [Sim     ]ParticleData.cp:112   INFO| COMMIT glass 716 particles, we had 10 fluid & 0 glass
+18:07:55.726 (   1.361s) [Particle]ParticleObjectC:107   INFO| New object added to Simulation: type: -1, particles: 716
+18:07:55.733 (   1.369s) [Sim     ]ParticleData.cp:125   INFO| COMMIT glass vectors 716 particles, we had 10 fluid & 716 glass
+18:07:55.751 (   1.387s) [Particle]ParticleObjectC:33    INFO| ParticleObjectCreator::runWorkerThread LOOP
+18:07:55.761 (   1.397s) [Sim     ]ParticleData.cp:136   INFO| COMMIT details
+18:08:00.066 (   5.702s) [Sim     ] Simulation.cpp:76    INFO| Simulation time: Requests 79.966377, SyncGPU 291.638885,  CopyBO 969.362732, CellCounting 642.064819, Sort 887.770508, Arrange 724.656067
+18:08:01.266 (   6.902s) [main thr]     loguru.cpp:478   INFO| atexit
+18:08:01.269 (   6.905s) [main thr]       Main.cpp:140   INFO| Clean Up

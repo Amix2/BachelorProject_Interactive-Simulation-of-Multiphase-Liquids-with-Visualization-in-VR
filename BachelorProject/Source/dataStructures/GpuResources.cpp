@@ -66,7 +66,7 @@ void* GpuResources::openPartResource(GLenum target, std::string name, GLintptr o
 		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
-		LOG_F(INFO, "open part, offset %d, length %d", (int)offset, (int)length);
+		LOG_F(INFO, "open part %s, offset %d, length %d", name.c_str(),  (int)offset, (int)length);
 		void* ptr = glMapNamedBufferRange(index, offset, length, GL_MAP_WRITE_BIT);
 		checkOpenGLErrors();
 		return ptr;

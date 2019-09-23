@@ -137,7 +137,7 @@ void forceOpenGlass() {
 		}
 		lock_resource.unlock();
 	}
-	if (ParticleData::m_resFluidArray == nullptr) {
+	if (ParticleData::m_resGlassArray == nullptr) {
 		// request open 
 		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
 		while (ParticleData::m_resGlassArray == nullptr) {
