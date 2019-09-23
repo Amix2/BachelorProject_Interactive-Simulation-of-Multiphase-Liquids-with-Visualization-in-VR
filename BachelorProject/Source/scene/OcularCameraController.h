@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Camera.h"
 #include <glm/glm.hpp>
+#include <utilities/Matrices.h>
 
 class OcularCameraController
 	: public MousePositionListener
@@ -16,6 +17,7 @@ public:
 	
 	void handleMouseMove(double xoffset, double yoffset) override;
 	void handleMouseScroll(double scroll) override;
+	void setHead(const Matrix4& leftEye, const Matrix4& rightEye);
 	Scene::Camera& getRightCamera() { return rightEye; }
 	Scene::Camera& getLeftCamera() { return leftEye; }
 private:
