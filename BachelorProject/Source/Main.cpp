@@ -11,6 +11,7 @@
 #include "scene/Camera.h"
 #include "scene/TestMaterialObject.h"
 #include "scene/OcularCameraController.h"
+#include "scene/TestBilboardObject.h"
 
 constexpr unsigned int SCR_WIDTH = 1200;
 constexpr unsigned int SCR_HEIGHT = 600;
@@ -27,24 +28,20 @@ int main(int argc, char ** argv) {
 
 	Scene::Scene scene{};
 
-	ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };
-	glm::vec3 leftEyePosition{ -5.0f, 0.0f, -2.0f };
-	Scene::Camera leftEyeCamera{ leftEyeViewPort, leftEyePosition };
-	std::cout << &leftEyeCamera << std::endl;
-
+	ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
 	ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-	glm::vec3 rightEyePosition{ -5.0f, 0.0f, 0.0f };
-	Scene::Camera rightEyeCamera{ rightEyeViewPort, rightEyePosition };
-	std::cout << &rightEyeCamera << std::endl;
+	OcularCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
 
-	OcularCameraController cameraController{ window, leftEyeCamera, rightEyeCamera };
+	ShaderProgram programCubes{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
+	TestMaterialObject cubes{ programCubes };
 
-	ShaderProgram program{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
-	TestMaterialObject cubes{ program };
+	ShaderProgram programBilboard{ "./Source/scene/bilboard.vs", "./Source/scene/bilboard.fs" };
+	TestBilboardObject bilboard{ programBilboard };
 
-	scene.addCamera(&leftEyeCamera);
-	scene.addCamera(&rightEyeCamera);
-	scene.addMaterialObject(&cubes);
+	scene.addCamera(&cameraController.getLeftCamera());
+	scene.addCamera(&cameraController.getRightCamera());
+    scene.addMaterialObject(&cubes);
+	scene.addMaterialObject(&bilboard);
 
 	do 
 	{

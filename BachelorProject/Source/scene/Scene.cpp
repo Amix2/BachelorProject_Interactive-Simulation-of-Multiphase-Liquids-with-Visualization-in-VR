@@ -1,5 +1,11 @@
 #include "Scene.h"
 
+void Scene::Scene::addMaterialObject(MaterialObject* materialObject)
+{
+	objects.push_back(materialObject);
+	materialObject->init();
+}
+
 void Scene::Scene::renderScene()
 {
 	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);

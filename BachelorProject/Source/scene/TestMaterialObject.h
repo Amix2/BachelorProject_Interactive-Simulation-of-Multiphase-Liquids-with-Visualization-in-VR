@@ -11,8 +11,12 @@ class TestMaterialObject : public MaterialObject
 {
 public:
 	TestMaterialObject(const ShaderProgram& shaderProgram);
+	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 private:
+	unsigned int VBO;
+	unsigned int VAO;
+
 	float vertices[108] = {
 	-0.5f, -0.5f, -0.5f,  
 	 0.5f, -0.5f, -0.5f,  

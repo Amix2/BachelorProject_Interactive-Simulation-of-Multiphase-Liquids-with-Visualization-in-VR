@@ -50,21 +50,6 @@ namespace Scene {
 		updateCameraAngles();
 	}
 
-	void Camera::changePitch(double offset)
-	{
-		pitch += offset;
-		if (pitch > 89.0f)
-			pitch = 89.0f;
-		if (pitch < -89.0f)
-			pitch = -89.0f;
-		updateCameraVectors();
-	}
-
-	void Camera::changeYaw(double offset)
-	{
-		yaw += offset;
-	}
-
 	void Camera::updateCameraVectors() {
 		glm::vec3 newFront;
 		newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -80,7 +65,6 @@ namespace Scene {
 	}
 
 	void Camera::updateCameraAngles() {
-		pitch = asin(front.y / front.length());
 		//TODO
 	}
 }
