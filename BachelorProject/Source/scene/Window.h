@@ -48,6 +48,16 @@ private:
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);
 	static void GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void GLAPIENTRY GlfwWindowMessageCallback(
+		GLenum source,
+		GLenum type,
+		GLuint id,
+		GLenum severity,
+		GLsizei length,
+		const GLchar* message,
+		const void* userParam
+	);
+
 
 	void handleResize(int width, int height);
 	void handleMouseMove(double x, double y);

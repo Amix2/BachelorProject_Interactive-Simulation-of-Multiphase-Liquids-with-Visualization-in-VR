@@ -1,5 +1,6 @@
 #pragma once
 
+#define GLFW_INCLUDE_NONE
 #include <GL/glew.h>
 #include <string>
 #include <iostream>

@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -12,10 +12,6 @@
 #include "scene/TestMaterialObject.h"
 #include "scene/OcularCameraController.h"
 #include "scene/TestBilboardObject.h"
-
-std::string NAME = "Random window";
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -32,15 +28,9 @@ std::string NAME = "Random window";
 #include <thread>
 #include <fstream>
 #include <ThreadManager.h>
-#include <stdlib.h> 
 #include <thread>
 
-#include <TEMP_graphic.h>
-
 void printWorkGroupsCapabilities();
-
-// init openGL functions
-void initGL();
 
 // init app elements
 void initTools();
@@ -50,6 +40,7 @@ void cleanUp();
 
 
 // settings
+std::string NAME = "Random window";
 constexpr unsigned int SCR_WIDTH = 1200;
 constexpr unsigned int SCR_HEIGHT = 600;
 
@@ -90,7 +81,7 @@ int main(int argc, char ** argv) {
 
 	initTools();
 
-	Simulation::startSimulation(window.GLFWwindow);
+	Simulation::startSimulation(window.glfwWindow);
 	//ParticleData::initArraysOnGPU();
 	//printWorkGroupsCapabilities();
 
