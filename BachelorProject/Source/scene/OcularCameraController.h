@@ -17,7 +17,7 @@ public:
 	
 	void handleMouseMove(double xoffset, double yoffset) override;
 	void handleMouseScroll(double scroll) override;
-	void setHead(const Matrix4& leftEye, const Matrix4& rightEye);
+	void setHead(const vr::HmdMatrix44_t& leftEye, const vr::HmdMatrix44_t& rightEye);
 	Scene::Camera& getRightCamera() { return rightEye; }
 	Scene::Camera& getLeftCamera() { return leftEye; }
 private:
