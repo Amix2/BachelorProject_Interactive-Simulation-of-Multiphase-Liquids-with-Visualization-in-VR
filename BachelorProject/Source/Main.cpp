@@ -113,7 +113,7 @@ int main(int argc, char ** argv) {
 		VrGeometry->UpdateHMDMatrixPose();
 		VrInput->DetectPressedButtons();
 		VrInput->HandleInput();
-		cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking, VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
+		cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
 		std::cout << VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking.m[0][0] << std::endl;
 		window.processInput();
 		scene.renderScene();

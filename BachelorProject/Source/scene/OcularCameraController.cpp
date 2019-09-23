@@ -46,6 +46,26 @@ void OcularCameraController::setHead(const  vr::HmdMatrix34_t& leftEye, const  v
 	this->rightEye.set(rightEye);
 }
 
+void OcularCameraController::setHead(const vr::HmdMatrix34_t& eye) {
+	this->position = glm::vec3(eye.m[0][3], eye.m[1][3], eye.m[2][3]);
+	this->front = -glm::vec3(eye.m[0][2], eye.m[1][2], eye.m[2][2]);
+	this->up = glm::vec3(eye.m[0][1], eye.m[1][1], eye.m[2][1]);
+	this->right = -glm::vec3(eye.m[0][0], eye.m[1][0], eye.m[2][0]);
+	leftEye.set(
+		this->position - this->right * eyesDistance * 0.5f,
+		this->front,
+		this->up,
+		this->right
+	);
+
+	rightEye.set(
+		this->position + this->right * eyesDistance * 0.5f,
+		this->front,
+		this->up,
+		this->right
+	);
+}
+
 void OcularCameraController::updateHeadVectors()
 {
 	glm::vec3 newFront;
