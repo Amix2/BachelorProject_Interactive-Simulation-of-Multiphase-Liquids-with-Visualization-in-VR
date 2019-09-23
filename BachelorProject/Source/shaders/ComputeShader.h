@@ -5,6 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include <Logger.h>
+#include <shaders/ShaderCodeEditor.h>
+#include <Utils.h>
 
 class ComputeShader
 {
