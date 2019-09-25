@@ -58,11 +58,12 @@ void Simulation::runSimulationFrame()
 		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
 		glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
 
-		m_TESTshader.runShader(1, 1, 1, true);	glFinish();
+		//m_TESTshader.runShader(1, 1, 1, true);
 
 	}
 
 	checkOpenGLErrors();
+	//ParticleData::printParticleData(20);
 
 	////////////////////////////////////////////////
 
@@ -88,9 +89,11 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 void setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
+	ParticleObjectDetais detailsQ{ 2, 1,1,1, 1.1, 1.1, 10.1 };
 	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60.1, 20 };
 	ParticleObjectDetais details3{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(detailsQ);
 	//ParticleObjectCreator::addObject(details2);
 	ParticleObjectCreator::addObject(details3);
 }

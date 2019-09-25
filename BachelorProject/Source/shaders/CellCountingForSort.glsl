@@ -16,23 +16,22 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 //////////////////////////////////////////////////
 //	STORAGE
 
+struct FluidParticle {
+	float x, y, z;
+	uint type;
+};
+
 layout(std430, binding = 9) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
 	uint originalIndex[SORT_ARRAY_SIZE];
-	float	CPY_Positions[3 * MAX_FLUID];
+	FluidParticle	CPY_Positions[MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
-	int		CPY_FluidTypes[MAX_FLUID];
 };
 
 layout(std430, binding = 1) buffer positionsBuf
 {
-	float fluidPositions[3*MAX_FLUID];
-};
-
-layout(std430, binding = 2) buffer partFluidTypeBuf
-{
-	int particleFluidType[MAX_FLUID];
+	FluidParticle fluidPositions[MAX_FLUID];
 };
 
 
@@ -63,12 +62,9 @@ layout(std430, binding = 3) buffer glassPositionsBuf
 
 void main(void)
 {
-	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x
-			+ gl_LocalInvocationIndex;
+	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	//if(particleFluidType[myThreadNumber] != 0) {
-		sortIndexArray[myThreadNumber] = getCellIndex(fluidPositions[3*myThreadNumber + 0]
-											, fluidPositions[3*myThreadNumber + 1]
-											, fluidPositions[3*myThreadNumber + 2]);
+		sortIndexArray[myThreadNumber] = getCellIndex(fluidPositions[myThreadNumber].x, fluidPositions[myThreadNumber].y, fluidPositions[myThreadNumber].z);
 		originalIndex[myThreadNumber] = myThreadNumber;
 	//}
 

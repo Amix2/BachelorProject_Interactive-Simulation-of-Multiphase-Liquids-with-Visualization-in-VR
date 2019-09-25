@@ -36,13 +36,17 @@ struct FluidType {
 	float density;
 };
 
-shared float mems[10];
+struct FluidParticle {
+	float x, y, z;
+	uint type;
+};
+
 //////////////////////////////////////////////////
 //	STORAGE
 
 layout(std430, binding = 1) buffer positionsBuf
 {
-	float fluidPositions[3*MAX_FLUID];
+	FluidParticle fluidPositions[MAX_FLUID];
 };
 
 layout(std430, binding = 2) buffer partFluidTypeBuf
@@ -103,7 +107,7 @@ void main(void)
 
 	// SPH
 	for(int i=0; i<numOfParticles; i++) {
-		fluidPositions[3*i+1] -= 0.05;	// move particles
+		fluidPositions[i].y -= 0.05;	// move particles
 	}
 }
 

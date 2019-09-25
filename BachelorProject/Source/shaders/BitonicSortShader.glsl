@@ -29,6 +29,11 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 //////////////////////////////////////////////////
 //	STORAGE
 
+struct FluidParticle {
+	float x, y, z;
+	uint type;
+};
+
 uniform int u_stage;
 uniform int u_turnInStage;
 
@@ -36,9 +41,8 @@ layout(std430, binding = 9) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
 	uint originalIndex[SORT_ARRAY_SIZE];
-	float	CPY_Positions[3 * MAX_FLUID];
+	FluidParticle	CPY_Positions[ MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
-	int		CPY_FluidTypes[MAX_FLUID];
 };
 
 
