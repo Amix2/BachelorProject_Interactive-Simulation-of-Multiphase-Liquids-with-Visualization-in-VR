@@ -68,6 +68,7 @@ void Simulation::runSimulationFrame()
 	}
 
 	checkOpenGLErrors();
+	//ParticleData::printParticleData(20);
 
 	////////////////////////////////////////////////
 

@@ -55,11 +55,10 @@ void ParticleObjectCreator::runWorkerThread()
 			// open fluid array
 			forceOpenFluid();
 
-			float* fluidArray = ParticleData::m_resFluidArray;
-			int* fluidTypesArray = ParticleData::m_resFluidTypesArray;
+			FluidParticle* fluidArray = ParticleData::m_resFluidArray;
 
 			// create fluid particles
-			ParticleObjectCreator::createFluid(currentDetails, fluidArray, fluidTypesArray, numOfParticles);
+			ParticleObjectCreator::createFluid(currentDetails, fluidArray, numOfParticles);
 
 			ParticleData::m_numOfAddedFluid = numOfParticles;
 
@@ -248,7 +247,7 @@ void commitObjects()
 	Simulation::m_reqObjects = COMMIT;
 }
 
-void ParticleObjectCreator::createFluid(ParticleObjectDetais details, float positions[], int fluidTypes[], int &numOfParts) {
+void ParticleObjectCreator::createFluid(ParticleObjectDetais details, FluidParticle particles[], int &numOfParts) {
 
 	const float gap = Configuration.FLUID_PARTICLE_BUILD_GAP;
 
@@ -265,11 +264,10 @@ void ParticleObjectCreator::createFluid(ParticleObjectDetais details, float posi
 	for (float oX = startX; oX <= endX; oX += gap) {
 		for (float oY = startY; oY <= endY; oY += gap) {
 			for (float oZ = startZ; oZ <= endZ; oZ += gap) {
-				positions[3 * numOfParts + 0] = oX;
-				positions[3 * numOfParts + 1] = oY;
-				positions[3 * numOfParts + 2] = oZ;
-
-				fluidTypes[numOfParts] = fluidType;
+				particles[numOfParts].x = oX;
+				particles[numOfParts].y = oY;
+				particles[numOfParts].z = oZ;
+				particles[numOfParts].type = fluidType;
 
 				numOfParts++;
 			}

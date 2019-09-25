@@ -34,8 +34,8 @@ const struct BufferDatails {
 	inline static const std::string particlePositionsName = "ParticlePositions";	// SSBO
 	inline static const int particlePositionsBinding = 1;
 
-	inline static const std::string particlesFluidTypeName = "ParticlesFluidTypes";	// SSBO
-	inline static const int particlesFluidTypeBinding = 2;
+	//inline static const std::string particlesFluidTypeName = "ParticlesFluidTypes";	// SSBO
+	//inline static const int particlesFluidTypeBinding = 2;
 
 	inline static const std::string glassPositionsName = "GlassPositions";	// SSBO
 	inline static const int glassPositionsBinding = 3;

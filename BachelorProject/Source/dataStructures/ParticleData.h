@@ -35,6 +35,11 @@ typedef struct SimDetails {
 	GLuint numOfGlassParticles;
 }SimDetails;
 
+typedef struct FluidParticle {
+	GLfloat x, y, z;
+	GLuint type;
+};
+
 class ParticleObject;	// forward-declare
 
 /* Keeps all details for fluid particles, performs all action with particles */
@@ -48,7 +53,7 @@ public:
 	inline static int m_OpenedResources = 0;
 
 	// getters - only this class can change data from gpu
-	static float* getPositions();
+	static FluidParticle* getPositions();
 	static float* getGlassPositions();
 	static float* getGlassVectors();
 	static unsigned int* getSortingData();
@@ -57,8 +62,7 @@ public:
 	static SimDetails* getDetails();
 
 	// resource pointers, array size is currently not used
-	inline static float* m_resFluidArray = nullptr;
-	inline static int* m_resFluidTypesArray = nullptr;
+	inline static FluidParticle* m_resFluidArray = nullptr;
 	inline static int m_resFluidArraySize;
 	inline static std::atomic_int m_numOfAddedFluid;
 
