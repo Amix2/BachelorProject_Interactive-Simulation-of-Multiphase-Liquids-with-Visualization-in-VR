@@ -17,6 +17,11 @@ const struct Configuration {
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 1.0f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
+	inline static const int SCENE_SIZE_X = 200;
+	inline static const int SCENE_SIZE_Y = 200;
+	inline static const int SCENE_SIZE_Z = 200;
+
+
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
@@ -53,16 +58,19 @@ const struct BufferDatails {
 	inline static const std::string SortVariablesName = "SortVariables";	// SSBO
 	inline static const int SortVariablesBinding = 9;
 
+	inline static const std::string NeighboursListName = "NeighboursList";	// SSBO
+	inline static const int NeighboursListBinding = 10;
+
 
 } BufferDatails;
 
 
 const struct ShaderFiles {
-	inline static const std::string TEST_ComputeShader = "./Source/shaders/compute.glsl";
-	inline static const std::string BitonicSort = "./Source/shaders/BitonicSortShader.glsl";
-	inline static const std::string CellCountingForSort = "./Source/shaders/CellCountingForSort.glsl";
-	inline static const std::string VariablesArrangementAfterSort = "./Source/shaders/SortingFinalizer.glsl";
-	
+	inline static const std::string TEST_ComputeShader = "./Source/shaders/shaderFiles/compute.glsl";
+	inline static const std::string BitonicSort = "./Source/shaders/shaderFiles/BitonicSortShader.glsl";
+	inline static const std::string CellCountingForSort = "./Source/shaders/shaderFiles/CellCountingForSort.glsl";
+	inline static const std::string VariablesArrangementAfterSort = "./Source/shaders/shaderFiles/SortingFinalizer.glsl";
+	inline static const std::string SphNeighbourSearch = "./Source/shaders/shaderFiles/SphNeighbourSearch.glsl";	
 
 } ShaderFiles;
 

@@ -85,8 +85,8 @@ int main(int argc, char ** argv) {
 
 	Simulation::startSimulation(window.glfwWindow);
 	//ParticleData::initArraysOnGPU();
-	//printWorkGroupsCapabilities();
-
+	printWorkGroupsCapabilities();
+	Sleep(100000);
 	scene.addCamera(&cameraController.getLeftCamera());
 	scene.addCamera(&cameraController.getRightCamera());
     scene.addMaterialObject(&cubes);

@@ -31,6 +31,9 @@ void ParticleData::initArraysOnGPU()
 
 	// SSBO for sorting
 	GpuResources::createSSBO(BufferDatails.SortVariablesName, Configuration.NUM_OF_SORTING_FLOATS_IN_ARRAY * sizeof(float), NULL, BufferDatails.SortVariablesBinding);
+
+	// SSBO for neighbour list
+	GpuResources::createSSBO(BufferDatails.NeighboursListName, (GLsizeiptr)27 * Configuration.MAX_FLUID_PARTICLES * sizeof(GLuint), NULL, BufferDatails.NeighboursListBinding);
 	
 	checkOpenGLErrors();
 }
@@ -290,6 +293,30 @@ void ParticleData::printSortingData(int limit)
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }
 
+void ParticleData::printNeighboursData(int limit)
+{
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "NEIGHBOURS print");
+	int* array = ParticleData::getNeighboursData();
+	if (array == nullptr) {
+		LOG_F(ERROR, "Error while printing NEIGHBOURS DATA");
+		return;
+	}
+	if (limit <= 0) {
+		limit = INT_MAX;
+	}
+
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit; i++) {
+		std::stringstream ss;
+		for (int x = 0; x < 27; x++) {
+			ss << array[27 * i + x] << ", ";
+		}
+		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
+	}
+
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+}
+
 void ParticleData::logParticlePositions()
 {
 	if (ParticleData::m_resGlassArray != nullptr || ParticleData::m_resFluidArray != nullptr) {
@@ -343,6 +370,11 @@ float* ParticleData::getGlassVectors()
 unsigned int* ParticleData::getSortingData()
 {
 	return (unsigned int*)GpuResources::getDataSSBO(BufferDatails.SortVariablesName);
+}
+
+int* ParticleData::getNeighboursData()
+{
+	return (int*)GpuResources::getDataSSBO(BufferDatails.NeighboursListName);
 }
 
 ParticleObject* ParticleData::getParticleObjects()

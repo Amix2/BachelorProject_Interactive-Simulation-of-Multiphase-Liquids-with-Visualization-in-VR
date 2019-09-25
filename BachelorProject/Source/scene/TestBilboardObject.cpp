@@ -75,7 +75,4 @@ void TestBilboardObject::load(const glm::mat4& view, const glm::mat4& projection
 
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 			}
-
-
-
 }

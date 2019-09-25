@@ -117,12 +117,12 @@ void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * da
 		// resource already made, attach it
 		GLuint index = GpuResources::m_NamesMap[name];
 		attachResource(GL_SHADER_STORAGE_BUFFER, bindingPointIndex, index);
-		LOG_F(INFO, "SSBO attached, name: %s, \tid: %d", name.c_str(), index);
+		LOG_F(INFO, "SSBO attached, name: %s, \tid: %d, size: %d", name.c_str(), index, size);
 	}
 	else {
 		// resource not yet made
 		GLuint ssbo = createResource(GL_SHADER_STORAGE_BUFFER, name, size, data, bindingPointIndex);
-		LOG_F(INFO, "new SSBO, name: %s, \tid: %d", name.c_str(), ssbo);
+		LOG_F(INFO, "new SSBO, name: %s, \tid: %d, size: %d", name.c_str(), ssbo, size);
 	}
 
 }

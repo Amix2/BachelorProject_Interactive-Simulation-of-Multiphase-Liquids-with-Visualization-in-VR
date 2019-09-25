@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c" />
     <ClCompile Include="Source\dataStructures\FluidType.cpp" />
     <ClCompile Include="Source\scene\Camera.cpp" />
     <ClCompile Include="Source\scene\MaterialObject.cpp" />
@@ -95,10 +94,11 @@
     <None Include="Source\scene\testObject.v" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\shaders\BitonicSortShader.glsl" />
-    <None Include="Source\shaders\CellCountingForSort.glsl" />
-    <None Include="Source\shaders\compute.glsl" />
-    <None Include="Source\shaders\SortingFinalizer.glsl" />
+    <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />
+    <None Include="Source\shaders\shaderFiles\BitonicSortShader.glsl" />
+    <None Include="Source\shaders\shaderFiles\CellCountingForSort.glsl" />
+    <None Include="Source\shaders\shaderFiles\compute.glsl" />
+    <None Include="Source\shaders\shaderFiles\SortingFinalizer.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

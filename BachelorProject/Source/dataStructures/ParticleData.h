@@ -52,6 +52,7 @@ public:
 	static float* getGlassPositions();
 	static float* getGlassVectors();
 	static unsigned int* getSortingData();
+	static int* getNeighboursData();
 	static ParticleObject* getParticleObjects();
 	static SimDetails* getDetails();
 
@@ -104,6 +105,8 @@ public:
 	static void printParticleObjectsData(int limit = 10);
 
 	static void printSortingData(int limit = 16);
+
+	static void printNeighboursData(int limit = 10);
 
 	static void logParticlePositions();
 	

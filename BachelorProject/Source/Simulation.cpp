@@ -8,9 +8,9 @@ const std::string turnUniform = "u_turnInStage";
 void Simulation::runSimulationFrame()
 {
 	std::chrono::time_point<std::chrono::steady_clock> 
-		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars;
-	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime;
-	_ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = 0;
+		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars, _ntNeighbourSearch;
+	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime;
+	_ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = 0;
 	for (int i = 0; i < 1000; i++) {
 		glFinish();
 		_ntStart = getNanoTime();
@@ -58,6 +58,11 @@ void Simulation::runSimulationFrame()
 		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
 		glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
 
+		const int neighbourSearchDispatchSize = ceil(27.0 * ParticleData::m_FluidParticlesNum / 256.0);
+		m_SphNeighbourSearch.runShader(neighbourSearchDispatchSize, 1, 1, false);
+
+		glFinish();		_ntNeighbourSearch = getNanoTime();		_ntNeighbourSearchTime += getNanoTimeDif(_ntArrangeVars, _ntNeighbourSearch);
+
 		m_TESTshader.runShader(1, 1, 1, true);	glFinish();
 
 	}
@@ -72,8 +77,8 @@ void Simulation::runSimulationFrame()
 		ParticleData::logParticlePositions();
 	}
 
-	LOG_F(INFO, "Simulation time: Requests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f"
-		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime);
+	LOG_F(INFO, "Simulation time: Requests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f"
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime);
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -88,11 +93,12 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 void setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
-	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60.1, 20 };
+	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60, 100 };
 	ParticleObjectDetais details3{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(details3);
+	ParticleObjectCreator::addObject(details);
+	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details3);
 }
 
 void Simulation::main()
@@ -106,14 +112,16 @@ void Simulation::main()
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	while (!glfwWindowShouldClose(m_mainWindow))
+	//while (!glfwWindowShouldClose(m_mainWindow))
+	for(int i=0; i<10; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
 		//ParticleData::printGlassData(20);
-		//ParticleData::printSortingData();
 	}
-		ParticleData::printParticleData(20);
+	ParticleData::printSortingData();
+	ParticleData::printParticleData(20);
+	ParticleData::printNeighboursData();
 }
 
 void Simulation::init()
@@ -122,6 +130,7 @@ void Simulation::init()
 	m_CellCounting = ComputeShader(ShaderFiles.CellCountingForSort);
 	m_BitonicSort = ComputeShader(ShaderFiles.BitonicSort);
 	m_VariablesArrangement = ComputeShader(ShaderFiles.VariablesArrangementAfterSort);
+	m_SphNeighbourSearch = ComputeShader(ShaderFiles.SphNeighbourSearch);
 }
 
 void Simulation::parseResourceRequest()
