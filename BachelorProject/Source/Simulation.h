@@ -27,6 +27,7 @@ class Simulation
 	inline static ComputeShader m_SphNeighbourSearch;
 	inline static ComputeShader m_SphDensityPressureFluid;
 	inline static ComputeShader m_SphAccelerationFluid;
+	inline static ComputeShader m_SphVelocity;
 
 	inline static ComputeShader m_TESTshader;
 public:

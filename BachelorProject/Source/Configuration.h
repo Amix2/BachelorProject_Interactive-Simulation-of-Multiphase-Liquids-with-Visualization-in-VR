@@ -77,7 +77,7 @@ const struct ShaderFiles {
 	inline static const std::string SphNeighbourSearch = "./Source/shaders/shaderFiles/SphNeighbourSearch.glsl";	
 	inline static const std::string SphDensityPressureFluid = "./Source/shaders/shaderFiles/SphDensityPressureFluid.glsl";
 	inline static const std::string SphAccelerationFluid = "./Source/shaders/shaderFiles/SphAccelerationFluid.glsl";
-
+	inline static const std::string SphVelocity = "./Source/shaders/shaderFiles/SphVelocity.glsl";
 } ShaderFiles;
 
 

@@ -31,6 +31,11 @@ layout(std430, binding = 9) buffer sortingHelpBuf
 	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
+layout(std430, binding = 1) buffer positionsBuf
+{
+	FluidParticle fluidPositions[MAX_FLUID];
+};
+
 layout(std430, binding = 10) buffer neighboursBuf
 {
 	int neighboursBeginInd[27*MAX_FLUID];
@@ -89,9 +94,9 @@ void main(void)
 	const uint myParticleIndex = myThreadNumber / 27;
 	const uint myOutputIndex = myThreadNumber;
 
-	const uint myPartX = uint(CPY_Positions[myParticleIndex].x);
-	const uint myPartY = uint(CPY_Positions[myParticleIndex].y);
-	const uint myPartZ = uint(CPY_Positions[myParticleIndex].z);
+	const uint myPartX = uint(fluidPositions[myParticleIndex].x);
+	const uint myPartY = uint(fluidPositions[myParticleIndex].y);
+	const uint myPartZ = uint(fluidPositions[myParticleIndex].z);
 
 	const vec3 myOffset = offsetArray[myOffsetIndex];
 

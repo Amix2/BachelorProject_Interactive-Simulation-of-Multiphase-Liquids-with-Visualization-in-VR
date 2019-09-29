@@ -94,6 +94,7 @@
     <None Include="Source\scene\testObject.v" />
     <None Include="Source\shaders\shaderFiles\SphDensityPressureFluid.glsl" />
     <None Include="Source\shaders\shaderFiles\SphAccelerationFluid.glsl" />
+    <None Include="Source\shaders\shaderFiles\SphVelocity.glsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />
