@@ -25,6 +25,7 @@ class Simulation
 	inline static ComputeShader m_BitonicSort;
 	inline static ComputeShader m_VariablesArrangement;
 	inline static ComputeShader m_SphNeighbourSearch;
+	inline static ComputeShader m_SphDensityPressure;
 
 	inline static ComputeShader m_TESTshader;
 public:

@@ -111,6 +111,7 @@ public:
 	static void printSortingData(int limit = 16);
 
 	static void printNeighboursData(int limit = 10);
+	static void printSPHData(bool velocity, bool acceleration, bool surface, bool density, bool pressure, int limit = 10);
 
 	static void logParticlePositions();
 	

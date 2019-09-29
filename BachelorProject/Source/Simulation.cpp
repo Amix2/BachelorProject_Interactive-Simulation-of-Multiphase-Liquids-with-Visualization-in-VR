@@ -8,10 +8,10 @@ const std::string turnUniform = "u_turnInStage";
 void Simulation::runSimulationFrame()
 {
 	std::chrono::time_point<std::chrono::steady_clock> 
-		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars, _ntNeighbourSearch;
-	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime;
-	_ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = 0;
-	for (int i = 0; i < 1000; i++) {
+		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars, _ntNeighbourSearch, _ntDensityPressure;
+	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureTime;
+	_ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureTime = 0;
+	for (int i = 0; i < 10; i++) {
 		glFinish();
 		_ntStart = getNanoTime();
 
@@ -63,23 +63,32 @@ void Simulation::runSimulationFrame()
 
 		glFinish();		_ntNeighbourSearch = getNanoTime();		_ntNeighbourSearchTime += getNanoTimeDif(_ntArrangeVars, _ntNeighbourSearch);
 
-		m_TESTshader.runShader(1, 1, 1, true);	glFinish();
+		m_SphDensityPressure.runShader(dispathSize, 1, 1, false);
 
+		glFinish();		_ntDensityPressure = getNanoTime();		_ntDensityPressureTime += getNanoTimeDif(_ntNeighbourSearch, _ntDensityPressure);
+
+		//m_TESTshader.runShader(1, 1, 1, true);	glFinish();
+
+		if (LOG_TO_FILE) {
+			ParticleData::logParticlePositions();
+		}
+		checkOpenGLErrors();
+	
+	
+	
+	
+	
 	}
 
-	checkOpenGLErrors();
 	//ParticleData::printParticleData(20);
 
 	////////////////////////////////////////////////
 
 	
 	// if enabled - log all particles positions into file
-	if (LOG_TO_FILE) {
-		ParticleData::logParticlePositions();
-	}
 
-	LOG_F(INFO, "Simulation time: Requests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f"
-		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime);
+	LOG_F(INFO, "Simulation time: \nRequests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&Press %f"
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureTime);
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -93,12 +102,13 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 10.1 };
+	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 5.1 };
+	ParticleObjectDetais detailsB{ 2, 1,1,1, 1.1, 1.1, 3.1 };
 	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60, 100 };
 	ParticleObjectDetais details3{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details);
 	ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(details3);
 }
 
@@ -123,6 +133,7 @@ void Simulation::main()
 	ParticleData::printSortingData();
 	ParticleData::printParticleData(20);
 	ParticleData::printNeighboursData();
+	ParticleData::printSPHData(1, 1, 1, 1, 1);
 }
 
 void Simulation::init()
@@ -132,6 +143,7 @@ void Simulation::init()
 	m_BitonicSort = ComputeShader(ShaderFiles.BitonicSort);
 	m_VariablesArrangement = ComputeShader(ShaderFiles.VariablesArrangementAfterSort);
 	m_SphNeighbourSearch = ComputeShader(ShaderFiles.SphNeighbourSearch);
+	m_SphDensityPressure = ComputeShader(ShaderFiles.SphDensityPressure);
 }
 
 void Simulation::parseResourceRequest()

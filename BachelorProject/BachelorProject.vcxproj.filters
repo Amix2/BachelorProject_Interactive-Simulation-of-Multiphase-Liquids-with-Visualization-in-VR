@@ -219,5 +219,6 @@
     <None Include="Source\shaders\shaderFiles\BitonicSortShader.glsl" />
     <None Include="Source\shaders\shaderFiles\SortingFinalizer.glsl" />
     <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />
+    <None Include="Source\shaders\shaderFiles\SphDensityPressure.glsl" />
   </ItemGroup>
 </Project>

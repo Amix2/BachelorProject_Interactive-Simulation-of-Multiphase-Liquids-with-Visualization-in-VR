@@ -16,13 +16,19 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 //////////////////////////////////////////////////
 //	STORAGE
+
+struct FluidParticle {
+	float x, y, z;
+	uint type;
+};
+
+
 layout(std430, binding = 9) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
 	uint originalIndex[SORT_ARRAY_SIZE];
-	float	CPY_Positions[3 * MAX_FLUID];
+	FluidParticle	CPY_Positions[MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
-	int		CPY_FluidTypes[MAX_FLUID];
 };
 
 layout(std430, binding = 10) buffer neighboursBuf
@@ -83,9 +89,9 @@ void main(void)
 	const uint myParticleIndex = myThreadNumber / 27;
 	const uint myOutputIndex = myThreadNumber;
 
-	const uint myPartX = uint(CPY_Positions[3*myParticleIndex+0]);
-	const uint myPartY = uint(CPY_Positions[3*myParticleIndex+1]);
-	const uint myPartZ = uint(CPY_Positions[3*myParticleIndex+2]);
+	const uint myPartX = uint(CPY_Positions[myParticleIndex].x);
+	const uint myPartY = uint(CPY_Positions[myParticleIndex].y);
+	const uint myPartZ = uint(CPY_Positions[myParticleIndex].z);
 
 	const vec3 myOffset = offsetArray[myOffsetIndex];
 

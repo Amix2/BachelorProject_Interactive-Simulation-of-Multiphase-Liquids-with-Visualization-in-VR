@@ -31,7 +31,7 @@ void ParticleData::initArraysOnGPU()
 
 	// SSBO for neighbour list
 	GpuResources::createSSBO(BufferDatails.NeighboursListName, (GLsizeiptr)27 * Configuration.MAX_FLUID_PARTICLES * sizeof(GLuint), NULL, BufferDatails.NeighboursListBinding);
-	
+
 	checkOpenGLErrors();
 }
 
@@ -300,6 +300,42 @@ void ParticleData::printNeighboursData(int limit)
 		std::stringstream ss;
 		for (int x = 0; x < 27; x++) {
 			ss << array[27 * i + x] << ", ";
+		}
+		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
+	}
+
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+}
+
+void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, bool density, bool pressure, int limit)
+{
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "SPH print");
+	float* array = (float*)GpuResources::getDataSSBO(BufferDatails.SPHVariablesName);
+	if (array == nullptr) {
+		LOG_F(ERROR, "Error while printing SPH DATA");
+		return;
+	}
+	if (limit <= 0) {
+		limit = INT_MAX;
+	}
+	const int siz = Configuration.MAX_FLUID_PARTICLES;
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit; i++) {
+		std::stringstream ss;
+		if (velocity) {
+			ss << "vel: " << array[3 * i + 0] << "," << array[3 * i + 1] << "," << array[3 * i + 2] << " | ";
+		}
+		if (acceleration) {
+			ss << "acc: " << array[3*siz + 3 * i + 0] << "," << array[3 * siz + 3 * i + 1] << "," << array[3 * siz + 3 * i + 2] << " | ";
+		}
+		if (surface) {
+			ss << "surf: " << array[6 * siz + 3 * i + 0] << "," << array[6 * siz + 3 * i + 1] << "," << array[6 * siz + 3 * i + 2] << " (" << array[9 * siz + 3 * i + 2] << ") | ";
+		}
+		if (density) {
+			ss << "dens: " << array[10 * siz +i ] << " | ";
+		}
+		if (pressure) {
+			ss << "press: " << array[11 * siz + i] << " | ";
 		}
 		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
 	}

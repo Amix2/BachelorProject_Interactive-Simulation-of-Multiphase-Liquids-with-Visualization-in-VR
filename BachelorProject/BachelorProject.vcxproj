@@ -92,6 +92,7 @@
     <None Include="Source\scene\bilboard.vs" />
     <None Include="Source\scene\testObject.f" />
     <None Include="Source\scene\testObject.v" />
+    <None Include="Source\shaders\shaderFiles\SphDensityPressure.glsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />

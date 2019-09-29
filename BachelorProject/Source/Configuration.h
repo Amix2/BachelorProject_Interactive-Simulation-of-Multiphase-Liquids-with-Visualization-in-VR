@@ -14,7 +14,7 @@ const struct Configuration {
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_FLUID_PARTICLES;
-	inline static const float FLUID_PARTICLE_BUILD_GAP = 1.0f;
+	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
 	inline static const int SCENE_SIZE_X = 200;
@@ -71,6 +71,7 @@ const struct ShaderFiles {
 	inline static const std::string CellCountingForSort = "./Source/shaders/shaderFiles/CellCountingForSort.glsl";
 	inline static const std::string VariablesArrangementAfterSort = "./Source/shaders/shaderFiles/SortingFinalizer.glsl";
 	inline static const std::string SphNeighbourSearch = "./Source/shaders/shaderFiles/SphNeighbourSearch.glsl";	
+	inline static const std::string SphDensityPressure = "./Source/shaders/shaderFiles/SphDensityPressure.glsl";
 
 } ShaderFiles;
 

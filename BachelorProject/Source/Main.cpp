@@ -51,7 +51,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
+	//loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
