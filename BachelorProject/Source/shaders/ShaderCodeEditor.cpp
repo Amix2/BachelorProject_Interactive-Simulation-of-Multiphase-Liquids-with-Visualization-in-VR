@@ -15,6 +15,9 @@ void ShaderCodeEditor::init()
 	addVariable("MAX_SCENE_X", Configuration.SCENE_SIZE_X);
 	addVariable("MAX_SCENE_Z", Configuration.SCENE_SIZE_Y);
 	addVariable("MAX_SCENE_Y", Configuration.SCENE_SIZE_Z);
+	addVariable("DELTA_TIME", Configuration.DELTA_TIME);
+	addVariable("GRAVITY_Y", Configuration.GRAVITY_Y);
+	addVariable("MAX_FLUID_SPEED", Configuration.MAX_FLUID_SPEED);
 }
 
 template<typename V>

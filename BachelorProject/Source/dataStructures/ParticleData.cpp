@@ -320,7 +320,7 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 		limit = INT_MAX;
 	}
 	const int siz = Configuration.MAX_FLUID_PARTICLES;
-	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit; i++) {
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit && i<ParticleData::m_FluidParticlesNum; i++) {
 		std::stringstream ss;
 		if (velocity) {
 			ss << "vel: " << array[3 * i + 0] << "," << array[3 * i + 1] << "," << array[3 * i + 2] << " | ";
@@ -329,13 +329,13 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 			ss << "acc: " << array[3*siz + 3 * i + 0] << "," << array[3 * siz + 3 * i + 1] << "," << array[3 * siz + 3 * i + 2] << " | ";
 		}
 		if (surface) {
-			ss << "surf: " << array[6 * siz + 3 * i + 0] << "," << array[6 * siz + 3 * i + 1] << "," << array[6 * siz + 3 * i + 2] << " (" << array[9 * siz + 3 * i + 2] << ") | ";
+			ss << "surf: " << array[6 * siz + 3 * i + 0] << "," << array[6 * siz + 3 * i + 1] << "," << array[6 * siz + 3 * i + 2] << " (" << array[9 * siz + i ] << ") | ";
 		}
 		if (density) {
-			ss << "dens: " << array[10 * siz +i ] << " | ";
+			ss << "dens: " << array[10 * siz +2*i ] << " | ";
 		}
 		if (pressure) {
-			ss << "press: " << array[11 * siz + i] << " | ";
+			ss << "press: " << array[10 * siz + 2*i+1] << " | ";
 		}
 		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
 	}

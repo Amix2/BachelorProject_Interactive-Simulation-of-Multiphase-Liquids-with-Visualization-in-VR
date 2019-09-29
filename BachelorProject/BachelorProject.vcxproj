@@ -92,7 +92,8 @@
     <None Include="Source\scene\bilboard.vs" />
     <None Include="Source\scene\testObject.f" />
     <None Include="Source\scene\testObject.v" />
-    <None Include="Source\shaders\shaderFiles\SphDensityPressure.glsl" />
+    <None Include="Source\shaders\shaderFiles\SphDensityPressureFluid.glsl" />
+    <None Include="Source\shaders\shaderFiles\SphAccelerationFluid.glsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />

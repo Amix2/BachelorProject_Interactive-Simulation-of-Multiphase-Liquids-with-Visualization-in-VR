@@ -21,6 +21,10 @@ const struct Configuration {
 	inline static const int SCENE_SIZE_Y = 200;
 	inline static const int SCENE_SIZE_Z = 200;
 
+	inline static const float DELTA_TIME = 0.0005;
+	inline static const float GRAVITY_Y = -3000;
+	inline static const float MAX_FLUID_SPEED = 1.0;
+
 
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 
@@ -71,7 +75,8 @@ const struct ShaderFiles {
 	inline static const std::string CellCountingForSort = "./Source/shaders/shaderFiles/CellCountingForSort.glsl";
 	inline static const std::string VariablesArrangementAfterSort = "./Source/shaders/shaderFiles/SortingFinalizer.glsl";
 	inline static const std::string SphNeighbourSearch = "./Source/shaders/shaderFiles/SphNeighbourSearch.glsl";	
-	inline static const std::string SphDensityPressure = "./Source/shaders/shaderFiles/SphDensityPressure.glsl";
+	inline static const std::string SphDensityPressureFluid = "./Source/shaders/shaderFiles/SphDensityPressureFluid.glsl";
+	inline static const std::string SphAccelerationFluid = "./Source/shaders/shaderFiles/SphAccelerationFluid.glsl";
 
 } ShaderFiles;
 

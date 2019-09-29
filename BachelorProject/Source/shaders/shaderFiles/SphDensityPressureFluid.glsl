@@ -100,21 +100,23 @@ void main(void)
 
 	for(int cellIter = int(27*myThreadNumber); cellIter<27 + int(27*myThreadNumber); cellIter++) {
 
-		const uint thisNeiCellIndex = sortIndexArray[neighboursBeginInd[cellIter]];
+		const uint thisNeiCellIndex = sortIndexArray[neighboursBeginInd[cellIter]]; 
 
 		// for every neighbour in 1 cell starting from first until their cell index change
 		for(int neiIter = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiIter] && neiIter > -1; neiIter++) {
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
-			pDensity += fluidTypeArray[myFluid.type].mass * Kernel(distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z)));
+			const float dist = distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
+			if(dist >= 1) continue;
+			neiCount++;
+			pDensity += fluidTypeArray[myFluid.type].mass * Kernel(dist);
 
 		}
 	}
 
 	////	FOR EVERY GLASS PARTICLE DO THE SAME
 
-	//fluidDensityPressure[2*myThreadNumber] = pDensity;
-	//fluidDensityPressure[2*myThreadNumber+1] = fluidTypeArray[myFluid.type].stiffness * (pDensity - fluidTypeArray[myFluid.type].density);
-	fluidDensityPressure[2*myThreadNumber] = float(2);
+	fluidDensityPressure[2*myThreadNumber] = pDensity;
+	fluidDensityPressure[2*myThreadNumber+1] = fluidTypeArray[myFluid.type].stiffness * (pDensity - fluidTypeArray[myFluid.type].density);
 }
 
 
