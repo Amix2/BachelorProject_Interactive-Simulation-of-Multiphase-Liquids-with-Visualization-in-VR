@@ -58,7 +58,7 @@ void Simulation::runSimulationFrame()
 		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
 		glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
 
-		//m_TESTshader.runShader(1, 1, 1, true);
+		m_TESTshader.runShader(1, 1, 1, true);
 
 	}
 
@@ -95,7 +95,7 @@ void setupSimObjects()
 	ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(detailsQ);
 	//ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(details3);
+	//ParticleObjectCreator::addObject(details3);
 }
 
 void Simulation::main()
@@ -117,6 +117,7 @@ void Simulation::main()
 		//ParticleData::printSortingData();
 	}
 		ParticleData::printParticleData(20);
+		
 }
 
 void Simulation::init()

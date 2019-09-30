@@ -12,6 +12,7 @@
 #include "MousePositionListener.h"
 #include "MouseScrollListener.h"
 #include "WindowSizeListener.h"
+#include "KeyPressListener.h"
 
 class Window {
 public:
@@ -20,16 +21,20 @@ public:
 	bool init();
 	bool refresh();
 	void processInput() const;
+	
 
 	void subscribeForMousePositionChanges(MousePositionListener* listener);
 	void subscribeForMouseScrollChanges(MouseScrollListener* listener);
 	void subscribeForWindowSizeChanges(WindowSizeListener* listener);
+	void subscribeForKeyInput(KeyPressListener* listener);
 	void unsubscribeMousePositionListener(MousePositionListener* listener);
 	void unsubscribeMouseScrollListener(MouseScrollListener* listener);
 	void unsubscribeWindowSizeListener(WindowSizeListener* listener);
+	void unsubscribeKeyInputListener(KeyPressListener* listener);
 
 	int getWidth() const { return width; }
 	int getHeight() const { return height; }
+	float getDeltaTime() const { return deltaTime; }
 
 	GLFWwindow* glfwWindow;
 protected:
@@ -39,12 +44,16 @@ private:
 	int height;
 	std::string name;
 
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
+
 	bool firstMousePositionMeasurment { true };
 	double mousePosX;
 	double mousePosY;
 	std::vector<MousePositionListener*> mousePositionListeners;
 	std::vector<MouseScrollListener*> mouseScrollListeners;
 	std::vector<WindowSizeListener*> windowSizeListeners;
+	std::vector<KeyPressListener*> keyInputListeners;
 
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);

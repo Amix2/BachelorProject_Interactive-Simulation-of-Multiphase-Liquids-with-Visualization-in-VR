@@ -107,7 +107,7 @@ void main(void)
 
 	// SPH
 	for(int i=0; i<numOfParticles; i++) {
-		fluidPositions[i].y -= 0.05;	// move particles
+		fluidPositions[i].y -= 0.005;	// move particles
 	}
 }
 

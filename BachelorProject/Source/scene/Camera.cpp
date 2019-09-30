@@ -60,6 +60,22 @@ namespace Scene {
 
 	}
 
+	void Camera::setRotation(float pitch, float yaw, float roll)
+	{
+		this->pitch = pitch;
+		this->roll = roll;
+		this->yaw = yaw;
+
+		updateCameraVectors();
+	}
+
+	void Camera::setPosition(const glm::vec3& position)
+	{
+		this->position = position;
+	}
+
+	
+
 	void Camera::updateCameraVectors() {
 		glm::vec3 newFront;
 		newFront.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -73,6 +89,7 @@ namespace Scene {
 
 		up = glm::normalize(glm::cross(right, front));
 	}
+	
 
 	void Camera::updateCameraAngles() {
 		//TODO

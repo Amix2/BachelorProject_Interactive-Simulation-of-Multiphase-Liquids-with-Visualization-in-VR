@@ -17,7 +17,7 @@ Shader::Shader(std::string shaderPath, std::string type)
 	}
 	catch (std::ifstream::failure e)
 	{
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		std::cout << "ERROR::SHADER::" + type + "::FILE_NOT_SUCCESFULLY_READ" << std::endl;
 	}
 
 	const char* shaderCodeC = shaderCode.c_str();
@@ -25,6 +25,8 @@ Shader::Shader(std::string shaderPath, std::string type)
 		ID = glCreateShader(GL_VERTEX_SHADER);
 	else if (type == "FRAGMENT")
 		ID = glCreateShader(GL_FRAGMENT_SHADER);
+	else if (type == "GEOMETRY")
+		ID = glCreateShader(GL_GEOMETRY_SHADER);
 	else
 		std::cout << "ERROR::INTERNAL bad shader type: " << type << std::endl;
 	glShaderSource(ID, 1, &shaderCodeC, NULL);

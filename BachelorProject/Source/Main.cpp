@@ -10,8 +10,10 @@
 #include "scene/Scene.h"
 #include "scene/Camera.h"
 #include "scene/TestMaterialObject.h"
-#include "scene/OcularCameraController.h"
+#include "scene/VRCameraController.h"
 #include "scene/TestBilboardObject.h"
+#include "scene/FluidObject.h"
+#include "scene/SimpleCameraController.h"
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -41,7 +43,7 @@ void cleanUp();
 
 // settings
 std::string NAME = "Random window";
-constexpr unsigned int SCR_WIDTH = 1200;
+constexpr unsigned int SCR_WIDTH = 600;
 constexpr unsigned int SCR_HEIGHT = 600;
 
 int main(int argc, char ** argv) {
@@ -51,7 +53,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
+	//loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -68,34 +70,41 @@ int main(int argc, char ** argv) {
 
 	Scene::Scene scene{};
 
-	ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
-	ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-	OcularCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+	//if(headsetIsAvaiable){
+	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
+	//ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
+	//VRCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+	//scene.addCamera(&cameraController.getLeftCamera());
+	//scene.addCamera(&cameraController.getRightCamera());
+	//}
+	//else 
+	//{
+	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+	scene.addCamera(&cameraController.getCamera());
+	//}
 
 	ShaderProgram programCubes{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
 	TestMaterialObject cubes{ programCubes };
 
-	ShaderProgram programBilboard{ "./Source/scene/bilboard.vs", "./Source/scene/bilboard.fs" };
+	ShaderProgram programBilboard{ "./Source/scene/particles.vert", "./Source/scene/particles.geom", "./Source/scene/particles.frag" };
 	TestBilboardObject bilboard{ programBilboard };
 
-	//ShaderProgram 
+	ShaderProgram programFluid{ "./Source/scene/particles.vert", "./Source/scene/particles.geom", "./Source/scene/particles.frag" };
+	FluidObject fluid{ programFluid };
 
 /////////////////////////////////////////////////////////////////////////////////////
 
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-	//ParticleData::initArraysOnGPU();
-	//printWorkGroupsCapabilities();
 
-	scene.addCamera(&cameraController.getLeftCamera());
-	scene.addCamera(&cameraController.getRightCamera());
-    scene.addMaterialObject(&cubes);
-	scene.addMaterialObject(&bilboard);
+	scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&bilboard);
+	scene.addMaterialObject(&fluid);
 
 	do 
 	{
-		window.processInput();
 		scene.renderScene();
 	} while (!window.refresh());
 
