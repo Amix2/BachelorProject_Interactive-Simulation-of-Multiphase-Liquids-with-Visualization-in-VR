@@ -52,13 +52,17 @@ const static std::unique_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>()
 const static std::unique_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
 const static std::unique_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
 
+static bool HmdConnected;
+
 int main(int argc, char ** argv) {
 	if (!VrCore->InitializeCore()) {
 		std::cerr << "Couldn't init VR Core!" << std::endl;
+		HmdConnected = false;
 	}
 	else {
 		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
 		VrGeometry->SetIVRSystem(VrCore->GetVrSystem());
+		HmdConnected = true;
 	}
 
 	if (LOG_TO_FILE) {
@@ -109,12 +113,13 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
-		VrGeometry->SetupCameras();
-		VrGeometry->UpdateHMDMatrixPose();
-		VrInput->DetectPressedButtons();
-		VrInput->HandleInput();
-		cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
-		std::cout << VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking.m[0][0] << std::endl;
+		if (HmdConnected) {
+			VrGeometry->SetupCameras();
+			VrGeometry->UpdateHMDMatrixPose();
+			VrInput->DetectPressedButtons();
+			VrInput->HandleInput();
+			cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
+		}
 		window.processInput();
 		scene.renderScene();
 	} while (!window.refresh());
