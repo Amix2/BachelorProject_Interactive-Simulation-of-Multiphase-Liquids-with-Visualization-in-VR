@@ -15,7 +15,7 @@ void Simulation::runSimulationFrame()
 	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime
 		, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime;
 	_ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
-	for (int i = 0; i <1  ; i++) {
+	for (int i = 0; i <1000  ; i++) {
 		glFinish();
 		_ntStart = getNanoTime();
 
@@ -100,8 +100,10 @@ void Simulation::runSimulationFrame()
 	
 	// if enabled - log all particles positions into file
 
-	LOG_F(INFO, "Simulation dispathSize: %d time: \nRequests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&Press FL %f, Acc FL %f, Vel %f"
-		, dispathSize, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+	const float _ntSum = _ntVelocityTime + _ntAccelerationFluidTime + _ntStartTime + _ntParseRequestsTime + _ntSynchronizeWithGpuTime + _ntCopyForSortTime + _ntCellCountingTime + _ntBitonicSortTime + _ntArrangeVarsTime + _ntNeighbourSearchTime + _ntDensityPressureFluidTime;
+
+	LOG_F(INFO, "Simulation dispathSize: %d time: %f \nRequests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
+		, dispathSize, _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -115,12 +117,12 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 1,1,1, 1.1, 1.1, 5.1 };
-	ParticleObjectDetais detailsB{ 2, 1,1,1, 1.1, 1.1, 3.1 };
+	ParticleObjectDetais details{ 1, 5,5,5, 5.5,5.5,5.5 };
+	ParticleObjectDetais detailsB{ 1, 5,5,6, 5.5,5.5,6.5 };
 	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60, 100 };
 	ParticleObjectDetais details3{ -1, 5,4,5, 2.5,0,2.5 };
 	ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details);
+	ParticleObjectCreator::addObject(detailsB);
 	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(details3);
 }
@@ -137,18 +139,16 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	//while (!glfwWindowShouldClose(m_mainWindow))
-	for(int i=0; i<2; i++) 
+	for(int i=0; i<5; i++) 
 	{
-		Sleep(1000);
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
-		Sleep(2000);
 		//ParticleData::printGlassData(20);
 	}
+	ParticleData::printParticleData(10);
+	ParticleData::printSPHData(1, 1, 1, 1, 1,10);
 	ParticleData::printSortingData();
-	ParticleData::printParticleData(20);
-	ParticleData::printNeighboursData();
-	ParticleData::printSPHData(1, 1, 1, 1, 1,20);
+		ParticleData::printNeighboursData();
 }
 
 void Simulation::init()

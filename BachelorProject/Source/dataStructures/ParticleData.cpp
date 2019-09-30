@@ -296,7 +296,7 @@ void ParticleData::printNeighboursData(int limit)
 		limit = INT_MAX;
 	}
 
-	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit; i++) {
+	for (int i = 0; i < Configuration.MAX_FLUID_PARTICLES && i < limit && i < ParticleData::m_FluidParticlesNum; i++) {
 		std::stringstream ss;
 		for (int x = 0; x < 27; x++) {
 			ss << array[27 * i + x] << ", ";
@@ -357,14 +357,14 @@ void ParticleData::logParticlePositions()
 	}
 	const int numOfFluidParts = details->numOfParticles;
 	const int numOfGlassParts = details->numOfGlassParticles;
-	float* partPositions;
-	partPositions = (float*)ParticleData::getPositions();
+	FluidParticle* partPositions;
+	partPositions = (FluidParticle*)ParticleData::getPositions();
 
 	if (numOfFluidParts > Configuration.MAX_FLUID_PARTICLES) return;
 	if (numOfGlassParts > Configuration.MAX_GLASS_PARTICLES) return;
 
 	for (int i = 0; i < numOfFluidParts; i++) {
-		partFile << partPositions[3 * i] << " " << partPositions[3 * i + 1] << " " << partPositions[3 * i + 2] << " " << 1 << " ";
+		partFile << partPositions[i].x << " " << partPositions[i].y << " " << partPositions[i].z << " " << 1 << " ";
 	}
 
 	float* glassPositions;

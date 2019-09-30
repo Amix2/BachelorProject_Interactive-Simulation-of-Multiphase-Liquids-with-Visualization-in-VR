@@ -110,9 +110,9 @@ void main(void)
 	fluidVelocity[3*myThreadNumber+1] = pVelocity.y;
 	fluidVelocity[3*myThreadNumber+2] = pVelocity.z;
 
-	//fluidPositions[myThreadNumber].x = pPosition.x;
-	//fluidPositions[myThreadNumber].y = pPosition.y;
-	//fluidPositions[myThreadNumber].z = pPosition.z;
+	fluidPositions[myThreadNumber].x = pPosition.x;
+	fluidPositions[myThreadNumber].y = pPosition.y;
+	fluidPositions[myThreadNumber].z = pPosition.z;
 }
 
 
