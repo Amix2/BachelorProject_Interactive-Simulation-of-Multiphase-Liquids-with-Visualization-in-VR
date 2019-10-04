@@ -8,6 +8,7 @@
 #include <Configuration.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <particleObjects/ParticleGeometry.h>
 #include <dataStructures/ParticleData.h>
 
@@ -35,23 +36,9 @@ class ParticleObject {
 	// index of glass particless from this object in global glass particle array (on gpu)
 
 public:
-	glm::vec3 m_currentPosition;	// 3
-	float _padding1;
-	glm::vec3 m_targetPosition;		// 6
-	float _padding2;
+	glm::mat4 m_matrix;
 
-	glm::vec3 m_currentVector;		// 9
-	float _padding3;
-	glm::vec3 m_targetVector;		// 12
-	float _padding4;
+	void createMug(ParticleObjectDetais details,  int& numOfParts);
 
-	int m_indBegin = 0;					// 13
-	int m_indEnd = 0;					// 14
-
-	float _padding[2];	// force 4 x N variables (4 B each)
-
-	void createMug(ParticleObjectDetais details, float positions[], float vectors[], int& numOfParts);
-
-	std::string print();
 	ParticleObject();
 };

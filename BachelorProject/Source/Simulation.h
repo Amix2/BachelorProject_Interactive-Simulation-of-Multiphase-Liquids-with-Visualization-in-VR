@@ -13,7 +13,7 @@
 #include <thread>
 #include <math.h>
 
-enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
+//enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
 class Simulation
 {
@@ -32,11 +32,11 @@ class Simulation
 	inline static ComputeShader m_TESTshader;
 public:
 
-	inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
-	inline static std::atomic<Resource_Request> m_reqGlassArray		= NO_ORDER;
-	inline static std::atomic<Resource_Request> m_reqGlassVectorsArray = NO_ORDER;
-	inline static std::atomic<Resource_Request> m_reqDetils		= NO_ORDER;
-	inline static std::atomic<Resource_Request> m_reqObjects	= NO_ORDER;
+	//inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
+	//inline static std::atomic<Resource_Request> m_reqGlassArray		= NO_ORDER;
+	//inline static std::atomic<Resource_Request> m_reqGlassVectorsArray = NO_ORDER;
+	//inline static std::atomic<Resource_Request> m_reqDetils		= NO_ORDER;
+	//inline static std::atomic<Resource_Request> m_reqObjects	= NO_ORDER;
 
 
 	// calculate 1 frame of simulation 
@@ -49,6 +49,6 @@ public:
 	static void init();
 
 	// check m_ResourceRequest and perform action
-	static void parseResourceRequest();
+	//static void parseResourceRequest();
 };
 

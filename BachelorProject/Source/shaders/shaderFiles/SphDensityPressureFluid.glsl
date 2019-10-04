@@ -21,7 +21,7 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 struct FluidParticle {
 	float x, y, z;
-	uint type;
+	int type;
 };
 
 struct FluidType {
@@ -91,10 +91,11 @@ float KernelSecondDerivative(in float x) {
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	const FluidParticle myFluid = fluidPositions[myThreadNumber];
+	if(myFluid.type<0) return;
 	
 	float pDensity = 0;
 	float pPressure;
-	const FluidParticle myFluid = fluidPositions[myThreadNumber];
 
 	int neiCount = 0;
 

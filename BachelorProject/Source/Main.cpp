@@ -85,6 +85,7 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
+	Sleep(100000);
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
 
@@ -105,7 +106,6 @@ int main(int argc, char ** argv) {
 
 void initTools()
 {
-	ParticleObjectCreator::init();
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();

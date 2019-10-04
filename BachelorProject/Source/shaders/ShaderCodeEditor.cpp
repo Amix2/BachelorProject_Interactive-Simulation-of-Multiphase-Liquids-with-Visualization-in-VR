@@ -7,7 +7,7 @@ void ShaderCodeEditor::init()
 	if (initialized) return;
 	initialized = true;
 
-	addVariable(	"MAX_FLUID",	Configuration.MAX_FLUID_PARTICLES	);
+	addVariable(	"MAX_FLUID",	Configuration.MAX_PARTICLES	);
 	addVariable(	"MAX_GLASS",	Configuration.MAX_GLASS_PARTICLES	);
 	addVariable(	"MAX_SPEED",	Configuration.MAX_PARTICLE_SPEED	);
 	addVariable(	"MAX_FLUID_TYPES",	Configuration.MAX_FLUID_TYPES	);

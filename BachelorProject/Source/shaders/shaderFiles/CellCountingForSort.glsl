@@ -2,11 +2,13 @@
 
 #define NUM_THREADS 1
 #define MAX_FLUID 8192
+#define MAX_GLASS 3072
+#define MAX_PARTICLE_OBJECTS 10
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
-#define MAX_UINT 4294967295
+
 
 #define INSERT_VARIABLES_HERE
 
@@ -19,7 +21,18 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 struct FluidParticle {
 	float x, y, z;
-	uint type;
+	int type;
+};
+
+struct GlassParticle {
+	float localX, localY, localZ;
+	float vecX, vecY, vecZ;
+	uint glassNumber;
+	float __padding;
+};
+
+struct GlassObjectDetails {
+	mat4 matrix;
 };
 
 layout(std430, binding = 9) buffer sortingHelpBuf
@@ -35,6 +48,15 @@ layout(std430, binding = 1) buffer positionsBuf
 	FluidParticle fluidPositions[MAX_FLUID];
 };
 
+layout(std140, binding = 2) uniform glassPartBuf
+{
+	GlassParticle glassParticles[MAX_GLASS];
+};
+
+layout(std140, binding = 3) uniform glassObjectsBuf
+{
+	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
+};
 
 layout(std430, binding = 6) buffer detailsBuf
 {
@@ -64,9 +86,26 @@ layout(std430, binding = 3) buffer glassPositionsBuf
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
-	//if(particleFluidType[myThreadNumber] != 0) {
-		sortIndexArray[myThreadNumber] = getCellIndex(fluidPositions[myThreadNumber].x, fluidPositions[myThreadNumber].y, fluidPositions[myThreadNumber].z);
-		originalIndex[myThreadNumber] = myThreadNumber;
+	FluidParticle myParticle = fluidPositions[myThreadNumber];
+	const int myType = myParticle.type;
+	if(myType < 0) {
+		// its a glass particle
+		const int myGlassParticleIndex = (myType+1)*-1;	// -1 ==> 0 | -2 ==> 1
+		const GlassParticle myGlassParticle = glassParticles[myGlassParticleIndex];
+		const vec4 localPos = vec4(myGlassParticle.localX, myGlassParticle.localY, myGlassParticle.localZ, 1.0f);
+		const mat4 transformMatrix = glassObjects[myGlassParticle.glassNumber].matrix;
+		const vec4 globalPos = transformMatrix * localPos;
+
+		myParticle.x = globalPos.x;
+		myParticle.y = globalPos.y;
+		myParticle.z = globalPos.z;
+		fluidPositions[myThreadNumber].x = globalPos.x;
+		fluidPositions[myThreadNumber].y = globalPos.y;
+		fluidPositions[myThreadNumber].z = globalPos.z;
+	}
+
+	sortIndexArray[myThreadNumber] = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
+	originalIndex[myThreadNumber] = myThreadNumber;
 
 }
 

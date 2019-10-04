@@ -19,7 +19,7 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 struct FluidParticle {
 	float x, y, z;
-	uint type;
+	int type;
 };
 
 
@@ -90,13 +90,17 @@ void main(void)
 	);
 
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
-	const uint myOffsetIndex = myThreadNumber % 27;
 	const uint myParticleIndex = myThreadNumber / 27;
+	const FluidParticle myParticle = fluidPositions[myParticleIndex];
+	if(myParticle.type<0) return;
+
+	const uint myOffsetIndex = myThreadNumber % 27;
 	const uint myOutputIndex = myThreadNumber;
 
-	const uint myPartX = uint(fluidPositions[myParticleIndex].x);
-	const uint myPartY = uint(fluidPositions[myParticleIndex].y);
-	const uint myPartZ = uint(fluidPositions[myParticleIndex].z);
+
+	const uint myPartX = uint(myParticle.x);
+	const uint myPartY = uint(myParticle.y);
+	const uint myPartZ = uint(myParticle.z);
 
 	const vec3 myOffset = offsetArray[myOffsetIndex];
 
