@@ -56,12 +56,40 @@ bool Window::init()
 bool Window::refresh()
 {
 	glfwSwapBuffers(glfwWindow);
+
+	float currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+
 	glfwPollEvents();
+	processInput();
+
 	return glfwWindowShouldClose(glfwWindow);
 }
 
 void Window::processInput() const
 {
+	if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(glfwWindow, true);
+
+	if (glfwGetKey(glfwWindow, GLFW_KEY_W) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_W);
+	if (glfwGetKey(glfwWindow, GLFW_KEY_S) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_S);
+	if (glfwGetKey(glfwWindow, GLFW_KEY_A) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_A);
+	if (glfwGetKey(glfwWindow, GLFW_KEY_D) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_D);
+	if (glfwGetKey(glfwWindow, GLFW_KEY_Q) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_Q);
+	if (glfwGetKey(glfwWindow, GLFW_KEY_E) == GLFW_PRESS)
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_E);
 
 }
 
@@ -80,6 +108,11 @@ void Window::subscribeForWindowSizeChanges(WindowSizeListener* listener)
 	this->windowSizeListeners.push_back(listener);
 }
 
+void Window::subscribeForKeyInput(KeyPressListener* listener)
+{
+	this->keyInputListeners.push_back(listener);
+}
+
 void Window::unsubscribeMousePositionListener(MousePositionListener* listener)
 {
 	std::remove(mousePositionListeners.begin(), mousePositionListeners.end(), listener);
@@ -93,6 +126,12 @@ void Window::unsubscribeMouseScrollListener(MouseScrollListener* listener)
 void Window::unsubscribeWindowSizeListener(WindowSizeListener* listener)
 {
 	std::remove(windowSizeListeners.begin(), windowSizeListeners.end(), listener);
+}
+
+void Window::unsubscribeKeyInputListener(KeyPressListener* listener)
+{
+	std::remove(keyInputListeners.begin(), keyInputListeners.end(), listener);
+
 }
 
 void Window::GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y)

@@ -12,6 +12,21 @@ ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* fragmentS
 	checkLinkingErrors();
 }
 
+ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* geometryShaderPath, const char* fragmentShaderPath)
+{
+	Shader vertexShader{ vertexShaderPath , "VERTEX" };
+	Shader geometryShader{ geometryShaderPath, "GEOMETRY" };
+	Shader fragmentShader{ fragmentShaderPath, "FRAGMENT" };
+
+
+	ID = glCreateProgram();
+	glAttachShader(ID, vertexShader.getID());
+	glAttachShader(ID, geometryShader.getID());
+	glAttachShader(ID, fragmentShader.getID());
+	glLinkProgram(ID);
+	checkLinkingErrors();
+}
+
 void ShaderProgram::setUniformVariable(const std::string& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);

@@ -18,7 +18,7 @@ namespace Scene {
 		std::vector<Camera*> cameras;
 	protected:
 	private:
-		std::vector<GLfloat> backgroundColor{ 0.0f, 0.0f, 0.0f, 1.0f};
+		std::vector<GLfloat> backgroundColor{ 1.0f, 1.0f, 1.0f, 1.0f};
 		glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 20.0f);
 
 
