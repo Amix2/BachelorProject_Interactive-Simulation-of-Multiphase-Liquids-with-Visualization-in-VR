@@ -103,7 +103,7 @@ public:
 	static void commitGlassObjects(int numOfAddedGlassObjects);
 	static void commitDetails();
 
-
+	static void syncSimDetailsWithGpu();
 	static void copyDataForSorting();
 
 	// Prints info about fluid particles

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c" />
     <ClCompile Include="Source\scene\SimpleCameraController.cpp" />
     <ClCompile Include="Source\dataStructures\FluidType.cpp" />
     <ClCompile Include="Source\scene\Camera.cpp" />

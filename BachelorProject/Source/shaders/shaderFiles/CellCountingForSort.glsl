@@ -86,6 +86,7 @@ layout(std430, binding = 3) buffer glassPositionsBuf
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	if(myThreadNumber >= numOfParticles) return;
 	FluidParticle myParticle = fluidPositions[myThreadNumber];
 	const int myType = myParticle.type;
 	if(myType < 0) {
@@ -104,8 +105,16 @@ void main(void)
 		fluidPositions[myThreadNumber].z = globalPos.z;
 	}
 
-	sortIndexArray[myThreadNumber] = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
-	originalIndex[myThreadNumber] = myThreadNumber;
+	const uint cellIndex = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
+	if(cellIndex == 0) {
+		fluidPositions[myThreadNumber].x = 0;
+		fluidPositions[myThreadNumber].y = 0;
+		fluidPositions[myThreadNumber].z = 0;
+		atomicAdd(numOfParticles, -1);
+	} else {
+		sortIndexArray[myThreadNumber] = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
+		originalIndex[myThreadNumber] = myThreadNumber;
+	}
 
 }
 

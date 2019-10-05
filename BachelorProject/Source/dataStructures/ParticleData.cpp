@@ -73,7 +73,7 @@ GlassObjectDetails* ParticleData::openGlassObjects()
 
 SimDetails* ParticleData::openDetails()
 {
-	LOG_F(INFO, "OPEN details struct");
+	//LOG_F(INFO, "OPEN details struct");
 	m_resDetails = (SimDetails*)GpuResources::openSSBO(BufferDatails.detailsName);
 
 	m_OpenedResources++;
@@ -116,7 +116,7 @@ void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
 
 void ParticleData::commitDetails()
 {
-	LOG_F(INFO, "COMMIT details");
+	//LOG_F(INFO, "COMMIT details");
 
 	GpuResources::commitSSBO(BufferDatails.detailsName);
 
@@ -125,6 +125,18 @@ void ParticleData::commitDetails()
 	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
+
+void ParticleData::syncSimDetailsWithGpu()
+{
+	ParticleData::openDetails();
+	const SimDetails gpuDetails = *ParticleData::m_resDetails;
+	if (gpuDetails.numOfParticles != ParticleData::m_NumOfParticles || gpuDetails.numOfGlassParticles != ParticleData::m_NumOfGlassParticles) {
+		LOG_F(INFO, "GPU changed num of particles, gpu: (%d, %d) -> cpu: (%d, %d)", gpuDetails.numOfParticles, gpuDetails.numOfGlassParticles, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles);
+		ParticleData::m_NumOfParticles = gpuDetails.numOfParticles;
+		ParticleData::m_NumOfGlassParticles = gpuDetails.numOfGlassParticles;
+	}
+	ParticleData::commitDetails();
+}
 
 void ParticleData::copyDataForSorting()
 {

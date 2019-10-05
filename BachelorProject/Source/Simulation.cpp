@@ -34,6 +34,7 @@ void Simulation::runSimulationFrame()
 
 		// exchange information about glass objects with gpu
 		ParticleObjectManager::synchronizeWithGpu();
+		ParticleData::syncSimDetailsWithGpu();
 
 		glFinish();		_ntSynchronizeWithGpu = getNanoTime();		_ntSynchronizeWithGpuTime += getNanoTimeDif(_ntParseRequests, _ntSynchronizeWithGpu);
 
@@ -116,16 +117,16 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 5,5,5, 5.1,5.1,8 };
+	ParticleObjectDetais details{ 1, 20,20,20, 20.1,20.1,20.1 };
 	ParticleObjectDetais detailsB{ 2, 5,5,5, 5.1,5.1,8 };
 	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60, 100 };
-	ParticleObjectDetais details3{ -1, 10,10,10, 3,0,4};
-	//ParticleObjectCreator::addObject(details);
+	ParticleObjectDetais details3{ -1, 20,15,20, 5,0,0};
+	ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(detailsB);
 	//ParticleObjectCreator::addObject(detailsB);
 	//ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(details3);
 	//ParticleObjectCreator::addObject(details3);
+	ParticleObjectCreator::addObject(details3);
 }
 
 void Simulation::main()
@@ -140,7 +141,7 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	//while (!glfwWindowShouldClose(m_mainWindow))
-	for(int i=0; i<1; i++) 
+	for(int i=0; i<200; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();

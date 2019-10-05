@@ -10,7 +10,7 @@
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
 #define DELTA_TIME 0.0005
-#define GRAVITY_Y -3000;
+#define GRAVITY_Y -3000
 
 #define M_PI 3.1415926535897932384626433832795
 
@@ -102,7 +102,7 @@ void main(void)
 
 	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
 
-	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1], fluidAcceleration[3*myThreadNumber+2]); 
+	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
 	pVelocity = pVelocity + pAcceleration * DELTA_TIME;
 

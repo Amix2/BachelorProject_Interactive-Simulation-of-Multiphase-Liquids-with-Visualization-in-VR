@@ -3,13 +3,13 @@
 #include <random>
 
 // put on if you want to see particles in Simple Visualizer, it will erase previous content
-#define LOG_TO_FILE true
+#define LOG_TO_FILE false
 
 // in case of "inline" errors enable c++17
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_FLUID_PARTICLES = 2048;
+	inline static const int MAX_PARTICLES = 2048;
 	inline static const int MAX_GLASS_PARTICLES = 2048;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
@@ -22,7 +22,7 @@ const struct Configuration {
 	inline static const int SCENE_SIZE_Z = 200;
 
 	inline static const float DELTA_TIME = 0.0005;
-	inline static const float GRAVITY_Y = -3000;
+	inline static const float GRAVITY_Y = -30;
 	inline static const float MAX_FLUID_SPEED = 1.0;
 
 

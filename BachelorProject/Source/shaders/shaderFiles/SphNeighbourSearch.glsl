@@ -59,6 +59,11 @@ uint getCellIndex(in float pX, in float pY, in float pZ)  {
 
 void main(void)
 {
+	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	const uint myParticleIndex = myThreadNumber / 27;
+	const FluidParticle myParticle = fluidPositions[myParticleIndex];
+	if(myParticle.type<0) return;
+
 	const vec3 offsetArray[] = vec3[] (
 		vec3(-1, -1, -1),
 		vec3(-1, -1, 0),
@@ -89,10 +94,6 @@ void main(void)
 		vec3(1, 1, 1)
 	);
 
-	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
-	const uint myParticleIndex = myThreadNumber / 27;
-	const FluidParticle myParticle = fluidPositions[myParticleIndex];
-	if(myParticle.type<0) return;
 
 	const uint myOffsetIndex = myThreadNumber % 27;
 	const uint myOutputIndex = myThreadNumber;

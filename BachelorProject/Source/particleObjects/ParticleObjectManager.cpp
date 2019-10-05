@@ -35,6 +35,7 @@ void ParticleObjectManager::init()
 
 void ParticleObjectManager::synchronizeWithGpu()
 {
+	if (!ParticleObjectManager::m_positionChanged) return;
 	//LOG_F(INFO, "SYNC glass OBJECTS");
 	ParticleData::openGlassObjects();
 	for (int i = 0; i < m_numOfObjects; i++) {
@@ -48,6 +49,7 @@ int ParticleObjectManager::addObject(const ParticleObject& object)
 	m_partObjectsArray[m_numOfObjects] = object;
 
 	m_numOfObjects++;
+	ParticleObjectManager::m_positionChanged = true;
 	return m_numOfObjects;
 }
 

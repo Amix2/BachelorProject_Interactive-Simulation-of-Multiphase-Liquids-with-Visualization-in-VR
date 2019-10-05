@@ -56,6 +56,6 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	shaderProgram.setUniformVariable("view", view);
 
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_POINTS, 0,10);
+	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
 }
 

@@ -112,21 +112,23 @@ void main(void)
 		const uint thisNeiCellIndex = sortIndexArray[neighboursBeginInd[cellIter]];
 
 		// for every neighbour in 1 cell starting from first until their cell index change
-		for(int neiIter = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiIter] && neiIter > -1; neiIter++) {
+		for(int neiParticleIndex = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiParticleIndex] && neiParticleIndex > -1; neiParticleIndex++) {
 
-			const FluidParticle neiPartcie = fluidPositions[neiIter];
+			const FluidParticle neiPartcie = fluidPositions[neiParticleIndex];
+			const int neiVariablesIndex = neiPartcie.type > 0 ? neiParticleIndex : int(myThreadNumber);	// glass nei particles will take pressure & density from this particle
+
 			const float dist = distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			if(dist >= 1) continue;	neiCount++;
 
-			const float neiDensity = fluidDensityPressure[2*neiIter+0];
-			const float neiPressure = fluidDensityPressure[2*neiIter+1];
+			const float neiDensity = fluidDensityPressure[2*neiVariablesIndex+0];
+			const float neiPressure = fluidDensityPressure[2*neiVariablesIndex+1];
 
 			const float tPressSc = myType.mass * (pPressure/pow(pDensity, 2) + neiPressure/pow(neiDensity, 2)) * KernelDerivative(dist);
 			const vec3 direction = normalize(vec3(myFluid.x, myFluid.y, myFluid.z) - vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			pPressureVec += direction * tPressSc;
 
 			const float tVescSc = myType.mass * myType.viscosity / pDensity / neiDensity * KernelSecondDerivative(dist);
-			const vec3 neiVelocity = vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]); 
+			const vec3 neiVelocity = vec3(fluidVelocity[3*neiParticleIndex+0], fluidVelocity[3*neiParticleIndex+1], fluidVelocity[3*neiParticleIndex+2]); 
 			pViscosityVec += (neiVelocity - pVelocity) * tVescSc;
 		}
 	}
