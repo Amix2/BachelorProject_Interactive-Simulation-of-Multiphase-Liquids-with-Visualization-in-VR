@@ -17,7 +17,10 @@ void ShaderCodeEditor::init()
 	addVariable("MAX_SCENE_Y", Configuration.SCENE_SIZE_Z);
 	addVariable("DELTA_TIME", Configuration.DELTA_TIME);
 	addVariable("GRAVITY_Y", Configuration.GRAVITY_Y);
-	addVariable("MAX_FLUID_SPEED", Configuration.MAX_FLUID_SPEED);
+	addVariable("MAX_PARTICLE_SPEED", Configuration.MAX_PARTICLE_SPEED);
+	addVariable("VELOCITY_FACTOR", Configuration.VELOCITY_FACTOR);
+	addVariable("BOUNCE_DISTANCE", Configuration.BOUNCE_DISTANCE);
+	addVariable("BOUNCE_VELOCITY_MULTIPLIER", Configuration.BOUNCE_VELOCITY_MULTIPLIER);
 }
 
 template<typename V>

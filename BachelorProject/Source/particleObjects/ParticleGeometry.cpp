@@ -5,7 +5,7 @@ inline glm::vec3 partPositionFromRadius(glm::vec3 center, float radius, float an
 
 int ParticleGeometry::circle(int& numOfParts, glm::vec3 center, float radius, float inCircleGap, VectorDirection vecDirection)
 {
-	LOG_F(INFO, "Circle rad %f, part %d", radius, numOfParts);
+	//LOG_F(INFO, "Circle rad %f, part %d", radius, numOfParts);
 	int numOfPartsInCircle = (int)std::ceil(2 * M_PI * radius / inCircleGap);
 	if (radius == 0) numOfPartsInCircle = 1;
 	const float angle = (float) ( 2 * M_PI / numOfPartsInCircle );
@@ -64,7 +64,7 @@ int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 	, float inCircleGap,
  float layerGap, VectorDirection vecDirection)
 {
-	LOG_F(INFO, "filledCircle part %d", numOfParts);
+	//LOG_F(INFO, "filledCircle part %d", numOfParts);
 	const int numOfCircles = (int)std::ceil((outerRadiusCalc - innerRadiusCalc) / layerGap);
 	const float realZoneGap = (outerRadiusCalc - innerRadiusCalc) / numOfCircles;	// gap between circles
 
@@ -82,7 +82,7 @@ int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 
 int ParticleGeometry::cylinder(int& numOfParts, glm::vec2 centerLane, float bottomHeight, float topHeight, float radius, float inCircleGap, float layerGap, VectorDirection vecDirection)
 {
-	LOG_F(INFO, "cylinder part %d", numOfParts);
+	//LOG_F(INFO, "cylinder part %d", numOfParts);
 	const int numOfCircles = (int)std::ceil((topHeight - bottomHeight) / layerGap);
 	const float realZoneGap = (topHeight - bottomHeight) / numOfCircles;	// gap between circles
 	float currentHeight = bottomHeight;

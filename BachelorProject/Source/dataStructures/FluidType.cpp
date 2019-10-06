@@ -12,6 +12,7 @@ int FluidType::addFluidType(float mass, float stiffness, float viscosity, float 
 void FluidType::init()
 {
 	// define all avaliable fluid types
-	addFluidType(99, 88, 77, 66);
-	addFluidType(199, 188, 177, 166);
+	//	mass, stiffness, viscosity, density
+	addFluidType(65, 5000, 4500, 90);
+	//addFluidType(199, 188, 177, 166);
 }

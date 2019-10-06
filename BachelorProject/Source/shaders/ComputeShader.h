@@ -13,6 +13,7 @@
 class ComputeShader
 {
 	GLuint csProgram = -1;
+	std::string m_shaderFileName;
 
 public:
 	ComputeShader(const std::string shaderFileName);

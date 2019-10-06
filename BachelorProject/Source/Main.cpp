@@ -80,7 +80,7 @@ int main(int argc, char ** argv) {
 	//else 
 	//{
 	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 20,20,18 } };
+	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 2,2,2 } };
 	scene.addCamera(&cameraController.getCamera());
 	//}
 

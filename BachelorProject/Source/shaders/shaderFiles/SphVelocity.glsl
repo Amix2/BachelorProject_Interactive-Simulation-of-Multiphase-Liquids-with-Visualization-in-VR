@@ -11,6 +11,10 @@
 #define MAX_SCENE_Z 200
 #define DELTA_TIME 0.0005
 #define GRAVITY_Y -3000
+#define VELOCITY_FACTOR 1.0f
+#define BOUNCE_DISTANCE 0.5f
+#define BOUNCE_VELOCITY_MULTIPLIER 0.5f
+#define MAX_PARTICLE_SPEED 0.5f
 
 #define M_PI 3.1415926535897932384626433832795
 
@@ -93,6 +97,7 @@ float KernelSecondDerivative(in float x) {
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	if(myThreadNumber>=numOfParticles) return;
 
 	const FluidParticle myFluid = fluidPositions[myThreadNumber];
 
@@ -104,7 +109,20 @@ void main(void)
 
 	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
-	pVelocity = pVelocity + pAcceleration * DELTA_TIME;
+	pVelocity = (pVelocity + pAcceleration * DELTA_TIME);
+	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
+			//	https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+
+		const vec3 pSurfVec = vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2]); 
+		float dotProduct = dot(pVelocity, pSurfVec);
+		if(dotProduct < 0) {	// angle is greater than 90deg, velocity points into a glass
+			pVelocity = (pVelocity - 2 * (dotProduct) * pSurfVec) * BOUNCE_VELOCITY_MULTIPLIER;
+		}
+	}
+
+	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
 
 	pPosition = pPosition + pVelocity * DELTA_TIME;
 

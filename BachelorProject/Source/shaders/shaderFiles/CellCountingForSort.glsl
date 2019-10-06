@@ -106,16 +106,10 @@ void main(void)
 	}
 
 	const uint cellIndex = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
-	if(cellIndex == 0) {
-		fluidPositions[myThreadNumber].x = 0;
-		fluidPositions[myThreadNumber].y = 0;
-		fluidPositions[myThreadNumber].z = 0;
-		atomicAdd(numOfParticles, -1);
-	} else {
-		sortIndexArray[myThreadNumber] = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
-		originalIndex[myThreadNumber] = myThreadNumber;
-	}
 
+	sortIndexArray[myThreadNumber] = getCellIndex(myParticle.x, myParticle.y, myParticle.z);
+	originalIndex[myThreadNumber] = myThreadNumber;
+	
 }
 
 uint getCellIndex(in float pX, in float pY, in float pZ)  {

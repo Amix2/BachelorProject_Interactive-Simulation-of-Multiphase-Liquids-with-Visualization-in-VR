@@ -91,6 +91,7 @@ float KernelSecondDerivative(in float x) {
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	if(myThreadNumber>=numOfParticles) return;
 	const FluidParticle myFluid = fluidPositions[myThreadNumber];
 	if(myFluid.type<0) return;
 	

@@ -38,6 +38,7 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 	glLinkProgram(this->csProgram);
 	glDeleteShader(csCreatorID);
 
+	this->m_shaderFileName = shaderFileName;
 	LOG_F(INFO, "Shader %s compile successful", shaderFileName.c_str());
 }
 
@@ -69,7 +70,8 @@ void ComputeShader::setUniformVariable(const std::string& name, float value) con
 
 void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, bool block)
 {
-	if (num_groups_x * num_groups_y * num_groups_z == 0) return;
+	//LOG_F(INFO, "Run Compute shader %s with %d", this->m_shaderFileName.c_str(), num_groups_x);
+	if (num_groups_x * num_groups_y * num_groups_z <= 0) return;
 	glUseProgram(this->csProgram);
 	glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);  
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
@@ -77,5 +79,6 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 	if (block) {
 		glFinish();
 	}
+	//Sleep(100);
 	checkOpenGLErrors();
 }

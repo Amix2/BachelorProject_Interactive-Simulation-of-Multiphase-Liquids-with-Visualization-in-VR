@@ -9,13 +9,13 @@ void Simulation::runSimulationFrame()
 {
 	LOG_F(INFO, "LOOP");
 	int dispathSize = -1;
-	std::chrono::time_point<std::chrono::steady_clock> 
+	std::chrono::time_point<std::chrono::steady_clock>
 		_ntStart, _ntParseRequests, _ntSynchronizeWithGpu, _ntCopyForSort, _ntCellCounting, _ntBitonicSort, _ntArrangeVars, _ntNeighbourSearch
 		, _ntDensityPressureFluid, _ntAccelerationFluid, _ntVelocity;
 	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime
 		, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime;
 	_ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
-	for (int i = 0; i <1000  ; i++) {
+	for (int i = 0; i < 1000; i++) {
 		glFinish();
 		_ntStart = getNanoTime();
 
@@ -29,12 +29,11 @@ void Simulation::runSimulationFrame()
 		if (ParticleData::m_OpenedResources > 0) {
 			LOG_F(WARNING, "Simulation look with opened resources");
 			return;
-		}					
+		}
 		glFinish();		_ntParseRequests = getNanoTime();		_ntParseRequestsTime += getNanoTimeDif(_ntStart, _ntParseRequests);
 
 		// exchange information about glass objects with gpu
 		ParticleObjectManager::synchronizeWithGpu();
-		ParticleData::syncSimDetailsWithGpu();
 
 		glFinish();		_ntSynchronizeWithGpu = getNanoTime();		_ntSynchronizeWithGpuTime += getNanoTimeDif(_ntParseRequests, _ntSynchronizeWithGpu);
 
@@ -64,7 +63,10 @@ void Simulation::runSimulationFrame()
 		}
 		glFinish();		_ntBitonicSort = getNanoTime();		_ntBitonicSortTime += getNanoTimeDif(_ntCopyForSort, _ntBitonicSort);
 		// ARRANGE variables after sorting
+		//return;
 		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
+		ParticleData::syncSimDetailsWithGpu();
+		dispathSize = ceil(ParticleData::m_NumOfParticles / 256.0);
 		glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
 
 		const int neighbourSearchDispatchSize = ceil(27.0 * ParticleData::m_NumOfParticles / 256.0);
@@ -75,7 +77,7 @@ void Simulation::runSimulationFrame()
 		m_SphDensityPressureFluid.runShader(dispathSize, 1, 1, false);
 
 		glFinish();		_ntDensityPressureFluid = getNanoTime();		_ntDensityPressureFluidTime += getNanoTimeDif(_ntNeighbourSearch, _ntDensityPressureFluid);
-
+		//ParticleData::printParticleData(20);
 		m_SphAccelerationFluid.runShader(dispathSize, 1, 1, false);
 
 		glFinish();		_ntAccelerationFluid = getNanoTime();		_ntAccelerationFluidTime += getNanoTimeDif(_ntDensityPressureFluid, _ntAccelerationFluid);
@@ -90,20 +92,20 @@ void Simulation::runSimulationFrame()
 			ParticleData::logParticlePositions();
 		}
 		checkOpenGLErrors();
-	
-	}
 
+	}
 	//ParticleData::printParticleData(20);
 
 	////////////////////////////////////////////////
 
-	
+
 	// if enabled - log all particles positions into file
 
 	const float _ntSum = _ntVelocityTime + _ntAccelerationFluidTime + _ntStartTime + _ntParseRequestsTime + _ntSynchronizeWithGpuTime + _ntCopyForSortTime + _ntCellCountingTime + _ntBitonicSortTime + _ntArrangeVarsTime + _ntNeighbourSearchTime + _ntDensityPressureFluidTime;
 
-	LOG_F(INFO, "Simulation dispathSize: %d time: %f \nRequests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
-		, dispathSize, _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+	LOG_F(INFO, "Simulation Particles: [%d, %d],dispathSize: %d time: %f \nRequests %f, SyncGPU %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
+		, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, dispathSize, _ntSum
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -117,16 +119,15 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 20,20,20, 20.1,20.1,20.1 };
-	ParticleObjectDetais detailsB{ 2, 5,5,5, 5.1,5.1,8 };
-	ParticleObjectDetais details2{ 2, 10,10,10, 10.1,60, 100 };
-	ParticleObjectDetais details3{ -1, 20,15,20, 5,0,0};
-	ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(detailsB);
-	//ParticleObjectCreator::addObject(detailsB);
+	ParticleObjectDetais details{ 1, 5,8,5, 5.1, 8.1, 6};
+	ParticleObjectDetais details2{ -1, 5,4.5,5, 2, 0, 0 };
+	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
+	ParticleObjectDetais detailsTEST{ 1, 12,20,12, 38, 40, 38 };
+	ParticleObjectDetais detailsTESTGLASS{ -1, 25,10,25, 20.5,0,15 };
+	//ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(details2);
-	//ParticleObjectCreator::addObject(details3);
-	ParticleObjectCreator::addObject(details3);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
 }
 
 void Simulation::main()
@@ -141,18 +142,18 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	//while (!glfwWindowShouldClose(m_mainWindow))
-	for(int i=0; i<200; i++) 
+	for(int i=0; i<100000; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
 		//ParticleData::printGlassData(20);
 	}
-	ParticleData::printParticleData(40);
-	ParticleData::printGlassParticlesData(40);
+	ParticleData::printParticleData(20);
+	ParticleData::printGlassParticlesData(20);
 	ParticleData::printGlassObjectsData();
-	ParticleData::printSortingData();
+	ParticleData::printSortingData(20);
 	ParticleData::printSPHData(1, 1, 1, 1, 1,10);
-	ParticleData::printNeighboursData();
+	//ParticleData::printNeighboursData();
 }
 
 void Simulation::init()

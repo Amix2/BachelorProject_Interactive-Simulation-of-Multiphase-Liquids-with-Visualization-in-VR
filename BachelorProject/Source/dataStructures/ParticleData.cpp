@@ -131,7 +131,7 @@ void ParticleData::syncSimDetailsWithGpu()
 	ParticleData::openDetails();
 	const SimDetails gpuDetails = *ParticleData::m_resDetails;
 	if (gpuDetails.numOfParticles != ParticleData::m_NumOfParticles || gpuDetails.numOfGlassParticles != ParticleData::m_NumOfGlassParticles) {
-		LOG_F(INFO, "GPU changed num of particles, gpu: (%d, %d) -> cpu: (%d, %d)", gpuDetails.numOfParticles, gpuDetails.numOfGlassParticles, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles);
+		//LOG_F(INFO, "GPU changed num of particles, gpu: (%d, %d) -> cpu: (%d, %d)", gpuDetails.numOfParticles, gpuDetails.numOfGlassParticles, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles);
 		ParticleData::m_NumOfParticles = gpuDetails.numOfParticles;
 		ParticleData::m_NumOfGlassParticles = gpuDetails.numOfGlassParticles;
 	}
@@ -149,10 +149,10 @@ void ParticleData::copyDataForSorting()
 	int		CPY_FluidTypes[MAX_FLUID];
 	*/
 	const int sortIdSize = 2*Configuration.SORT_ARRAY_SIZE * sizeof(float);
-	const int cpyPosSize = 4 * Configuration.MAX_PARTICLES * sizeof(float);
+	const int cpyPosSize = Configuration.MAX_PARTICLES * sizeof(Particle);
 	const int cpyPosSizeUsed = ParticleData::m_NumOfParticles * sizeof(Particle);
-	const int cpyVelSize = cpyPosSize;
-	const int cpyVelSizeUsed = cpyPosSizeUsed;
+	const int cpyVelSize = Configuration.MAX_PARTICLES * 3 * sizeof(float);;
+	const int cpyVelSizeUsed = ParticleData::m_NumOfParticles * 3*sizeof(float);
 	const std::string sortTargetName = BufferDatails.SortVariablesName;
 	const std::string positionsSourceName = BufferDatails.particlePositionsName;
 	const std::string velositySourceName = BufferDatails.SPHVariablesName;
@@ -198,7 +198,7 @@ void ParticleData::printParticleData(int limit)
 	}
 
 	LOG_F(INFO, "\tNum of particles in simulation: %d, on CPU side: %d", details->numOfParticles, m_NumOfParticles);
-	for (int i = 0; i < Configuration.MAX_PARTICLES && (i < details->numOfParticles || i < m_NumOfParticles) && i < limit; i++) {
+	for (int i = 0; i < Configuration.MAX_PARTICLES && ((i < details->numOfParticles || i < m_NumOfParticles) || i < limit); i++) {
 		LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, partPositions[i].x, partPositions[i].y, partPositions[i].z, partPositions[i].type);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -267,7 +267,7 @@ void ParticleData::printSortingData(int limit)
 
 	unsigned int prevValue = INT_MAX;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE && i < limit; i++) {
-		LOG_F(INFO, "\t %d: %u [%u]", i, array[i], array[Configuration.SORT_ARRAY_SIZE+i]);
+		LOG_F(INFO, "\t %d: %u\t[%u]", i, array[i], array[Configuration.SORT_ARRAY_SIZE+i]);
 	}
 	bool sorted = true;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {

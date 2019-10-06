@@ -33,6 +33,17 @@ struct FluidType {
 	float density;
 };
 
+struct GlassParticle {
+	float localX, localY, localZ;
+	float vecX, vecY, vecZ;
+	uint glassNumber;
+	float __padding;
+};
+
+struct GlassObjectDetails {
+	mat4 matrix;
+};
+
 layout(std430, binding = 1) buffer positionsBuf
 {
 	FluidParticle fluidPositions[MAX_FLUID];
@@ -72,6 +83,16 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+layout(std140, binding = 2) uniform glassPartBuf
+{
+	GlassParticle glassParticles[MAX_GLASS];
+};
+
+layout(std140, binding = 3) uniform glassObjectsBuf
+{
+	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
+};
+
 //////////////////////////////////////////////////
 
 float Kernel(in float x) {   
@@ -93,12 +114,15 @@ float KernelSecondDerivative(in float x) {
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+	if(myThreadNumber>=numOfParticles) return;
 	const FluidParticle myFluid = fluidPositions[myThreadNumber];
 	if(myFluid.type<0) return;
 
 	vec3 pPressureVec = vec3(0,0,0);
 	vec3 pViscosityVec = vec3(0,0,0);
 	vec3 pAcceleration = vec3(0,0,0);
+	vec3 pGlassSurfaceVector = vec3(0,0,0);
+	float pMinGlassDistance = 99.0f;	// any number higher than Kernel Base
 
 	const FluidType myType = fluidTypeArray[myFluid.type];
 	const float pDensity =	fluidDensityPressure[2*myThreadNumber+0];
@@ -115,10 +139,23 @@ void main(void)
 		for(int neiParticleIndex = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiParticleIndex] && neiParticleIndex > -1; neiParticleIndex++) {
 
 			const FluidParticle neiPartcie = fluidPositions[neiParticleIndex];
-			const int neiVariablesIndex = neiPartcie.type > 0 ? neiParticleIndex : int(myThreadNumber);	// glass nei particles will take pressure & density from this particle
-
 			const float dist = distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			if(dist >= 1) continue;	neiCount++;
+			int neiVariablesIndex = neiParticleIndex;
+
+			if(neiPartcie.type < 0) {	// glass
+				neiVariablesIndex = int(myThreadNumber);
+				const int neiGlassParticleIndex = (neiPartcie.type+1)*-1;	// -1 ==> 0 | -2 ==> 1
+				const GlassParticle neiGlassParticle = glassParticles[neiGlassParticleIndex];
+				const vec4 neiLocalGlassVector = vec4(neiGlassParticle.vecX, neiGlassParticle.vecY, neiGlassParticle.vecZ, 0.0f);
+				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
+				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) / dist;
+
+				pGlassSurfaceVector += neiGlobalGlassVector.xyz;
+
+				if(dist < pMinGlassDistance) pMinGlassDistance = dist; 
+			}
+
 
 			const float neiDensity = fluidDensityPressure[2*neiVariablesIndex+0];
 			const float neiPressure = fluidDensityPressure[2*neiVariablesIndex+1];
@@ -138,7 +175,12 @@ void main(void)
 	fluidAcceleration[3*myThreadNumber+1] = pAcceleration.y;
 	fluidAcceleration[3*myThreadNumber+2] = pAcceleration.z;
 
-	fluidSurfaceDistance[myThreadNumber] = float(neiCount);
+	pGlassSurfaceVector = normalize(pGlassSurfaceVector);
+
+	fluidSurfaceDistance[myThreadNumber] = pMinGlassDistance;
+	fluidSurfaceVector[3*myThreadNumber+0] = pGlassSurfaceVector.x;
+	fluidSurfaceVector[3*myThreadNumber+1] = pGlassSurfaceVector.y;
+	fluidSurfaceVector[3*myThreadNumber+2] = pGlassSurfaceVector.z;
 }
 
 

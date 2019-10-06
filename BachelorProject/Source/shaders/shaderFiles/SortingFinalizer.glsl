@@ -56,13 +56,27 @@ void main(void)
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	const uint myTakeFromId = originalIndex[myThreadNumber];
 	const uint myInsertToId = myThreadNumber;
-	if(myThreadNumber>=numOfParticles || myTakeFromId == myInsertToId) return;
+	if(myThreadNumber>=numOfParticles) return;
 
-	fluidPositions[myInsertToId] = CPY_Positions[myTakeFromId];
+	if(sortIndexArray[myThreadNumber] == 0) {
+		fluidPositions[myThreadNumber].x = 0;
+		fluidPositions[myThreadNumber].y = 0;
+		fluidPositions[myThreadNumber].z = 0;
+		fluidPositions[myThreadNumber].type = 0;
 
-	fluidVelocity[3*myInsertToId+0] = CPY_Velocity[3*myTakeFromId+0];
-	fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
-	fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
+		fluidVelocity[3*myInsertToId+0] = 0;
+		fluidVelocity[3*myInsertToId+1] = 0;
+		fluidVelocity[3*myInsertToId+2] = 0;
+
+		atomicAdd(numOfParticles, -1);
+	} else {
+
+		fluidPositions[myInsertToId] = CPY_Positions[myTakeFromId];
+
+		fluidVelocity[3*myInsertToId+0] = CPY_Velocity[3*myTakeFromId+0];
+		fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
+		fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
+	}
 
 	
 }
