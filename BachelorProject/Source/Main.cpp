@@ -40,6 +40,9 @@ void initTools();
 // atExit function
 void cleanUp();
 
+// test configuration constains to fing MAX_PARTICLES and MAX_GLASS
+void getGpuStats();
+
 
 // settings
 std::string NAME = "Random window";
@@ -58,6 +61,7 @@ int main(int argc, char ** argv) {
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
 	atexit(cleanUp);
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +98,7 @@ int main(int argc, char ** argv) {
 	FluidObject fluid{ programFluid };
 
 /////////////////////////////////////////////////////////////////////////////////////
+	getGpuStats();
 
 	initTools();
 
@@ -135,6 +140,16 @@ void cleanUp()
 		ParticleData::partFile << "\".split(\"|\")";
 		ParticleData::partFile.close();
 	}
+}
+
+void getGpuStats()
+{
+	GLint64  SSBOsize, UBOsize;
+	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
+	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &UBOsize);
+	int maxParticles = SSBOsize / (27 * sizeof(float));
+	int maxGlass = UBOsize / (sizeof(GlassParticle));
+	LOG_F(WARNING, "This PC can handle %d particles and %d glass particles", maxParticles, maxGlass);
 }
 
 void printWorkGroupsCapabilities() {

@@ -9,12 +9,12 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_PARTICLES = 65536;
+	inline static const int MAX_PARTICLES = 262144;
 	inline static const int MAX_GLASS_PARTICLES = 65536;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
-	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.9f;
+	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
 	inline static const int SCENE_SIZE_X = 200;
