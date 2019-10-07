@@ -23,6 +23,7 @@ void Simulation::runSimulationFrame()
 		while (ParticleObjectCreator::hasNewOrder()) {
 			LOG_F(INFO, "Parsing Order loop");
 			ParticleObjectCreator::createParticlesFromOrderList();
+			glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_UNIFORM_BARRIER_BIT);
 		}
 
 		if (ParticleData::m_NumOfParticles == 0) continue;
@@ -45,7 +46,7 @@ void Simulation::runSimulationFrame()
 
 		// ASSIGN cells to particles
 		m_CellCounting.runShader(dispathSize, 1, 1, false);
-
+		return;
 		glFinish(); _ntCellCounting = getNanoTime();		_ntCellCountingTime += getNanoTimeDif(_ntSynchronizeWithGpu, _ntCellCounting);
 
 		ParticleData::copyDataForSorting();
@@ -127,9 +128,9 @@ void setupSimObjects()
 	ParticleObjectDetais detailsTEST{ 1, 12,20,12, 38, 40, 38 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 25,10,25, 20.5,0,15 };
 	//ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 }
 
 void Simulation::main()
@@ -144,7 +145,7 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	//while (!glfwWindowShouldClose(m_mainWindow))
-	for(int i=0; i<100000; i++) 
+	for(int i=0; i<1; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();
@@ -155,7 +156,7 @@ void Simulation::main()
 	ParticleData::printGlassObjectsData();
 	ParticleData::printSortingData(20);
 	ParticleData::printSPHData(1, 1, 1, 1, 1,10);
-	//ParticleData::printNeighboursData();
+	ParticleData::printNeighboursData();
 }
 
 void Simulation::init()

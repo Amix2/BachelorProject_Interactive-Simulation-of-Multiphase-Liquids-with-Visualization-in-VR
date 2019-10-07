@@ -140,7 +140,7 @@ void main(void)
 
 			const FluidParticle neiPartcie = fluidPositions[neiParticleIndex];
 			const float dist = distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
-			if(dist >= 1) continue;	neiCount++;
+			if(dist >= 1 || dist == 0) continue;	neiCount++;
 			int neiVariablesIndex = neiParticleIndex;
 
 			if(neiPartcie.type < 0) {	// glass

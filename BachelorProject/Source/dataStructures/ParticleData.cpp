@@ -198,7 +198,7 @@ void ParticleData::printParticleData(int limit)
 	}
 
 	LOG_F(INFO, "\tNum of particles in simulation: %d, on CPU side: %d", details->numOfParticles, m_NumOfParticles);
-	for (int i = 0; i < Configuration.MAX_PARTICLES && ((i < details->numOfParticles || i < m_NumOfParticles) || i < limit); i++) {
+	for (int i = 0; i < Configuration.MAX_PARTICLES && ((i < details->numOfParticles || i < m_NumOfParticles) && i < limit); i++) {
 		LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, partPositions[i].x, partPositions[i].y, partPositions[i].z, partPositions[i].type);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -376,7 +376,7 @@ Particle* ParticleData::getPositions()
 
 GlassParticle* ParticleData::getGlassParticles()
 {
-	return (GlassParticle*)GpuResources::getDataUBO(BufferDatails.glassParticleName);
+	return (GlassParticle*)GpuResources::getDataSSBO(BufferDatails.glassParticleName);
 }
 
 unsigned int* ParticleData::getSortingData()
