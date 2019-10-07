@@ -28,7 +28,7 @@ struct GlassParticle {
 	float localX, localY, localZ;
 	float vecX, vecY, vecZ;
 	uint glassNumber;
-	float __padding;
+	float _padding;
 };
 
 struct GlassObjectDetails {
