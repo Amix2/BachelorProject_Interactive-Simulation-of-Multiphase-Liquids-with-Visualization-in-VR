@@ -17,7 +17,7 @@ void Simulation::runSimulationFrame()
 	_ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 1000; i++) {
 		//glFinish();
 		_ntLoopStart = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
@@ -46,7 +46,7 @@ void Simulation::runSimulationFrame()
 
 		// ASSIGN cells to particles
 		m_CellCounting.runShader(dispathSize, 1, 1, false);
-		return;
+
 		glFinish(); _ntCellCounting = getNanoTime();		_ntCellCountingTime += getNanoTimeDif(_ntSynchronizeWithGpu, _ntCellCounting);
 
 		ParticleData::copyDataForSorting();
@@ -128,9 +128,9 @@ void setupSimObjects()
 	ParticleObjectDetais detailsTEST{ 1, 12,20,12, 38, 40, 38 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 25,10,25, 20.5,0,15 };
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
-	//ParticleObjectCreator::addObject(detailsTEST);
-	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
 }
 
 void Simulation::main()
@@ -145,7 +145,7 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	//while (!glfwWindowShouldClose(m_mainWindow))
-	for(int i=0; i<1; i++) 
+	for(int i=0; i<99999999999999; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();

@@ -46,7 +46,7 @@ struct GlassParticle {
 	GLfloat localX, localY, localZ;
 	GLfloat vecX, vecY, vecZ;
 	GLuint glassNumber;
-	float __padding;
+	float _padding;
 };
 
 struct GlassObjectDetails {

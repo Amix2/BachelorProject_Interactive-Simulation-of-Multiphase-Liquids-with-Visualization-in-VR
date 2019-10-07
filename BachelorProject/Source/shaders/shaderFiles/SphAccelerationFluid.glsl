@@ -146,7 +146,7 @@ void main(void)
 			if(neiPartcie.type < 0) {	// glass
 				neiVariablesIndex = int(myThreadNumber);
 				const int neiGlassParticleIndex = (neiPartcie.type+1)*-1;	// -1 ==> 0 | -2 ==> 1
-				const GlassParticle neiGlassParticle = glassParticles[neiGlassParticleIndex];
+				const GlassParticle neiGlassParticle = glassParticles[(-1)*(neiPartcie.type+1)];
 				const vec4 neiLocalGlassVector = vec4(neiGlassParticle.vecX, neiGlassParticle.vecY, neiGlassParticle.vecZ, 0.0f);
 				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
 				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) / dist;
