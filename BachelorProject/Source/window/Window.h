@@ -9,10 +9,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "MousePositionListener.h"
-#include "MouseScrollListener.h"
-#include "WindowSizeListener.h"
-#include "KeyPressListener.h"
+#include "./listener/MousePositionListener.h"
+#include "./listener/MouseScrollListener.h"
+#include "./listener/WindowSizeListener.h"
+#include "./listener/KeyPressListener.h"
 
 class Window {
 public:

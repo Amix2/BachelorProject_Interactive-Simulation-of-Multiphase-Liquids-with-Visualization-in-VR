@@ -7,5 +7,5 @@ layout (location = 1) in int type;
 
 void main()
 {
-    gl_Position = vec4(aPos, 1.0); 
+    gl_Position = vec4(aPos, float(type)); 
 }

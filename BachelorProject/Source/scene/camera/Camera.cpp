@@ -7,6 +7,9 @@ namespace Scene {
 		, pitch{ pitch }
 		, yaw{ yaw }
 		, roll{ roll }
+		, zoom{ DEFAULT_ZOOM }
+		, nearPlane{ DEFAULT_NEAR }
+		, farPlane{ DEFAULT_FAR }
 	{
 		updateCameraVectors();
 	}
@@ -17,6 +20,9 @@ namespace Scene {
 		, pitch{ DEFAULT_CAM_PITCH }
 		, yaw{ DEFAULT_CAM_YAW }
 		, roll{ DEFAULT_CAM_ROLL }
+		, zoom{ DEFAULT_ZOOM }
+		, nearPlane{ DEFAULT_NEAR }
+		, farPlane{ DEFAULT_FAR }
 	{
 		updateCameraVectors();
 	}
@@ -25,6 +31,11 @@ namespace Scene {
 	glm::mat4 Camera::getViewMatrix() const
 	{
 		return glm::lookAt(position, position + front, up);
+	}
+
+	glm::mat4 Camera::getProjectionMatrix() const
+	{
+		return glm::perspective(glm::radians(zoom), (float)viewPort->getWidth() / (float)viewPort->getHeight(), nearPlane, farPlane);
 	}
 
 	void Camera::select() const

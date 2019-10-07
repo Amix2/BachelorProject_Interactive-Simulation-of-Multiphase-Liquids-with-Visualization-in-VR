@@ -21,12 +21,23 @@ void SimpleCameraController::handleMouseMove(double xoffset, double yoffset)
 	xoffset *= MOUSE_SENSITIVITY;
 	yoffset *= MOUSE_SENSITIVITY;
 
-	camera.setRotation(camera.getPitch() + (float)yoffset, camera.getYaw() + (float)xoffset, camera.getRoll());
+	float cameraPitch = camera.getPitch();
+	float constrainedPitch =
+		cameraPitch + (float)yoffset > 89.0f ? 89.0f :
+		cameraPitch + (float)yoffset < -89.0f ? -89.0f :
+		cameraPitch + (float)yoffset;
+		
+	camera.setRotation(constrainedPitch, camera.getYaw() + (float)xoffset, camera.getRoll());
 }
 
 void SimpleCameraController::handleMouseScroll(double scroll)
 {
-	//TODO: Zoom
+	float cameraZoom = camera.getZoom();
+	float constrianedZoom =
+		cameraZoom + scroll > 60.0f ? 60.0f :
+		cameraZoom + scroll < 1.0f ? 1.0f :
+		cameraZoom + scroll;
+	camera.setZoom(constrianedZoom);
 }
 
 void SimpleCameraController::handleKeyPress(Key key)

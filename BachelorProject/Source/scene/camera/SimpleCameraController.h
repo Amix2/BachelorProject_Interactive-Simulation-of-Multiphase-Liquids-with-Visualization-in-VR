@@ -1,9 +1,8 @@
 #pragma once
-#include "MousePositionListener.h"
-#include "MouseScrollListener.h"
-#include "KeyPressListener.h"
-#include "Window.h"
-#include "ViewPort.h"
+#include "../../window/listener/MousePositionListener.h"
+#include "../../window/listener/MouseScrollListener.h"
+#include "../../window/listener/KeyPressListener.h"
+#include "../../window/Window.h"
 #include <glm/glm.hpp>
 #include "Camera.h"
 

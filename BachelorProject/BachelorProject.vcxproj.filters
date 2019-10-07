@@ -75,40 +75,40 @@
     <ClCompile Include="Source\utilities\Matrices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\scene\Camera.cpp">
+    <ClCompile Include="Source\materialObjects\FluidObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\scene\FluidObject.cpp">
+    <ClCompile Include="Source\materialObjects\MaterialObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\scene\MaterialObject.cpp">
+    <ClCompile Include="Source\materialObjects\TestBilboardObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\materialObjects\TestMaterialObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\utilities\shader\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\utilities\shader\ShaderProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\window\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\window\ViewPort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\SimpleCameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\VRCameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\scene\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\ShaderProgram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\TestBilboardObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\TestMaterialObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\ViewPort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\VRCameraController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\scene\SimpleCameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,50 +173,58 @@
     <ClInclude Include="Source\utilities\Vectors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\scene\FluidObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\scene\MaterialObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\scene\MousePositionListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\scene\MouseScrollListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\Shader.h">
+    <ClInclude Include="Source\materialObjects\FluidObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\ShaderProgram.h">
+    <ClInclude Include="Source\materialObjects\MaterialObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\TestBilboardObject.h">
+    <ClInclude Include="Source\materialObjects\TestBilboardObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\TestMaterialObject.h">
+    <ClInclude Include="Source\materialObjects\TestMaterialObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\ViewPort.h">
+    <ClInclude Include="Source\utilities\shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\Window.h">
+    <ClInclude Include="Source\utilities\shader\ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\WindowSizeListener.h">
+    <ClInclude Include="Source\window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\VRCameraController.h">
+    <ClInclude Include="Source\window\ViewPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\scene\SimpleCameraController.h">
+    <ClInclude Include="Source\window\listener\KeyPressListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\window\listener\MouseScrollListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\window\listener\MousePositionListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\window\listener\WindowSizeListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene\camera\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene\camera\SimpleCameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene\camera\VRCameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\billiard_PNG10956.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
