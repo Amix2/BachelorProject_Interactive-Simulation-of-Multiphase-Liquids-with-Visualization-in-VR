@@ -58,17 +58,17 @@ void main(void)
 	const uint myInsertToId = myThreadNumber;
 	if(myThreadNumber>=numOfParticles) return;
 
-	if(sortIndexArray[myThreadNumber] == 10000000) {
-//		fluidPositions[myThreadNumber].x = 0;
-//		fluidPositions[myThreadNumber].y = 0;
-//		fluidPositions[myThreadNumber].z = 0;
-//		fluidPositions[myThreadNumber].type = 0;
-//
-//		fluidVelocity[3*myInsertToId+0] = 0;
-//		fluidVelocity[3*myInsertToId+1] = 0;
-//		fluidVelocity[3*myInsertToId+2] = 0;
+	if(sortIndexArray[myThreadNumber] == 0) {
+		fluidPositions[myThreadNumber].x = 0;
+		fluidPositions[myThreadNumber].y = 0;
+		fluidPositions[myThreadNumber].z = 0;
+		fluidPositions[myThreadNumber].type = 0;
 
-		//atomicAdd(numOfParticles, -1);
+		fluidVelocity[3*myInsertToId+0] = 0;
+		fluidVelocity[3*myInsertToId+1] = 0;
+		fluidVelocity[3*myInsertToId+2] = 0;
+
+		atomicAdd(numOfParticles, -1);
 	} else {
 
 		fluidPositions[myInsertToId] = CPY_Positions[myTakeFromId];
