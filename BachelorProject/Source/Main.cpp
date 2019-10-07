@@ -72,7 +72,7 @@ int main(int argc, char ** argv) {
 		exit(1);
 	}
 
-	glm::vec4 backgroundColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
 	Scene::Scene scene{ backgroundColor };
 
 	//if(headsetIsAvaiable){

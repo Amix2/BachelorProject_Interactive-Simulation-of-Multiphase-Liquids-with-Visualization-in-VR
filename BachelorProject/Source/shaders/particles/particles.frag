@@ -7,7 +7,7 @@ in float type;
 uniform sampler2D ourTexture;
 
 float near = 0.1; 
-float far  = 100.0; 
+float far  = 1000.0; 
   
 float LinearizeDepth(float depth) 
 {
@@ -19,12 +19,14 @@ void main()
 {
 	float depth = LinearizeDepth(gl_FragCoord.z) / far;
 	vec4 tmp = texture(ourTexture, texCoord);
-	if(int(type) == 1) 
+	if(int(type) > 0) 
 		tmp.y += 0.5;
 	else
 		tmp.z += 0.5;
 	tmp.x += depth;
 	tmp.y += depth;
 	tmp.z += depth;
+	if(tmp.a < 1)
+		discard;
     FragColor = tmp;
 }

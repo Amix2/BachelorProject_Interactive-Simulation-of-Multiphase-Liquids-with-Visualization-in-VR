@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glad.c" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
     <ClCompile Include="Source\materialObjects\TestBilboardObject.cpp" />
