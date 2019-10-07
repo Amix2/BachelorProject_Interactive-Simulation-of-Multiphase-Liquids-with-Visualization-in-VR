@@ -48,7 +48,7 @@ layout(std430, binding = 1) buffer positionsBuf
 	FluidParticle fluidPositions[MAX_FLUID];
 };
 
-layout(std140, binding = 2) uniform glassPartBuf
+layout(std430, binding = 2) buffer glassPartBuf
 {
 	GlassParticle glassParticles[MAX_GLASS];
 };

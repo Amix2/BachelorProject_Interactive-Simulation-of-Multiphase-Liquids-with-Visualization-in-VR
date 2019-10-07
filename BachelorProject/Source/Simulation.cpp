@@ -17,7 +17,7 @@ void Simulation::runSimulationFrame()
 	_ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 1; i++) {
 		//glFinish();
 		_ntLoopStart = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {

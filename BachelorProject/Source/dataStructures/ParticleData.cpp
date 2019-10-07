@@ -8,7 +8,7 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createSSBO(BufferDatails.particlePositionsName, 4 * Configuration.MAX_PARTICLES * sizeof(float), NULL, BufferDatails.particlePositionsBinding);
 
 	// create UBO for glass particles (local pos, surface vectors)
-	GpuResources::createUBO(BufferDatails.glassParticleName, Configuration.MAX_GLASS_PARTICLES * sizeof(GlassParticle), NULL, BufferDatails.glassParticleBinding);
+	GpuResources::createSSBO(BufferDatails.glassParticleName, Configuration.MAX_GLASS_PARTICLES * sizeof(GlassParticle), NULL, BufferDatails.glassParticleBinding);
 	// create SSBO for glass positions
 
 	// create UBO for GlassObjectsDetails (matrix)
@@ -50,7 +50,7 @@ Particle* ParticleData::openParticlePositions()
 GlassParticle* ParticleData::openGlassParticles()
 {
 	LOG_F(INFO, "OPEN to add array for GLASS PARTICLES");
-	m_resGlassParticleArray = (GlassParticle*)GpuResources::openPartUBO(BufferDatails.glassParticleName
+	m_resGlassParticleArray = (GlassParticle*)GpuResources::openPartSSBO(BufferDatails.glassParticleName
 		, (GLintptr)m_NumOfGlassParticles * sizeof(GlassParticle)	// offset
 		, ((GLsizeiptr)Configuration.MAX_GLASS_PARTICLES - m_NumOfGlassParticles) * sizeof(GlassParticle)	// length
 	);
@@ -96,7 +96,7 @@ void ParticleData::commitGlassParticles(int numOfAddedGlassParticles)
 {
 	LOG_F(INFO, "COMMIT GLASS PARTICLES");
 
-	GpuResources::commitUBO(BufferDatails.glassParticleName);
+	GpuResources::commitSSBO(BufferDatails.glassParticleName);
 	m_NumOfGlassParticles += numOfAddedGlassParticles;
 	m_resGlassParticleArray = nullptr;
 	m_OpenedResources--;
