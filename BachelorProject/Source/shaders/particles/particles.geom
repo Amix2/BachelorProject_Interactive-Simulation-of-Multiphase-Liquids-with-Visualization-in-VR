@@ -6,7 +6,7 @@ uniform mat4 view;
 uniform mat4 projection;
 
 out vec2 texCoord;
-
+out float type;
 
 
 mat4 translate(float x, float y, float z){
@@ -31,6 +31,7 @@ void buildBilboard(vec4 position)
 	modelView[2][1] = 0.0; 
 	modelView[2][2] = 1.0; 
 
+	type = position.w;
     texCoord = vec2(0.0, 0.0);
     gl_Position = projection * modelView * (vec4(-0.5, -0.5, 0.0, 1.0)); // 1:bottom-left   
     EmitVertex();   

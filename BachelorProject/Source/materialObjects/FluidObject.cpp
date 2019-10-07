@@ -19,7 +19,7 @@ void FluidObject::init()
 	int width;
 	int height;
 	int nrChannels;
-	unsigned char* data = stbi_load("./Source/scene/ball.png", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("./_asset/ball.png", &width, &height, &nrChannels, 0);
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
@@ -46,10 +46,14 @@ void FluidObject::init()
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
+
+
 	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
-	glBindTexture(GL_TEXTURE_2D, textureID);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
@@ -57,5 +61,6 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
+	glDisable(GL_BLEND);
 }
 

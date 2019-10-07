@@ -22,7 +22,7 @@ void TestBilboardObject::init()
 	int width;
 	int height;
 	int nrChannels;
-	unsigned char* data = stbi_load("./Source/scene/ball.png", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("./_asset/ball.png", &width, &height, &nrChannels, 0);
 
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);

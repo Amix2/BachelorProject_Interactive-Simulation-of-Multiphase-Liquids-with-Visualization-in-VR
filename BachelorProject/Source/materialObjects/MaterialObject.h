@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ShaderProgram.h"
+#include "../utilities/shader/ShaderProgram.h"
 #include <glm/glm.hpp>
 
 class MaterialObject

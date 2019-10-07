@@ -5,15 +5,15 @@
 #include <cstring>
 #include <Windows.h>
 #include <stdlib.h> 
-#include "scene/Window.h"
-#include "scene/ViewPort.h"
+#include "./window/Window.h"
+#include "./window/ViewPort.h"
 #include "scene/Scene.h"
-#include "scene/Camera.h"
-#include "scene/TestMaterialObject.h"
-#include "scene/VRCameraController.h"
-#include "scene/TestBilboardObject.h"
-#include "scene/FluidObject.h"
-#include "scene/SimpleCameraController.h"
+#include "scene/camera/Camera.h"
+#include "materialObjects/TestMaterialObject.h"
+#include "scene/camera/VRCameraController.h"
+#include "materialObjects/TestBilboardObject.h"
+#include "materialObjects/FluidObject.h"
+#include "scene/camera/SimpleCameraController.h"
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -46,8 +46,8 @@ void getGpuStats();
 
 // settings
 std::string NAME = "Random window";
-constexpr unsigned int SCR_WIDTH = 600;
-constexpr unsigned int SCR_HEIGHT = 600;
+constexpr unsigned int SCR_WIDTH = 1600;
+constexpr unsigned int SCR_HEIGHT = 900;
 
 int main(int argc, char ** argv) {
 
@@ -72,7 +72,8 @@ int main(int argc, char ** argv) {
 		exit(1);
 	}
 
-	Scene::Scene scene{};
+	glm::vec4 backgroundColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+	Scene::Scene scene{ backgroundColor };
 
 	//if(headsetIsAvaiable){
 	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
@@ -88,13 +89,13 @@ int main(int argc, char ** argv) {
 	scene.addCamera(&cameraController.getCamera());
 	//}
 
-	ShaderProgram programCubes{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
+	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	TestMaterialObject cubes{ programCubes };
 
-	ShaderProgram programBilboard{ "./Source/scene/particles.vert", "./Source/scene/particles.geom", "./Source/scene/particles.frag" };
+	ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	TestBilboardObject bilboard{ programBilboard };
 
-	ShaderProgram programFluid{ "./Source/scene/particles.vert", "./Source/scene/particles.geom", "./Source/scene/particles.frag" };
+	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	FluidObject fluid{ programFluid };
 
 /////////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,8 @@
 #include "Scene.h"
 
+Scene::Scene::Scene(glm::vec4 backgroundColor)
+	: backgroundColor{ backgroundColor } {}
+
 void Scene::Scene::addMaterialObject(MaterialObject* materialObject)
 {
 	objects.push_back(materialObject);
@@ -8,14 +11,14 @@ void Scene::Scene::addMaterialObject(MaterialObject* materialObject)
 
 void Scene::Scene::renderScene()
 {
-	glClearColor(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (const Camera* camera : cameras) {
 		camera->select();
 		for (const MaterialObject* object : objects) {
-			object->load(camera->getViewMatrix(), projectionMatrix);
+			object->load(camera->getViewMatrix(), camera->getProjectionMatrix());
 		}
 	}
 }
