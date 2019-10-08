@@ -20,7 +20,7 @@ public:
 	~Window();
 	bool init();
 	bool refresh();
-	void processInput() const;
+	void processInput();
 	
 
 	void subscribeForMousePositionChanges(MousePositionListener* listener);
@@ -54,6 +54,7 @@ private:
 	std::vector<MouseScrollListener*> mouseScrollListeners;
 	std::vector<WindowSizeListener*> windowSizeListeners;
 	std::vector<KeyPressListener*> keyInputListeners;
+	float lastKeyPressTime;
 
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);
@@ -67,7 +68,6 @@ private:
 		const GLchar* message,
 		const void* userParam
 	);
-
 
 	void handleResize(int width, int height);
 	void handleMouseMove(double x, double y);

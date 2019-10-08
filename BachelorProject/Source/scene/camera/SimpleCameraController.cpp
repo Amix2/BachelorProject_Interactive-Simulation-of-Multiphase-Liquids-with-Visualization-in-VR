@@ -7,6 +7,7 @@ SimpleCameraController::SimpleCameraController(Window& window, ViewPort& viewpor
 	window.subscribeForMousePositionChanges(this);
 	window.subscribeForMouseScrollChanges(this);
 	window.subscribeForKeyInput(this);
+	cam = &camera;
 }
 
 SimpleCameraController::~SimpleCameraController()
@@ -57,10 +58,10 @@ void SimpleCameraController::handleKeyPress(Key key)
 		camera.setPosition(camera.getPosition() + camera.getRight() * deltaTime * VELOCITY);
 		break;
 	case KEY_Q:
-		camera.setPosition(camera.getPosition() + camera.getUp() * deltaTime * VELOCITY);
+		camera.setPosition(camera.getPosition() + glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
 		break;
 	case KEY_E:
-		camera.setPosition(camera.getPosition() - camera.getUp() * deltaTime * VELOCITY);
+		camera.setPosition(camera.getPosition() - glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
 		break;
 	default:
 		break;

@@ -21,6 +21,7 @@ public:
 
 	Scene::Camera& getCamera() { return camera; }
 
+	inline static Scene::Camera* cam;
 private:
 	inline static const double MOUSE_SENSITIVITY = 0.1;
 	inline static const float VELOCITY = 10.0f;

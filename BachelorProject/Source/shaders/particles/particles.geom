@@ -4,6 +4,8 @@ layout (triangle_strip, max_vertices = 4) out;
 
 uniform mat4 view;
 uniform mat4 projection;
+uniform float particleSize;
+uniform int renderGlass;
 
 out vec2 texCoord;
 out float type;
@@ -36,21 +38,22 @@ void buildBilboard(vec4 position)
 
 	type = position.w;
     texCoord = vec2(0.0, 0.0);
-    gl_Position = projection * modelView * (vec4(-0.4, -0.4, 0.0, 1.0)); // 1:bottom-left   
+    gl_Position = projection * modelView * (vec4(-particleSize, -particleSize, 0.0, 1.0)); // 1:bottom-left   
     EmitVertex();   
 	texCoord = vec2(1.0, 0.0);
-    gl_Position = projection * modelView *  (vec4( 0.4, -0.4, 0.0, 1.0)); // 2:bottom-right
+    gl_Position = projection * modelView *  (vec4( particleSize, -particleSize, 0.0, 1.0)); // 2:bottom-right
     EmitVertex();
 	texCoord = vec2(0.0, 1.0);
-    gl_Position =  projection * modelView *  (vec4(-0.4,  0.4, 0.0, 1.0)); // 3:top-left
+    gl_Position =  projection * modelView *  (vec4(-particleSize, particleSize, 0.0, 1.0)); // 3:top-left
     EmitVertex();
 	texCoord = vec2(1.0, 1.0);
-    gl_Position = projection * modelView *  (vec4( 0.4,  0.4, 0.0, 1.0)); // 4:top-right
+    gl_Position = projection * modelView *  (vec4( particleSize, particleSize, 0.0, 1.0)); // 4:top-right
     EmitVertex();
 
     EndPrimitive();
 }
 
-void main() {    
-    buildBilboard(gl_in[0].gl_Position);
+void main() {
+	if((gl_in[0].gl_Position).w > 0.0 || renderGlass != 0)
+		buildBilboard(gl_in[0].gl_Position);
 }

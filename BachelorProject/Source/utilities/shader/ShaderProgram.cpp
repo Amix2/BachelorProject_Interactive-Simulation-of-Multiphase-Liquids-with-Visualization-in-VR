@@ -47,6 +47,11 @@ void ShaderProgram::setUniformVariable(const std::string& name, const glm::mat4&
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &value[0][0]);
 }
 
+void ShaderProgram::setUniformVariable(const std::string& name, const glm::vec4& value) const
+{
+	glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+}
+
 void ShaderProgram::checkLinkingErrors()
 {
 	int success;

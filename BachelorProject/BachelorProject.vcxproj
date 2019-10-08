@@ -89,21 +89,6 @@
     <ClInclude Include="Source\VR\VRGeometry.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Source\scene\ball.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\shaders\shaderFiles\SphDensityPressureFluid.glsl" />
-    <None Include="Source\shaders\shaderFiles\SphAccelerationFluid.glsl" />
-    <None Include="Source\shaders\shaderFiles\SphVelocity.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\shaders\shaderFiles\SphNeighbourSearch.glsl" />
-    <None Include="Source\shaders\shaderFiles\BitonicSortShader.glsl" />
-    <None Include="Source\shaders\shaderFiles\CellCountingForSort.glsl" />
-    <None Include="Source\shaders\shaderFiles\compute.glsl" />
-    <None Include="Source\shaders\shaderFiles\SortingFinalizer.glsl" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{E70769CF-90CF-45DA-AAE4-30A662690E30}</ProjectGuid>

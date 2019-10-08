@@ -22,6 +22,7 @@ public:
 	void setUniformVariable(const std::string& name, int value) const;
 	void setUniformVariable(const std::string& name, float value) const;
 	void setUniformVariable(const std::string& name, const glm::mat4& value) const;
+	void setUniformVariable(const std::string& name, const glm::vec4& value) const;
 private:
 	inline static const unsigned int INFO_LOG_SIZE{ 1024 };
 	unsigned int ID;

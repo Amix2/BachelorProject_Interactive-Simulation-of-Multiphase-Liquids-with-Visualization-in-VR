@@ -1,8 +1,13 @@
 #include "FluidObject.h"
 #include <Logger.h>
 
-FluidObject::FluidObject(const ShaderProgram& shaderProgram)
-	: MaterialObject{ shaderProgram } {}
+FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background)
+	: MaterialObject{ shaderProgram } 
+	, background{ background }
+	, particleSize{ INITIAL_PARTICLES_SIZE }
+{
+	window.subscribeForKeyInput(this);
+}
 
 void FluidObject::init()
 {
@@ -60,9 +65,33 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
+	shaderProgram.setUniformVariable("background", background);
+	shaderProgram.setUniformVariable("particleSize", particleSize);
+	shaderProgram.setUniformVariable("renderGlass", renderGlass);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
 	glDisable(GL_BLEND);
+}
+
+void FluidObject::handleKeyPress(Key key)
+{
+	float deltaSize{ 0.0f };
+	switch (key) {
+	case KEY_1:
+		deltaSize = -0.1f;
+		break;
+	case KEY_2:
+		deltaSize = 0.1f;
+		break;
+	case KEY_3:
+		renderGlass = !renderGlass;
+		break;
+	default:
+		break;
+	}
+	if (deltaSize != 0.0f) {
+		particleSize += deltaSize;
+	}
 }
 

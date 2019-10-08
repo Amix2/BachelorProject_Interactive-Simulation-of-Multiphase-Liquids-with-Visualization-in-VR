@@ -5,6 +5,7 @@ in vec2 texCoord;
 in float type;
 
 uniform sampler2D ourTexture;
+uniform vec4 background;
 
 float near = 0.1; 
 float far  = 1000.0; 

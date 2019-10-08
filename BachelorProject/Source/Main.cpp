@@ -96,7 +96,7 @@ int main(int argc, char ** argv) {
 	TestBilboardObject bilboard{ programBilboard };
 
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	FluidObject fluid{ programFluid };
+	FluidObject fluid{ window, programFluid, backgroundColor };
 
 /////////////////////////////////////////////////////////////////////////////////////
 	getGpuStats();
@@ -108,7 +108,7 @@ int main(int argc, char ** argv) {
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
 
-	//scene.addMaterialObject(&cubes);
+	scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid);
 
