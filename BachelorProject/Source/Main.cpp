@@ -108,7 +108,7 @@ int main(int argc, char ** argv) {
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
 
-	scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid);
 

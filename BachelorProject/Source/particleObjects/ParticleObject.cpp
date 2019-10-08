@@ -17,6 +17,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
 	// set up attributes
+	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
 
 

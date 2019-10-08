@@ -20,6 +20,9 @@ mat4 translate(float x, float y, float z){
 
 void buildBilboard(vec4 position)
 {    
+	// FIX this if there is a better way to ignore points with this condition 
+	if(position.x * position.y * position.z == 0) return;
+
 	mat4 modelView = view * translate(position.x, position.y, position.z);
 	modelView[0][0] = 1.0; 
 	modelView[0][1] = 0.0; 
@@ -33,16 +36,16 @@ void buildBilboard(vec4 position)
 
 	type = position.w;
     texCoord = vec2(0.0, 0.0);
-    gl_Position = projection * modelView * (vec4(-0.5, -0.5, 0.0, 1.0)); // 1:bottom-left   
+    gl_Position = projection * modelView * (vec4(-0.4, -0.4, 0.0, 1.0)); // 1:bottom-left   
     EmitVertex();   
 	texCoord = vec2(1.0, 0.0);
-    gl_Position = projection * modelView *  (vec4( 0.5, -0.5, 0.0, 1.0)); // 2:bottom-right
+    gl_Position = projection * modelView *  (vec4( 0.4, -0.4, 0.0, 1.0)); // 2:bottom-right
     EmitVertex();
 	texCoord = vec2(0.0, 1.0);
-    gl_Position =  projection * modelView *  (vec4(-0.5,  0.5, 0.0, 1.0)); // 3:top-left
+    gl_Position =  projection * modelView *  (vec4(-0.4,  0.4, 0.0, 1.0)); // 3:top-left
     EmitVertex();
 	texCoord = vec2(1.0, 1.0);
-    gl_Position = projection * modelView *  (vec4( 0.5,  0.5, 0.0, 1.0)); // 4:top-right
+    gl_Position = projection * modelView *  (vec4( 0.4,  0.4, 0.0, 1.0)); // 4:top-right
     EmitVertex();
 
     EndPrimitive();

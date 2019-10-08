@@ -118,8 +118,7 @@ void main(void)
 	////	FOR EVERY GLASS PARTICLE DO THE SAME
 
 	fluidDensityPressure[2*myThreadNumber] = pDensity;
-	fluidDensityPressure[2*myThreadNumber+1] = fluidTypeArray[myFluid.type].stiffness * (pDensity - fluidTypeArray[myFluid.type].density);
-	fluidSurfaceDistance[myThreadNumber] = float(neiCount);
+	fluidDensityPressure[2*myThreadNumber+1] = fluidTypeArray[myFluid.type].stiffness * abs(pDensity - fluidTypeArray[myFluid.type].density);
 }
 
 

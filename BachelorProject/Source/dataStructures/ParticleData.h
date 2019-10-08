@@ -120,6 +120,8 @@ public:
 	static void printSPHData(bool velocity, bool acceleration, bool surface, bool density, bool pressure, int limit = 10);
 
 	static void logParticlePositions();
+
+	static void checkDensity();
 	
 	
 	// for printing particles positions to file

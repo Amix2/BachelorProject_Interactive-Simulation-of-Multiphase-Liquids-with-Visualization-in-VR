@@ -142,9 +142,12 @@ void main(void)
 			const float dist = distance(vec3(myFluid.x, myFluid.y, myFluid.z), vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			if(dist >= 1 || dist == 0) continue;	neiCount++;
 			int neiVariablesIndex = neiParticleIndex;
+			int accelerationMultiplier = 1;
 
 			if(neiPartcie.type < 0) {	// glass
 				neiVariablesIndex = int(myThreadNumber);
+				accelerationMultiplier = 1;
+
 				const int neiGlassParticleIndex = (neiPartcie.type+1)*-1;	// -1 ==> 0 | -2 ==> 1
 				const GlassParticle neiGlassParticle = glassParticles[(-1)*(neiPartcie.type+1)];
 				const vec4 neiLocalGlassVector = vec4(neiGlassParticle.vecX, neiGlassParticle.vecY, neiGlassParticle.vecZ, 0.0f);
@@ -160,13 +163,15 @@ void main(void)
 			const float neiDensity = fluidDensityPressure[2*neiVariablesIndex+0];
 			const float neiPressure = fluidDensityPressure[2*neiVariablesIndex+1];
 
-			const float tPressSc = myType.mass * (pPressure/pow(pDensity, 2) + neiPressure/pow(neiDensity, 2)) * KernelDerivative(dist);
+			const float tPressSc = myType.mass * ((pPressure)/pow(pDensity, 2) + neiPressure/pow(neiDensity, 2)) * KernelDerivative(dist);
 			const vec3 direction = normalize(vec3(myFluid.x, myFluid.y, myFluid.z) - vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
-			pPressureVec += direction * tPressSc;
+			pPressureVec += direction * tPressSc * accelerationMultiplier;
 
 			const float tVescSc = myType.mass * myType.viscosity / pDensity / neiDensity * KernelSecondDerivative(dist);
 			const vec3 neiVelocity = vec3(fluidVelocity[3*neiParticleIndex+0], fluidVelocity[3*neiParticleIndex+1], fluidVelocity[3*neiParticleIndex+2]); 
-			pViscosityVec += (neiVelocity - pVelocity) * tVescSc;
+			pViscosityVec += (neiVelocity - pVelocity) * tVescSc * accelerationMultiplier;
+
+			//fluidSurfaceVector[3*myThreadNumber+0] = dist;
 		}
 	}
 

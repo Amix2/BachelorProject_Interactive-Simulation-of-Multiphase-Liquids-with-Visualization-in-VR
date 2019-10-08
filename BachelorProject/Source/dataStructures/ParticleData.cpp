@@ -366,6 +366,21 @@ void ParticleData::logParticlePositions()
 	partFile << "|";
 }
 
+void ParticleData::checkDensity()
+{
+	float* array = (float*)GpuResources::getDataSSBO(BufferDatails.SPHVariablesName);
+	Particle* partPositions = ParticleData::getPositions();
+	if (array == nullptr) {
+		LOG_F(ERROR, "Error while printing SPH DATA");
+		return;
+	}
+	const float limit = 90.0f;
+	const int siz = Configuration.MAX_PARTICLES;
+	for (int i = 0; i < Configuration.MAX_PARTICLES && i < ParticleData::m_NumOfParticles; i++) {
+		if (partPositions[i].type > 0 && array[10 * siz + 2 * i] < limit && partPositions[i].y > 2) LOG_F(WARNING, "density below : %f (%f, %f, %f)", array[10 * siz + 2 * i], partPositions[i].x, partPositions[i].y, partPositions[i].z);
+	}
+}
+
 ////////////////////////////////////////////////////////
 //	private getters
 
