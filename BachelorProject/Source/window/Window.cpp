@@ -135,6 +135,19 @@ void Window::processInput()
 		ParticleObjectManager::moveObject(0, false);
 	}
 
+	if (glfwGetKey(glfwWindow, GLFW_KEY_7) == GLFW_PRESS) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_6);
+		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, 0.001f, glm::vec3(1, 0, 0));
+	}
+
+	if (glfwGetKey(glfwWindow, GLFW_KEY_8) == GLFW_PRESS) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_6);
+
+		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, -0.001f, glm::vec3(1, 0, 0));
+	}
+
 }
 
 void Window::subscribeForMousePositionChanges(MousePositionListener* listener)
