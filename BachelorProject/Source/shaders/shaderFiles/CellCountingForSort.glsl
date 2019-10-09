@@ -69,6 +69,15 @@ layout(std430, binding = 3) buffer glassPositionsBuf
 	float glassPositions[3*MAX_FLUID];
 };
 
+layout(std430, binding = 8) buffer simVariablesBuf
+{
+	float fluidVelocity[3 * MAX_FLUID];
+	float fluidAcceleration[3 * MAX_FLUID];
+	float fluidSurfaceVector[3 * MAX_FLUID];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensityPressure[2*MAX_FLUID];
+};
+
 
 // section in array to know what particles should be calculated by this thread, ...Last -> 1 after last that should be calculated
 
@@ -96,6 +105,8 @@ void main(void)
 		const vec4 localPos = vec4(myGlassParticle.localX, myGlassParticle.localY, myGlassParticle.localZ, 1.0f);
 		const mat4 transformMatrix = glassObjects[myGlassParticle.glassNumber].matrix;
 		const vec4 globalPos =  transformMatrix * localPos;
+		const vec3 lastPosition = vec3(fluidPositions[myThreadNumber].x, fluidPositions[myThreadNumber].y, fluidPositions[myThreadNumber].z);
+		const vec3 velosity = globalPos.xyz - lastPosition;
 
 		myParticle.x = globalPos.x;
 		myParticle.y = globalPos.y;
@@ -103,6 +114,10 @@ void main(void)
 		fluidPositions[myThreadNumber].x = globalPos.x;
 		fluidPositions[myThreadNumber].y = globalPos.y;
 		fluidPositions[myThreadNumber].z = globalPos.z;
+
+		fluidVelocity[3*myThreadNumber+0] = velosity.x;
+		fluidVelocity[3*myThreadNumber+1] = velosity.y;
+		fluidVelocity[3*myThreadNumber+2] = velosity.z;
 	}
 
 	const uint cellIndex = getCellIndex(myParticle.x, myParticle.y, myParticle.z);

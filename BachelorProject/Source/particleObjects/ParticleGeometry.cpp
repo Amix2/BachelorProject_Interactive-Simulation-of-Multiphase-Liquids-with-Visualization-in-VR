@@ -37,6 +37,18 @@ int ParticleGeometry::circle(int& numOfParts, glm::vec3 center, float radius, fl
 		else if (vecDirection == ZERO) {
 			vec = glm::vec3(0, 0, 0);
 		}
+		else if (vecDirection == UP_INSIDE) {
+			vec = glm::normalize(glm::vec3(0, 1, 0) + glm::normalize(center - thisPos));
+		}
+		else if (vecDirection == UP_OUTSIDE) {
+			vec = glm::normalize(glm::vec3(0, 1, 0) + glm::normalize(thisPos - center));
+		}
+		else if (vecDirection == DOWN_INSIDE) {
+			vec = glm::normalize(glm::vec3(0, -1, 0) + glm::normalize(center - thisPos));
+		}
+		else if (vecDirection == DOWN_OUTSIDE) {
+			vec = glm::normalize(glm::vec3(0, -1, 0) + glm::normalize(thisPos - center));
+		}
 		//vectors[3 * numOfParts + 0] = vec.x;
 		//vectors[3 * numOfParts + 1] = vec.y;
 		//vectors[3 * numOfParts + 2] = vec.z;
@@ -62,7 +74,7 @@ int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 	, float innerRadiusCalc, float innerRadiusRender, CalcMode innerRadiusMode
 	, float outerRadiusCalc, float outerRadiusRender, CalcMode outerRadiusMode
 	, float inCircleGap,
- float layerGap, VectorDirection vecDirection)
+ float layerGap, VectorDirection mainVecDirection, std::vector<VectorDirection> edgeVecDirections)
 {
 	//LOG_F(INFO, "filledCircle part %d", numOfParts);
 	const int numOfCircles = (int)std::ceil((outerRadiusCalc - innerRadiusCalc) / layerGap);
@@ -72,7 +84,12 @@ int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 	for (int i = 0; i <= numOfCircles; i++) {	// we want to do 1 more than numOfCircles cos its number of gaps between circles
 		if (	( (innerRadiusMode == EQUALS && innerRadiusRender <= currentRadius)	|| (innerRadiusMode == NOT_EQUALS && innerRadiusRender < currentRadius) )
 			&&	( (outerRadiusMode == EQUALS && currentRadius <= outerRadiusRender)	|| (outerRadiusMode == NOT_EQUALS && currentRadius < outerRadiusRender) ) ) {
-			circle(numOfParts, center, currentRadius, inCircleGap, vecDirection);
+
+			VectorDirection vec = mainVecDirection;
+			if (numOfCircles - i < 3) {
+				vec = edgeVecDirections[numOfCircles - i];
+			}
+			circle(numOfParts, center, currentRadius, inCircleGap, vec);
 		}
 		currentRadius += realZoneGap;
 	}
@@ -80,7 +97,8 @@ int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 	return 0;
 }
 
-int ParticleGeometry::cylinder(int& numOfParts, glm::vec2 centerLane, float bottomHeight, float topHeight, float radius, float inCircleGap, float layerGap, VectorDirection vecDirection)
+int ParticleGeometry::cylinder(int& numOfParts, glm::vec2 centerLane, float bottomHeight, float topHeight, float radius, float inCircleGap, float layerGap
+	, VectorDirection vecDirection, std::vector<VectorDirection> topVecDirections, std::vector<VectorDirection> bottomVecDirections)
 {
 	//LOG_F(INFO, "cylinder part %d", numOfParts);
 	const int numOfCircles = (int)std::ceil((topHeight - bottomHeight) / layerGap);
@@ -88,8 +106,8 @@ int ParticleGeometry::cylinder(int& numOfParts, glm::vec2 centerLane, float bott
 	float currentHeight = bottomHeight;
 	for (int i = 0; i <= numOfCircles; i++) { // we want to do 1 more than numOfCircles cos its number of gaps between circles
 		VectorDirection vecDirForThisCircle = vecDirection;
-		if (i == 0) vecDirForThisCircle = DOWN;
-		if (i == numOfCircles) vecDirForThisCircle = UP;
+		if (i < 3) vecDirForThisCircle = bottomVecDirections[i];
+		if (i == numOfCircles) vecDirForThisCircle = topVecDirections[i - numOfCircles];
 		circle(numOfParts, glm::vec3(centerLane.x, currentHeight, centerLane.y), radius, inCircleGap, vecDirForThisCircle);
 		currentHeight += realZoneGap;
 	}

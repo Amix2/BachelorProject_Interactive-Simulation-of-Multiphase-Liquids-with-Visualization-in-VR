@@ -107,6 +107,7 @@ void main(void)
 
 	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
 
+	//const vec3 pAcceleration = vec3(0,GRAVITY_Y,0);
 	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
 	pVelocity = (pVelocity + pAcceleration * DELTA_TIME);
@@ -117,6 +118,10 @@ void main(void)
 		float dotProduct = dot(pVelocity, pSurfVec);
 		if(dotProduct < 0) {	// angle is greater than 90deg, velocity points into a glass
 			pVelocity = (pVelocity - 2 * (dotProduct) * pSurfVec) * BOUNCE_VELOCITY_MULTIPLIER;
+		}
+
+		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.2) {
+			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.2 / DELTA_TIME;
 		}
 	}
 

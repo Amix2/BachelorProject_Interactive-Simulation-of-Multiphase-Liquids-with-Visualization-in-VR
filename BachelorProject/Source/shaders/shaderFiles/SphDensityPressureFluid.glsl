@@ -31,6 +31,17 @@ struct FluidType {
 	float density;
 };
 
+struct GlassParticle {
+	float localX, localY, localZ;
+	float vecX, vecY, vecZ;
+	uint glassNumber;
+	float _padding;
+};
+
+struct GlassObjectDetails {
+	mat4 matrix;
+};
+
 layout(std430, binding = 1) buffer positionsBuf
 {
 	FluidParticle fluidPositions[MAX_FLUID];
@@ -70,6 +81,16 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+layout(std430, binding = 2) buffer glassPartBuf
+{
+	GlassParticle glassParticles[MAX_GLASS];
+};
+
+layout(std140, binding = 3) uniform glassObjectsBuf
+{
+	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
+};
+
 //////////////////////////////////////////////////
 
 float Kernel(in float x) {   
@@ -97,6 +118,8 @@ void main(void)
 	
 	float pDensity = 0;
 	float pPressure;
+	vec3 pGlassSurfaceVector = vec3(0,0,0);
+	float pMinGlassDistance = 99.0f;	// any number higher than Kernel Base
 
 	int neiCount = 0;
 
@@ -112,6 +135,19 @@ void main(void)
 			neiCount++;
 			pDensity += fluidTypeArray[myFluid.type].mass * Kernel(dist);
 
+			if(neiPartcie.type < 0 && dist > 0) {
+
+				const int neiGlassParticleIndex = (neiPartcie.type+1)*-1;	// -1 ==> 0 | -2 ==> 1
+				const GlassParticle neiGlassParticle = glassParticles[(-1)*(neiPartcie.type+1)];
+				const vec4 neiLocalGlassVector = vec4(neiGlassParticle.vecX, neiGlassParticle.vecY, neiGlassParticle.vecZ, 0.0f);
+				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
+				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) / dist;
+
+				pGlassSurfaceVector += neiGlobalGlassVector.xyz;
+
+				if(dist < pMinGlassDistance) pMinGlassDistance = dist; 
+			}
+
 		}
 	}
 
@@ -119,6 +155,13 @@ void main(void)
 
 	fluidDensityPressure[2*myThreadNumber] = pDensity;
 	fluidDensityPressure[2*myThreadNumber+1] = fluidTypeArray[myFluid.type].stiffness * abs(pDensity - fluidTypeArray[myFluid.type].density);
+		
+	pGlassSurfaceVector = normalize(pGlassSurfaceVector);
+
+	//fluidSurfaceDistance[myThreadNumber] = pMinGlassDistance;
+	fluidSurfaceVector[3*myThreadNumber+0] = pGlassSurfaceVector.x;
+	fluidSurfaceVector[3*myThreadNumber+1] = pGlassSurfaceVector.y;
+	fluidSurfaceVector[3*myThreadNumber+2] = pGlassSurfaceVector.z;
 }
 
 
