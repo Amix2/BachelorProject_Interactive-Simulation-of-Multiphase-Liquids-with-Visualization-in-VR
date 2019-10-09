@@ -8,7 +8,7 @@ uniform sampler2D ourTexture;
 uniform vec4 background;
 
 float near = 0.1; 
-float far  = 1000.0; 
+float far  = 200.0; 
   
 float LinearizeDepth(float depth) 
 {
@@ -30,10 +30,13 @@ void main()
 		tmp.y += 0.25;
 		tmp.z += 0.15;
 	}
-	tmp.x += depth;
-	tmp.y += depth;
-	tmp.z += depth;
+
 	if(tmp.a < 1)
 		discard;
-    FragColor = tmp;
+	FragColor = vec4(
+		mix(tmp.r, background.r, depth),
+		mix(tmp.g, background.g, depth),
+		mix(tmp.b, background.b, depth),
+		1.0
+	);
 }

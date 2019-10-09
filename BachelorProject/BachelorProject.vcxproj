@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
     <ClCompile Include="Source\materialObjects\TestBilboardObject.cpp" />
@@ -52,6 +53,7 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\materialObjects\AxesObject.h" />
     <ClInclude Include="Source\materialObjects\FluidObject.h" />
     <ClInclude Include="Source\materialObjects\MaterialObject.h" />
     <ClInclude Include="Source\materialObjects\TestBilboardObject.h" />

@@ -31,6 +31,7 @@
 #include <fstream>
 #include <ThreadManager.h>
 #include <thread>
+#include <materialObjects/AxesObject.h>
 
 void printWorkGroupsCapabilities();
 
@@ -98,6 +99,9 @@ int main(int argc, char ** argv) {
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	FluidObject fluid{ window, programFluid, backgroundColor };
 
+	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
+	AxesObject axes{ programAxes, backgroundColor };
+
 /////////////////////////////////////////////////////////////////////////////////////
 	getGpuStats();
 
@@ -112,6 +116,7 @@ int main(int argc, char ** argv) {
 	scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid);
+	scene.addMaterialObject(&axes);
 
 	do 
 	{
