@@ -13,6 +13,6 @@ void FluidType::init()
 {
 	// define all avaliable fluid types
 	//	mass, stiffness, viscosity, density
-	addFluidType(65, 5000, 4500, 90);
+	addFluidType(200, 10000, 30000, 200);
 	//addFluidType(199, 188, 177, 166);
 }

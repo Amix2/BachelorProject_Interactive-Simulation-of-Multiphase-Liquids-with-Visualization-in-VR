@@ -24,7 +24,7 @@ public:
 	inline static Scene::Camera* cam;
 private:
 	inline static const double MOUSE_SENSITIVITY = 0.1;
-	inline static const float VELOCITY = 10.0f;
+	inline static const float VELOCITY = 20.0f;
 
 	Window* window;
 

@@ -85,7 +85,7 @@ int main(int argc, char ** argv) {
 	//else 
 	//{
 	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 2,2,2 } };
+	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
 	scene.addCamera(&cameraController.getCamera());
 	//}
 
@@ -104,6 +104,7 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
+
 	
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
@@ -114,6 +115,7 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+
 		scene.renderScene();
 	} while (!window.refresh());
 

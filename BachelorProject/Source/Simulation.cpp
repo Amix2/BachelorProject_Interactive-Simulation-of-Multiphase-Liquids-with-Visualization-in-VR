@@ -4,7 +4,7 @@ void setupSimObjects();
 
 const std::string stageUniform = "u_stage";
 const std::string turnUniform = "u_turnInStage";
-
+bool test = true;
 void Simulation::runSimulationFrame()
 {
 	LOG_F(INFO, "LOOP");
@@ -17,13 +17,14 @@ void Simulation::runSimulationFrame()
 	_ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 100; i++) {
 		//glFinish();
 		_ntLoopStart = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
 			LOG_F(INFO, "Parsing Order loop");
 			ParticleObjectCreator::createParticlesFromOrderList();
-			glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_UNIFORM_BARRIER_BIT);
+			//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_UNIFORM_BARRIER_BIT);
+			ParticleData::printParticleData(0);
 		}
 
 		if (ParticleData::m_NumOfParticles == 0) continue;
@@ -102,10 +103,19 @@ void Simulation::runSimulationFrame()
 	}
 	__ntEnd = getNanoTime();
 	//ParticleData::printParticleData(20);
-
+	//ParticleData::printParticleData(0);
 	////////////////////////////////////////////////
+	if (test) {
 
-
+		ParticleObjectDetais detailsTEST{ 1, 20,20,20, 30, 50, 30 };
+		ParticleObjectDetais detailsTESTGLASS{ -1, 25,25,25, 20.5,0,15 };
+		//ParticleObjectCreator::addObject(details);
+		//ParticleObjectCreator::addObject(details2);
+		ParticleObjectCreator::addObject(detailsTEST);
+		//ParticleObjectCreator::addObject(detailsTESTGLASS);
+		test = false;
+	}
+	//ParticleData::printParticleData(0);
 	// if enabled - log all particles positions into file
 
 	const float _ntSum = getNanoTimeDif(_ntStart, __ntEnd);
@@ -129,11 +139,11 @@ void setupSimObjects()
 	ParticleObjectDetais details{ 1, 10,10,10, 10.1, 10.1, 10.1};
 	ParticleObjectDetais details2{ -1, 10,4,10, 5, 0, 0 };
 	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
-	ParticleObjectDetais detailsTEST{ 1, 16,20,20, 34, 50, 50 };
-	ParticleObjectDetais detailsTESTGLASS{ -1, 25,25,25, 20.5,0,15 };
+	ParticleObjectDetais detailsTEST{ 1, 20,20,20, 30, 190, 30 };
+	ParticleObjectDetais detailsTESTGLASS{ -1, 25,25,25, 20.5,0.5,15 };
 	//ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTEST);
 	ParticleObjectCreator::addObject(detailsTESTGLASS);
 }
 
@@ -155,17 +165,17 @@ void Simulation::main()
 		Simulation::runSimulationFrame();
 		//ParticleData::printGlassData(20);
 	}
-	/*ParticleData::printParticleData(20);
+	ParticleData::printParticleData(20);
 	ParticleData::printGlassParticlesData(20);
 	ParticleData::printGlassObjectsData();
 	ParticleData::printSortingData(20);
 	ParticleData::printSPHData(1, 1, 1, 1, 1,10);
-	ParticleData::printNeighboursData();*/
+	ParticleData::printNeighboursData();
 }
 
 void Simulation::init()
 {
-	m_TESTshader = ComputeShader(ShaderFiles.TEST_ComputeShader);
+	//m_TESTshader = ComputeShader(ShaderFiles.TEST_ComputeShader);
 	m_CellCounting = ComputeShader(ShaderFiles.CellCountingForSort);
 	m_BitonicSort = ComputeShader(ShaderFiles.BitonicSort);
 	m_VariablesArrangement = ComputeShader(ShaderFiles.VariablesArrangementAfterSort);

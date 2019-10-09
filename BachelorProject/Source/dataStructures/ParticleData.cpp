@@ -193,7 +193,7 @@ void ParticleData::printParticleData(int limit)
 		return;
 	}
 
-	if (limit <= 0) {
+	if (limit < 0) {
 		limit = INT_MAX;
 	}
 

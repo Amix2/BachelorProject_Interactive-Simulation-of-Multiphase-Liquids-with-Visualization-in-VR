@@ -69,6 +69,7 @@ bool Window::refresh()
 
 #include <scene/camera/SimpleCameraController.h>
 #include <particleObjects/ParticleObjectCreator.h>
+#include <particleObjects/ParticleObjectManager.h>
 
 void Window::processInput() 
 {
@@ -114,18 +115,25 @@ void Window::processInput()
 		lastKeyPressTime = glfwGetTime();
 
 		Scene::Camera* camera = SimpleCameraController::cam;
-		glm::vec3 low = camera->getPosition() + (camera->getFront() * 10.0f) + glm::vec3(-3, -3, -3);
-		glm::vec3 high = camera->getPosition() + (camera->getFront() * 10.0f) + glm::vec3(3, 3, 3);
+		glm::vec3 low = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(-3, -3, -3);
+		glm::vec3 high = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(3, 3, 3);
 		ParticleObjectDetais newObj{ 1, low.x, low.y, low.z, high.x, high.y, high.z };
 		ParticleObjectCreator::addObject(newObj);
 		
 	}
-	if (glfwGetKey(glfwWindow, GLFW_KEY_5) == GLFW_PRESS)
+	if (glfwGetKey(glfwWindow, GLFW_KEY_5) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(KEY_5);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_6) == GLFW_PRESS)
+
+		ParticleObjectManager::moveObject(0, true);
+	}
+
+	if (glfwGetKey(glfwWindow, GLFW_KEY_6) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(KEY_6);
+
+		ParticleObjectManager::moveObject(0, false);
+	}
 
 }
 

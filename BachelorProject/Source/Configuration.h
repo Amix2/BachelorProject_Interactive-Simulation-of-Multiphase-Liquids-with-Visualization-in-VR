@@ -9,7 +9,7 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static const int MAX_PARTICLES = 262144;
+	inline static const int MAX_PARTICLES = 262144/2;
 	inline static const int MAX_GLASS_PARTICLES = 65536;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
@@ -27,7 +27,7 @@ const struct Configuration {
 	const float BOUNCE_DISTANCE = 0.5f;
 	const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
 
-	inline static const float MAX_PARTICLE_SPEED = 0.1f;
+	inline static const float MAX_PARTICLE_SPEED = 1.0f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
 	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 7 * MAX_PARTICLES;

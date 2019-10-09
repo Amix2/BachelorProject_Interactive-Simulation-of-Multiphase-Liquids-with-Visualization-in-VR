@@ -11,7 +11,7 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
-	glNamedBufferData(index, size, data, GL_STATIC_DRAW);
+	glNamedBufferStorage(index, size, data, GL_MAP_READ_BIT | GL_MAP_WRITE_BIT);
 
 	checkOpenGLErrors();
 
@@ -29,6 +29,7 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
+
 		void* p = glMapBuffer(target, GL_READ_WRITE);
 		glUnmapBuffer(target);
 
