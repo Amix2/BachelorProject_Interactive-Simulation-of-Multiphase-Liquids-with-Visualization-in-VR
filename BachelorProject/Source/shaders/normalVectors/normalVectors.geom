@@ -30,7 +30,7 @@ void drawVector(vec4 position)
 	
     gl_Position =  MVP * position;
     EmitVertex();
-    gl_Position = MVP * (position + (gs_in[0].vector * 0.05));
+    gl_Position = MVP * (position + (gs_in[0].vector));
     EmitVertex();
     EndPrimitive();
 }
