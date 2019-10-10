@@ -8,7 +8,7 @@ uniform sampler2D ourTexture;
 uniform vec4 background;
 
 float near = 0.1; 
-float far  = 200.0; 
+float far  = 100.0; 
   
 float LinearizeDepth(float depth) 
 {

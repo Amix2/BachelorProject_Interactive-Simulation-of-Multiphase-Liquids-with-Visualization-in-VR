@@ -148,6 +148,12 @@ void Window::processInput()
 		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, -0.001f, glm::vec3(1, 0, 0));
 	}
 
+	if (glfwGetKey(glfwWindow, GLFW_KEY_9) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(KEY_9);
+		lastKeyPressTime = glfwGetTime();
+	}
+
 }
 
 void Window::subscribeForMousePositionChanges(MousePositionListener* listener)

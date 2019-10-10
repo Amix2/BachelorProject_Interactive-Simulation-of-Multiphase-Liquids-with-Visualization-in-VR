@@ -32,6 +32,7 @@
 #include <ThreadManager.h>
 #include <thread>
 #include <materialObjects/AxesObject.h>
+#include <materialObjects/NormalVectorsObject.h>
 
 void printWorkGroupsCapabilities();
 
@@ -91,16 +92,19 @@ int main(int argc, char ** argv) {
 	//}
 
 	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
-	TestMaterialObject cubes{ programCubes };
+	TestMaterialObject cubes{ programCubes, backgroundColor };
 
-	ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	TestBilboardObject bilboard{ programBilboard };
+	//ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	//TestBilboardObject bilboard{ programBilboard };
 
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	FluidObject fluid{ window, programFluid, backgroundColor };
 
 	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
 	AxesObject axes{ programAxes, backgroundColor };
+
+	ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
+	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
 
 /////////////////////////////////////////////////////////////////////////////////////
 	getGpuStats();
@@ -117,10 +121,10 @@ int main(int argc, char ** argv) {
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid);
 	scene.addMaterialObject(&axes);
+	scene.addMaterialObject(&vectorNormals);
 
 	do 
 	{
-
 		scene.renderScene();
 	} while (!window.refresh());
 

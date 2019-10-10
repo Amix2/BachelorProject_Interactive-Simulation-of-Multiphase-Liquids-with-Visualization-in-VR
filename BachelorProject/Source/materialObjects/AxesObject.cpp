@@ -31,6 +31,5 @@ void AxesObject::load(const glm::mat4& view, const glm::mat4& projection) const
 
 	glBindVertexArray(VAO);
 
-	glLineWidth(5.0f);
 	glDrawArrays(GL_LINES, 0, 6);
 }

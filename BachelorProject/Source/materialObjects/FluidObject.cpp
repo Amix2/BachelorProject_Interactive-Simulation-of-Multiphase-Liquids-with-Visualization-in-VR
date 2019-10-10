@@ -53,8 +53,6 @@ void FluidObject::init()
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-
-
 	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
 

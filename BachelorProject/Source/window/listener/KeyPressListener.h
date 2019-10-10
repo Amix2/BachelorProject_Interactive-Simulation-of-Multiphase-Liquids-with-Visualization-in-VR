@@ -12,7 +12,8 @@ enum Key {
 	KEY_3,
 	KEY_4,
 	KEY_5,
-	KEY_6
+	KEY_6,
+	KEY_9
 };
 
 class KeyPressListener {

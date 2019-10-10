@@ -22,6 +22,7 @@
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
+    <ClCompile Include="Source\materialObjects\NormalVectorsObject.cpp" />
     <ClCompile Include="Source\materialObjects\TestBilboardObject.cpp" />
     <ClCompile Include="Source\materialObjects\TestMaterialObject.cpp" />
     <ClCompile Include="Source\dataStructures\FluidType.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="Source\materialObjects\AxesObject.h" />
     <ClInclude Include="Source\materialObjects\FluidObject.h" />
     <ClInclude Include="Source\materialObjects\MaterialObject.h" />
+    <ClInclude Include="Source\materialObjects\NormalVectorsObject.h" />
     <ClInclude Include="Source\materialObjects\TestBilboardObject.h" />
     <ClInclude Include="Source\materialObjects\TestMaterialObject.h" />
     <ClInclude Include="Source\dataStructures\FluidType.h" />
@@ -90,6 +92,11 @@
     <ClInclude Include="Source\VR\VRCore.h" />
     <ClInclude Include="Source\VR\VRGeometry.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\shaders\normalVectors\normalVectors.frag" />
+    <None Include="Source\shaders\normalVectors\normalVectors.geom" />
+    <None Include="Source\shaders\normalVectors\normalVectors.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

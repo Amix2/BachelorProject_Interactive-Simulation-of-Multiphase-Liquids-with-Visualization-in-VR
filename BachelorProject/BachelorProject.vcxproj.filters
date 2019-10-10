@@ -111,6 +111,9 @@
     <ClCompile Include="Source\materialObjects\AxesObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\materialObjects\NormalVectorsObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\shaders\ComputeShader.h">
@@ -224,5 +227,13 @@
     <ClInclude Include="Source\materialObjects\AxesObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\materialObjects\NormalVectorsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\shaders\normalVectors\normalVectors.frag" />
+    <None Include="Source\shaders\normalVectors\normalVectors.vert" />
+    <None Include="Source\shaders\normalVectors\normalVectors.geom" />
   </ItemGroup>
 </Project>

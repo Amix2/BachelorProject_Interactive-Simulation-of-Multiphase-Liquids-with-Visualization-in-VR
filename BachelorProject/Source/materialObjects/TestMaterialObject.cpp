@@ -1,8 +1,9 @@
 #include "TestMaterialObject.h"
 #include <Logger.h>
 
-TestMaterialObject::TestMaterialObject(const ShaderProgram& shaderProgram) 
-	: MaterialObject{ shaderProgram } {}
+TestMaterialObject::TestMaterialObject(const ShaderProgram& shaderProgram, glm::vec4 background) 
+	: MaterialObject{ shaderProgram }
+	, background{ background } {}
 
 void TestMaterialObject::init()
 {
@@ -24,6 +25,7 @@ void TestMaterialObject::load(const glm::mat4& view, const glm::mat4& projection
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
+	shaderProgram.setUniformVariable("background", background);
 
 	glBindVertexArray(VAO);
 
