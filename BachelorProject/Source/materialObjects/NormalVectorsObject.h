@@ -19,5 +19,5 @@ private:
 	unsigned int VAO;
 	unsigned int VBO;
 	glm::vec4 background;
-	int render = 1;
+	int render = 0;
 };

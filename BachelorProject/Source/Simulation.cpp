@@ -134,7 +134,7 @@ void setupSimObjects()
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTEST);
 	ParticleObjectCreator::addObject(detailsTESTGLASS);
 }
 

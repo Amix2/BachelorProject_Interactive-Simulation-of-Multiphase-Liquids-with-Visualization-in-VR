@@ -107,7 +107,7 @@ int ParticleGeometry::cylinder(int& numOfParts, glm::vec2 centerLane, float bott
 	for (int i = 0; i <= numOfCircles; i++) { // we want to do 1 more than numOfCircles cos its number of gaps between circles
 		VectorDirection vecDirForThisCircle = vecDirection;
 		if (i < 3) vecDirForThisCircle = bottomVecDirections[i];
-		if (i == numOfCircles) vecDirForThisCircle = topVecDirections[i - numOfCircles];
+		if (i > numOfCircles - 3) vecDirForThisCircle = topVecDirections[numOfCircles - i];
 		circle(numOfParts, glm::vec3(centerLane.x, currentHeight, centerLane.y), radius, inCircleGap, vecDirForThisCircle);
 		currentHeight += realZoneGap;
 	}

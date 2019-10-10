@@ -97,7 +97,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE
 			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
-			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::INSIDE });
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE });
 
 
 		ParticleGeometry::filledCircle(numOfParts
@@ -112,7 +112,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
 			, inCircleGap, layerGap, ParticleGeometry::UP
-			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP });
+			, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::UP });
 
 		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY - layerGapVecY

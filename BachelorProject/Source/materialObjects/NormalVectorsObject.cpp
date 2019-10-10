@@ -34,6 +34,8 @@ void NormalVectorsObject::load(const glm::mat4& view, const glm::mat4& projectio
 	shaderProgram.setUniformVariable("background", background);
 	shaderProgram.setUniformVariable("render", render);
 
+	//glLineWidth(5.0f);
+
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0, ParticleData::m_NumOfGlassParticles);
 }
