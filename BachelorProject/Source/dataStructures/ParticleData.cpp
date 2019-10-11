@@ -5,31 +5,31 @@
 void ParticleData::initArraysOnGPU()
 {
 	// create SSBO for particle positions
-	GpuResources::createSSBO(BufferDatails.particlePositionsName, 4 * Configuration.MAX_PARTICLES * sizeof(float), NULL, BufferDatails.particlePositionsBinding);
+	GpuResources::createSSBO(BufferDetails.particlePositionsName, 4 * Configuration.MAX_PARTICLES * sizeof(float), NULL, BufferDetails.particlePositionsBinding);
 
 	// create UBO for glass particles (local pos, surface vectors)
-	GpuResources::createSSBO(BufferDatails.glassParticleName, Configuration.MAX_GLASS_PARTICLES * sizeof(GlassParticle), NULL, BufferDatails.glassParticleBinding);
+	GpuResources::createSSBO(BufferDetails.glassParticleName, Configuration.MAX_GLASS_PARTICLES * sizeof(GlassParticle), NULL, BufferDetails.glassParticleBinding);
 	// create SSBO for glass positions
 
 	// create UBO for GlassObjectsDetails (matrix)
 	GlassObjectDetails objectsArray[Configuration.MAX_PARTICLE_OBJECTS];
-	GpuResources::createUBO(BufferDatails.glassObjectsDetailsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(GlassObjectDetails), objectsArray, BufferDatails.glassObjectsDetailsBinding);
+	GpuResources::createUBO(BufferDetails.glassObjectsDetailsName, Configuration.MAX_PARTICLE_OBJECTS * sizeof(GlassObjectDetails), objectsArray, BufferDetails.glassObjectsDetailsBinding);
 
 	// create UBO for Fluid types data (fuilled with data, pre-defined types)
-	GpuResources::createUBO(BufferDatails.fluidTypesName, Configuration.MAX_FLUID_TYPES * sizeof(FluidType), FluidType::m_fluidTypes, BufferDatails.fluidTypesBinding);
+	GpuResources::createUBO(BufferDetails.fluidTypesName, Configuration.MAX_FLUID_TYPES * sizeof(FluidType), FluidType::m_fluidTypes, BufferDetails.fluidTypesBinding);
 
 	// create SSBO for simulation details
 	SimDetails simDetails{ 0,0 };
-	GpuResources::createSSBO(BufferDatails.detailsName, sizeof(simDetails), &simDetails, BufferDatails.detailsBinding);
+	GpuResources::createSSBO(BufferDetails.detailsName, sizeof(simDetails), &simDetails, BufferDetails.detailsBinding);
 
 	// SSBO for SPH
-	GpuResources::createSSBO(BufferDatails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDatails.SPHVariablesBinding);
+	GpuResources::createSSBO(BufferDetails.SPHVariablesName, (GLsizeiptr)Configuration.MAX_PARTICLES * Configuration.NUM_OF_SPH_FLOATS_PER_PARTICLE * sizeof(float), NULL, BufferDetails.SPHVariablesBinding);
 
 	// SSBO for sorting
-	GpuResources::createSSBO(BufferDatails.SortVariablesName, Configuration.NUM_OF_SORTING_FLOATS_IN_ARRAY * sizeof(float), NULL, BufferDatails.SortVariablesBinding);
+	GpuResources::createSSBO(BufferDetails.SortVariablesName, Configuration.NUM_OF_SORTING_FLOATS_IN_ARRAY * sizeof(float), NULL, BufferDetails.SortVariablesBinding);
 
 	// SSBO for neighbour list
-	GpuResources::createSSBO(BufferDatails.NeighboursListName, (GLsizeiptr)27 * Configuration.MAX_PARTICLES * sizeof(GLuint), NULL, BufferDatails.NeighboursListBinding);
+	GpuResources::createSSBO(BufferDetails.NeighboursListName, (GLsizeiptr)27 * Configuration.MAX_PARTICLES * sizeof(GLuint), NULL, BufferDetails.NeighboursListBinding);
 
 	checkOpenGLErrors();
 }
@@ -37,7 +37,7 @@ void ParticleData::initArraysOnGPU()
 Particle* ParticleData::openParticlePositions()
 {
 	LOG_F(INFO, "OPEN to add array for PARTICLES");
-	m_resParticlesArray = (Particle*)GpuResources::openPartSSBO(BufferDatails.particlePositionsName
+	m_resParticlesArray = (Particle*)GpuResources::openPartSSBO(BufferDetails.particlePositionsName
 		, (GLintptr)m_NumOfParticles * sizeof(Particle)	// offset
 		, ((GLsizeiptr)Configuration.MAX_PARTICLES - m_NumOfParticles) * sizeof(Particle)	// length
 	);
@@ -50,7 +50,7 @@ Particle* ParticleData::openParticlePositions()
 GlassParticle* ParticleData::openGlassParticles()
 {
 	LOG_F(INFO, "OPEN to add array for GLASS PARTICLES");
-	m_resGlassParticleArray = (GlassParticle*)GpuResources::openPartSSBO(BufferDatails.glassParticleName
+	m_resGlassParticleArray = (GlassParticle*)GpuResources::openPartSSBO(BufferDetails.glassParticleName
 		, (GLintptr)m_NumOfGlassParticles * sizeof(GlassParticle)	// offset
 		, ((GLsizeiptr)Configuration.MAX_GLASS_PARTICLES - m_NumOfGlassParticles) * sizeof(GlassParticle)	// length
 	);
@@ -64,7 +64,7 @@ GlassParticle* ParticleData::openGlassParticles()
 GlassObjectDetails* ParticleData::openGlassObjects()
 {
 	//LOG_F(INFO, "OPEN to add array for GLASS OBJECTS");
-	m_resGlassObjectsArray = (GlassObjectDetails*)GpuResources::openUBO(BufferDatails.glassObjectsDetailsName);
+	m_resGlassObjectsArray = (GlassObjectDetails*)GpuResources::openUBO(BufferDetails.glassObjectsDetailsName);
 
 	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
@@ -74,7 +74,7 @@ GlassObjectDetails* ParticleData::openGlassObjects()
 SimDetails* ParticleData::openDetails()
 {
 	//LOG_F(INFO, "OPEN details struct");
-	m_resDetails = (SimDetails*)GpuResources::openSSBO(BufferDatails.detailsName);
+	m_resDetails = (SimDetails*)GpuResources::openSSBO(BufferDetails.detailsName);
 
 	m_OpenedResources++;
 	ParticleData::m_ResourceCondVariable.notify_all();
@@ -85,7 +85,7 @@ void ParticleData::commitParticlePositions(int numOfAddedParticles)
 {
 	LOG_F(INFO, "COMMIT PARTICLES");
 
-	GpuResources::commitSSBO(BufferDatails.particlePositionsName);
+	GpuResources::commitSSBO(BufferDetails.particlePositionsName);
 	m_NumOfParticles += numOfAddedParticles;
 	m_resParticlesArray = nullptr;
 	m_OpenedResources--;
@@ -96,7 +96,7 @@ void ParticleData::commitGlassParticles(int numOfAddedGlassParticles)
 {
 	LOG_F(INFO, "COMMIT GLASS PARTICLES");
 
-	GpuResources::commitSSBO(BufferDatails.glassParticleName);
+	GpuResources::commitSSBO(BufferDetails.glassParticleName);
 	m_NumOfGlassParticles += numOfAddedGlassParticles;
 	m_resGlassParticleArray = nullptr;
 	m_OpenedResources--;
@@ -107,7 +107,7 @@ void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
 {
 	//LOG_F(INFO, "COMMIT GLASS OBJECTS");
 
-	GpuResources::commitUBO(BufferDatails.glassObjectsDetailsName);
+	GpuResources::commitUBO(BufferDetails.glassObjectsDetailsName);
 	m_numOfObjectsInArray += numOfAddedGlassObjects;
 	m_resGlassObjectsArray = nullptr;
 	m_OpenedResources--;
@@ -118,7 +118,7 @@ void ParticleData::commitDetails()
 {
 	//LOG_F(INFO, "COMMIT details");
 
-	GpuResources::commitSSBO(BufferDatails.detailsName);
+	GpuResources::commitSSBO(BufferDetails.detailsName);
 
 	m_resDetails = nullptr;
 	m_OpenedResources--;
@@ -153,10 +153,10 @@ void ParticleData::copyDataForSorting()
 	const int cpyPosSizeUsed = ParticleData::m_NumOfParticles * sizeof(Particle);
 	const int cpyVelSize = Configuration.MAX_PARTICLES * 3 * sizeof(float);;
 	const int cpyVelSizeUsed = ParticleData::m_NumOfParticles * 3*sizeof(float);
-	const std::string sortTargetName = BufferDatails.SortVariablesName;
-	const std::string positionsSourceName = BufferDatails.particlePositionsName;
-	const std::string velositySourceName = BufferDatails.SPHVariablesName;
-	//const std::string typesSourceName = BufferDatails.particlesFluidTypeName;
+	const std::string sortTargetName = BufferDetails.SortVariablesName;
+	const std::string positionsSourceName = BufferDetails.particlePositionsName;
+	const std::string velositySourceName = BufferDetails.SPHVariablesName;
+	//const std::string typesSourceName = BufferDetails.particlesFluidTypeName;
 
 	//glFinish();	auto start = getNanoTime();
 	GpuResources::setAsCopyTarget(sortTargetName);
@@ -306,7 +306,7 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 {
 	LOG_F(INFO, "==============================");
 	LOG_F(INFO, "SPH print");
-	float* array = (float*)GpuResources::getDataSSBO(BufferDatails.SPHVariablesName);
+	float* array = (float*)GpuResources::getDataSSBO(BufferDetails.SPHVariablesName);
 	if (array == nullptr) {
 		LOG_F(ERROR, "Error while printing SPH DATA");
 		return;
@@ -368,7 +368,7 @@ void ParticleData::logParticlePositions()
 
 void ParticleData::checkDensity()
 {
-	float* array = (float*)GpuResources::getDataSSBO(BufferDatails.SPHVariablesName);
+	float* array = (float*)GpuResources::getDataSSBO(BufferDetails.SPHVariablesName);
 	Particle* partPositions = ParticleData::getPositions();
 	if (array == nullptr) {
 		LOG_F(ERROR, "Error while printing SPH DATA");
@@ -386,30 +386,30 @@ void ParticleData::checkDensity()
 
 Particle* ParticleData::getPositions()
 {
-	return (Particle*)GpuResources::getDataSSBO(BufferDatails.particlePositionsName);
+	return (Particle*)GpuResources::getDataSSBO(BufferDetails.particlePositionsName);
 }
 
 GlassParticle* ParticleData::getGlassParticles()
 {
-	return (GlassParticle*)GpuResources::getDataSSBO(BufferDatails.glassParticleName);
+	return (GlassParticle*)GpuResources::getDataSSBO(BufferDetails.glassParticleName);
 }
 
 unsigned int* ParticleData::getSortingData()
 {
-	return (unsigned int*)GpuResources::getDataSSBO(BufferDatails.SortVariablesName);
+	return (unsigned int*)GpuResources::getDataSSBO(BufferDetails.SortVariablesName);
 }
 
 int* ParticleData::getNeighboursData()
 {
-	return (int*)GpuResources::getDataSSBO(BufferDatails.NeighboursListName);
+	return (int*)GpuResources::getDataSSBO(BufferDetails.NeighboursListName);
 }
 
 GlassObjectDetails* ParticleData::getGlassObjects()
 {
-	return (GlassObjectDetails*) GpuResources::getDataUBO(BufferDatails.glassObjectsDetailsName);
+	return (GlassObjectDetails*) GpuResources::getDataUBO(BufferDetails.glassObjectsDetailsName);
 }
 
 SimDetails* ParticleData::getDetails()
 {
-	return (SimDetails*)GpuResources::getDataSSBO(BufferDatails.detailsName);
+	return (SimDetails*)GpuResources::getDataSSBO(BufferDetails.detailsName);
 }

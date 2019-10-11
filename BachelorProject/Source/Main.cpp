@@ -112,7 +112,6 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-
 	
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();

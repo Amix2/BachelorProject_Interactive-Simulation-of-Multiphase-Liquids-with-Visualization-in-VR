@@ -15,7 +15,7 @@ void FluidObject::init()
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
+	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
@@ -53,7 +53,7 @@ void FluidObject::init()
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
+	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
 
 	glEnable(GL_BLEND);

@@ -42,29 +42,29 @@ layout(std430, binding = 1) buffer positionsBuf
 	FluidParticle fluidPositions[MAX_FLUID];
 };
 
-layout(std430, binding = 10) buffer neighboursBuf
-{
-	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
-};
 
 
-layout(std430, binding = 6) buffer detailsBuf
+layout(std430, binding = 4) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
 };
 
-layout(std430, binding = 9) buffer sortingHelpBuf
+layout(std140, binding = 5) uniform fluidTypesBuf
+{
+	FluidType fluidTypeArray[MAX_FLUID_TYPES];
+};
+layout(std430, binding = 6) buffer neighboursBuf
+{
+	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+};
+
+layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
 	uint originalIndex[SORT_ARRAY_SIZE];
 	FluidParticle	CPY_Positions[MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
-};
-
-layout(std140, binding = 7) uniform fluidTypesBuf
-{
-	FluidType fluidTypeArray[MAX_FLUID_TYPES];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
@@ -120,9 +120,9 @@ void main(void)
 			pVelocity = (pVelocity - 2 * (dotProduct) * pSurfVec) * BOUNCE_VELOCITY_MULTIPLIER;
 		}
 
-		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.2) {
-			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.2 / DELTA_TIME;
-		}
+//		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.1) {
+//			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.1 / DELTA_TIME;
+//		}
 	}
 
 	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {

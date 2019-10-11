@@ -5,6 +5,8 @@ void setupSimObjects();
 const std::string stageUniform = "u_stage";
 const std::string turnUniform = "u_turnInStage";
 bool test = true;
+const bool MEASURE_TIME = true;
+
 void Simulation::runSimulationFrame()
 {
 	LOG_F(INFO, "LOOP");
@@ -17,7 +19,7 @@ void Simulation::runSimulationFrame()
 	_ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 2000; i++) {
 		//glFinish();
 		_ntLoopStart = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
@@ -33,12 +35,12 @@ void Simulation::runSimulationFrame()
 			LOG_F(WARNING, "Simulation look with opened resources");
 			return;
 		}
-		//glFinish();		_ntParseRequests = getNanoTime();		_ntParseRequestsTime += getNanoTimeDif(_ntLoopStart, _ntParseRequests);
+		if (MEASURE_TIME) { glFinish();		_ntParseRequests = getNanoTime();		_ntParseRequestsTime += getNanoTimeDif(_ntLoopStart, _ntParseRequests); }
 
 		// exchange information about glass objects with gpu
 		ParticleObjectManager::synchronizeWithGpu();
 
-		//glFinish();		_ntSynchronizeWithGpu = getNanoTime();		_ntSynchronizeWithGpuTime += getNanoTimeDif(_ntParseRequests, _ntSynchronizeWithGpu);
+		if (MEASURE_TIME) { glFinish();		_ntSynchronizeWithGpu = getNanoTime();		_ntSynchronizeWithGpuTime += getNanoTimeDif(_ntParseRequests, _ntSynchronizeWithGpu); }
 
 
 		////////////////////////////////////////////////
@@ -48,11 +50,11 @@ void Simulation::runSimulationFrame()
 		// ASSIGN cells to particles
 		m_CellCounting.runShader(dispathSize, 1, 1, false);
 
-		//glFinish(); _ntCellCounting = getNanoTime();		_ntCellCountingTime += getNanoTimeDif(_ntSynchronizeWithGpu, _ntCellCounting);
+		if (MEASURE_TIME) { glFinish(); _ntCellCounting = getNanoTime();		_ntCellCountingTime += getNanoTimeDif(_ntSynchronizeWithGpu, _ntCellCounting); }
 
 		ParticleData::copyDataForSorting();
 
-		//glFinish();		_ntCopyForSort = getNanoTime();		_ntCopyForSortTime += getNanoTimeDif(_ntCellCounting, _ntCopyForSort);
+		if (MEASURE_TIME) { glFinish();		_ntCopyForSort = getNanoTime();		_ntCopyForSortTime += getNanoTimeDif(_ntCellCounting, _ntCopyForSort); }
 
 		// SORT
 		const int bitonicSortWorkGroups = ceil(pow(2, ceil(log2(ParticleData::m_NumOfParticles))) / 256.0);	// min power of 2 more than num of particles threads / 256 threads per WorkGroup
@@ -64,36 +66,36 @@ void Simulation::runSimulationFrame()
 				m_BitonicSort.runShader(dispathSize, 1, 1, false);
 			}
 		}
-		//glFinish();		_ntBitonicSort = getNanoTime();		_ntBitonicSortTime += getNanoTimeDif(_ntCopyForSort, _ntBitonicSort);
+		if (MEASURE_TIME) { glFinish();		_ntBitonicSort = getNanoTime();		_ntBitonicSortTime += getNanoTimeDif(_ntCopyForSort, _ntBitonicSort); }
 
 		// ARRANGE variables after sorting
 		m_VariablesArrangement.runShader(dispathSize, 1, 1, false);
-		//glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars);
+		if (MEASURE_TIME) { glFinish();		_ntArrangeVars = getNanoTime();		_ntArrangeVarsTime += getNanoTimeDif(_ntBitonicSort, _ntArrangeVars); }
 
 		ParticleData::syncSimDetailsWithGpu();
 		dispathSize = ceil(ParticleData::m_NumOfParticles / 256.0);
 
-		//glFinish();		_ntSyncDetails = getNanoTime();		_ntSyncDetailsTime += getNanoTimeDif(_ntArrangeVars, _ntSyncDetails);
+		if (MEASURE_TIME) { glFinish();		_ntSyncDetails = getNanoTime();		_ntSyncDetailsTime += getNanoTimeDif(_ntArrangeVars, _ntSyncDetails); }
 
 		const int neighbourSearchDispatchSize = ceil(27.0 * ParticleData::m_NumOfParticles / 256.0);
 		m_SphNeighbourSearch.runShader(neighbourSearchDispatchSize, 1, 1, false);
 
-		//glFinish();		_ntNeighbourSearch = getNanoTime();		_ntNeighbourSearchTime += getNanoTimeDif(_ntSyncDetails, _ntNeighbourSearch);
+		if (MEASURE_TIME) { glFinish();		_ntNeighbourSearch = getNanoTime();		_ntNeighbourSearchTime += getNanoTimeDif(_ntSyncDetails, _ntNeighbourSearch); }
 
 		m_SphDensityPressureFluid.runShader(dispathSize, 1, 1, false);
 
-		//glFinish();		_ntDensityPressureFluid = getNanoTime();		_ntDensityPressureFluidTime += getNanoTimeDif(_ntNeighbourSearch, _ntDensityPressureFluid);
-		//ParticleData::printParticleData(20);
+		if (MEASURE_TIME) { glFinish();		_ntDensityPressureFluid = getNanoTime();		_ntDensityPressureFluidTime += getNanoTimeDif(_ntNeighbourSearch, _ntDensityPressureFluid); }
+
 		m_SphAccelerationFluid.runShader(dispathSize, 1, 1, false);
 
-		//glFinish();		_ntAccelerationFluid = getNanoTime();		_ntAccelerationFluidTime += getNanoTimeDif(_ntDensityPressureFluid, _ntAccelerationFluid);
+		if (MEASURE_TIME) { glFinish();		_ntAccelerationFluid = getNanoTime();		_ntAccelerationFluidTime += getNanoTimeDif(_ntDensityPressureFluid, _ntAccelerationFluid); }
 
 		m_SphVelocity.runShader(dispathSize, 1, 1, false);
 
-		//glFinish();		_ntVelocity = getNanoTime();		_ntVelocityTime += getNanoTimeDif(_ntAccelerationFluid, _ntVelocity);
+		if (MEASURE_TIME) { glFinish();		_ntVelocity = getNanoTime();		_ntVelocityTime += getNanoTimeDif(_ntAccelerationFluid, _ntVelocity); }
 
-		//m_TESTshader.runShader(1, 1, 1, true);	glFinish();
 
+		// if enabled - log all particles positions into file
 		if (LOG_TO_FILE) {
 			ParticleData::logParticlePositions();
 		}
@@ -102,18 +104,20 @@ void Simulation::runSimulationFrame()
 		//ParticleData::checkDensity();
 	}
 	__ntEnd = getNanoTime();
-	//ParticleData::printParticleData(20);
-	//ParticleData::printParticleData(0);
+
 	////////////////////////////////////////////////
 
-	//ParticleData::printParticleData(0);
-	// if enabled - log all particles positions into file
 
 	const float _ntSum = getNanoTimeDif(_ntStart, __ntEnd);
 
 	LOG_F(INFO, "Simulation Particles: [%d, %d],dispathSize: %d time: %f \nRequests %f, SyncObj %f, SyncDet %f,  CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
 		, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, dispathSize, _ntSum
 		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+
+	LOG_F(INFO, "Simulation Particles: [%d, %d],dispathSize: %d \n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n"
+		, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, dispathSize, _ntSum
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -132,10 +136,14 @@ void setupSimObjects()
 	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
 	ParticleObjectDetais detailsTEST{ 1, 20,20,20, 40, 80, 40 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
+	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
+	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
 	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(optimFluid);
+	ParticleObjectCreator::addObject(optimGlass);
 }
 
 void Simulation::main()
@@ -149,8 +157,8 @@ void Simulation::main()
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	while (!glfwWindowShouldClose(m_mainWindow))
-	//for(int i=0; i<4; i++) 
+	//while (!glfwWindowShouldClose(m_mainWindow))
+	for(int i=0; i<1; i++) 
 	{
 		// run simulation 1 turn
 		Simulation::runSimulationFrame();

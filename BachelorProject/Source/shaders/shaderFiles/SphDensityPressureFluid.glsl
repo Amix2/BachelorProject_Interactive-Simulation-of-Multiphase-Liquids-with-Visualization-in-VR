@@ -47,29 +47,38 @@ layout(std430, binding = 1) buffer positionsBuf
 	FluidParticle fluidPositions[MAX_FLUID];
 };
 
-layout(std430, binding = 10) buffer neighboursBuf
+layout(std430, binding = 2) buffer glassPartBuf
 {
-	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+	GlassParticle glassParticles[MAX_GLASS];
 };
 
+layout(std140, binding = 3) uniform glassObjectsBuf
+{
+	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
+};
 
-layout(std430, binding = 6) buffer detailsBuf
+layout(std430, binding = 4) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
 };
 
-layout(std430, binding = 9) buffer sortingHelpBuf
+layout(std140, binding = 5) uniform fluidTypesBuf
+{
+	FluidType fluidTypeArray[MAX_FLUID_TYPES];
+};
+
+layout(std430, binding = 6) buffer neighboursBuf
+{
+	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+};
+
+layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
 	uint originalIndex[SORT_ARRAY_SIZE];
 	FluidParticle	CPY_Positions[MAX_FLUID];
 	float	CPY_Velocity[3 * MAX_FLUID];
-};
-
-layout(std140, binding = 7) uniform fluidTypesBuf
-{
-	FluidType fluidTypeArray[MAX_FLUID_TYPES];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
@@ -79,16 +88,6 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidSurfaceVector[3 * MAX_FLUID];
 	float fluidSurfaceDistance[MAX_FLUID];
 	float fluidDensityPressure[2*MAX_FLUID];
-};
-
-layout(std430, binding = 2) buffer glassPartBuf
-{
-	GlassParticle glassParticles[MAX_GLASS];
-};
-
-layout(std140, binding = 3) uniform glassObjectsBuf
-{
-	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
 };
 
 //////////////////////////////////////////////////
