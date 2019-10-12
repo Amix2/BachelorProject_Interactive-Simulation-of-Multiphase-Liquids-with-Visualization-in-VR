@@ -111,6 +111,23 @@ int main(int argc, char ** argv) {
     scene.addMaterialObject(&cubes);
 	scene.addMaterialObject(&bilboard);
 
+	GLuint m_nResolveTextureIdLeft;
+	GLuint m_nResolveTextureIdRight;
+
+	glGenTextures(1, &m_nResolveTextureIdLeft);
+	glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdLeft);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdLeft, 0);
+
+	glGenTextures(1, &m_nResolveTextureIdRight);
+	glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdRight);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdRight, 0);
+
 	do 
 	{
 		if (HmdConnected) {
@@ -118,7 +135,9 @@ int main(int argc, char ** argv) {
 			VrGeometry->UpdateHMDMatrixPose();
 			VrInput->DetectPressedButtons();
 			VrInput->HandleInput();
-			cameraController.setHead(VrGeometry->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
+			cameraController.setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
+			auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(m_nResolveTextureIdLeft, m_nResolveTextureIdRight);
+			VrCore->SubmitTexturesToHMD(LeftTexture, RightTexture);
 		}
 		window.processInput();
 		scene.renderScene();

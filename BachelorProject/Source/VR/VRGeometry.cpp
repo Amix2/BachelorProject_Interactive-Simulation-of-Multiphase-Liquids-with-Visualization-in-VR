@@ -35,8 +35,10 @@ namespace VR {
 			return false; // error
 		}
 
-		vr::VRCompositor()->WaitGetPoses(this->TrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0);
+		//vr::VRCompositor()->WaitGetPoses(this->TrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0);
+		this->VrHandle->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseStanding, 0, &this->TrackedDevicePose, 1);
 
+		/*
 		ValidPosesCount = 0;
 		for (unsigned int Device = 0; Device < vr::k_unMaxTrackedDeviceCount; ++Device) {
 			if (this->TrackedDevicePose[Device].bPoseIsValid) {
@@ -48,6 +50,7 @@ namespace VR {
 			this->HmdPose = SteamVRMatrixToMatrix4(this->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
 			this->HmdPose.invert();
 		}
+		*/
 
 		return true;
 	}
@@ -67,6 +70,17 @@ namespace VR {
 
 	unsigned int VRGeometry::GetRenderWidth() {
 		return this->RenderWidth;
+	}
+
+	std::tuple<vr::Texture_t, vr::Texture_t> VRGeometry::ObtainTextures(GLuint LeftResolveTextureId, GLuint RightResolveTextureId) {
+		std::tuple<vr::Texture_t, vr::Texture_t> Textures;
+		auto ColorSpace = this->IsColorSpaceLinear ? vr::ColorSpace_Linear : vr::ColorSpace_Gamma;
+		vr::Texture_t LeftTexture = {(void *) (uintptr_t) LeftResolveTextureId, vr::TextureType_OpenGL, ColorSpace};
+		vr::Texture_t RightTexture = {(void*) (uintptr_t) RightResolveTextureId, vr::TextureType_OpenGL, ColorSpace};
+		std::get<0>(Textures) = std::move(LeftTexture);
+		std::get<1>(Textures) = std::move(RightTexture);
+
+		return Textures;
 	}
 
 	Matrix4 VRGeometry::SteamVRMatrixToMatrix4(const vr::HmdMatrix34_t& VrMatrix) {

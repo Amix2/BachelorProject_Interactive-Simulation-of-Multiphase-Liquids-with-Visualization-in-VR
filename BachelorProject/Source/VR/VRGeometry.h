@@ -2,8 +2,11 @@
 
 #include <array>
 #include <map>
+#include <tuple>
 
 #include <OpenVR/openvr.h>
+
+#include <GL/glew.h>
 
 #include "utilities/Matrices.h"
 
@@ -18,12 +21,15 @@ namespace VR {
 		bool SetupCameras();
 		unsigned int GetRenderHeight();
 		unsigned int GetRenderWidth();
-		vr::TrackedDevicePose_t TrackedDevicePose[vr::k_unMaxTrackedDeviceCount];
+		vr::TrackedDevicePose_t TrackedDevicePose;
+		std::tuple<vr::Texture_t, vr::Texture_t> ObtainTextures(GLuint LeftResolveTextureId, GLuint RightResolveTextureId);
 
 	protected:
 		//
 
 	private:
+		const bool IsColorSpaceLinear = false;
+
 		Matrix4 SteamVRMatrixToMatrix4(const vr::HmdMatrix34_t&);
 
 		std::map<std::string, vr::HmdMatrix44_t> HmdMatrixProjectionEyes;

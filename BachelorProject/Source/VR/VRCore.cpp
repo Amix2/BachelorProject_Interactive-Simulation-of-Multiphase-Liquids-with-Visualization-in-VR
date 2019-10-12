@@ -6,20 +6,14 @@ namespace VR {
 		vr::EVRInitError VrError = vr::VRInitError_None;
 		this->VrSystem = vr::VR_Init(&VrError, vr::VRApplication_Scene);
 
-		std::cout << "xxx" << std::endl;
-
 		if (VrError != vr::VRInitError_None) {
 			std::cout << vr::VR_GetVRInitErrorAsEnglishDescription(VrError) << std::endl;
 			return false;
 		}
 
-		std::cout << "yyy" << std::endl;
-
 		if (!this->InitializeCompositor()) {
 			return false;
 		}
-
-		std::cout << "zzz" << std::endl;
 
 		return true;
 	}
@@ -32,7 +26,26 @@ namespace VR {
 		return true;
 	}
 
+	bool VRCore::InitializeDescriptors() {
+		//
+		this->Descriptors[vr::Eye_Left] = {
+			{}
+		};
+		this->Descriptors[vr::Eye_Right] = {
+			{}
+		};
+
+		return true;
+	}
+
 	vr::IVRSystem * VRCore::GetVrSystem() {
 		return this->VrSystem;
+	}
+
+	bool VRCore::SubmitTexturesToHMD(vr::Texture_t LeftTexture, vr::Texture_t RightTexture) {
+		vr::VRCompositor()->Submit(vr::Eye_Left, &LeftTexture);
+		vr::VRCompositor()->Submit(vr::Eye_Right, &RightTexture);
+
+		return true;
 	}
 }
