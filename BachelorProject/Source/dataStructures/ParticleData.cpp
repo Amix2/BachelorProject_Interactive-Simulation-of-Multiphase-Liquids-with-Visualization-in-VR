@@ -31,6 +31,9 @@ void ParticleData::initArraysOnGPU()
 	// SSBO for neighbour list
 	GpuResources::createSSBO(BufferDetails.NeighboursListName, (GLsizeiptr)27 * Configuration.MAX_PARTICLES * sizeof(GLuint), NULL, BufferDetails.NeighboursListBinding);
 
+	// SSBO for neighbour look up table
+	GpuResources::createSSBO(BufferDetails.HelperBufferName, (GLsizeiptr)Configuration.SCENE_SIZE_X * Configuration.SCENE_SIZE_Y * Configuration.SCENE_SIZE_Z * sizeof(GLint), NULL, BufferDetails.HelperBufferBinding);
+
 	checkOpenGLErrors();
 }
 

@@ -48,6 +48,11 @@ layout(std430, binding = 7) buffer sortingHelpBuf
 	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
+layout(std430, binding = 9) buffer lookUpTableBuf
+{
+	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
+};
+
 //////////////////////////////////////////////////
 
 uint getCellIndex(in float pX, in float pY, in float pZ)  {
@@ -63,6 +68,7 @@ void main(void)
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	const uint myParticleIndex = myThreadNumber / 27;
 	const FluidParticle myParticle = fluidPositions[myParticleIndex];
+
 	if(myParticle.type<0) return;
 
 	const vec3 offsetArray[] = vec3[] (
@@ -111,6 +117,16 @@ void main(void)
 	const uint neighbourZ = myPartZ + int(myOffset.z);
 
 	const uint neighbourCellIndex = getCellIndex(neighbourX, neighbourY, neighbourZ);
+	int neiIndex = indexMap[neighbourCellIndex];
+	if(neiIndex == 0) {
+		// check if undex index 0 is my neighbour
+		if(sortIndexArray[0] != neighbourCellIndex) {
+		neiIndex = -1;
+		}
+			//neiIndex = int(sortIndexArray[0]);
+	}
+	neighboursBeginInd[myOutputIndex] = neiIndex;
+	return;
 
 	if(neighbourCellIndex == 0) {
 		neighboursBeginInd[myOutputIndex] = -1;
@@ -121,8 +137,10 @@ void main(void)
 	int higher = 0;
 	int mid = (lower + higher)/2;
 
-	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower) 
+	int limit = 0;
+	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower && limit < 10000) 
 	{
+	limit++;
 		if(sortIndexArray[mid] > neighbourCellIndex) {	//	H _ _ _ M _ x _ L
 			higher = mid;
 		}
@@ -132,7 +150,7 @@ void main(void)
 		mid = (lower + higher)/2;
 	}
 
-	if(sortIndexArray[mid] != neighbourCellIndex) {
+	if(sortIndexArray[mid] != neighbourCellIndex ) {
 		mid = -1;
 	} else {
 		while(sortIndexArray[mid] == neighbourCellIndex) {
@@ -140,9 +158,7 @@ void main(void)
 		}
 		mid++;
 	}
-
-
-	neighboursBeginInd[myOutputIndex] =  mid;
+	neighboursBeginInd[myOutputIndex] = mid;
 }
 
 

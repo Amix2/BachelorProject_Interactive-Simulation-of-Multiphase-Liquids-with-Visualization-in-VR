@@ -17,11 +17,11 @@ void Simulation::runSimulationFrame()
 	std::chrono::time_point<std::chrono::steady_clock> _ntStart, __ntEnd;
 
 	float _ntStartTime, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntSyncDetailsTime
-		, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc;
-	_ntRangeCalc = _ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
+		, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc, _ntBufferClear;
+	_ntBufferClear = _ntRangeCalc = _ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 2; i++) {
+	for (int i = 0; i < 2000; i++) {
 		//glFinish();
 		nTimeMain = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
@@ -71,7 +71,7 @@ void Simulation::runSimulationFrame()
 
 
 		// SORT
-		const int bitonicSortWorkGroups = numOfFluidPow2 * 0.5 / 256;
+		const int bitonicSortWorkGroups = (int) ceil(numOfFluidPow2 * 0.5 / 256.0);
 		const int numOfStages = numOfFluidLog2;
 		for (int currentStage = 1; currentStage <= numOfStages; currentStage++) {
 			m_BitonicSort.setUniformVariable(stageUniform, currentStage);
@@ -96,7 +96,7 @@ void Simulation::runSimulationFrame()
 
 
 		TEST_TIME(_ntNeighbourSearchTime);
-
+	
 
 		m_SphDensityPressureFluid.runShader(numOfFluidDiv256, 1, 1, false);
 
@@ -116,12 +116,19 @@ void Simulation::runSimulationFrame()
 		TEST_TIME(_ntVelocityTime);
 
 
+
+		//glClearNamedBufferData(GpuResources::getIndex(BufferDetails.NeighboursListName), GL_R32I, GL_R32I, GL_UNSIGNED_INT, NULL);
+
+
+		//TEST_TIME(_ntBufferClear);
+
+
 		// if enabled - log all particles positions into file
 		if (LOG_TO_FILE) {ParticleData::logParticlePositions();}
-
 		checkOpenGLErrors();
 		
 		//ParticleData::checkDensity();
+
 	}
 	__ntEnd = getNanoTime();
 
@@ -130,9 +137,9 @@ void Simulation::runSimulationFrame()
 
 	const float _ntSum = getNanoTimeDif(_ntStart, __ntEnd);
 
-	LOG_F(INFO, "Simulation Particles: [%d, %d] time: %f \nRequests %f, SyncObj %f, SyncDet %f, RCalc %f, CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
+	LOG_F(INFO, "Simulation Particles: [%d, %d] time: %f \nRequests %f, SyncObj %f, SyncDet %f, RCalc %f, CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f, Cls %f"
 		, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
-		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntRangeCalc, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+		, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntRangeCalc, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntBufferClear);
 
 	LOG_F(INFO, "Simulation Particles: [%d, %d] \n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n"
 		, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
@@ -145,21 +152,21 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	m_simulationWindow = glfwCreateWindow(10, 10, "OTHER", NULL, baseWindow);
 	m_mainWindow = baseWindow;
-	Simulation::m_simulationThread =  std::thread(Simulation::main);
+	Simulation::m_simulationThread = std::thread(Simulation::main);
 	Threads::addThreadToList(&Simulation::m_simulationThread);
 }
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 10.1,14.0,10.1, 10.2, 14.1, 10.2};
+	ParticleObjectDetais details{ 1, 10.1,14.0,10.1, 10.2, 16, 16};
 	ParticleObjectDetais details2{ -1, 10,4,10, 5, 0, 0 };
 	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
 	ParticleObjectDetais detailsTEST{ 1, 20,20,20, 40, 80, 40 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
-	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 	ParticleObjectCreator::addObject(optimFluid);

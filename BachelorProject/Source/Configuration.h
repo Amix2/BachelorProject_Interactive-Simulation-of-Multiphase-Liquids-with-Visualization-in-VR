@@ -17,9 +17,9 @@ const struct Configuration {
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 
-	inline static const int SCENE_SIZE_X = 200;
-	inline static const int SCENE_SIZE_Y = 200;
-	inline static const int SCENE_SIZE_Z = 200;
+	inline static const int SCENE_SIZE_X = 900;
+	inline static const int SCENE_SIZE_Y = 850;
+	inline static const int SCENE_SIZE_Z = 700;
 
 	inline static const float DELTA_TIME = 0.0005;
 	inline static const float GRAVITY_Y = -3000;

@@ -54,6 +54,11 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+layout(std430, binding = 9) buffer lookUpTableBuf
+{
+	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
+};
+
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
@@ -79,6 +84,10 @@ void main(void)
 		fluidVelocity[3*myInsertToId+0] = CPY_Velocity[3*myTakeFromId+0];
 		fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
 		fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
+
+		if(myThreadNumber > 0 && sortIndexArray[myThreadNumber] != sortIndexArray[myThreadNumber-1]) {
+			indexMap[sortIndexArray[myThreadNumber]] = int(myThreadNumber);
+		}
 	}
 
 	

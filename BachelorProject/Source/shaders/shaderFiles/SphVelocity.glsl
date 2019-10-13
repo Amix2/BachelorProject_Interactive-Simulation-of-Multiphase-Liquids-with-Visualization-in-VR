@@ -75,6 +75,11 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidSurfaceDistance[MAX_FLUID];
 	float fluidDensityPressure[2*MAX_FLUID];
 };
+//
+//layout(std430, binding = 9) buffer lookUpTableBuf
+//{
+//	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
+//};
 
 //////////////////////////////////////////////////
 
@@ -138,6 +143,8 @@ void main(void)
 	fluidPositions[myThreadNumber].x = pPosition.x;
 	fluidPositions[myThreadNumber].y = pPosition.y;
 	fluidPositions[myThreadNumber].z = pPosition.z;
+
+	//indexMap[sortIndexArray[myThreadNumber]] = 0;
 }
 
 
