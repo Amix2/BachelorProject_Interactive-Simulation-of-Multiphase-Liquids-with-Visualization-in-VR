@@ -77,8 +77,8 @@ namespace VR {
 		auto ColorSpace = this->IsColorSpaceLinear ? vr::ColorSpace_Linear : vr::ColorSpace_Gamma;
 		vr::Texture_t LeftTexture = {(void *) (uintptr_t) LeftResolveTextureId, vr::TextureType_OpenGL, ColorSpace};
 		vr::Texture_t RightTexture = {(void*) (uintptr_t) RightResolveTextureId, vr::TextureType_OpenGL, ColorSpace};
-		std::get<0>(Textures) = std::move(LeftTexture);
-		std::get<1>(Textures) = std::move(RightTexture);
+		std::get<0>(Textures) = LeftTexture;
+		std::get<1>(Textures) = RightTexture;
 
 		return Textures;
 	}
