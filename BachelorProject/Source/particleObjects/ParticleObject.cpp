@@ -4,7 +4,7 @@
 void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 {
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
-	const float layerGap = (float)inCircleGap * (float)sqrt(3) / 2;	// gap on oY
+	const float layerGap = (float)inCircleGap * (float)sqrt(3) * 0.5f;	// gap on oY
 	const float innerRadius = details.innerRadius;
 	const glm::vec3 localCenter = glm::vec3(0, 0, 0);
 	const glm::vec3 objectCenter = glm::vec3(details.cX, details.cY, details.cZ);
@@ -16,9 +16,16 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 	const glm::vec3 bottomVec = localCenter - glm::vec3(0, height / 2, 0);
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
+	float outputThickness;
+
 	// set up attributes
 	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
+
+	m_center = objectCenter;
+	m_innerRadius = innerRadius;
+	m_height = height;
+
 
 
 	// x->cylinders || v->filled Circles
@@ -30,6 +37,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 				x x  v v v  x x
 				x x  v v v  x x
 		*/
+		outputThickness = layerGap;
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -74,6 +82,8 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 				x x x  v v v  x x x
 				x x  v v v v v  x x
 		*/
+
+		outputThickness = 2*layerGap;
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -204,7 +214,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 	}
 
 
-	//m_indEnd = ParticleData::m_GlassParticlesNum + numOfParts;
+	m_thickness = outputThickness;
 }
 
 
