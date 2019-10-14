@@ -1,8 +1,10 @@
 #pragma once
+#include <glm/gtx/string_cast.hpp>
+#include <sstream>
 #include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <dataStructures/GpuResources.h>
-#include <particleObjects/ParticleObject.h>
+//#include <particleObjects/ParticleObject.h>
 #include <dataStructures/FluidType.h>
 #include <algorithm>
 #include <Configuration.h>
@@ -30,44 +32,54 @@
 	- normalVector (v3)
 */
 
-typedef struct SimDetails {
+struct SimDetails {
 	GLuint numOfParticles;
 	GLuint numOfGlassParticles;
-}SimDetails;
+};
 
-class ParticleObject;	// forward-declare
+struct Particle {
+	GLfloat x, y, z;
+	GLint type;
+};
+
+struct GlassParticle {
+	GLfloat localX, localY, localZ;
+	GLfloat vecX, vecY, vecZ;
+	GLuint glassNumber;
+	float _padding;
+};
+
+struct GlassObjectDetails {
+	glm::mat4 matrix = glm::mat4(0.0);
+};
 
 /* Keeps all details for fluid particles, performs all action with particles */
 class ParticleData
 {
 public:
 
-	inline static int m_GlassParticlesNum = 0;
-	inline static int m_FluidParticlesNum = 0;
+	//inline static int m_GlassParticlesNum = 0;
+	//inline static int m_FluidParticlesNum = 0;
+	inline static int m_NumOfParticles = 0;
+	inline static int m_NumOfGlassParticles = 0;
 
 	inline static int m_OpenedResources = 0;
 
 	// getters - only this class can change data from gpu
-	static float* getPositions();
-	static float* getGlassPositions();
-	static float* getGlassVectors();
+	static Particle* getPositions();
+	static GlassParticle* getGlassParticles();
+	static GlassObjectDetails* getGlassObjects();
 	static unsigned int* getSortingData();
-	static ParticleObject* getParticleObjects();
+	static int* getNeighboursData();
 	static SimDetails* getDetails();
 
+
 	// resource pointers, array size is currently not used
-	inline static float* m_resFluidArray = nullptr;
-	inline static int* m_resFluidTypesArray = nullptr;
-	inline static int m_resFluidArraySize;
-	inline static std::atomic_int m_numOfAddedFluid;
+	inline static Particle* m_resParticlesArray = nullptr;
 
-	inline static float* m_resGlassArray = nullptr;
-	inline static float* m_resGlassVectorsArray = nullptr;
-	inline static int m_resGlassArraySize;
-	inline static std::atomic_int m_numOfAddedGlass;
+	inline static GlassParticle* m_resGlassParticleArray = nullptr;
 
-	inline static ParticleObject* m_resObjectsArray = nullptr;
-	inline static int m_resObjectsArraySize;
+	inline static GlassObjectDetails* m_resGlassObjectsArray = nullptr;
 	inline static int m_numOfObjectsInArray = 0;
 
 	inline static SimDetails* m_resDetails = nullptr;
@@ -80,32 +92,36 @@ public:
 	/* Init arrays on GPU to store particle data */
 	static void initArraysOnGPU();
 
-	static void openFluidArray();
-	static void openGlassArray();
-	static void openGlassVectors();
-	static void openDetails();
-	static void openObjects();
+	static Particle* openParticlePositions();
+	static GlassParticle* openGlassParticles();
+	static GlassObjectDetails* openGlassObjects();
+	static SimDetails* openDetails();
 
-	static void commitFluidArray();
-	static void commitGlassArray();
-	static void commitGlassVectors();
+
+	static void commitParticlePositions(int numOfAddedParticles);
+	static void commitGlassParticles(int numOfAddedGlassParticles);
+	static void commitGlassObjects(int numOfAddedGlassObjects);
 	static void commitDetails();
-	static void commitObjects();
 
-	static void copyDataForSorting();	// GOD help this function
+	static void syncSimDetailsWithGpu();
+	static void copyDataForSorting();
 
 	// Prints info about fluid particles
 	static void printParticleData(int limit = 10);
 
-	// Prints info about glass particles
-	static void printGlassData(int limit = 10);
+	static void printGlassParticlesData(int limit = 10);
 
 	// Prints info about particle objects
-	static void printParticleObjectsData(int limit = 10);
+	static void printGlassObjectsData(int limit = 10);
 
 	static void printSortingData(int limit = 16);
 
+	static void printNeighboursData(int limit = 10);
+	static void printSPHData(bool velocity, bool acceleration, bool surface, bool density, bool pressure, int limit = 10);
+
 	static void logParticlePositions();
+
+	static void checkDensity();
 	
 	
 	// for printing particles positions to file

@@ -23,23 +23,21 @@ class ParticleObjectCreator
 	inline static std::condition_variable m_condVariable_partObjectDetails;
 	inline static std::mutex m_mutex_partObjectDetails;
 
-	// main function for worker thread
-	static void runWorkerThread();
 
-	static void createFluid(ParticleObjectDetais details, float positions[], int fluidTypes[], int& numOfParts);
+
+	static void createFluid(ParticleObjectDetais details, int& numOfParts);
 
 	ParticleObjectCreator() {}
 public:
 
 	// data structured for adding order details
-	//inline static ParticleObjectDetais m_ParticleObjectDetais;
-	inline static std::vector<ParticleObjectDetais> m_ParticleObjectDetaisVector;
-	//inline static std::atomic_bool m_ParticleObjectDetaisReady = false; // FALSE -> no new data, can add | TRUE -> new data, worker has to empty it
+	inline static std::vector<ParticleObjectDetais> m_ParticleObjectDetaisVector;	// TODO: make it thread safe
 
-	// create worker thread
-	static void init();
+	static void createParticlesFromOrderList();
 
 	// add new order
 	static void addObject(ParticleObjectDetais details);
+
+	static bool hasNewOrder();
 };
 

@@ -11,7 +11,7 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
-	glNamedBufferData(index, size, data, GL_DYNAMIC_READ);
+	glNamedBufferData(index, size, data, GL_STATIC_DRAW);
 
 	checkOpenGLErrors();
 
@@ -29,6 +29,7 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 		GLuint index = GpuResources::m_NamesMap[name];
 
 		glBindBuffer(target, index);
+
 		void* p = glMapBuffer(target, GL_READ_WRITE);
 		glUnmapBuffer(target);
 
@@ -117,12 +118,12 @@ void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * da
 		// resource already made, attach it
 		GLuint index = GpuResources::m_NamesMap[name];
 		attachResource(GL_SHADER_STORAGE_BUFFER, bindingPointIndex, index);
-		LOG_F(INFO, "SSBO attached, name: %s, \tid: %d", name.c_str(), index);
+		LOG_F(INFO, "SSBO attached, name: %s, \tid: %d, size: %d", name.c_str(), index, size);
 	}
 	else {
 		// resource not yet made
 		GLuint ssbo = createResource(GL_SHADER_STORAGE_BUFFER, name, size, data, bindingPointIndex);
-		LOG_F(INFO, "new SSBO, name: %s, \tid: %d", name.c_str(), ssbo);
+		LOG_F(INFO, "new SSBO, name: %s, \tid: %d, size: %d", name.c_str(), ssbo, size);
 	}
 
 }
@@ -248,6 +249,7 @@ void GpuResources::copyResourceSubData(std::string source, std::string target, G
 
 GLuint GpuResources::getIndex(std::string name)
 {
+
 	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {
 		return GpuResources::m_NamesMap[name];
 	}

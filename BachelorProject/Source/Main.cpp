@@ -5,13 +5,15 @@
 #include <cstring>
 #include <Windows.h>
 #include <stdlib.h> 
-#include "scene/Window.h"
-#include "scene/ViewPort.h"
+#include "./window/Window.h"
+#include "./window/ViewPort.h"
 #include "scene/Scene.h"
-#include "scene/Camera.h"
-#include "scene/TestMaterialObject.h"
-#include "scene/OcularCameraController.h"
-#include "scene/TestBilboardObject.h"
+#include "scene/camera/Camera.h"
+#include "materialObjects/TestMaterialObject.h"
+#include "scene/camera/VRCameraController.h"
+#include "materialObjects/TestBilboardObject.h"
+#include "materialObjects/FluidObject.h"
+#include "scene/camera/SimpleCameraController.h"
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -28,6 +30,9 @@
 #include <thread>
 #include <fstream>
 #include <ThreadManager.h>
+#include <thread>
+#include <materialObjects/AxesObject.h>
+#include <materialObjects/NormalVectorsObject.h>
 #include <VR/VRCore.h>
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
@@ -42,11 +47,14 @@ void initTools();
 // atExit function
 void cleanUp();
 
+// test configuration constains to fing MAX_PARTICLES and MAX_GLASS
+void getGpuStats();
+
 
 // settings
 std::string NAME = "Random window";
-constexpr unsigned int SCR_WIDTH = 1200;
-constexpr unsigned int SCR_HEIGHT = 600;
+constexpr unsigned int SCR_WIDTH = 1600;
+constexpr unsigned int SCR_HEIGHT = 900;
 
 const static std::unique_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
 const static std::unique_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
@@ -70,10 +78,12 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
+	//loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
 	atexit(cleanUp);
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -84,32 +94,54 @@ int main(int argc, char ** argv) {
 		exit(1);
 	}
 
-	Scene::Scene scene{};
+	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
+	Scene::Scene scene{ backgroundColor };
 
-	ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
-	ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-	OcularCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+	//if(headsetIsAvaiable){
+	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
+	//ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
+	//VRCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
+	//scene.addCamera(&cameraController.getLeftCamera());
+	//scene.addCamera(&cameraController.getRightCamera());
+	//}
+	//else 
+	//{
+	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
+	scene.addCamera(&cameraController.getCamera());
+	//}
 
-	ShaderProgram programCubes{ "./Source/scene/testObject.v", "./Source/scene/testObject.f" };
-	TestMaterialObject cubes{ programCubes };
+	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
+	TestMaterialObject cubes{ programCubes, backgroundColor };
 
-	ShaderProgram programBilboard{ "./Source/scene/bilboard.vs", "./Source/scene/bilboard.fs" };
-	TestBilboardObject bilboard{ programBilboard };
+	//ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	//TestBilboardObject bilboard{ programBilboard };
 
-	//ShaderProgram 
+	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	FluidObject fluid{ window, programFluid, backgroundColor };
+
+	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
+	AxesObject axes{ programAxes, backgroundColor };
+
+	ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
+	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
 
 /////////////////////////////////////////////////////////////////////////////////////
+	getGpuStats();
 
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-	//ParticleData::initArraysOnGPU();
-	//printWorkGroupsCapabilities();
 
-	scene.addCamera(&cameraController.getLeftCamera());
-	scene.addCamera(&cameraController.getRightCamera());
-    scene.addMaterialObject(&cubes);
-	scene.addMaterialObject(&bilboard);
+	
+	//ParticleData::initArraysOnGPU();
+	printWorkGroupsCapabilities();
+
+	scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&bilboard);
+	scene.addMaterialObject(&fluid);
+	scene.addMaterialObject(&axes);
+	scene.addMaterialObject(&vectorNormals);
 
 	GLuint m_nResolveFramebufferIdLeft;
 	GLuint m_nRenderFramebufferIdLeft;
@@ -251,7 +283,6 @@ int main(int argc, char ** argv) {
 
 void initTools()
 {
-	ParticleObjectCreator::init();
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();
@@ -270,6 +301,16 @@ void cleanUp()
 		ParticleData::partFile << "\".split(\"|\")";
 		ParticleData::partFile.close();
 	}
+}
+
+void getGpuStats()
+{
+	GLint64  SSBOsize, UBOsize;
+	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
+	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &UBOsize);
+	int maxParticles = SSBOsize / (27 * sizeof(float));
+	int maxGlass = UBOsize / (sizeof(GlassParticle));
+	LOG_F(WARNING, "This PC can handle %d particles and %d glass particles", maxParticles, maxGlass);
 }
 
 void printWorkGroupsCapabilities() {

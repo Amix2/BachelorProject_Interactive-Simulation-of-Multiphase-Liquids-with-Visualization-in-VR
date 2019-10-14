@@ -26,7 +26,7 @@ public:
 	glm::vec3* getObjectsPositions();
 	glm::vec3* getObjectsDirections();
 	// change target position of given object
-	void moveObject(int objectNumber, glm::vec3 targetPosition, glm::vec3 targetDirection);
+	static void moveObject(int objectNumber, bool direction);
 	////////////////////////////////////////////////////////////////////////////
 
 

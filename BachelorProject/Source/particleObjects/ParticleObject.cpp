@@ -1,12 +1,12 @@
 #include "ParticleObject.h"
 
 
-void ParticleObject::createMug(ParticleObjectDetais details, float positions[], float vectors[], int& numOfParts)
+void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 {
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
 	const float layerGap = (float)inCircleGap * (float)sqrt(3) / 2;	// gap on oY
 	const float innerRadius = details.innerRadius;
-	const glm::vec3 localCenter = glm::vec3(0,0,0);
+	const glm::vec3 localCenter = glm::vec3(0, 0, 0);
 	const glm::vec3 objectCenter = glm::vec3(details.cX, details.cY, details.cZ);
 	const float thickness = details.thickness;
 	const float height = details.height;
@@ -17,12 +17,8 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
 	// set up attributes
-	m_currentPosition = objectCenter;
-	m_targetPosition = m_currentPosition;
-	m_indBegin = ParticleData::m_GlassParticlesNum;
-	m_currentVector = glm::vec3(0, 1, 0);
-	m_targetVector = m_currentVector;
-	//	m_endInd is assigned in the end
+	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
+	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
 
 
 	// x->cylinders || v->filled Circles
@@ -35,32 +31,38 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 				x x  v v v  x x
 		*/
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
+		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top		// heights
 			, innerRadius + layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	
+			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE
+			, { ParticleGeometry::UP, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
+			, { ParticleGeometry::DOWN, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
+		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top	// heights
 			, innerRadius				// radius
-			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	
+			, inCircleGap, layerGap, ParticleGeometry::INSIDE
+			, { ParticleGeometry::UP, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
+			, { ParticleGeometry::DOWN, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE });
 
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
+		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec
 			// calculate particles for range (0 ,  innerRadius), render for range [0 , innerRadius-layerGap/2)
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::UP);	
+			, inCircleGap, layerGap, ParticleGeometry::UP
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP });
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
+		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY
 			// calculate particles for range (0 ,  innerRadius), render for range [0 , innerRadius-layerGap/2)
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::DOWN);
+			, inCircleGap, layerGap, ParticleGeometry::DOWN
+			, { ParticleGeometry::DOWN, ParticleGeometry::DOWN, ParticleGeometry::DOWN });
 
 	}
 	else if (thickness <= 2 * layerGap) {
@@ -73,42 +75,51 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 				x x  v v v v v  x x
 		*/
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
+		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 2 * layerGap, top - layerGap / 2		// heights
 			, innerRadius + 2 * layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE
+			, { ParticleGeometry::UP_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
+			, { ParticleGeometry::DOWN_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
+		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - 2 * layerGap, top 	// heights
 			, innerRadius + layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::ZERO);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::INSIDE
+			, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::INSIDE }
+			, { ParticleGeometry::DOWN, ParticleGeometry::ZERO, ParticleGeometry::INSIDE });
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
+		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
 			, bottom - layerGap, top - layerGap / 2	// heights
 			, innerRadius				// radius
-			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::INSIDE
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE });
 
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
+		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::UP);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::UP
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP });
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
+		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::ZERO);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::UP
+			, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::UP });
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
+		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY - layerGapVecY
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius + layerGap, innerRadius + layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::DOWN);	// always should be here
+			, inCircleGap, layerGap, ParticleGeometry::DOWN
+			, { ParticleGeometry::DOWN, ParticleGeometry::DOWN, ParticleGeometry::DOWN });
 	}
 	else if (thickness <= 3 * layerGap) {
 		/*
@@ -122,54 +133,54 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 
 		*/
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(localCenter.x, localCenter.z)
-			, bottom - 3 * layerGap, top - layerGap		// heights
-			, innerRadius + 3 * layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
+		//ParticleGeometry::cylinder(numOfParts
+		//	, glm::vec2(localCenter.x, localCenter.z)
+		//	, bottom - 3 * layerGap, top - layerGap		// heights
+		//	, innerRadius + 3 * layerGap	// radius
+		//	, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(localCenter.x, localCenter.z)
-			, bottom - 3 * layerGap, top 	// heights
-			, innerRadius + 2 * layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
+		//ParticleGeometry::cylinder(numOfParts
+		//	, glm::vec2(localCenter.x, localCenter.z)
+		//	, bottom - 3 * layerGap, top 	// heights
+		//	, innerRadius + 2 * layerGap	// radius
+		//	, inCircleGap, layerGap, ParticleGeometry::OUTSIDE);	// always should be here
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(localCenter.x, localCenter.z)
-			, bottom - layerGap, top 	// heights
-			, innerRadius + layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
+		//ParticleGeometry::cylinder(numOfParts
+		//	, glm::vec2(localCenter.x, localCenter.z)
+		//	, bottom - layerGap, top 	// heights
+		//	, innerRadius + layerGap	// radius
+		//	, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
 
-		ParticleGeometry::cylinder(positions, vectors, numOfParts
-			, glm::vec2(localCenter.x, localCenter.z)
-			, bottom - layerGap, top - layerGap	// heights
-			, innerRadius				// radius
-			, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
+		//ParticleGeometry::cylinder(numOfParts
+		//	, glm::vec2(localCenter.x, localCenter.z)
+		//	, bottom - layerGap, top - layerGap	// heights
+		//	, innerRadius				// radius
+		//	, inCircleGap, layerGap, ParticleGeometry::INSIDE);	// always should be here
 
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
-			, bottomVec
-			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::UP);	// always should be here
+		//ParticleGeometry::filledCircle(numOfParts
+		//	, bottomVec
+		//	, 0, 0, ParticleGeometry::EQUALS		// inner
+		//	, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
+		//	, inCircleGap, layerGap, ParticleGeometry::UP);	// always should be here
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
-			, bottomVec - layerGapVecY
-			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::UP);	// always should be here
+		//ParticleGeometry::filledCircle(numOfParts
+		//	, bottomVec - layerGapVecY
+		//	, 0, 0, ParticleGeometry::EQUALS		// inner
+		//	, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
+		//	, inCircleGap, layerGap, ParticleGeometry::UP);	// always should be here
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
-			, bottomVec - layerGapVecY - layerGapVecY
-			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius + 2 * layerGap, innerRadius + 1.5 * layerGap, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::DOWN);	// always should be here
+		//ParticleGeometry::filledCircle(numOfParts
+		//	, bottomVec - layerGapVecY - layerGapVecY
+		//	, 0, 0, ParticleGeometry::EQUALS		// inner
+		//	, innerRadius + 2 * layerGap, innerRadius + 1.5 * layerGap, ParticleGeometry::NOT_EQUALS	// outer
+		//	, inCircleGap, layerGap, ParticleGeometry::DOWN);	// always should be here
 
-		ParticleGeometry::filledCircle(positions, vectors, numOfParts
-			, bottomVec - layerGapVecY - layerGapVecY - layerGapVecY
-			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius + 2 * layerGap, innerRadius + 1.5 * layerGap, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::DOWN);	// always should be here
+		//ParticleGeometry::filledCircle(numOfParts
+		//	, bottomVec - layerGapVecY - layerGapVecY - layerGapVecY
+		//	, 0, 0, ParticleGeometry::EQUALS		// inner
+		//	, innerRadius + 2 * layerGap, innerRadius + 1.5 * layerGap, ParticleGeometry::NOT_EQUALS	// outer
+		//	, inCircleGap, layerGap, ParticleGeometry::DOWN);	// always should be here
 
 	}
 	else if (thickness <= 4 * layerGap) {
@@ -193,26 +204,12 @@ void ParticleObject::createMug(ParticleObjectDetais details, float positions[], 
 	}
 
 
-	m_indEnd = ParticleData::m_GlassParticlesNum + numOfParts;
+	//m_indEnd = ParticleData::m_GlassParticlesNum + numOfParts;
 }
 
-std::string ParticleObject::print()
-{
-	std::ostringstream stringStream;
-	stringStream 
-		<< "Position ( " << m_currentPosition.x << " " << m_currentPosition.y << " " << m_currentPosition.z 
-		<< " ) => ( "		<< m_targetPosition.x << " " << m_targetPosition.y << " " << m_targetPosition.z 
-		<< " ), Vector [ "	<< m_currentVector.x << " " << m_currentVector.y << " " << m_currentVector.z 
-		<< " ] = > [ "	<< m_targetVector.x << " " << m_targetVector.y << " " << m_targetVector.z 
-		<< " ] , In glass particle array [ " << m_indBegin << " " << m_indEnd << " )";
-	return  stringStream.str();
-}
+
+
 
 ParticleObject::ParticleObject() {
-	m_currentPosition = glm::vec3(0,0,0);
-	m_currentVector = glm::vec3(0, 0, 0);
-	m_indBegin = 0;
-	m_indEnd = 0;
-	m_targetPosition = glm::vec3(0, 0, 0);
-	m_targetVector = glm::vec3(0, 0, 0);
+	m_matrix = glm::mat4(3.0f);
 }
