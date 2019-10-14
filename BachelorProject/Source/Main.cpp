@@ -60,17 +60,6 @@ constexpr unsigned int SCR_HEIGHT = 900;
 static bool HmdConnected;
 
 int main(int argc, char ** argv) {
-	VR::VRGLInterop vrglinterop;
-	vrglinterop.activate();
-
-	if (!vrglinterop.hasVR()) {
-		std::cerr << "Couldn't init VR Core!" << std::endl;
-		HmdConnected = false;
-	}
-	else {
-		HmdConnected = true;
-	}
-
 	if (LOG_TO_FILE) {
 		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
 		ParticleData::partFile << "const partString = \"";
@@ -92,6 +81,17 @@ int main(int argc, char ** argv) {
 		exit(1);
 	}
 
+	VR::VRGLInterop vrglinterop;
+	vrglinterop.activate();
+
+	if (!vrglinterop.hasVR()) {
+		std::cerr << "Couldn't init VR Core!" << std::endl;
+		HmdConnected = false;
+	}
+	else {
+		HmdConnected = true;
+	}
+
 	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
 	Scene::Scene scene{ backgroundColor };
 
@@ -101,7 +101,7 @@ int main(int argc, char ** argv) {
 	if(HmdConnected){
 		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
 		ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-		vrCameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 3.0f};
+		vrCameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f};
 		scene.addCamera(&vrCameraController->getLeftCamera());
 		scene.addCamera(&vrCameraController->getRightCamera());
 	}

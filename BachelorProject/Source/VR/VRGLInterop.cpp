@@ -4,6 +4,8 @@ namespace VR {
 	bool VRGLInterop::activate() {
 		VRactive = VrCore->InitializeCore();
 		if (!VRactive) return false;
+		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
+		VrGeometry->SetIVRSystem(VrCore->GetVrSystem());
 		////////////////////
 
 		glGenFramebuffers(1, &m_nResolveFramebufferIdLeft);
