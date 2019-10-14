@@ -1,10 +1,11 @@
 #include "FluidObject.h"
 #include <Logger.h>
 
-FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background)
+FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background, const ShaderProgram& selectedProgram)
 	: MaterialObject{ shaderProgram } 
 	, background{ background }
 	, particleSize{ INITIAL_PARTICLES_SIZE }
+	, selected{ selectedProgram }
 {
 	window.subscribeForKeyInput(this);
 }
@@ -35,7 +36,7 @@ void FluidObject::init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	float textureBorderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f }; //transparent
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, textureBorderColor);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	if (data)
@@ -49,27 +50,43 @@ void FluidObject::init()
 	} 
 	stbi_image_free(data);
 
+	shaderProgram.use();
+	shaderProgram.setUniformVariable("background", background);
+
 }
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
 	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
-	shaderProgram.setUniformVariable("background", background);
 	shaderProgram.setUniformVariable("particleSize", particleSize);
 	shaderProgram.setUniformVariable("renderGlass", renderGlass);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
-	glDisable(GL_BLEND);
+
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilMask(0x00);
+
+	glBindBuffer(GL_ARRAY_BUFFER, index);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	selected.use();
+
+	selected.setUniformVariable("projection", projection);
+	selected.setUniformVariable("view", view);
+	selected.setUniformVariable("particleSize", (particleSize + 0.3f));
+	selected.setUniformVariable("renderGlass", renderGlass);
+	glBindVertexArray(VAO);
+
+
+	glDrawArrays(GL_POINTS, 0, ParticleData::m_NumOfParticles);
+
+	glStencilMask(0xFF);
 }
 
 void FluidObject::handleKeyPress(Key key)
@@ -87,7 +104,7 @@ void FluidObject::handleKeyPress(Key key)
 		break;
 	default:
 		break;
-	}
+	}	
 	if (deltaSize != 0.0f) {
 		particleSize += deltaSize;
 	}

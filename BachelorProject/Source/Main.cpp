@@ -98,7 +98,9 @@ int main(int argc, char ** argv) {
 	//TestBilboardObject bilboard{ programBilboard };
 
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	FluidObject fluid{ window, programFluid, backgroundColor };
+	ShaderProgram programSelectedFluid{ "./Source/shaders/particles/selected/particles.vert", "./Source/shaders/particles/selected/particles.geom", "./Source/shaders/particles/selected/particles.frag" };
+
+	FluidObject fluid{ window, programFluid, backgroundColor, programSelectedFluid };
 
 	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
 	AxesObject axes{ programAxes, backgroundColor };
@@ -119,9 +121,9 @@ int main(int argc, char ** argv) {
 
 	scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
-	scene.addMaterialObject(&fluid);
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);
+	scene.addMaterialObject(&fluid);
 
 	do 
 	{

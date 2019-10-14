@@ -15,13 +15,14 @@ class FluidObject :
 	public KeyPressListener
 {
 public:
-	FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background);
+	FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background, const ShaderProgram& selectedProgram);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void handleKeyPress(Key key) override;
 private:
 	inline static const float INITIAL_PARTICLES_SIZE = 0.3;
 
+	ShaderProgram selected;
 	unsigned int VAO;
 	unsigned int textureID;
 	float particleSize;

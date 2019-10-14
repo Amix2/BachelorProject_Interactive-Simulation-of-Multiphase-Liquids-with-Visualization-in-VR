@@ -18,16 +18,20 @@ void AxesObject::init()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	shaderProgram.use();
+	shaderProgram.setUniformVariable("background", background);
 }
 
 void AxesObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
+	glStencilFunc(GL_ALWAYS, 1, 0xFF);
+	glStencilMask(0xFF);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
-	shaderProgram.setUniformVariable("background", background);
 
 	glBindVertexArray(VAO);
 
