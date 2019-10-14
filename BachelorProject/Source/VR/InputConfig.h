@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <array>
+
 namespace VR {
 	constexpr char ACTIONS_PATH[] = "_asset/vr_actions.json";
 

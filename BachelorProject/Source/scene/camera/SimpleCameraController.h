@@ -5,7 +5,6 @@
 #include "../../window/Window.h"
 #include <glm/glm.hpp>
 #include "Camera.h"
-#include "CameraController.h"
 
 class SimpleCameraController
 	: public MousePositionListener

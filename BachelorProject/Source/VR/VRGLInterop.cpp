@@ -2,7 +2,8 @@
 
 namespace VR {
 	bool VRGLInterop::activate() {
-
+		VRactive = VrCore->InitializeCore();
+		if (!VRactive) return false;
 		////////////////////
 
 		glGenFramebuffers(1, &m_nResolveFramebufferIdLeft);
@@ -84,12 +85,12 @@ namespace VR {
 		return true;
 	}
 
-	void VRGLInterop::phase1() {
-		//
+	bool VRGLInterop::hasVR()
+	{
+		return VRactive;
 	}
 
-	void VRGLInterop::phase2() {
-
+	void VRGLInterop::phase1() {
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
 
@@ -99,5 +100,18 @@ namespace VR {
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	}
+
+	void VRGLInterop::phase2(VRCameraController* cameraController) {
+
+		VrGeometry->SetupCameras();
+		VrGeometry->UpdateHMDMatrixPose();
+		VrInput->DetectPressedButtons();
+		VrInput->HandleInput();
+		cameraController->setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
+		auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(m_nResolveTextureIdLeft, m_nResolveTextureIdRight);
+		vr::TrackedDevicePose_t xxx[vr::k_unMaxTrackedDeviceCount];
+		std::cout << vr::VRCompositor()->WaitGetPoses(xxx, vr::k_unMaxTrackedDeviceCount, nullptr, 0);
+		VrCore->SubmitTexturesToHMD(LeftTexture, RightTexture);
 	}
 }

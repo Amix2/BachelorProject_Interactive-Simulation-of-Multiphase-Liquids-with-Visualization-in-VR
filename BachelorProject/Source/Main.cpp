@@ -57,20 +57,17 @@ std::string NAME = "Random window";
 constexpr unsigned int SCR_WIDTH = 1600;
 constexpr unsigned int SCR_HEIGHT = 900;
 
-const static std::unique_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
-const static std::unique_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
-const static std::unique_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
-
 static bool HmdConnected;
 
 int main(int argc, char ** argv) {
-	if (!VrCore->InitializeCore()) {
+	VR::VRGLInterop vrglinterop;
+	vrglinterop.activate();
+
+	if (!vrglinterop.hasVR()) {
 		std::cerr << "Couldn't init VR Core!" << std::endl;
 		HmdConnected = false;
 	}
 	else {
-		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
-		VrGeometry->SetIVRSystem(VrCore->GetVrSystem());
 		HmdConnected = true;
 	}
 
@@ -98,7 +95,7 @@ int main(int argc, char ** argv) {
 	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
 	Scene::Scene scene{ backgroundColor };
 
-	VRCameraController* vrCameraController;
+	VRCameraController* vrCameraController = nullptr;
 	SimpleCameraController* simpleCameraController;
 
 	if(HmdConnected){
@@ -147,8 +144,6 @@ int main(int argc, char ** argv) {
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);
 
-	VR::VRGLInterop vrglinterop;
-	vrglinterop.activate();
 
 	do 
 	{
@@ -165,25 +160,16 @@ int main(int argc, char ** argv) {
 			window.processInput();
 			scene.renderScene();
 
-			vrglinterop.phase2();
-
+			if (HmdConnected) {
+				vrglinterop.phase1();
+				vrglinterop.phase2(vrCameraController);
+			}
 			//
 			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			//glDisable(GL_MULTISAMPLE);
 
-			//////////////////////////////////////////////////////////////
 
-			VrGeometry->SetupCameras();
-			VrGeometry->UpdateHMDMatrixPose();
-			VrInput->DetectPressedButtons();
-			VrInput->HandleInput();
-			if(HmdConnected)
-				vrCameraController->setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
-			auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(vrglinterop.m_nResolveTextureIdLeft, vrglinterop.m_nResolveTextureIdRight);
-			vr::TrackedDevicePose_t xxx[vr::k_unMaxTrackedDeviceCount];
-			std::cout << vr::VRCompositor()->WaitGetPoses(xxx, vr::k_unMaxTrackedDeviceCount, nullptr, 0);
-			VrCore->SubmitTexturesToHMD(LeftTexture, RightTexture);
 		}
 	} while (!window.refresh());
 
