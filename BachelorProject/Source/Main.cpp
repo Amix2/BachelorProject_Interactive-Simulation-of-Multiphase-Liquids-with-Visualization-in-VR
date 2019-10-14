@@ -147,29 +147,11 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+		window.processInput();
+		scene.renderScene();
 		if (HmdConnected) {
-			///////////////////////////////////////////////////////////
-			//glClearColor(0.3f, 0.5f, 0.4f, 1.0f);
-			//glEnable(GL_MULTISAMPLE);
-
-			// Left Eye
-			//glBindFramebuffer(GL_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
-			// ????? glViewport(0, 0, m_nRenderWidth, m_nRenderHeight);
-			// RenderScene(vr::Eye_Left);
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			window.processInput();
-			scene.renderScene();
-
-			if (HmdConnected) {
-				vrglinterop.phase1();
-				vrglinterop.phase2(vrCameraController);
-			}
-			//
-			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-			//glDisable(GL_MULTISAMPLE);
-
-
+			vrglinterop.phase1();
+			vrglinterop.phase2(vrCameraController);
 		}
 	} while (!window.refresh());
 
