@@ -37,6 +37,7 @@
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
 #include <VR/InputConfig.h>
+#include <VR/VRGLInterop.h>
 #include <memory>
 
 void printWorkGroupsCapabilities();
@@ -143,125 +144,30 @@ int main(int argc, char ** argv) {
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);
 
-	GLuint m_nResolveFramebufferIdLeft;
-	GLuint m_nRenderFramebufferIdLeft;
-	GLuint m_nDepthBufferIdLeft;
-	GLuint m_nRenderTextureIdLeft;
-	GLuint m_nResolveTextureIdLeft;
-
-	GLuint m_nResolveFramebufferIdRight;
-	GLuint m_nRenderFramebufferIdRight;
-	GLuint m_nDepthBufferIdRight;
-	GLuint m_nRenderTextureIdRight;
-	GLuint m_nResolveTextureIdRight;
-
-	////////////////////
-
-	glGenFramebuffers(1, &m_nResolveFramebufferIdLeft);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
-
-	glGenFramebuffers(1, &m_nRenderFramebufferIdLeft);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
-
-	glGenRenderbuffers(1, &m_nDepthBufferIdLeft);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_nDepthBufferIdLeft);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_nDepthBufferIdLeft);
-
-	glGenTextures(1, &m_nRenderTextureIdLeft);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_nRenderTextureIdLeft);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, true);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, m_nRenderTextureIdLeft, 0);
-
-	glGenFramebuffers(1, &m_nResolveFramebufferIdLeft);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
-
-	glGenTextures(1, &m_nResolveTextureIdLeft);
-	glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdLeft);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdLeft, 0);
-
-	// check FBO status
-	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (status != GL_FRAMEBUFFER_COMPLETE)
-	{
-		return false;
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	///////////////////////
-
-	////////////////////
-
-	glGenFramebuffers(1, &m_nResolveFramebufferIdRight);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nResolveFramebufferIdRight);
-
-	glGenFramebuffers(1, &m_nRenderFramebufferIdRight);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nRenderFramebufferIdRight);
-
-	glGenRenderbuffers(1, &m_nDepthBufferIdRight);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_nDepthBufferIdRight);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, SCR_WIDTH, SCR_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_nDepthBufferIdRight);
-
-	glGenTextures(1, &m_nRenderTextureIdRight);
-	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, m_nRenderTextureIdRight);
-	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, true);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, m_nRenderTextureIdRight, 0);
-
-	glGenFramebuffers(1, &m_nResolveFramebufferIdRight);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_nResolveFramebufferIdRight);
-
-	glGenTextures(1, &m_nResolveTextureIdRight);
-	glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdRight);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdRight, 0);
-
-	// check FBO status
-	status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (status != GL_FRAMEBUFFER_COMPLETE)
-	{
-		return false;
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	///////////////////////
+	VR::VRGLInterop vrglinterop;
+	vrglinterop.activate();
 
 	do 
 	{
 		if (HmdConnected) {
 			///////////////////////////////////////////////////////////
-			glClearColor(0.3f, 0.5f, 0.4f, 1.0f);
-			glEnable(GL_MULTISAMPLE);
+			//glClearColor(0.3f, 0.5f, 0.4f, 1.0f);
+			//glEnable(GL_MULTISAMPLE);
 
 			// Left Eye
-			glBindFramebuffer(GL_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
+			//glBindFramebuffer(GL_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
 			// ????? glViewport(0, 0, m_nRenderWidth, m_nRenderHeight);
 			// RenderScene(vr::Eye_Left);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			window.processInput();
 			scene.renderScene();
 
+			vrglinterop.phase2();
+
 			//
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-			glDisable(GL_MULTISAMPLE);
-
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, m_nRenderFramebufferIdLeft);
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
-
-			glBlitFramebuffer(0, 0, SCR_WIDTH, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT,
-				GL_COLOR_BUFFER_BIT,
-				GL_LINEAR);
-
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+			//glDisable(GL_MULTISAMPLE);
 
 			//////////////////////////////////////////////////////////////
 
@@ -270,7 +176,7 @@ int main(int argc, char ** argv) {
 			VrInput->DetectPressedButtons();
 			VrInput->HandleInput();
 			cameraController.setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
-			auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(m_nResolveTextureIdLeft, m_nResolveTextureIdRight);
+			auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(vrglinterop.m_nResolveTextureIdLeft, vrglinterop.m_nResolveTextureIdRight);
 			vr::TrackedDevicePose_t xxx[vr::k_unMaxTrackedDeviceCount];
 			std::cout << vr::VRCompositor()->WaitGetPoses(xxx, vr::k_unMaxTrackedDeviceCount, nullptr, 0);
 			VrCore->SubmitTexturesToHMD(LeftTexture, RightTexture);
