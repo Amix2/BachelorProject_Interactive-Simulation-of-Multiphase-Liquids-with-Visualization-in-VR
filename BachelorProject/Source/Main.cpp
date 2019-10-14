@@ -10,10 +10,10 @@
 #include "scene/Scene.h"
 #include "scene/camera/Camera.h"
 #include "materialObjects/TestMaterialObject.h"
-#include "scene/camera/VRCameraController.h"
 #include "materialObjects/TestBilboardObject.h"
 #include "materialObjects/FluidObject.h"
-#include "scene/camera/SimpleCameraController.h"
+#include <scene/camera/SimpleCameraController.h>
+#include <scene/camera/VRCameraController.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -98,19 +98,22 @@ int main(int argc, char ** argv) {
 	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
 	Scene::Scene scene{ backgroundColor };
 
-	//if(headsetIsAvaiable){
-	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
-	//ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-	//VRCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
-	//scene.addCamera(&cameraController.getLeftCamera());
-	//scene.addCamera(&cameraController.getRightCamera());
-	//}
-	//else 
-	//{
-	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
-	scene.addCamera(&cameraController.getCamera());
-	//}
+	VRCameraController* vrCameraController;
+	SimpleCameraController* simpleCameraController;
+
+	if(HmdConnected){
+		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
+		ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
+		vrCameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 3.0f};
+		scene.addCamera(&vrCameraController->getLeftCamera());
+		scene.addCamera(&vrCameraController->getRightCamera());
+	}
+	else 
+	{
+		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+		simpleCameraController = new SimpleCameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
+		scene.addCamera(&simpleCameraController->getCamera());
+	}
 
 	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	TestMaterialObject cubes{ programCubes, backgroundColor };
@@ -175,7 +178,8 @@ int main(int argc, char ** argv) {
 			VrGeometry->UpdateHMDMatrixPose();
 			VrInput->DetectPressedButtons();
 			VrInput->HandleInput();
-			cameraController.setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
+			if(HmdConnected)
+				vrCameraController->setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
 			auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(vrglinterop.m_nResolveTextureIdLeft, vrglinterop.m_nResolveTextureIdRight);
 			vr::TrackedDevicePose_t xxx[vr::k_unMaxTrackedDeviceCount];
 			std::cout << vr::VRCompositor()->WaitGetPoses(xxx, vr::k_unMaxTrackedDeviceCount, nullptr, 0);
