@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\scene\camera\CameraController.cpp" />
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
     <ClInclude Include="Source\particleObjects\ParticleObjectManager.h" />
     <ClInclude Include="Source\scene\camera\Camera.h" />
+    <ClInclude Include="Source\scene\camera\CameraController.h" />
     <ClInclude Include="Source\scene\camera\SimpleCameraController.h" />
     <ClInclude Include="Source\scene\camera\VRCameraController.h" />
     <ClInclude Include="Source\scene\Scene.h" />

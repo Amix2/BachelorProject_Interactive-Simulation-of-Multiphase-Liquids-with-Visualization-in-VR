@@ -67,3 +67,8 @@ void SimpleCameraController::handleKeyPress(Key key)
 		break;
 	}
 }
+
+const std::vector<const Scene::Camera*> SimpleCameraController::provideCameras() const
+{
+	return std::vector<const Scene::Camera*>{ &this->camera };
+}

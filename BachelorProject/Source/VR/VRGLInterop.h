@@ -28,8 +28,8 @@ namespace VR {
 
 		bool activate();
 		bool hasVR();
-		void phase1();
-		void phase2(VRCameraController* cameraControler);
+		void sumbitFrame();
+		void handleInput(VRCameraController* cameraControler);
 
 	protected:
 		//

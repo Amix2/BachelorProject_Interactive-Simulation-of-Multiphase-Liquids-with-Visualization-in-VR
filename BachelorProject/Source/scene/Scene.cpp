@@ -3,6 +3,13 @@
 Scene::Scene::Scene(glm::vec4 backgroundColor)
 	: backgroundColor{ backgroundColor } {}
 
+void Scene::Scene::addCameras(const CameraController* controller)
+{
+	for (const Camera* camera : controller->provideCameras()) {
+		cameras.push_back(camera);
+	}
+}
+
 void Scene::Scene::addMaterialObject(MaterialObject* materialObject)
 {
 	objects.push_back(materialObject);

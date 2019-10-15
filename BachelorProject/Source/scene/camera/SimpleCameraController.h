@@ -5,11 +5,14 @@
 #include "../../window/Window.h"
 #include <glm/glm.hpp>
 #include "Camera.h"
+#include "CameraController.h"
+
 
 class SimpleCameraController
 	: public MousePositionListener
 	, public MouseScrollListener 
 	, public KeyPressListener
+	, public CameraController
 {
 public:
 	SimpleCameraController(Window & window, ViewPort & viewPort, const glm::vec3 & position);
@@ -19,7 +22,7 @@ public:
 	void handleMouseScroll(double scroll) override;
 	void handleKeyPress(Key key) override;
 
-	Scene::Camera& getCamera() { return camera; }
+	const std::vector<const Scene::Camera*> provideCameras() const override;
 
 	inline static Scene::Camera* cam;
 private:

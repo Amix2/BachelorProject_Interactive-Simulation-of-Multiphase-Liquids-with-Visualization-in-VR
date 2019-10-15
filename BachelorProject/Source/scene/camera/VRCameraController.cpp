@@ -29,3 +29,8 @@ void VRCameraController::setHead(const vr::HmdMatrix34_t& eye) {
 		this->right
 	);
 }
+
+const std::vector<const Scene::Camera*> VRCameraController::provideCameras() const
+{
+	return std::vector<const Scene::Camera*>{ &this->leftEye, &this->rightEye };
+}

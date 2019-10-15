@@ -61,7 +61,7 @@ namespace VR {
 		return VRactive;
 	}
 
-	void VRGLInterop::phase1() {
+	void VRGLInterop::sumbitFrame() {
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
@@ -84,7 +84,7 @@ namespace VR {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void VRGLInterop::phase2(VRCameraController* cameraController) {
+	void VRGLInterop::handleInput(VRCameraController* cameraController) {
 
 		VrGeometry->SetupCameras();
 		VrGeometry->UpdateHMDMatrixPose();

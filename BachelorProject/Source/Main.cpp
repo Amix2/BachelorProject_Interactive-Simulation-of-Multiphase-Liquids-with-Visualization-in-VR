@@ -14,6 +14,7 @@
 #include "materialObjects/FluidObject.h"
 #include <scene/camera/SimpleCameraController.h>
 #include <scene/camera/VRCameraController.h>
+#include <scene/camera/CameraController.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
 #include <shaders/ComputeShader.h>
@@ -51,6 +52,9 @@ void cleanUp();
 // test configuration constains to fing MAX_PARTICLES and MAX_GLASS
 void getGpuStats();
 
+//creates objects presented on scene
+void setupScene(Scene::Scene& scene, Window& window);
+
 
 // settings
 std::string NAME = "Random window";
@@ -71,8 +75,6 @@ int main(int argc, char ** argv) {
 
 	atexit(cleanUp);
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////
 
 	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME };
@@ -92,71 +94,73 @@ int main(int argc, char ** argv) {
 		HmdConnected = true;
 	}
 
-	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
-	Scene::Scene scene{ backgroundColor };
+	CameraController* cameraController;
+	Scene::Scene scene{ glm::vec4{ 0.1f, 0.1f, 0.4f, 1.0f } };
 
-	VRCameraController* vrCameraController = nullptr;
-	SimpleCameraController* simpleCameraController;
-
-	if(HmdConnected){
+	if(HmdConnected) {
 		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
 		ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-		vrCameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f};
-		scene.addCamera(&vrCameraController->getLeftCamera());
-		scene.addCamera(&vrCameraController->getRightCamera());
+		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f};
 	}
-	else 
-	{
+	else {
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-		simpleCameraController = new SimpleCameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
-		scene.addCamera(&simpleCameraController->getCamera());
+		cameraController = new SimpleCameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
 	}
+	scene.addCameras(cameraController);
 
-	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
-	TestMaterialObject cubes{ programCubes, backgroundColor };
 
-	//ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	//TestBilboardObject bilboard{ programBilboard };
-
-	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	FluidObject fluid{ window, programFluid, backgroundColor };
-
-	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
-	AxesObject axes{ programAxes, backgroundColor };
-
-	ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
-	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
-
-/////////////////////////////////////////////////////////////////////////////////////
 	getGpuStats();
-
 	initTools();
-
 	Simulation::startSimulation(window.glfwWindow);
-
-	
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
 
-	scene.addMaterialObject(&cubes);
-	//scene.addMaterialObject(&bilboard);
-	scene.addMaterialObject(&fluid);
-	scene.addMaterialObject(&axes);
-	scene.addMaterialObject(&vectorNormals);
-
+	setupScene(scene, window);
 
 	do 
 	{
 		window.processInput();
 		scene.renderScene();
 		if (HmdConnected) {
-			vrglinterop.phase1();
-			vrglinterop.phase2(vrCameraController);
+			vrglinterop.sumbitFrame();
+			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 		}
 	} while (!window.refresh());
 
 	glfwTerminate();
 	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+void setupScene(Scene::Scene& scene, Window& window) {
+	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
+	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
+
+	//static ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	//static TestBilboardObject bilboard{ programBilboard };
+
+	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	static FluidObject fluid{ window, programFluid, scene.getBackgroundColor() };
+
+	static ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
+	static AxesObject axes{ programAxes, scene.getBackgroundColor() };
+
+	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
+	static NormalVectorsObject vectorNormals{ window, programVectorNormals, scene.getBackgroundColor() };
+
+	//scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&bilboard);
+	scene.addMaterialObject(&fluid);
+	scene.addMaterialObject(&axes);
+	scene.addMaterialObject(&vectorNormals);
 }
 
 void initTools()
