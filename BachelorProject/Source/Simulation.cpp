@@ -21,7 +21,7 @@ void Simulation::runSimulationFrame()
 	_ntBufferClear = _ntRangeCalc = _ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 2000; i++) {
 		//glFinish();
 		nTimeMain = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
@@ -167,12 +167,12 @@ void setupSimObjects()
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
-	ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	//ParticleObjectCreator::addObject(optimFluid);
-	//ParticleObjectCreator::addObject(optimGlass);
+	ParticleObjectCreator::addObject(optimFluid);
+	ParticleObjectCreator::addObject(optimGlass);
 }
 
 void Simulation::main()
@@ -197,7 +197,7 @@ void Simulation::main()
 	//ParticleData::printGlassParticlesData(20);
 	//ParticleData::printGlassObjectsData();
 	//ParticleData::printSortingData(20);
-	ParticleData::printSPHData(1, 1, 1, 1, 1,220);
+	//ParticleData::printSPHData(1, 1, 1, 1, 1,220);
 	//ParticleData::printNeighboursData();
 }
 

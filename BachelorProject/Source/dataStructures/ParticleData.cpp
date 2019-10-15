@@ -35,6 +35,7 @@ void ParticleData::initArraysOnGPU()
 	GpuResources::createSSBO(BufferDetails.HelperBufferName, (GLsizeiptr)Configuration.SCENE_SIZE_X * Configuration.SCENE_SIZE_Y * Configuration.SCENE_SIZE_Z * sizeof(GLint), NULL, BufferDetails.HelperBufferBinding);
 
 	checkOpenGLErrors();
+
 }
 
 Particle* ParticleData::openParticlePositions()
