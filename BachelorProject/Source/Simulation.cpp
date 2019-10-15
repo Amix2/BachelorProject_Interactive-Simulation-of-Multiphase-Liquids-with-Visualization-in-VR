@@ -21,7 +21,7 @@ void Simulation::runSimulationFrame()
 	_ntBufferClear = _ntRangeCalc = _ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntStartTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
 	_ntStart = getNanoTime();
-	for (int i = 0; i < 2000; i++) {
+	for (int i = 0; i < 1; i++) {
 		//glFinish();
 		nTimeMain = getNanoTime();
 		while (ParticleObjectCreator::hasNewOrder()) {
@@ -50,10 +50,12 @@ void Simulation::runSimulationFrame()
 
 		const int numOfFluid = ParticleData::m_NumOfParticles;
 		const int numOfFluidDiv256 = (int)ceil(numOfFluid / 256.0f);
+		const int numOfFluidDivXX = (int)ceil(numOfFluid / 300.0f);
 		const int numOfFluidDiv1024 = (int)ceil(numOfFluid / 1024.0f);
 		const int numOfFluidPow2 = (int)pow(2, (int)ceil(log2(numOfFluid)));
 		const int numOfFluidLog2 = (int)ceil(log2(numOfFluid));
 		const int numOfFluidMul27Div256 = (int)ceil((27 * numOfFluid) / 256.0);
+		const int numOfFluidMul27Div270 = (int)ceil((27 * numOfFluid) / 270.0);
 
 		TEST_TIME(_ntRangeCalc);
 
@@ -98,7 +100,7 @@ void Simulation::runSimulationFrame()
 		TEST_TIME(_ntNeighbourSearchTime);
 	
 
-		m_SphDensityPressureFluid.runShader(numOfFluidDiv256, 1, 1, false);
+		m_SphDensityPressureFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
 
 
 		TEST_TIME(_ntDensityPressureFluidTime);
@@ -158,19 +160,19 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 10.1,14.0,10.1, 10.2, 16, 16};
+	ParticleObjectDetais details{ 1, 10.1,4.5,10.1, 10.2, 4.8, 10.2};
 	ParticleObjectDetais details2{ -1, 10,4,10, 5, 0, 0 };
 	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
 	ParticleObjectDetais detailsTEST{ 1, 20,20,20, 40, 80, 40 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
-	//ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(details);
+	ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
-	ParticleObjectCreator::addObject(optimGlass);
+	//ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimGlass);
 }
 
 void Simulation::main()
@@ -195,7 +197,7 @@ void Simulation::main()
 	//ParticleData::printGlassParticlesData(20);
 	//ParticleData::printGlassObjectsData();
 	//ParticleData::printSortingData(20);
-	//ParticleData::printSPHData(1, 1, 1, 1, 1,220);
+	ParticleData::printSPHData(1, 1, 1, 1, 1,220);
 	//ParticleData::printNeighboursData();
 }
 

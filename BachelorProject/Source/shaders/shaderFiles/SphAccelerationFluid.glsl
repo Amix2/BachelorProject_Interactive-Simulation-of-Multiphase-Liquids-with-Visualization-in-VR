@@ -148,11 +148,6 @@ void main(void)
 				neiVariablesIndex = int(myThreadNumber);
 				accelerationMultiplier = 3;
 
-	
-	
-
-
-
 				vec3 pGlassSurfaceVector = vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2]);
 	
 				const float cosAngle = dot(direction, pGlassSurfaceVector);
