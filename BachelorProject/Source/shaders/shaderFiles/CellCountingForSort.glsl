@@ -100,12 +100,12 @@ void main(void)
 	const int myType = myParticle.type;
 	if(myType < 0) {
 		// its a glass particle
-		const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1
+		//const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1
 		const GlassParticle myGlassParticle = glassParticles[(-1)*(myType+1)];
 		const vec4 localPos = vec4(myGlassParticle.localX, myGlassParticle.localY, myGlassParticle.localZ, 1.0f);
 		const mat4 transformMatrix = glassObjects[myGlassParticle.glassNumber].matrix;
 		const vec4 globalPos =  transformMatrix * localPos;
-		const vec3 lastPosition = vec3(fluidPositions[myThreadNumber].x, fluidPositions[myThreadNumber].y, fluidPositions[myThreadNumber].z);
+		const vec3 lastPosition = vec3(myParticle.x, myParticle.y, myParticle.z);
 		const vec3 velosity = globalPos.xyz - lastPosition;
 
 		myParticle.x = globalPos.x;

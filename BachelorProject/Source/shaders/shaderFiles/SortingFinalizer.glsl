@@ -32,11 +32,6 @@ layout(std430, binding = 4) buffer detailsBuf
 	uint numOfGlassParticles;
 };
 
-layout(std430, binding = 6) buffer neighboursBuf
-{
-	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
-};
-
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
@@ -48,10 +43,6 @@ layout(std430, binding = 7) buffer sortingHelpBuf
 layout(std430, binding = 8) buffer simVariablesBuf
 {
 	float fluidVelocity[3 * MAX_FLUID];
-	float fluidAcceleration[3 * MAX_FLUID];
-	float fluidSurfaceVector[3 * MAX_FLUID];
-	float fluidSurfaceDistance[MAX_FLUID];
-	float fluidDensityPressure[2*MAX_FLUID];
 };
 
 layout(std430, binding = 9) buffer lookUpTableBuf
@@ -63,7 +54,7 @@ void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	const uint myTakeFromId = originalIndex[myThreadNumber];
-	const uint myInsertToId = myThreadNumber;
+
 	if(myThreadNumber>=numOfParticles) return;
 
 	if(sortIndexArray[myThreadNumber] == 0) {
@@ -79,11 +70,11 @@ void main(void)
 		atomicAdd(numOfParticles, -1);
 	} else {
 
-		fluidPositions[myInsertToId] = CPY_Positions[myTakeFromId];
+		fluidPositions[myThreadNumber] = CPY_Positions[myTakeFromId];
 
-		fluidVelocity[3*myInsertToId+0] = CPY_Velocity[3*myTakeFromId+0];
-		fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
-		fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
+		fluidVelocity[3*myThreadNumber+0] = CPY_Velocity[3*myTakeFromId+0];
+		fluidVelocity[3*myThreadNumber+1] = CPY_Velocity[3*myTakeFromId+1];
+		fluidVelocity[3*myThreadNumber+2] = CPY_Velocity[3*myTakeFromId+2];
 
 		if(myThreadNumber == 0 || sortIndexArray[myThreadNumber] != sortIndexArray[myThreadNumber-1]) {
 			indexMap[sortIndexArray[myThreadNumber]] = int(myThreadNumber);

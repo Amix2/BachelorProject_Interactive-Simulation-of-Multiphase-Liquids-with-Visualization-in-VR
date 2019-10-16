@@ -35,7 +35,7 @@ class Simulation
 
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
-	inline static const int printTimesFrequency = 64;
+	inline static const int m_printTimesFrequency = 1024;
 	inline static const bool MEASURE_TIME = false;
 
 public:

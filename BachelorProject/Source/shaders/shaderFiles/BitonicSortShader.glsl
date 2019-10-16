@@ -27,12 +27,6 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 
 //////////////////////////////////////////////////
-//	STORAGE
-
-struct FluidParticle {
-	float x, y, z;
-	int type;
-};
 
 uniform int u_stage;
 uniform int u_turnInStage;
@@ -41,25 +35,25 @@ layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
 	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[ MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
-
+//////////////////////////////////////////////////
 
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
-
-	const uint myFirst = myThreadNumber + uint(floor(float(myThreadNumber) / pow(2, u_stage - u_turnInStage)) * pow(2, u_stage - u_turnInStage));
+	const uint TwoPowDifStageTurn = uint(pow(2, u_stage - u_turnInStage));
+	const uint myFirst = myThreadNumber + uint(floor(float(myThreadNumber) / TwoPowDifStageTurn) * TwoPowDifStageTurn);
 	const uint myFirstValue = sortIndexArray[myFirst];
-	const uint mySecond = myFirst + uint(pow(2, u_stage - u_turnInStage));
+	const uint mySecond = myFirst + TwoPowDifStageTurn;
 	const uint mySecondValue = sortIndexArray[mySecond];
 
-	const uint myGroupNumber = uint(myThreadNumber / pow(2, u_stage - 1));
-	const bool dir_up = myGroupNumber%2 == 0;	// true -> first > last || false -> first < last
+	//const uint myGroupNumber = uint(myThreadNumber / pow(2, u_stage - 1));
 
-	if(dir_up) {	// UP
+	//const bool dir_up = myGroupNumber%2 == 0;	// true -> first > last || false -> first < last
+
+	// if(dir_up) {
+	if(uint(myThreadNumber / pow(2, u_stage - 1))%2 == 0) {	// UP
 		if(myFirstValue < mySecondValue) {
 			sortIndexArray[myFirst] = mySecondValue;
 			sortIndexArray[mySecond] = myFirstValue;

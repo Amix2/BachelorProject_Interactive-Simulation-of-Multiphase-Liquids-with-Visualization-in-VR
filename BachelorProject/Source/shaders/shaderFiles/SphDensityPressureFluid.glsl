@@ -76,9 +76,6 @@ layout(std430, binding = 6) buffer neighboursBuf
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
-	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
