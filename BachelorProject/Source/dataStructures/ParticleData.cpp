@@ -5,7 +5,7 @@
 void ParticleData::initArraysOnGPU()
 {
 	// create SSBO for particle positions
-	GpuResources::createSSBO(BufferDetails.particlePositionsName, 4 * Configuration.MAX_PARTICLES * sizeof(float), NULL, BufferDetails.particlePositionsBinding);
+	GpuResources::createSSBO(BufferDetails.particlePositionsName, 4 * (long)Configuration.MAX_PARTICLES * sizeof(float), NULL, BufferDetails.particlePositionsBinding);
 
 	// create UBO for glass particles (local pos, surface vectors)
 	GpuResources::createSSBO(BufferDetails.glassParticleName, Configuration.MAX_GLASS_PARTICLES * sizeof(GlassParticle), NULL, BufferDetails.glassParticleBinding);

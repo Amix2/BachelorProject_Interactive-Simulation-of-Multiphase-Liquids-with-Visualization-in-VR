@@ -33,6 +33,7 @@
 #include <thread>
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
+#include <Configuration.h>
 
 void printWorkGroupsCapabilities();
 
@@ -44,6 +45,8 @@ void cleanUp();
 
 // test configuration constains to fing MAX_PARTICLES and MAX_GLASS
 void getGpuStats();
+
+void assignHardwareParameters();
 
 
 // settings
@@ -109,6 +112,8 @@ int main(int argc, char ** argv) {
 /////////////////////////////////////////////////////////////////////////////////////
 	getGpuStats();
 
+	assignHardwareParameters();
+
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
@@ -161,6 +166,32 @@ void getGpuStats()
 	int maxParticles = SSBOsize / (27 * sizeof(float));
 	int maxGlass = UBOsize / (sizeof(GlassParticle));
 	LOG_F(WARNING, "This PC can handle %d particles and %d glass particles", maxParticles, maxGlass);
+}
+
+void assignHardwareParameters()
+{
+	GLint64  SSBOsize;
+
+	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
+
+	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
+	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
+
+	Configuration.MAX_PARTICLES = std::min(maxNumOfParticles, Configuration.MAX_PARTICLES);
+	Configuration.MAX_GLASS_PARTICLES = std::min(maxNumOfGlassParticles, Configuration.MAX_GLASS_PARTICLES);
+	const int baseX = Configuration.SCENE_SIZE_X;
+	const int baseY = Configuration.SCENE_SIZE_Y;
+	const int baseZ = Configuration.SCENE_SIZE_Z;
+	while ((long)Configuration.SCENE_SIZE_X * (long)Configuration.SCENE_SIZE_Y * (long)Configuration.SCENE_SIZE_Z * sizeof(GLuint) < SSBOsize) {
+		Configuration.SCENE_SIZE_X += baseX;
+		Configuration.SCENE_SIZE_Y += baseY;
+		Configuration.SCENE_SIZE_Z += baseZ;
+	}
+	Configuration.SCENE_SIZE_X -= baseX;
+	Configuration.SCENE_SIZE_Y -= baseY;
+	Configuration.SCENE_SIZE_Z -= baseZ;
+	LOG_F(WARNING, "Simulation scene size: (%d %d %d), Max particles: %d, Max glass particles: %d"
+		, Configuration.SCENE_SIZE_X, Configuration.SCENE_SIZE_Y, Configuration.SCENE_SIZE_Z, Configuration.MAX_PARTICLES, Configuration.MAX_GLASS_PARTICLES);
 }
 
 void printWorkGroupsCapabilities() {

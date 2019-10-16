@@ -90,12 +90,18 @@ void ParticleObjectCreator::createFluid(ParticleObjectDetais details, int &numOf
 	for (float oX = startX; oX <= endX; oX += gap) {
 		for (float oY = startY; oY <= endY; oY += gap) {
 			for (float oZ = startZ; oZ <= endZ; oZ += gap) {
+				if (ParticleData::m_NumOfParticles + numOfParts >= Configuration.MAX_PARTICLES) {
+					LOG_F(ERROR, "Created maximum number of particles: %d", numOfParts);
+					return;
+				}
+
 				ParticleData::m_resParticlesArray[numOfParts].x = oX;
 				ParticleData::m_resParticlesArray[numOfParts].y = oY;
 				ParticleData::m_resParticlesArray[numOfParts].z = oZ;
 				ParticleData::m_resParticlesArray[numOfParts].type = fluidType;
 
 				numOfParts++;
+
 			}
 		}
 	}
