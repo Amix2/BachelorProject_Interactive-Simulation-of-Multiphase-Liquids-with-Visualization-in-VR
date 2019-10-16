@@ -15,6 +15,8 @@ class ComputeShader
 	GLuint csProgram = -1;
 	std::string m_shaderFileName;
 
+	inline static std::unordered_map<std::string, GLint> m_UniformsMap;
+
 public:
 	ComputeShader(const std::string shaderFileName);
 	ComputeShader() {}

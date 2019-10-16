@@ -112,7 +112,6 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-
 	
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
@@ -220,6 +219,10 @@ void printWorkGroupsCapabilities() {
 
 	glGetInteger64v(GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS, &value);
 	printf("GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
+	value = -1;
+
+	glGetInteger64v(GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS, &value);
+	printf("GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
 	value = -1;
 
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);

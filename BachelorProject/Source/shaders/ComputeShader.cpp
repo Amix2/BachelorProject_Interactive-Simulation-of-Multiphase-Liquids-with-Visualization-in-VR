@@ -2,6 +2,7 @@
 
 ComputeShader::ComputeShader(const std::string shaderFileName)
 {
+	auto ntStart = getNanoTime();
 	GLuint csCreatorID = glCreateShader(GL_COMPUTE_SHADER);
 
 	std::ifstream csInputFileStream(shaderFileName);
@@ -21,7 +22,7 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 
 	glGetShaderiv(csCreatorID, GL_COMPILE_STATUS, &Result);
 
-	if(Result == GL_FALSE)
+	if (Result == GL_FALSE)
 	{
 		int length;
 		glGetShaderiv(csCreatorID, GL_INFO_LOG_LENGTH, &length);
@@ -33,13 +34,15 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 		delete[] strInfoLog;
 	}
 
-	this->csProgram = glCreateProgram();			
+	this->csProgram = glCreateProgram();
 	glAttachShader(this->csProgram, csCreatorID);
 	glLinkProgram(this->csProgram);
 	glDeleteShader(csCreatorID);
 
 	this->m_shaderFileName = shaderFileName;
-	LOG_F(INFO, "Shader %s compile successful", shaderFileName.c_str());
+
+	auto ntEnd = getNanoTime();
+	LOG_F(INFO, "Shader %s compile successful, time: %f", shaderFileName.c_str(), getNanoTimeDif(ntStart, ntEnd));
 }
 
 
@@ -49,22 +52,50 @@ ComputeShader::~ComputeShader()
 
 void ComputeShader::setUniformVariable(const std::string& name, bool value) const
 {
-	glUseProgram(this->csProgram);
-	glUniform1i(glGetUniformLocation(csProgram, name.c_str()), (int)value);
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		glUseProgram(this->csProgram);
+		glUniform1i(m_UniformsMap[name], (int)value);
+
+	}
+	else {
+		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
+		m_UniformsMap.insert({ name, uniformIdx });
+		glUseProgram(this->csProgram);
+		glUniform1i(uniformIdx, (int)value);
+	}
 	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, int value) const
 {
-	glUseProgram(this->csProgram);
-	glUniform1i(glGetUniformLocation(csProgram, name.c_str()),value);
+
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		glUseProgram(this->csProgram);
+		glUniform1i(m_UniformsMap[name], value);
+
+	}
+	else {
+		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
+		m_UniformsMap.insert({ name, uniformIdx });
+		glUseProgram(this->csProgram);
+		glUniform1i(uniformIdx, value);
+	}
 	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, float value) const
 {
-	glUseProgram(this->csProgram);
-	glUniform1f(glGetUniformLocation(csProgram, name.c_str()), value);
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		glUseProgram(this->csProgram);
+		glUniform1f(m_UniformsMap[name], value);
+
+	}
+	else {
+		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
+		m_UniformsMap.insert({ name, uniformIdx });
+		glUseProgram(this->csProgram);
+		glUniform1f(uniformIdx, value);
+	}
 	checkOpenGLErrors();
 }
 
@@ -73,7 +104,7 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 	//LOG_F(INFO, "Run Compute shader %s with %d", this->m_shaderFileName.c_str(), num_groups_x);
 	if (num_groups_x * num_groups_y * num_groups_z <= 0) return;
 	glUseProgram(this->csProgram);
-	glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);  
+	glDispatchCompute(num_groups_x, num_groups_y, num_groups_z);
 	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 	//glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 	if (block) {

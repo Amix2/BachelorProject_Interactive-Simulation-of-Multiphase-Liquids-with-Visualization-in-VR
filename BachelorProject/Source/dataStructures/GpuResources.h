@@ -29,6 +29,8 @@ class GpuResources
 	static void		attachResource(GLenum target, GLuint bindingPointIndex, GLuint resourceIndexName);
 
 	static void		copyResourceSubData(GLuint  source, GLuint target, GLintptr sourceOffset, GLintptr targetOffset, GLsizeiptr size);
+
+	static void		clearResource(GLuint target);
 public:
 
 	static void		createSSBO(std::string name, GLsizeiptr size, const void *data, GLuint bindingPointIndex);	// create SSBO and add its name to local map
@@ -37,6 +39,7 @@ public:
 	static void*	openPartSSBO(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitSSBO() call
 	static void		commitSSBO(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
 	static void		attachSSBO(std::string name, GLuint bindingPointIndex);	// bind existing SSBO to this context
+	static void		clearSSBO(std::string name);
 
 	static void		createUBO(std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex);	// create UBO and add its name to local map
 	static void*	getDataUBO(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit
@@ -44,6 +47,7 @@ public:
 	static void*	openPartUBO(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitUBO() call
 	static void		commitUBO(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
 	static void		attachUBO(std::string name, GLuint bindingPointIndex);	// bind existing UBO to this context
+	static void		clearUBO(std::string name);
 
 	static void setAsCopySource(std::string  sourceName);
 	static void setAsCopyTarget(std::string  targetName);

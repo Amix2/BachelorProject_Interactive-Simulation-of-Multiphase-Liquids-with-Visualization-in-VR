@@ -13,7 +13,7 @@ void NormalVectorsObject::init()
 	glBindVertexArray(VAO);
 
 
-	VBO = GpuResources::getIndex(BufferDatails::glassParticleName);
+	VBO = GpuResources::getIndex(BufferDetails::glassParticleName);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);

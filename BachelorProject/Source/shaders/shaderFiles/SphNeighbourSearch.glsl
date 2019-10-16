@@ -23,28 +23,31 @@ struct FluidParticle {
 };
 
 
-layout(std430, binding = 9) buffer sortingHelpBuf
-{
-	uint sortIndexArray[SORT_ARRAY_SIZE];
-	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
-};
 
 layout(std430, binding = 1) buffer positionsBuf
 {
 	FluidParticle fluidPositions[MAX_FLUID];
 };
 
-layout(std430, binding = 10) buffer neighboursBuf
+layout(std430, binding = 4) buffer detailsBuf
+{
+	uint numOfParticles;
+	uint numOfGlassParticles;
+};
+
+layout(std430, binding = 6) buffer neighboursBuf
 {
 	int neighboursBeginInd[27*MAX_FLUID];
 };
 
-layout(std430, binding = 6) buffer detailsBuf
+layout(std430, binding = 7) buffer sortingHelpBuf
 {
-	uint numOfParticles;
-	uint numOfGlassParticles;
+	uint sortIndexArray[SORT_ARRAY_SIZE];
+};
+
+layout(std430, binding = 9) buffer lookUpTableBuf
+{
+	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
 };
 
 //////////////////////////////////////////////////
@@ -62,6 +65,7 @@ void main(void)
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	const uint myParticleIndex = myThreadNumber / 27;
 	const FluidParticle myParticle = fluidPositions[myParticleIndex];
+
 	if(myParticle.type<0) return;
 
 	const vec3 offsetArray[] = vec3[] (
@@ -111,37 +115,15 @@ void main(void)
 
 	const uint neighbourCellIndex = getCellIndex(neighbourX, neighbourY, neighbourZ);
 
-	if(neighbourCellIndex == 0) {
-		neighboursBeginInd[myOutputIndex] = -1;
-		return;
+
+	int neiIndex = indexMap[neighbourCellIndex];
+	if(neighbourCellIndex == 0 || sortIndexArray[neiIndex] != neighbourCellIndex) {
+		neiIndex = -1;
+
 	}
 
-	int lower = int(numOfParticles);
-	int higher = 0;
-	int mid = (lower + higher)/2;
+	neighboursBeginInd[myOutputIndex] = neiIndex;
 
-	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower) 
-	{
-		if(sortIndexArray[mid] > neighbourCellIndex) {	//	H _ _ _ M _ x _ L
-			higher = mid;
-		}
-		else {	// sortIndexArray[mid] < neighbourCellIndex 	H _ x _ M _ _ _ L
-			lower = mid;
-		}
-		mid = (lower + higher)/2;
-	}
-
-	if(sortIndexArray[mid] != neighbourCellIndex) {
-		mid = -1;
-	} else {
-		while(sortIndexArray[mid] == neighbourCellIndex) {
-			mid --;
-		}
-		mid++;
-	}
-
-
-	neighboursBeginInd[myOutputIndex] =  mid;
 }
 
 
@@ -153,3 +135,40 @@ in uvec3 gl_GlobalInvocationID	== contains the global index of work item current
 in uint  gl_LocalInvocationIndex;
 in uvec3 gl_WorkGroupSize		== layout
 */
+
+
+
+////////////////////////////////////////
+// BINARY SEARCH
+
+//	if(neighbourCellIndex == 0) {
+//		neighboursBeginInd[myOutputIndex] = -1;
+//		return;
+//	}
+//
+//	int lower = int(numOfParticles);
+//	int higher = 0;
+//	int mid = (lower + higher)/2;
+//
+//	int limit = 0;
+//	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower && limit < 10000) 
+//	{
+//	limit++;
+//		if(sortIndexArray[mid] > neighbourCellIndex) {	//	H _ _ _ M _ x _ L
+//			higher = mid;
+//		}
+//		else {	// sortIndexArray[mid] < neighbourCellIndex 	H _ x _ M _ _ _ L
+//			lower = mid;
+//		}
+//		mid = (lower + higher)/2;
+//	}
+//
+//	if(sortIndexArray[mid] != neighbourCellIndex ) {
+//		mid = -1;
+//	} else {
+//		while(sortIndexArray[mid] == neighbourCellIndex) {
+//			mid --;
+//		}
+//		mid++;
+//	}
+//	neighboursBeginInd[myOutputIndex] = mid;
