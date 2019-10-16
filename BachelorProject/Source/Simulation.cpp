@@ -106,7 +106,7 @@ void Simulation::runSimulationFrame()
 		TEST_TIME(_ntDensityPressureFluidTime);
 
 
-		m_SphAccelerationFluid.runShader(numOfFluidDiv256, 1, 1, false);
+		m_SphAccelerationFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
 
 
 		TEST_TIME(_ntAccelerationFluidTime);

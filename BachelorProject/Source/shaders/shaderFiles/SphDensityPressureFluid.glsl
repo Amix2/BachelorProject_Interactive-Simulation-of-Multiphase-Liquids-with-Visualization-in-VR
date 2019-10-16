@@ -90,6 +90,7 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+
 shared float shDensity[270];
 shared float shSurfaceVector[3 * 270];
 
@@ -116,9 +117,10 @@ void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	const uint myParticleIndex = myThreadNumber / 27;
+	
 	const uint myLocalGroupNumber = gl_LocalInvocationIndex / 27;
 	counters[myLocalGroupNumber] = 0;
-	//barrier();
+
 
 	if(myParticleIndex>=numOfParticles) {
 		return;	
@@ -132,6 +134,7 @@ void main(void)
 	}
 	
 	float pDensity = 0;
+	
 
 	vec3 pGlassSurfaceVector = vec3(0,0,0);
 
@@ -140,7 +143,7 @@ void main(void)
 
 	if(neiIter > -1) {
 		const uint thisNeiCellIndex = sortIndexArray[neiIter]; 
-
+	
 		// for every neighbour in 1 cell starting from first until their cell index change
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
@@ -171,11 +174,9 @@ void main(void)
 	shSurfaceVector[3*mySharedIndex+0] = pGlassSurfaceVector.x;
 	shSurfaceVector[3*mySharedIndex+1] = pGlassSurfaceVector.y;
 	shSurfaceVector[3*mySharedIndex+2] = pGlassSurfaceVector.z;
-	//atomicAdd(counters[myLocalGroupNumber], 1);
-	//barrier();
-	//memoryBarrierShared();
+
+
 	if(atomicAdd(counters[myLocalGroupNumber], 1) == 26) {
-	//if(myThreadNumber%27 == 0) {
 		float outDensity, outVecX, outVecY, outVecZ;
 		outDensity = outVecX = outVecY = outVecZ = 0;
 		for(int i=0; i<27; i++) {

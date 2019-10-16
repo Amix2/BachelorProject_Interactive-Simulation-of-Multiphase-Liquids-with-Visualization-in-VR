@@ -117,48 +117,16 @@ void main(void)
 	const uint neighbourZ = myPartZ + int(myOffset.z);
 
 	const uint neighbourCellIndex = getCellIndex(neighbourX, neighbourY, neighbourZ);
+
+
 	int neiIndex = indexMap[neighbourCellIndex];
-	if(neiIndex == 0) {
-		// check if undex index 0 is my neighbour
-		if(sortIndexArray[0] != neighbourCellIndex) {
+	if(neighbourCellIndex == 0 || sortIndexArray[neiIndex] != neighbourCellIndex) {
 		neiIndex = -1;
-		}
-			//neiIndex = int(sortIndexArray[0]);
+
 	}
+
 	neighboursBeginInd[myOutputIndex] = neiIndex;
-	return;
 
-	if(neighbourCellIndex == 0) {
-		neighboursBeginInd[myOutputIndex] = -1;
-		return;
-	}
-
-	int lower = int(numOfParticles);
-	int higher = 0;
-	int mid = (lower + higher)/2;
-
-	int limit = 0;
-	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower && limit < 10000) 
-	{
-	limit++;
-		if(sortIndexArray[mid] > neighbourCellIndex) {	//	H _ _ _ M _ x _ L
-			higher = mid;
-		}
-		else {	// sortIndexArray[mid] < neighbourCellIndex 	H _ x _ M _ _ _ L
-			lower = mid;
-		}
-		mid = (lower + higher)/2;
-	}
-
-	if(sortIndexArray[mid] != neighbourCellIndex ) {
-		mid = -1;
-	} else {
-		while(sortIndexArray[mid] == neighbourCellIndex) {
-			mid --;
-		}
-		mid++;
-	}
-	neighboursBeginInd[myOutputIndex] = mid;
 }
 
 
@@ -170,3 +138,40 @@ in uvec3 gl_GlobalInvocationID	== contains the global index of work item current
 in uint  gl_LocalInvocationIndex;
 in uvec3 gl_WorkGroupSize		== layout
 */
+
+
+
+////////////////////////////////////////
+// BINARY SEARCH
+
+//	if(neighbourCellIndex == 0) {
+//		neighboursBeginInd[myOutputIndex] = -1;
+//		return;
+//	}
+//
+//	int lower = int(numOfParticles);
+//	int higher = 0;
+//	int mid = (lower + higher)/2;
+//
+//	int limit = 0;
+//	while(sortIndexArray[mid] != neighbourCellIndex && higher+1 < lower && limit < 10000) 
+//	{
+//	limit++;
+//		if(sortIndexArray[mid] > neighbourCellIndex) {	//	H _ _ _ M _ x _ L
+//			higher = mid;
+//		}
+//		else {	// sortIndexArray[mid] < neighbourCellIndex 	H _ x _ M _ _ _ L
+//			lower = mid;
+//		}
+//		mid = (lower + higher)/2;
+//	}
+//
+//	if(sortIndexArray[mid] != neighbourCellIndex ) {
+//		mid = -1;
+//	} else {
+//		while(sortIndexArray[mid] == neighbourCellIndex) {
+//			mid --;
+//		}
+//		mid++;
+//	}
+//	neighboursBeginInd[myOutputIndex] = mid;

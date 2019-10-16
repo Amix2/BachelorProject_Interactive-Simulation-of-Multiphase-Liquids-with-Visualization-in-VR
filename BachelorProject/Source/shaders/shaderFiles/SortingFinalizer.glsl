@@ -85,7 +85,7 @@ void main(void)
 		fluidVelocity[3*myInsertToId+1] = CPY_Velocity[3*myTakeFromId+1];
 		fluidVelocity[3*myInsertToId+2] = CPY_Velocity[3*myTakeFromId+2];
 
-		if(myThreadNumber > 0 && sortIndexArray[myThreadNumber] != sortIndexArray[myThreadNumber-1]) {
+		if(myThreadNumber == 0 || sortIndexArray[myThreadNumber] != sortIndexArray[myThreadNumber-1]) {
 			indexMap[sortIndexArray[myThreadNumber]] = int(myThreadNumber);
 		}
 	}

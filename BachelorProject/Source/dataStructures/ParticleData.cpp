@@ -271,7 +271,11 @@ void ParticleData::printSortingData(int limit)
 
 	unsigned int prevValue = INT_MAX;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE && i < limit; i++) {
-		LOG_F(INFO, "\t %d: %u\t[%u]", i, array[i], array[Configuration.SORT_ARRAY_SIZE+i]);
+		if (array[i] < 100 && array[i] > 12) {
+			LOG_F(INFO, "\t %d: %u\t[%u]", i, array[i], array[Configuration.SORT_ARRAY_SIZE + i]);
+
+		}
+		else limit++;
 	}
 	bool sorted = true;
 	for (int i = 0; i < Configuration.SORT_ARRAY_SIZE; i++) {
@@ -297,10 +301,17 @@ void ParticleData::printNeighboursData(int limit)
 
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < limit && i < ParticleData::m_NumOfParticles; i++) {
 		std::stringstream ss;
+		bool fluid = false;
 		for (int x = 0; x < 27; x++) {
 			ss << array[27 * i + x] << ", ";
+			if (array[27 * i + x]) fluid = true;
 		}
-		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
+		if (fluid) {
+			LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
+		}
+		else {
+			limit++;
+		}
 	}
 
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
