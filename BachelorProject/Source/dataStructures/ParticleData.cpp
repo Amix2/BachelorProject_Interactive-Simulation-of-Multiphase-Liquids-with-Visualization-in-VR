@@ -40,6 +40,7 @@ void ParticleData::initArraysOnGPU()
 
 Particle* ParticleData::openParticlePositions()
 {
+	m_ParticleBufferOpen = true;
 	LOG_F(INFO, "OPEN to add array for PARTICLES");
 	m_resParticlesArray = (Particle*)GpuResources::openPartSSBO(BufferDetails.particlePositionsName
 		, (GLintptr)m_NumOfParticles * sizeof(Particle)	// offset
@@ -94,6 +95,8 @@ void ParticleData::commitParticlePositions(int numOfAddedParticles)
 	m_resParticlesArray = nullptr;
 	m_OpenedResources--;
 	ParticleData::m_ResourceCondVariable.notify_all();
+
+	m_ParticleBufferOpen = false;
 }
 
 void ParticleData::commitGlassParticles(int numOfAddedGlassParticles)

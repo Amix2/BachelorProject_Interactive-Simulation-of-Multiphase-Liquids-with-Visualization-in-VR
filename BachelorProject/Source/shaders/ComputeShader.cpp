@@ -42,7 +42,7 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 	this->m_shaderFileName = shaderFileName;
 
 	auto ntEnd = getNanoTime();
-	LOG_F(INFO, "Shader %s compile successful, time: %f", shaderFileName.c_str(), getNanoTimeDif(ntStart, ntEnd));
+	LOG_F(WARNING, "Shader %s compile successful, time: %f", shaderFileName.c_str(), getNanoTimeDif(ntStart, ntEnd));
 }
 
 

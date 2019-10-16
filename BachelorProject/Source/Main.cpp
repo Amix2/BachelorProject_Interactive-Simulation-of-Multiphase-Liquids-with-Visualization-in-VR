@@ -43,9 +43,6 @@ void initTools();
 // atExit function
 void cleanUp();
 
-// test configuration constains to fing MAX_PARTICLES and MAX_GLASS
-void getGpuStats();
-
 void assignHardwareParameters();
 
 
@@ -61,7 +58,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	//loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -110,7 +107,6 @@ int main(int argc, char ** argv) {
 	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
 
 /////////////////////////////////////////////////////////////////////////////////////
-	getGpuStats();
 
 	assignHardwareParameters();
 
@@ -118,8 +114,7 @@ int main(int argc, char ** argv) {
 
 	Simulation::startSimulation(window.glfwWindow);
 	
-	//ParticleData::initArraysOnGPU();
-	printWorkGroupsCapabilities();
+	//printWorkGroupsCapabilities();
 
 	scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
@@ -158,16 +153,6 @@ void cleanUp()
 	}
 }
 
-void getGpuStats()
-{
-	GLint64  SSBOsize, UBOsize;
-	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
-	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &UBOsize);
-	int maxParticles = SSBOsize / (27 * sizeof(float));
-	int maxGlass = UBOsize / (sizeof(GlassParticle));
-	LOG_F(WARNING, "This PC can handle %d particles and %d glass particles", maxParticles, maxGlass);
-}
-
 void assignHardwareParameters()
 {
 	GLint64  SSBOsize;
@@ -182,7 +167,7 @@ void assignHardwareParameters()
 	const int baseX = Configuration.SCENE_SIZE_X;
 	const int baseY = Configuration.SCENE_SIZE_Y;
 	const int baseZ = Configuration.SCENE_SIZE_Z;
-	while ((long)Configuration.SCENE_SIZE_X * (long)Configuration.SCENE_SIZE_Y * (long)Configuration.SCENE_SIZE_Z * sizeof(GLuint) < SSBOsize) {
+	while ((long)Configuration.SCENE_SIZE_X * (long)Configuration.SCENE_SIZE_Y * (long long)Configuration.SCENE_SIZE_Z * (long)sizeof(GLuint) < SSBOsize) {
 		Configuration.SCENE_SIZE_X += baseX;
 		Configuration.SCENE_SIZE_Y += baseY;
 		Configuration.SCENE_SIZE_Z += baseZ;

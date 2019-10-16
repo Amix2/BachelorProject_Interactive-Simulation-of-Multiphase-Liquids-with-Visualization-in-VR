@@ -128,10 +128,10 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
 	//ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(details2);
-	//ParticleObjectCreator::addObject(detailsTEST);
-	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
-	ParticleObjectCreator::addObject(optimGlass);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimGlass);
 }
 
 void Simulation::main()
