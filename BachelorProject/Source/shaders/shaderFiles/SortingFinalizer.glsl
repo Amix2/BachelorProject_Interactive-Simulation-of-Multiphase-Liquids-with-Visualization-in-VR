@@ -72,9 +72,9 @@ void main(void)
 		fluidPositions[myThreadNumber].z = 0;
 		fluidPositions[myThreadNumber].type = 0;
 
-		fluidVelocity[3*myInsertToId+0] = 0;
-		fluidVelocity[3*myInsertToId+1] = 0;
-		fluidVelocity[3*myInsertToId+2] = 0;
+		fluidVelocity[3*myThreadNumber+0] = 0;
+		fluidVelocity[3*myThreadNumber+1] = 0;
+		fluidVelocity[3*myThreadNumber+2] = 0;
 
 		atomicAdd(numOfParticles, -1);
 	} else {

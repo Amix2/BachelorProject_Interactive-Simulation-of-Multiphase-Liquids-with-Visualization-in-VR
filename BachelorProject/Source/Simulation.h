@@ -29,7 +29,15 @@ class Simulation
 	inline static ComputeShader m_SphAccelerationFluid;
 	inline static ComputeShader m_SphVelocity;
 
-	inline static ComputeShader m_TESTshader;
+	inline static unsigned int m_turnNumber = 0;
+
+	inline static float _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntSyncDetailsTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc;
+
+	inline static const std::string stageUniform = "u_stage";
+	inline static const std::string turnUniform = "u_turnInStage";
+	inline static const int printTimesFrequency = 64;
+	inline static const bool MEASURE_TIME = false;
+
 public:
 
 	//inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
@@ -48,7 +56,9 @@ public:
 
 	static void init();
 
-	// check m_ResourceRequest and perform action
-	//static void parseResourceRequest();
+	static void handlePrintingTimes();
+
+	static void setupSimObjects();
+
 };
 
