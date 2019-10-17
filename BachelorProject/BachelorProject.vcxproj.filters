@@ -114,7 +114,13 @@
     <ClCompile Include="Source\materialObjects\NormalVectorsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlassMaterialObject.cpp">
+    <ClCompile Include="Source\materialObjects\GlassObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\glassController\GlassController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\materialObjects\Crosshair.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -233,7 +239,13 @@
     <ClInclude Include="Source\materialObjects\NormalVectorsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlassMaterialObject.h">
+    <ClInclude Include="Source\materialObjects\GlassObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\glassController\GlassController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\materialObjects\Crosshair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -241,5 +253,7 @@
     <None Include="Source\shaders\normalVectors\normalVectors.frag" />
     <None Include="Source\shaders\normalVectors\normalVectors.vert" />
     <None Include="Source\shaders\normalVectors\normalVectors.geom" />
+    <None Include="Source\shaders\glass\glass.frag" />
+    <None Include="Source\shaders\glass\glass.vert" />
   </ItemGroup>
 </Project>

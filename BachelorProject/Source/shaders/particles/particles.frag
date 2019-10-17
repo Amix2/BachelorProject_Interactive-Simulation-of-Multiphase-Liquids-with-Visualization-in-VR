@@ -20,16 +20,7 @@ void main()
 {
 	float depth = LinearizeDepth(gl_FragCoord.z) / far;
 	vec4 tmp = texture(ourTexture, texCoord);
-	if(int(type) > 0) 
-		tmp.z += 0.5;
-	else {
-		tmp.x *= 0.5;
-		tmp.y *= 0.5;
-		tmp.z *= 0.5;
-		tmp.x += 0.40;
-		tmp.y += 0.25;
-		tmp.z += 0.15;
-	}
+	tmp.z += 0.5;
 
 	if(tmp.a < 1)
 		discard;

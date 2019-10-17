@@ -59,6 +59,7 @@ private:
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);
 	static void GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void GlfwWindowMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void GLAPIENTRY GlfwWindowMessageCallback(
 		GLenum source,
 		GLenum type,
@@ -72,6 +73,7 @@ private:
 	void handleResize(int width, int height);
 	void handleMouseMove(double x, double y);
 	void handleMouseScroll(double xoffset, double yoffset);
+	void mouseButtonCallback(int button, int action);
 };
 
 #endif // !WINDOW_H

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GlassMaterialObject.cpp" />
+    <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
+    <ClCompile Include="Source\glassController\GlassController.cpp" />
+    <ClCompile Include="Source\materialObjects\GlassObject.cpp" />
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
@@ -55,7 +57,9 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GlassMaterialObject.h" />
+    <ClInclude Include="Source\materialObjects\Crosshair.h" />
+    <ClInclude Include="Source\glassController\GlassController.h" />
+    <ClInclude Include="Source\materialObjects\GlassObject.h" />
     <ClInclude Include="Source\materialObjects\AxesObject.h" />
     <ClInclude Include="Source\materialObjects\FluidObject.h" />
     <ClInclude Include="Source\materialObjects\MaterialObject.h" />
@@ -96,6 +100,8 @@
     <ClInclude Include="Source\VR\VRInput.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Source\shaders\glass\glass.frag" />
+    <None Include="Source\shaders\glass\glass.vert" />
     <None Include="Source\shaders\normalVectors\normalVectors.frag" />
     <None Include="Source\shaders\normalVectors\normalVectors.geom" />
     <None Include="Source\shaders\normalVectors\normalVectors.vert" />

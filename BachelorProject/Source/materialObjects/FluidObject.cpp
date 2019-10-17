@@ -1,11 +1,10 @@
 #include "FluidObject.h"
 #include <Logger.h>
 
-FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background, const ShaderProgram& selectedProgram)
+FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background)
 	: MaterialObject{ shaderProgram } 
 	, background{ background }
 	, particleSize{ INITIAL_PARTICLES_SIZE }
-	, selected{ selectedProgram }
 {
 	window.subscribeForKeyInput(this);
 }
@@ -65,28 +64,9 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
 	shaderProgram.setUniformVariable("particleSize", particleSize);
-	shaderProgram.setUniformVariable("renderGlass", renderGlass);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
-
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00);
-
-	glBindBuffer(GL_ARRAY_BUFFER, index);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	selected.use();
-
-	selected.setUniformVariable("projection", projection);
-	selected.setUniformVariable("view", view);
-	selected.setUniformVariable("particleSize", (particleSize + 0.3f));
-	selected.setUniformVariable("renderGlass", renderGlass);
-	glBindVertexArray(VAO);
-
-
-	glDrawArrays(GL_POINTS, 0, ParticleData::m_NumOfParticles);
-
-	glStencilMask(0xFF);
 }
 
 void FluidObject::handleKeyPress(Key key)
@@ -100,13 +80,14 @@ void FluidObject::handleKeyPress(Key key)
 		deltaSize = 0.1f;
 		break;
 	case KEY_3:
-		renderGlass = !renderGlass;
 		break;
 	default:
 		break;
 	}	
 	if (deltaSize != 0.0f) {
 		particleSize += deltaSize;
+		if (particleSize < 0.0f)
+			particleSize = 0.0f;
 	}
 }
 

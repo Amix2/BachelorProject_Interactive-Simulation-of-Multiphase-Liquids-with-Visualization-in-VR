@@ -13,7 +13,10 @@ enum Key {
 	KEY_4,
 	KEY_5,
 	KEY_6,
-	KEY_9
+	KEY_7,
+	KEY_8,
+	KEY_9,
+	MOUSE_LEFT
 };
 
 class KeyPressListener {

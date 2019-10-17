@@ -36,6 +36,8 @@ bool Window::init()
 	glfwSetFramebufferSizeCallback(glfwWindow, GlfwWindowResizeCallback);
 	glfwSetCursorPosCallback(glfwWindow, GlfwWindowMouseMoveCallback);
 	glfwSetScrollCallback(glfwWindow, GlfwWindowMouseScrollCallback);
+	glfwSetMouseButtonCallback(glfwWindow, GlfwWindowMouseButtonCallback);
+
 
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -66,10 +68,6 @@ bool Window::refresh()
 
 	return glfwWindowShouldClose(glfwWindow);
 }
-
-#include <scene/camera/SimpleCameraController.h>
-#include <particleObjects/ParticleObjectCreator.h>
-#include <particleObjects/ParticleObjectManager.h>
 
 void Window::processInput() 
 {
@@ -114,43 +112,42 @@ void Window::processInput()
 			listener->handleKeyPress(KEY_4);
 		lastKeyPressTime = glfwGetTime();
 
-		Scene::Camera* camera = SimpleCameraController::cam;
-		glm::vec3 low = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(-3, -3, -3);
-		glm::vec3 high = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(3, 3, 3);
-		ParticleObjectDetais newObj{ 1, low.x, low.y, low.z, high.x, high.y, high.z };
-		ParticleObjectCreator::addObject(newObj);
+		//scene::camera* camera = simplecameracontroller::cam;
+		//glm::vec3 low = camera->getposition() + (camera->getfront() * 25.0f) + glm::vec3(-3, -3, -3);
+		//glm::vec3 high = camera->getposition() + (camera->getfront() * 25.0f) + glm::vec3(3, 3, 3);
+		//particleobjectdetais newobj{ 1, low.x, low.y, low.z, high.x, high.y, high.z };
+		//particleobjectcreator::addobject(newobj);
 		
 	}
 	if (glfwGetKey(glfwWindow, GLFW_KEY_5) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(KEY_5);
-
-		ParticleObjectManager::moveObject(0, true);
 	}
 
 	if (glfwGetKey(glfwWindow, GLFW_KEY_6) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(KEY_6);
-
-		ParticleObjectManager::moveObject(0, false);
 	}
 
 	if (glfwGetKey(glfwWindow, GLFW_KEY_7) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_6);
-		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, 0.001f, glm::vec3(1, 0, 0));
+			listener->handleKeyPress(KEY_7);
 	}
 
 	if (glfwGetKey(glfwWindow, GLFW_KEY_8) == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_6);
-
-		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, -0.001f, glm::vec3(1, 0, 0));
+			listener->handleKeyPress(KEY_8);
 	}
 
 	if (glfwGetKey(glfwWindow, GLFW_KEY_9) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(KEY_9);
+		lastKeyPressTime = glfwGetTime();
+	}
+
+	if (glfwGetKey(glfwWindow, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(MOUSE_LEFT);
 		lastKeyPressTime = glfwGetTime();
 	}
 
@@ -209,6 +206,12 @@ void Window::GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, d
 	actualWindow->handleMouseScroll(xoffset, yoffset);
 }
 
+void Window::GlfwWindowMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+	actualWindow->mouseButtonCallback(button, action);
+}
+
 void GLAPIENTRY Window::GlfwWindowMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
@@ -262,6 +265,15 @@ void Window::handleMouseScroll(double xoffset, double yoffset)
 		{
 			listener->handleMouseScroll(yoffset);
 		});
+}
+
+void Window::mouseButtonCallback(int button, int action)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(MOUSE_LEFT);
+		lastKeyPressTime = glfwGetTime();
+	}
 }
 
 

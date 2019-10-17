@@ -10,6 +10,7 @@
 #include "scene/Scene.h"
 #include "scene/camera/Camera.h"
 #include "materialObjects/TestMaterialObject.h"
+#include <materialObjects/GlassObject.h>
 #include "scene/camera/VRCameraController.h"
 #include "materialObjects/TestBilboardObject.h"
 #include "materialObjects/FluidObject.h"
@@ -33,6 +34,7 @@
 #include <thread>
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
+#include <glassController/GlassController.h>
 
 void printWorkGroupsCapabilities();
 
@@ -98,9 +100,8 @@ int main(int argc, char ** argv) {
 	//TestBilboardObject bilboard{ programBilboard };
 
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	ShaderProgram programSelectedFluid{ "./Source/shaders/particles/selected/particles.vert", "./Source/shaders/particles/selected/particles.geom", "./Source/shaders/particles/selected/particles.frag" };
 
-	FluidObject fluid{ window, programFluid, backgroundColor, programSelectedFluid };
+	FluidObject fluid{ window, programFluid, backgroundColor };
 
 	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
 	AxesObject axes{ programAxes, backgroundColor };
@@ -114,10 +115,14 @@ int main(int argc, char ** argv) {
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
-
 	
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
+
+	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
+	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
+	GlassController glassController{ window, cameraController.getCamera(), programGlass, programSelectedGlass, backgroundColor };
+
 
 	scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
@@ -127,6 +132,7 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
 	} while (!window.refresh());
 
