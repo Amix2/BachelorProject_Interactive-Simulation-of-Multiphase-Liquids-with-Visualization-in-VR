@@ -269,10 +269,15 @@ void Window::handleMouseScroll(double xoffset, double yoffset)
 
 void Window::mouseButtonCallback(int button, int action)
 {
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		for (KeyPressListener* listener : keyInputListeners)
 			listener->handleKeyPress(MOUSE_LEFT);
-		lastKeyPressTime = glfwGetTime();
+		std::cout << "1";
+	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_REPEAT) {
+		for (KeyPressListener* listener : keyInputListeners)
+			listener->handleKeyPress(MOUSE_LEFT);
+		std::cout << "2";
 	}
 }
 
