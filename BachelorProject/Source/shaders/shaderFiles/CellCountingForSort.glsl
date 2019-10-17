@@ -35,14 +35,6 @@ struct GlassObjectDetails {
 	mat4 matrix;
 };
 
-layout(std430, binding = 9) buffer sortingHelpBuf
-{
-	uint sortIndexArray[SORT_ARRAY_SIZE];
-	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
-};
-
 layout(std430, binding = 1) buffer positionsBuf
 {
 	FluidParticle fluidPositions[MAX_FLUID];
@@ -58,15 +50,23 @@ layout(std140, binding = 3) uniform glassObjectsBuf
 	GlassObjectDetails glassObjects[MAX_PARTICLE_OBJECTS];
 };
 
-layout(std430, binding = 6) buffer detailsBuf
+layout(std430, binding = 4) buffer detailsBuf
 {
 	uint numOfParticles;
 	uint numOfGlassParticles;
 };
 
-layout(std430, binding = 3) buffer glassPositionsBuf
+layout(std430, binding = 6) buffer neighboursBuf
 {
-	float glassPositions[3*MAX_FLUID];
+	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+};
+
+layout(std430, binding = 7) buffer sortingHelpBuf
+{
+	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
+	uint originalIndex[SORT_ARRAY_SIZE];
+	FluidParticle	CPY_Positions[MAX_FLUID];
+	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
@@ -100,12 +100,12 @@ void main(void)
 	const int myType = myParticle.type;
 	if(myType < 0) {
 		// its a glass particle
-		const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1
+		//const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1
 		const GlassParticle myGlassParticle = glassParticles[(-1)*(myType+1)];
 		const vec4 localPos = vec4(myGlassParticle.localX, myGlassParticle.localY, myGlassParticle.localZ, 1.0f);
 		const mat4 transformMatrix = glassObjects[myGlassParticle.glassNumber].matrix;
 		const vec4 globalPos =  transformMatrix * localPos;
-		const vec3 lastPosition = vec3(fluidPositions[myThreadNumber].x, fluidPositions[myThreadNumber].y, fluidPositions[myThreadNumber].z);
+		const vec3 lastPosition = vec3(myParticle.x, myParticle.y, myParticle.z);
 		const vec3 velosity = globalPos.xyz - lastPosition;
 
 		myParticle.x = globalPos.x;

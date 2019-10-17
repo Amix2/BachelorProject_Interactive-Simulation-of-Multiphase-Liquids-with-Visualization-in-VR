@@ -35,6 +35,8 @@
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
 #include <glassController/GlassController.h>
+#include <Configuration.h>
+
 
 void printWorkGroupsCapabilities();
 
@@ -44,8 +46,7 @@ void initTools();
 // atExit function
 void cleanUp();
 
-// test configuration constains to fing MAX_PARTICLES and MAX_GLASS
-void getGpuStats();
+void assignHardwareParameters();
 
 
 // settings
@@ -60,7 +61,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	//loguru::g_stderr_verbosity = loguru::Verbosity_ERROR;	// show only ERRORS
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -110,14 +111,14 @@ int main(int argc, char ** argv) {
 	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
 
 /////////////////////////////////////////////////////////////////////////////////////
-	getGpuStats();
+
+	assignHardwareParameters();
 
 	initTools();
 
 	Simulation::startSimulation(window.glfwWindow);
 	
-	//ParticleData::initArraysOnGPU();
-	printWorkGroupsCapabilities();
+	//printWorkGroupsCapabilities();
 
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
@@ -162,14 +163,30 @@ void cleanUp()
 	}
 }
 
-void getGpuStats()
+void assignHardwareParameters()
 {
-	GLint64  SSBOsize, UBOsize;
+	GLint64  SSBOsize;
+
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
-	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &UBOsize);
-	int maxParticles = SSBOsize / (27 * sizeof(float));
-	int maxGlass = UBOsize / (sizeof(GlassParticle));
-	LOG_F(WARNING, "This PC can handle %d particles and %d glass particles", maxParticles, maxGlass);
+
+	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
+	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
+
+	Configuration.MAX_PARTICLES = std::min(maxNumOfParticles, Configuration.MAX_PARTICLES);
+	Configuration.MAX_GLASS_PARTICLES = std::min(maxNumOfGlassParticles, Configuration.MAX_GLASS_PARTICLES);
+	const int baseX = Configuration.SCENE_SIZE_X;
+	const int baseY = Configuration.SCENE_SIZE_Y;
+	const int baseZ = Configuration.SCENE_SIZE_Z;
+	while ((long)Configuration.SCENE_SIZE_X * (long)Configuration.SCENE_SIZE_Y * (long long)Configuration.SCENE_SIZE_Z * (long)sizeof(GLuint) < SSBOsize) {
+		Configuration.SCENE_SIZE_X += baseX;
+		Configuration.SCENE_SIZE_Y += baseY;
+		Configuration.SCENE_SIZE_Z += baseZ;
+	}
+	Configuration.SCENE_SIZE_X -= baseX;
+	Configuration.SCENE_SIZE_Y -= baseY;
+	Configuration.SCENE_SIZE_Z -= baseZ;
+	LOG_F(WARNING, "Simulation scene size: (%d %d %d), Max particles: %d, Max glass particles: %d"
+		, Configuration.SCENE_SIZE_X, Configuration.SCENE_SIZE_Y, Configuration.SCENE_SIZE_Z, Configuration.MAX_PARTICLES, Configuration.MAX_GLASS_PARTICLES);
 }
 
 void printWorkGroupsCapabilities() {
@@ -228,6 +245,10 @@ void printWorkGroupsCapabilities() {
 
 	glGetInteger64v(GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS, &value);
 	printf("GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
+	value = -1;
+
+	glGetInteger64v(GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS, &value);
+	printf("GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
 	value = -1;
 
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);

@@ -14,6 +14,11 @@ int ParticleGeometry::circle(int& numOfParts, glm::vec3 center, float radius, fl
 	float currentAngle = startAngle;
 	for (int i = 0; i < numOfPartsInCircle; i++) {
 
+		if (ParticleData::m_NumOfParticles + numOfParts >= Configuration.MAX_PARTICLES || ParticleData::m_NumOfGlassParticles + numOfParts >= Configuration.MAX_GLASS_PARTICLES) {
+			LOG_F(ERROR, "Created maximum number of particles: %d", numOfParts);
+			return numOfParts;
+		}
+
 		glm::vec3 thisPos = partPositionFromRadius(center, radius, currentAngle);
 
 		//positions[3 * numOfParts + 0] = thisPos.x;
