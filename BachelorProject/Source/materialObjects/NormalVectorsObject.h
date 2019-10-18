@@ -3,21 +3,19 @@
 #include <dataStructures/GpuResources.h>
 #include <Configuration.h>
 #include <dataStructures/ParticleData.h>
-#include <window/listener/KeyPressListener.h>
-#include <window/Window.h>
+#include <inputDispatcher/InputDispatcher.h>
 
 class NormalVectorsObject
 	: public MaterialObject,
-	public KeyPressListener
+	public KeyInputListener
 {
 public:
-	NormalVectorsObject(Window& window, ShaderProgram program, glm::vec4 background);
+	NormalVectorsObject(InputDispatcher& inputDispatcher, ShaderProgram program);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
-	void handleKeyPress(Key key) override;
+	void handleKeyPress(int key, KeyState action, float deltaTime) override;
 private:
 	unsigned int VAO;
 	unsigned int VBO;
-	glm::vec4 background;
 	int render = 0;
 };

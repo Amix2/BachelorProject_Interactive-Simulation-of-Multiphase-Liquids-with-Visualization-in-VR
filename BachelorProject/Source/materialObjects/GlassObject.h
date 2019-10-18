@@ -3,11 +3,12 @@
 #include <particleObjects/ParticleObject.h>
 #include <vector>
 #include <glm/gtx/rotate_vector.hpp>
+#include <Configuration.h>
 
 class GlassObject : public MaterialObject
 {
 public:
-	GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const glm::vec4& background, const ParticleObject& glass);
+	GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject& glass);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void select(bool flag) { selected = flag; }
@@ -21,7 +22,6 @@ private:
 
 	const glm::mat4* model;
 
-	glm::vec4 background;
 	GLfloat* vertices;
 	GLint* indices;
 	int verticesSize;

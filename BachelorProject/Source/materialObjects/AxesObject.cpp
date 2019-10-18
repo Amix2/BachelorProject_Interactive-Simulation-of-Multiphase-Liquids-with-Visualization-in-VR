@@ -1,8 +1,7 @@
 #include "AxesObject.h"
 
-AxesObject::AxesObject(ShaderProgram shaderProgram, glm::vec4 background)
-	: MaterialObject{ shaderProgram } 
-	, background{ background } {}
+AxesObject::AxesObject(ShaderProgram shaderProgram)
+	: MaterialObject{ shaderProgram } {}
 
 
 void AxesObject::init()
@@ -20,7 +19,7 @@ void AxesObject::init()
 	glEnableVertexAttribArray(1);
 
 	shaderProgram.use();
-	shaderProgram.setUniformVariable("background", background);
+	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 }
 
 void AxesObject::load(const glm::mat4& view, const glm::mat4& projection) const

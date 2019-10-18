@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <random>
+#include <glm/glm.hpp>
 
 // put on if you want to see particles in Simple Visualizer, it will erase previous content
 #define LOG_TO_FILE false
@@ -32,6 +33,7 @@ const struct Configuration {
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
 	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 7 * MAX_PARTICLES;
 	inline static const int SIZE_OF_HELPER_BUFFER = 4*sizeof(float) * MAX_PARTICLES;
+	inline static const glm::vec4 BACKGROUND{ 0.1f, 0.1f, 0.4f, 1.0f };
 } Configuration;
 
 

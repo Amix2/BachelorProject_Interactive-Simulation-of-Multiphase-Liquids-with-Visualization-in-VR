@@ -1,9 +1,5 @@
 #pragma once
 
-#include "../../window/listener/MousePositionListener.h"
-#include "../../window/listener/MouseScrollListener.h"
-#include "../../window/listener/WindowSizeListener.h"
-#include "../../window/Window.h"
 #include "Camera.h"
 #include <glm/glm.hpp>
 #include <OpenVR/openvr.h>

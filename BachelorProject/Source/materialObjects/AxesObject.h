@@ -1,9 +1,10 @@
 #pragma once
 #include <materialObjects/MaterialObject.h>
+#include <Configuration.h>
 
 class AxesObject : public MaterialObject {
 public:
-	AxesObject(ShaderProgram shaderProgram, glm::vec4 background);
+	AxesObject(ShaderProgram shaderProgram);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 private:

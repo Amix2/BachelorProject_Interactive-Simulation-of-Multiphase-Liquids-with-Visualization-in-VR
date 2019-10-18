@@ -1,9 +1,8 @@
 #include "GlassObject.h"
 
-GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const glm::vec4& background, const ParticleObject& glass)
+GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject& glass)
 	: MaterialObject{ shaderProgram }
 	, selectedProgram{ selectedProgram }
-	, background{ background }
 	, model{ &glass.m_matrix }
 {
 	generateMesh(glass);
@@ -27,7 +26,7 @@ void GlassObject::init()
 	glEnableVertexAttribArray(0);
 
 	shaderProgram.use();
-	shaderProgram.setUniformVariable("background", background);
+	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 }
 
 void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const

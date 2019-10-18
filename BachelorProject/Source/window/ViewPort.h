@@ -7,7 +7,6 @@ class ViewPort : public WindowSizeListener
 {
 public:
 	ViewPort(Window& window, double relativeX, double relativeY, double relativeWidth, double relativeHeight);
-	~ViewPort();
 
 	void handleWindowResize(int width, int height) override;
 	int getX() const { return frameBufferWidth * relativeX; }

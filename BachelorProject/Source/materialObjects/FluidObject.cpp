@@ -1,12 +1,14 @@
 #include "FluidObject.h"
 #include <Logger.h>
 
-FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background)
+FluidObject::FluidObject(InputDispatcher& window, const ShaderProgram& shaderProgram)
 	: MaterialObject{ shaderProgram } 
-	, background{ background }
 	, particleSize{ INITIAL_PARTICLES_SIZE }
 {
-	window.subscribeForKeyInput(this);
+	window.subscribeForKeyInput(this, std::vector<int>{
+		GLFW_KEY_1,
+		GLFW_KEY_2
+	});
 }
 
 void FluidObject::init()
@@ -50,7 +52,7 @@ void FluidObject::init()
 	stbi_image_free(data);
 
 	shaderProgram.use();
-	shaderProgram.setUniformVariable("background", background);
+	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 
 }
 
@@ -73,25 +75,25 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
 }
 
-void FluidObject::handleKeyPress(Key key)
+void FluidObject::handleKeyPress(int key, KeyState action, float deltaTime)
 {
-	float deltaSize{ 0.0f };
-	switch (key) {
-	case KEY_1:
-		deltaSize = -0.1f;
-		break;
-	case KEY_2:
-		deltaSize = 0.1f;
-		break;
-	case KEY_3:
-		break;
-	default:
-		break;
-	}	
-	if (deltaSize != 0.0f) {
-		particleSize += deltaSize;
-		if (particleSize < 0.0f)
-			particleSize = 0.0f;
+	if (action == KeyState::FALLING_EDGE) {
+		float deltaSize{ 0.0f };
+		switch (key) {
+		case GLFW_KEY_1:
+			deltaSize = -0.05f;
+			break;
+		case GLFW_KEY_2:
+			deltaSize = 0.05f;
+			break;
+		default:
+			break;
+		}
+		if (deltaSize != 0.0f) {
+			particleSize += deltaSize;
+			if (particleSize < 0.0f)
+				particleSize = 0.0f;
+		}
 	}
 }
 

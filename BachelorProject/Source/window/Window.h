@@ -9,28 +9,17 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "./listener/MousePositionListener.h"
-#include "./listener/MouseScrollListener.h"
-#include "./listener/WindowSizeListener.h"
-#include "./listener/KeyPressListener.h"
+#include <window/listener/WindowSizeListener.h>
+#include <inputDispatcher/InputDispatcher.h>
 
 class Window {
 public:
-	Window(int width, int height, std::string name);
+	Window(int width, int height, std::string name, InputDispatcher& inputDispatcher);
 	~Window();
 	bool init();
-	bool refresh();
-	void processInput();
-	
+	bool refresh();	
 
-	void subscribeForMousePositionChanges(MousePositionListener* listener);
-	void subscribeForMouseScrollChanges(MouseScrollListener* listener);
 	void subscribeForWindowSizeChanges(WindowSizeListener* listener);
-	void subscribeForKeyInput(KeyPressListener* listener);
-	void unsubscribeMousePositionListener(MousePositionListener* listener);
-	void unsubscribeMouseScrollListener(MouseScrollListener* listener);
-	void unsubscribeWindowSizeListener(WindowSizeListener* listener);
-	void unsubscribeKeyInputListener(KeyPressListener* listener);
 
 	int getWidth() const { return width; }
 	int getHeight() const { return height; }
@@ -39,6 +28,7 @@ public:
 	GLFWwindow* glfwWindow;
 protected:
 private:
+	InputDispatcher* inputDispatcher;
 	
 	int width;
 	int height;
@@ -50,16 +40,14 @@ private:
 	bool firstMousePositionMeasurment { true };
 	double mousePosX;
 	double mousePosY;
-	std::vector<MousePositionListener*> mousePositionListeners;
-	std::vector<MouseScrollListener*> mouseScrollListeners;
+
 	std::vector<WindowSizeListener*> windowSizeListeners;
-	std::vector<KeyPressListener*> keyInputListeners;
-	float lastKeyPressTime;
 
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);
 	static void GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 	static void GlfwWindowMouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+	static void GlfwWindowKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void GLAPIENTRY GlfwWindowMessageCallback(
 		GLenum source,
 		GLenum type,
@@ -73,7 +61,8 @@ private:
 	void handleResize(int width, int height);
 	void handleMouseMove(double x, double y);
 	void handleMouseScroll(double xoffset, double yoffset);
-	void mouseButtonCallback(int button, int action);
+	void handleMouseButtonPressed(int button, int action);
+	void handleKeyPressed(int key, int action);
 };
 
 #endif // !WINDOW_H

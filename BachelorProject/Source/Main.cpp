@@ -37,7 +37,6 @@
 #include <glassController/GlassController.h>
 #include <Configuration.h>
 
-
 void printWorkGroupsCapabilities();
 
 // init app elements
@@ -70,15 +69,16 @@ int main(int argc, char ** argv) {
 
 
 /////////////////////////////////////////////////////////////////////////////////////
+	
 
-	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME };
+	InputDispatcher inputDispatcher;
+	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
 		std::cout << "Failed to init window";
 		exit(1);
 	}
 
-	glm::vec4 backgroundColor{0.1f, 0.1f, 0.4f, 1.0f };
-	Scene::Scene scene{ backgroundColor };
+	Scene::Scene scene{ Configuration::BACKGROUND };
 
 	//if(headsetIsAvaiable){
 	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
@@ -90,25 +90,24 @@ int main(int argc, char ** argv) {
 	//else 
 	//{
 	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-	SimpleCameraController cameraController{ window, viewPort, glm::vec3{ 0,40, 0 } };
+	SimpleCameraController cameraController{ inputDispatcher, viewPort, glm::vec3{ 0,40, 0 } };
 	scene.addCamera(&cameraController.getCamera());
 	//}
 
-	ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
-	TestMaterialObject cubes{ programCubes, backgroundColor };
+	//ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
+	//TestMaterialObject cubes{ programCubes, backgroundColor };
 
 	//ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	//TestBilboardObject bilboard{ programBilboard };
 
 	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-
-	FluidObject fluid{ window, programFluid, backgroundColor };
+	FluidObject fluid{ inputDispatcher, programFluid };
 
 	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
-	AxesObject axes{ programAxes, backgroundColor };
+	AxesObject axes{ programAxes };
 
 	ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
-	NormalVectorsObject vectorNormals{ window, programVectorNormals, backgroundColor };
+	NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -122,10 +121,10 @@ int main(int argc, char ** argv) {
 
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
-	GlassController glassController{ window, cameraController.getCamera(), programGlass, programSelectedGlass, backgroundColor };
+	GlassController glassController{ inputDispatcher, cameraController.getCamera(), programGlass, programSelectedGlass };
 
 
-	scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);

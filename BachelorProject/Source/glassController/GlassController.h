@@ -1,20 +1,18 @@
 #pragma once
 
-#include <window/Window.h>
-#include <window/listener/KeyPressListener.h>
-#include <scene/camera/Camera.h>
+#include <scene/Scene.h>
+#include <inputDispatcher/InputDispatcher.h>
 #include <vector>
 #include <materialObjects/GlassObject.h>
 #include <particleObjects/ParticleObjectManager.h>
-#include <scene/Scene.h>
 
 class GlassController
-	: public KeyPressListener
+	: public KeyInputListener
 {
 public:
-	GlassController(Window& window, const Scene::Camera& camera, const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const glm::vec4& background);
+	GlassController(InputDispatcher& inputDispatcher, const Scene::Camera& camera, const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
 	void assignUntrackedObjects(Scene::Scene& scene);
-	void handleKeyPress(Key key) override;
+	void handleKeyPress(int key, KeyState action, float deltaTime) override;
 	
 private:
 	int trackedObjects = 0;
@@ -24,6 +22,5 @@ private:
 
 	const ShaderProgram& shaderProgram;
 	const ShaderProgram& selectedProgram;
-	const glm::vec4& background;
 };
 
