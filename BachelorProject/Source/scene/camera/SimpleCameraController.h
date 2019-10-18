@@ -7,8 +7,7 @@
 
 class SimpleCameraController
 	: public MousePositionListener
-	, public MouseScrollListener 
-	, public KeyPressListener
+	, public MouseScrollListener
 	, public CameraController
 	, public KeyInputListener
 {
