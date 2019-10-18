@@ -24,6 +24,9 @@ void AxesObject::init()
 
 void AxesObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
+	if (ParticleData::m_ParticleBufferOpen) {
+		return;
+	}
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);
 	glStencilMask(0xFF);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

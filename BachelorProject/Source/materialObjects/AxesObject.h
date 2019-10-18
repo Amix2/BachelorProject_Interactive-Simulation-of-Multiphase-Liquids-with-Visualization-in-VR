@@ -1,6 +1,8 @@
 #pragma once
 #include <materialObjects/MaterialObject.h>
 #include <Configuration.h>
+#include <dataStructures/ParticleData.h>
+#include <Logger.h>
 
 class AxesObject : public MaterialObject {
 public:

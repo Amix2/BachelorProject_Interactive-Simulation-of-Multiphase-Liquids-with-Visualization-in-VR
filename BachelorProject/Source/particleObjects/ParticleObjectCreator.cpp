@@ -50,8 +50,8 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		//GlassObjectDetails* glassObjects = ParticleData::openGlassObjects();
 
 		// create particles
-		ParticleObject mug;
-		mug.createMug(currentDetails, numOfParticles);
+		//ParticleObject mug;
+		MugParticleObject mug(currentDetails, numOfParticles);
 
 		// commit
 		ParticleData::commitParticlePositions(numOfParticles);

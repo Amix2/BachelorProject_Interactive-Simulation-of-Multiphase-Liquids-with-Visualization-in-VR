@@ -223,3 +223,8 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 ParticleObject::ParticleObject() {
 	m_matrix = glm::mat4(3.0f);
 }
+
+void ParticleObject::stepTowardsDestination()
+{
+	m_matrix = m_destinationMatrix;
+}

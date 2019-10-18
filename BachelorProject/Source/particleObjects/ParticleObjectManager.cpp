@@ -50,6 +50,10 @@ void ParticleObjectManager::synchronizeWithGpu()
 
 int ParticleObjectManager::addObject(const ParticleObject& object)
 {
+	if (m_numOfObjects >= Configuration.MAX_PARTICLE_OBJECTS) {
+		LOG_F(ERROR, "Too many particle objects, cannot create a new one");
+		return m_numOfObjects;
+	}
 	m_partObjectsVector.push_back(std::make_unique<ParticleObject>(object));
 
 	m_numOfObjects++;

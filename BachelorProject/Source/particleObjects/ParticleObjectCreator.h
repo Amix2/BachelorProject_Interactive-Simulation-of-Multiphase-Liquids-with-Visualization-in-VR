@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <particleObjects/ParticleObject.h>
+#include <particleObjects/MugParticleObject.h>
 #include <particleObjects/ParticleObjectManager.h>
 
 

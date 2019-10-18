@@ -50,5 +50,5 @@ public:
 
 	ParticleObject();
 
-	//virtual void stepTowardsDestination() = 0;
+	void stepTowardsDestination();
 };
