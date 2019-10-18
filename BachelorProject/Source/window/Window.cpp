@@ -1,10 +1,11 @@
 #include "Window.h"
 #include "Window.h"
 
-Window::Window(int width, int height, std::string name)
+Window::Window(int width, int height, std::string name, InputDispatcher& inputDispatcher)
 	: width { width }
 	, height { height } 
 	, name { name } 
+	, inputDispatcher { &inputDispatcher }
 	, glfwWindow { nullptr }
 	, mousePosX { -1 }
 	, mousePosY { -1 } {}
@@ -36,10 +37,12 @@ bool Window::init()
 	glfwSetFramebufferSizeCallback(glfwWindow, GlfwWindowResizeCallback);
 	glfwSetCursorPosCallback(glfwWindow, GlfwWindowMouseMoveCallback);
 	glfwSetScrollCallback(glfwWindow, GlfwWindowMouseScrollCallback);
+	glfwSetMouseButtonCallback(glfwWindow, GlfwWindowMouseButtonCallback);
+	glfwSetKeyCallback(glfwWindow, GlfwWindowKeyCallback);
+
 
 	glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	//TODO: Check errors
 	glewInit();
 
 	glEnable(GL_DEBUG_OUTPUT);
@@ -62,139 +65,15 @@ bool Window::refresh()
 	lastFrame = currentFrame;
 
 	glfwPollEvents();
-	processInput();
+	inputDispatcher->dispatchInput(deltaTime);
 
 	return glfwWindowShouldClose(glfwWindow);
 }
 
-#include <scene/camera/SimpleCameraController.h>
-#include <particleObjects/ParticleObjectCreator.h>
-#include <particleObjects/ParticleObjectManager.h>
-
-void Window::processInput() 
-{
-	if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(glfwWindow, true);
-
-	if (glfwGetKey(glfwWindow, GLFW_KEY_W) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_W);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_S) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_S);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_A) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_A);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_D) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_D);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_Q) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_Q);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_E) == GLFW_PRESS)
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_E);
-	if (glfwGetKey(glfwWindow, GLFW_KEY_1) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_1);
-		lastKeyPressTime = glfwGetTime();
-	}
-	if (glfwGetKey(glfwWindow, GLFW_KEY_2) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_2);
-		lastKeyPressTime = glfwGetTime();
-	}
-	if (glfwGetKey(glfwWindow, GLFW_KEY_3) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_3);
-		lastKeyPressTime = glfwGetTime();
-	}
-	if (glfwGetKey(glfwWindow, GLFW_KEY_4) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_4);
-		lastKeyPressTime = glfwGetTime();
-
-		Scene::Camera* camera = SimpleCameraController::cam;
-		glm::vec3 low = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(-3, -3, -3);
-		glm::vec3 high = camera->getPosition() + (camera->getFront() * 25.0f) + glm::vec3(3, 3, 3);
-		ParticleObjectDetais newObj{ 1, low.x, low.y, low.z, high.x, high.y, high.z };
-		ParticleObjectCreator::addObject(newObj);
-		
-	}
-	if (glfwGetKey(glfwWindow, GLFW_KEY_5) == GLFW_PRESS) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_5);
-
-		ParticleObjectManager::moveObject(0, true);
-	}
-
-	if (glfwGetKey(glfwWindow, GLFW_KEY_6) == GLFW_PRESS) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_6);
-
-		ParticleObjectManager::moveObject(0, false);
-	}
-
-	if (glfwGetKey(glfwWindow, GLFW_KEY_7) == GLFW_PRESS) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_6);
-		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, 0.001f, glm::vec3(1, 0, 0));
-	}
-
-	if (glfwGetKey(glfwWindow, GLFW_KEY_8) == GLFW_PRESS) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_6);
-
-		ParticleObjectManager::m_partObjectsArray[0].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[0].m_matrix, -0.001f, glm::vec3(1, 0, 0));
-	}
-
-	if (glfwGetKey(glfwWindow, GLFW_KEY_9) == GLFW_PRESS && glfwGetTime() - lastKeyPressTime > 0.5f) {
-		for (KeyPressListener* listener : keyInputListeners)
-			listener->handleKeyPress(KEY_9);
-		lastKeyPressTime = glfwGetTime();
-	}
-
-}
-
-void Window::subscribeForMousePositionChanges(MousePositionListener* listener)
-{
-	this->mousePositionListeners.push_back(listener);
-}
-
-void Window::subscribeForMouseScrollChanges(MouseScrollListener* listener)
-{
-	this->mouseScrollListeners.push_back(listener);
-}
 
 void Window::subscribeForWindowSizeChanges(WindowSizeListener* listener)
 {
 	this->windowSizeListeners.push_back(listener);
-}
-
-void Window::subscribeForKeyInput(KeyPressListener* listener)
-{
-	this->keyInputListeners.push_back(listener);
-}
-
-void Window::unsubscribeMousePositionListener(MousePositionListener* listener)
-{
-	std::remove(mousePositionListeners.begin(), mousePositionListeners.end(), listener);
-}
-
-void Window::unsubscribeMouseScrollListener(MouseScrollListener* listener)
-{
-	std::remove(mouseScrollListeners.begin(), mouseScrollListeners.end(), listener);
-}
-
-void Window::unsubscribeWindowSizeListener(WindowSizeListener* listener)
-{
-	std::remove(windowSizeListeners.begin(), windowSizeListeners.end(), listener);
-}
-
-void Window::unsubscribeKeyInputListener(KeyPressListener* listener)
-{
-	std::remove(keyInputListeners.begin(), keyInputListeners.end(), listener);
-
 }
 
 void Window::GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y)
@@ -207,6 +86,18 @@ void Window::GlfwWindowMouseScrollCallback(GLFWwindow* window, double xoffset, d
 {
 	Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
 	actualWindow->handleMouseScroll(xoffset, yoffset);
+}
+
+void Window::GlfwWindowMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+	actualWindow->handleMouseButtonPressed(button, action);
+}
+
+void Window::GlfwWindowKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	Window* actualWindow = (Window*)glfwGetWindowUserPointer(window);
+	actualWindow->handleKeyPressed(key, action);
 }
 
 void GLAPIENTRY Window::GlfwWindowMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -248,22 +139,23 @@ void Window::handleMouseMove(double x, double y)
 	mousePosX = x;
 	mousePosY = y;
 
-	if (!mousePositionListeners.empty())
-		for_each(mousePositionListeners.begin(), mousePositionListeners.end(), [xoffset, yoffset](MousePositionListener* listener)
-		{
-			listener->handleMouseMove(xoffset, yoffset);
-		});
+	inputDispatcher->handleMousePositionChange(xoffset, yoffset);
 }
 
 void Window::handleMouseScroll(double xoffset, double yoffset)
 {
-	if (!mouseScrollListeners.empty())
-		for_each(mouseScrollListeners.begin(), mouseScrollListeners.end(), [yoffset](MouseScrollListener* listener)
-		{
-			listener->handleMouseScroll(yoffset);
-		});
+	inputDispatcher->handleMouseScroll(yoffset);
 }
 
+void Window::handleMouseButtonPressed(int button, int action)
+{
+	inputDispatcher->handleButtonAction(button, action, deltaTime);
+}
 
-
-
+void Window::handleKeyPressed(int key, int action)
+{
+	if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(glfwWindow, true);
+	else if(action != GLFW_REPEAT)
+		inputDispatcher->handleButtonAction(key, action, deltaTime);
+}

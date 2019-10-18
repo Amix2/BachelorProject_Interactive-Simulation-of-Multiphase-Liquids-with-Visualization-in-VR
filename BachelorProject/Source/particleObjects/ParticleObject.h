@@ -38,7 +38,17 @@ class ParticleObject {
 public:
 	glm::mat4 m_matrix;
 
+	glm::vec3 m_center;
+	float m_innerRadius;
+	float m_height;
+	float m_thickness;
+
+	glm::mat4 m_destinationMatrix;
+
+
 	void createMug(ParticleObjectDetais details,  int& numOfParts);
 
 	ParticleObject();
+
+	void stepTowardsDestination();
 };

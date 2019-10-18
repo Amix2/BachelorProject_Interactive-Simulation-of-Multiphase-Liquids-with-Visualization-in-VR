@@ -114,6 +114,21 @@
     <ClCompile Include="Source\materialObjects\NormalVectorsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\materialObjects\GlassObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\glassController\GlassController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\materialObjects\Crosshair.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\particleObjects\MugParticleObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\VR\VRGLInterop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -209,15 +224,6 @@
     <ClInclude Include="Source\window\ViewPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\window\listener\KeyPressListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\window\listener\MouseScrollListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\window\listener\MousePositionListener.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\window\listener\WindowSizeListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -236,6 +242,33 @@
     <ClInclude Include="Source\materialObjects\NormalVectorsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\materialObjects\GlassObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\glassController\GlassController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\materialObjects\Crosshair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\inputDispatcher\InputDispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\inputDispatcher\KeyState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\inputDispatcher\listener\MousePositionListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\inputDispatcher\listener\MouseScrollListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\inputDispatcher\listener\KeyInputListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\particleObjects\MugParticleObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Source\VR\VRGLInterop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -247,5 +280,7 @@
     <None Include="Source\shaders\normalVectors\normalVectors.frag" />
     <None Include="Source\shaders\normalVectors\normalVectors.vert" />
     <None Include="Source\shaders\normalVectors\normalVectors.geom" />
+    <None Include="Source\shaders\glass\glass.frag" />
+    <None Include="Source\shaders\glass\glass.vert" />
   </ItemGroup>
 </Project>

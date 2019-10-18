@@ -1,10 +1,9 @@
 #include "NormalVectorsObject.h"
 
-NormalVectorsObject::NormalVectorsObject(Window& window, ShaderProgram program, glm::vec4 background)
+NormalVectorsObject::NormalVectorsObject(InputDispatcher& inputDispatcher, ShaderProgram program)
 	: MaterialObject{ program }
-	, background{ background } 
 {
-	window.subscribeForKeyInput(this);
+	inputDispatcher.subscribeForKeyInput(this, GLFW_KEY_9);
 }
 
 void NormalVectorsObject::init()
@@ -13,7 +12,7 @@ void NormalVectorsObject::init()
 	glBindVertexArray(VAO);
 
 
-	VBO = GpuResources::getIndex(BufferDatails::glassParticleName);
+	VBO = GpuResources::getIndex(BufferDetails::glassParticleName);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -31,23 +30,24 @@ void NormalVectorsObject::load(const glm::mat4& view, const glm::mat4& projectio
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
-	shaderProgram.setUniformVariable("background", background);
+	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 	shaderProgram.setUniformVariable("render", render);
 
-	//glLineWidth(5.0f);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0, ParticleData::m_NumOfGlassParticles);
 }
 
 
-void NormalVectorsObject::handleKeyPress(Key key)
+void NormalVectorsObject::handleKeyPress(int key, KeyState action, float deltaTime)
 {
-	switch (key) {
-	case KEY_9:
-		render = !render;
-		break;
-	default:
-		break;
+	if (action == KeyState::FALLING_EDGE) {
+		switch (key) {
+		case GLFW_KEY_9:
+			render = !render;
+			break;
+		default:
+			break;
+		}
 	}
 }

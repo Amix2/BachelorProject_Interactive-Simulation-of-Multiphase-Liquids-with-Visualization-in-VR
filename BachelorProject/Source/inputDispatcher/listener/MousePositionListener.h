@@ -2,6 +2,6 @@
 class MousePositionListener
 {
 public:
-	void virtual handleMouseMove(double x, double y) = 0;
+	void virtual handleMouseMove(float x, float y) = 0;
 };
 

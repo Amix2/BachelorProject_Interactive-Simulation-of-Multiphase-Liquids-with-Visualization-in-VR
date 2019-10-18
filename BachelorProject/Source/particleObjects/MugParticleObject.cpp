@@ -1,8 +1,6 @@
-#include "ParticleObject.h"
+#include "MugParticleObject.h"
 
-
-void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
-{
+MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) {
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
 	const float layerGap = (float)inCircleGap * (float)sqrt(3) * 0.5f;	// gap on oY
 	const float innerRadius = details.innerRadius;
@@ -16,7 +14,7 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 	const glm::vec3 bottomVec = localCenter - glm::vec3(0, height / 2, 0);
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
-	float outputThickness = -1.0;
+	float outputThickness;
 
 	// set up attributes
 	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
@@ -217,14 +215,6 @@ void ParticleObject::createMug(ParticleObjectDetais details, int& numOfParts)
 	m_thickness = outputThickness;
 }
 
-
-
-
-ParticleObject::ParticleObject() {
-	m_matrix = glm::mat4(3.0f);
-}
-
-void ParticleObject::stepTowardsDestination()
+void MugParticleObject::stepTowardsDestination()
 {
-	m_matrix = m_destinationMatrix;
 }

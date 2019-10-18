@@ -2,6 +2,6 @@
 class MouseScrollListener
 {
 public:
-	void virtual handleMouseScroll(double offset) = 0;
+	void virtual handleMouseScroll(float offset) = 0;
 };
 

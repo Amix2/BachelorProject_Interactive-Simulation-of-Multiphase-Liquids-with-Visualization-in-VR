@@ -13,10 +13,6 @@ ViewPort::ViewPort(Window& window, double relativeX, double relativeY, double re
 	window.subscribeForWindowSizeChanges(this);
 }
 
-ViewPort::~ViewPort()
-{
-	window->unsubscribeWindowSizeListener(this);
-}
 
 void ViewPort::handleWindowResize(int width, int height)
 {

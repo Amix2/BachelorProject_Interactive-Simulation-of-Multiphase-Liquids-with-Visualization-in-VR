@@ -1,12 +1,14 @@
 #include "FluidObject.h"
 #include <Logger.h>
 
-FluidObject::FluidObject(Window& window, const ShaderProgram& shaderProgram, const glm::vec4& background)
+FluidObject::FluidObject(InputDispatcher& window, const ShaderProgram& shaderProgram)
 	: MaterialObject{ shaderProgram } 
-	, background{ background }
 	, particleSize{ INITIAL_PARTICLES_SIZE }
 {
-	window.subscribeForKeyInput(this);
+	window.subscribeForKeyInput(this, std::vector<int>{
+		GLFW_KEY_1,
+		GLFW_KEY_2
+	});
 }
 
 void FluidObject::init()
@@ -15,7 +17,7 @@ void FluidObject::init()
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
+	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
@@ -35,7 +37,7 @@ void FluidObject::init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	float textureBorderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f }; //transparent
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, textureBorderColor);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	if (data)
@@ -49,47 +51,49 @@ void FluidObject::init()
 	} 
 	stbi_image_free(data);
 
+	shaderProgram.use();
+	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
+
 }
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-	int index = GpuResources::getIndex(BufferDatails::particlePositionsName);
+	if (ParticleData::m_ParticleBufferOpen) {
+		LOG_F(WARNING, "Particle Buffer was opened during draw call, aborting");
+		return;
+	}
+	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
-	shaderProgram.setUniformVariable("background", background);
 	shaderProgram.setUniformVariable("particleSize", particleSize);
-	shaderProgram.setUniformVariable("renderGlass", renderGlass);
 
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_POINTS, 0,ParticleData::m_NumOfParticles);
-	glDisable(GL_BLEND);
 }
 
-void FluidObject::handleKeyPress(Key key)
+void FluidObject::handleKeyPress(int key, KeyState action, float deltaTime)
 {
-	float deltaSize{ 0.0f };
-	switch (key) {
-	case KEY_1:
-		deltaSize = -0.1f;
-		break;
-	case KEY_2:
-		deltaSize = 0.1f;
-		break;
-	case KEY_3:
-		renderGlass = !renderGlass;
-		break;
-	default:
-		break;
-	}
-	if (deltaSize != 0.0f) {
-		particleSize += deltaSize;
+	if (action == KeyState::FALLING_EDGE) {
+		float deltaSize{ 0.0f };
+		switch (key) {
+		case GLFW_KEY_1:
+			deltaSize = -0.05f;
+			break;
+		case GLFW_KEY_2:
+			deltaSize = 0.05f;
+			break;
+		default:
+			break;
+		}
+		if (deltaSize != 0.0f) {
+			particleSize += deltaSize;
+			if (particleSize < 0.0f)
+				particleSize = 0.0f;
+		}
 	}
 }
 

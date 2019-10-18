@@ -1,23 +1,22 @@
 #include "SimpleCameraController.h"
 
-SimpleCameraController::SimpleCameraController(Window& window, ViewPort& viewport, const glm::vec3& position)
+SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher, ViewPort& viewport, const glm::vec3& position)
 	: camera{ viewport , position }
-	, window{ &window }
 {
-	window.subscribeForMousePositionChanges(this);
-	window.subscribeForMouseScrollChanges(this);
-	window.subscribeForKeyInput(this);
-	cam = &camera;
+	inputDispatcher.subscribeForMousePositionChanges(this);
+	inputDispatcher.subscribeForMouseScroll(this);
+	inputDispatcher.subscribeForKeyInput(this, std::vector<int>{ 
+		GLFW_KEY_W,
+		GLFW_KEY_S,
+		GLFW_KEY_A,
+		GLFW_KEY_D,
+		GLFW_KEY_Q,
+		GLFW_KEY_E
+	});
 }
 
-SimpleCameraController::~SimpleCameraController()
-{
-	window->unsubscribeMousePositionListener(this);
-	window->unsubscribeMouseScrollListener(this);
-	window->unsubscribeKeyInputListener(this);
-}
 
-void SimpleCameraController::handleMouseMove(double xoffset, double yoffset)
+void SimpleCameraController::handleMouseMove(float xoffset, float yoffset)
 {
 	xoffset *= MOUSE_SENSITIVITY;
 	yoffset *= MOUSE_SENSITIVITY;
@@ -31,7 +30,7 @@ void SimpleCameraController::handleMouseMove(double xoffset, double yoffset)
 	camera.setRotation(constrainedPitch, camera.getYaw() + (float)xoffset, camera.getRoll());
 }
 
-void SimpleCameraController::handleMouseScroll(double scroll)
+void SimpleCameraController::handleMouseScroll(float scroll)
 {
 	float cameraZoom = camera.getZoom();
 	float constrianedZoom =
@@ -41,30 +40,31 @@ void SimpleCameraController::handleMouseScroll(double scroll)
 	camera.setZoom(constrianedZoom);
 }
 
-void SimpleCameraController::handleKeyPress(Key key)
+void SimpleCameraController::handleKeyPress(int key, KeyState action, float deltaTime)
 {
-	float deltaTime = window->getDeltaTime();
-	switch (key) {
-	case KEY_W:
-		camera.setPosition(camera.getPosition() + camera.getFront() * deltaTime * VELOCITY);
-		break;
-	case KEY_S:
-		camera.setPosition(camera.getPosition() - camera.getFront() * deltaTime * VELOCITY);
-		break;
-	case KEY_A:
-		camera.setPosition(camera.getPosition() - camera.getRight() * deltaTime * VELOCITY);
-		break;
-	case KEY_D:
-		camera.setPosition(camera.getPosition() + camera.getRight() * deltaTime * VELOCITY);
-		break;
-	case KEY_Q:
-		camera.setPosition(camera.getPosition() + glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
-		break;
-	case KEY_E:
-		camera.setPosition(camera.getPosition() - glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
-		break;
-	default:
-		break;
+	if (action == KeyState::PRESSED) {
+		switch (key) {
+		case GLFW_KEY_W:
+			camera.setPosition(camera.getPosition() + camera.getFront() * deltaTime * VELOCITY);
+			break;
+		case GLFW_KEY_S:
+			camera.setPosition(camera.getPosition() - camera.getFront() * deltaTime * VELOCITY);
+			break;
+		case GLFW_KEY_A:
+			camera.setPosition(camera.getPosition() - camera.getRight() * deltaTime * VELOCITY);
+			break;
+		case GLFW_KEY_D:
+			camera.setPosition(camera.getPosition() + camera.getRight() * deltaTime * VELOCITY);
+			break;
+		case GLFW_KEY_Q:
+			camera.setPosition(camera.getPosition() + glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
+			break;
+		case GLFW_KEY_E:
+			camera.setPosition(camera.getPosition() - glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
+			break;
+		default:
+			break;
+		}
 	}
 }
 

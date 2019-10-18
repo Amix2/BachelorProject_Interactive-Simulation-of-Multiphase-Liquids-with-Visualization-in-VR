@@ -63,7 +63,8 @@ public:
 	inline static int m_NumOfParticles = 0;
 	inline static int m_NumOfGlassParticles = 0;
 
-	inline static int m_OpenedResources = 0;
+	inline static std::atomic_int m_OpenedResources = 0;
+	inline static std::atomic_bool m_ParticleBufferOpen = false;
 
 	// getters - only this class can change data from gpu
 	static Particle* getPositions();
