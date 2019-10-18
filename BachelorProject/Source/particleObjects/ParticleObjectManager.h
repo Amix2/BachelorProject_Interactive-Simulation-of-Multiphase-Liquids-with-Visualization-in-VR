@@ -12,12 +12,14 @@
 #include <glm/vec3.hpp>
 #include <particleObjects/ParticleGeometry.h>
 #include <Configuration.h>
+#include <memory>
 
 // Holds all particle object in scene, allows selecting and moving objects
 class ParticleObjectManager {
 	inline static std::atomic_bool m_positionChanged = false;
 public:
-	inline static ParticleObject m_partObjectsArray[Configuration.MAX_PARTICLE_OBJECTS];
+	//inline static ParticleObject m_partObjectsVector[Configuration.MAX_PARTICLE_OBJECTS];
+	inline static std::vector<std::unique_ptr<ParticleObject>> m_partObjectsVector;
 	inline static std::atomic_int m_numOfObjects = 0;
 
 	////////////////////////////////////////////////////////////////////////////

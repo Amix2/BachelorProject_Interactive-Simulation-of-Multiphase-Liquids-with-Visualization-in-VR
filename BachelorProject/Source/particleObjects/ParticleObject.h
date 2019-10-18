@@ -43,8 +43,12 @@ public:
 	float m_height;
 	float m_thickness;
 
+	glm::mat4 m_destinationMatrix;
+
 
 	void createMug(ParticleObjectDetais details,  int& numOfParts);
 
 	ParticleObject();
+
+	//virtual void stepTowardsDestination() = 0;
 };

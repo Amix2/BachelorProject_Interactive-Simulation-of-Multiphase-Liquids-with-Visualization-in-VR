@@ -18,7 +18,7 @@ void GlassController::assignUntrackedObjects(Scene::Scene& scene)
 {
 	if(trackedObjects < ParticleObjectManager::m_numOfObjects)
 		for (int i = trackedObjects; i < ParticleObjectManager::m_numOfObjects; i++) {
-			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, ParticleObjectManager::m_partObjectsArray[i] };
+			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, *ParticleObjectManager::m_partObjectsVector[i] };
 			glassObjects.push_back(object);
 			scene.addMaterialObject(object);
 			trackedObjects++;
@@ -31,7 +31,7 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 		float distanceFromCamera = -1.0f;
 		int selectedParticleObjectIndex = -1;
 		for (int i = 0; i < ParticleObjectManager::m_numOfObjects; i++) {
-			const ParticleObject* currentParticleObject = &ParticleObjectManager::m_partObjectsArray[i];
+			const ParticleObject* currentParticleObject = ParticleObjectManager::m_partObjectsVector[i].get();
 			glm::vec3 centerAsSeenFromCamera = camera.getViewMatrix() * glm::vec4(currentParticleObject->m_center, 1.0f);
 			float distanceFromZAxis = glm::length(glm::vec2{ centerAsSeenFromCamera.x, centerAsSeenFromCamera.y });
 			if (distanceFromZAxis < currentParticleObject->m_innerRadius)
@@ -71,11 +71,11 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 			break;
 		case GLFW_KEY_7:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsArray[currentlySelected].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[currentlySelected].m_matrix, 0.001f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix, 0.001f, glm::vec3(1, 0, 0));
 			break;
 		case GLFW_KEY_8:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsArray[currentlySelected].m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsArray[currentlySelected].m_matrix, -0.001f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix, -0.001f, glm::vec3(1, 0, 0));
 			break;
 		default:
 			break;
