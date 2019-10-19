@@ -5,15 +5,17 @@ std::chrono::time_point<std::chrono::steady_clock> nTimeTemp, nTimeMain;
 
 void Simulation::runSimulationFrame()
 {
-
+	LOG_F(INFO, " =====");
 	nTimeMain = getNanoTime();
-	while (ParticleObjectCreator::hasNewOrder()) {
+	if (ParticleObjectCreator::hasNewOrder()) {
 		LOG_F(INFO, "Parsing Order loop");
 		ParticleData::syncSimDetailsWithGpu();
 		ParticleObjectCreator::createParticlesFromOrderList();
 		//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_UNIFORM_BARRIER_BIT);
 		//ParticleData::printParticleData(0);
 		//ParticleData::syncSimDetailsWithGpu();
+		//Sleep(100);
+		glFinish();
 	}
 
 	if (ParticleData::m_NumOfParticles == 0) return;
@@ -126,10 +128,16 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
-	ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details);
 	ParticleObjectCreator::addObject(details2);
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 }
@@ -145,8 +153,8 @@ void Simulation::main()
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	while (!glfwWindowShouldClose(m_mainWindow))
-	//for (int i = 0; i < 2000; i++)
+	//while (!glfwWindowShouldClose(m_mainWindow))
+	for (int i = 0; i < 1; i++)
 	{
 		m_turnNumber++;
 
@@ -156,9 +164,9 @@ void Simulation::main()
 
 
 	}
-	//ParticleData::printParticleData(20);
-	//ParticleData::printGlassParticlesData(20);
-	//ParticleData::printGlassObjectsData();
+	ParticleData::printParticleData(20);
+	ParticleData::printGlassParticlesData(20);
+	ParticleData::printGlassObjectsData();
 	//ParticleData::printSortingData(20);
 	//ParticleData::printSPHData(1, 1, 1, 1, 1,220);
 	//ParticleData::printNeighboursData();

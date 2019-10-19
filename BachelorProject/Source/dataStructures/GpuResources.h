@@ -32,6 +32,7 @@ class GpuResources
 
 	static void		clearResource(GLuint target);
 public:
+	static void		updateBuffer(std::string name, GLintptr offset, GLsizeiptr size, const void* data);
 
 	static void		createSSBO(std::string name, GLsizeiptr size, const void *data, GLuint bindingPointIndex);	// create SSBO and add its name to local map
 	static void*	getDataSSBO(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit

@@ -129,6 +129,9 @@
     <ClCompile Include="Source\particleObjects\MugParticleObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ThreadSynchronizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\shaders\ComputeShader.h">
@@ -261,6 +264,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\particleObjects\MugParticleObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ThreadSynchronizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

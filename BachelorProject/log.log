@@ -2,60 +2,773 @@ arguments: D:\\AGH\\BachelorProject\\x64\\Debug\\BachelorProject.exe
 Current dir: D:\AGH\BachelorProject\BachelorProject
 File verbosity level: 9
 time         ( uptime  ) [ thread name/id]           file:line     v| 
-10:22:51.017 (   0.073s) [main]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
-10:22:51.389 (   0.445s) [main]       Main.cpp:163   WARN| This PC can handle 19884107 particles and 17895558 glass particles
-10:22:51.394 (   0.450s) [main]GpuResources.cp:132   INFO| new SSBO, name: ParticlePositions, 	id: 1, size: 8388608
-10:22:51.398 (   0.454s) [main]GpuResources.cp:132   INFO| new SSBO, name: GlassParticles, 	id: 2, size: 4194304
-10:22:51.402 (   0.458s) [main]GpuResources.cp:204   INFO| new UBO, name: GlassObjectsDetails, 	id: 3
-10:22:51.405 (   0.460s) [main]GpuResources.cp:204   INFO| new UBO, name: FluidTypes, 	id: 4
-10:22:51.407 (   0.463s) [main]GpuResources.cp:132   INFO| new SSBO, name: Details, 	id: 5, size: 8
-10:22:51.411 (   0.466s) [main]GpuResources.cp:132   INFO| new SSBO, name: SPHVariables, 	id: 6, size: 25165824
-10:22:51.415 (   0.471s) [main]GpuResources.cp:132   INFO| new SSBO, name: SortVariables, 	id: 7, size: 23068672
-10:22:51.419 (   0.475s) [main]GpuResources.cp:132   INFO| new SSBO, name: NeighboursList, 	id: 8, size: 56623104
-10:22:51.427 (   0.483s) [main]GpuResources.cp:132   INFO| new SSBO, name: HelperBuffer, 	id: 9, size: 2142000000
-10:22:51.456 (   0.512s) [main]ThreadManager.c:16    INFO| New thread in list
-10:22:51.457 (   0.513s) [Sim ] Simulation.cpp:181   INFO| Simulation Thread START
-10:22:51.476 (   0.532s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/CellCountingForSort.glsl compile successful, time: 3.144800
-10:22:51.483 (   0.539s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/BitonicSortShader.glsl compile successful, time: 2.130700
-10:22:51.491 (   0.547s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/SortingFinalizer.glsl compile successful, time: 2.339800
-10:22:51.500 (   0.555s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/SphNeighbourSearch.glsl compile successful, time: 3.069400
-10:22:51.509 (   0.565s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/SphDensityPressureFluid.glsl compile successful, time: 4.201100
-10:22:51.520 (   0.575s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/SphAccelerationFluid.glsl compile successful, time: 4.860300
-10:22:51.532 (   0.588s) [Sim ]ComputeShader.c:45    INFO| Shader ./Source/shaders/shaderFiles/SphVelocity.glsl compile successful, time: 7.653800
-10:22:51.536 (   0.592s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: ParticlePositions, 	id: 1, size: 8388608
-10:22:51.541 (   0.597s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: GlassParticles, 	id: 2, size: 4194304
-10:22:51.545 (   0.601s) [Sim ]GpuResources.cp:199   INFO| UBO attached, name: GlassObjectsDetails, 	id: 3
-10:22:51.548 (   0.604s) [Sim ]GpuResources.cp:199   INFO| UBO attached, name: FluidTypes, 	id: 4
-10:22:51.551 (   0.607s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: Details, 	id: 5, size: 8
-10:22:51.554 (   0.610s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: SPHVariables, 	id: 6, size: 25165824
-10:22:51.557 (   0.613s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: SortVariables, 	id: 7, size: 23068672
-10:22:51.561 (   0.617s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: NeighboursList, 	id: 8, size: 56623104
-10:22:51.575 (   0.631s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: HelperBuffer, 	id: 9, size: 2142000000
-10:22:51.578 (   0.634s) [Sim ]ParticleObjectC:115   INFO| New object added to create: type: 1
-10:22:51.581 (   0.637s) [Sim ]ParticleObjectC:115   INFO| New object added to create: type: -1
-10:22:51.584 (   0.640s) [Sim ] Simulation.cpp:14    INFO| LOOP
-10:22:51.586 (   0.642s) [Sim ] Simulation.cpp:28    INFO| Parsing Order loop
-10:22:51.589 (   0.645s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
-10:22:51.591 (   0.647s) [Sim ]ParticleData.cp:43    INFO| OPEN to add array for PARTICLES
-10:22:52.140 (   1.196s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 0, length 8388608
-10:22:52.160 (   1.216s) [Sim ]ParticleData.cp:56    INFO| OPEN to add array for GLASS PARTICLES
-10:22:52.164 (   1.219s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 0, length 4194304
-10:22:52.246 (   1.302s) [Sim ]ParticleData.cp:90    INFO| COMMIT PARTICLES
-10:22:52.250 (   1.305s) [Sim ]ParticleData.cp:101   INFO| COMMIT GLASS PARTICLES
-10:22:52.255 (   1.311s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 124011, total time: 663.560000
-10:22:52.262 (   1.318s) [Sim ]ParticleData.cp:185   INFO| ==============================
-10:22:52.266 (   1.322s) [Sim ]ParticleData.cp:186   INFO| Simulation particles print
-10:22:52.272 (   1.328s) [Sim ]ParticleData.cp:204   INFO| 	Num of particles in simulation: 124011, on CPU side: 124011
-10:22:52.287 (   1.343s) [Sim ]ParticleData.cp:208   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-10:22:52.307 (   1.363s) [Sim ] Simulation.cpp:28    INFO| Parsing Order loop
-10:22:52.309 (   1.365s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
-10:22:52.313 (   1.369s) [Sim ]ParticleData.cp:43    INFO| OPEN to add array for PARTICLES
-10:22:52.316 (   1.372s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 1984176, length 6404432
-10:22:52.324 (   1.380s) [Sim ]ParticleData.cp:90    INFO| COMMIT PARTICLES
-10:22:52.330 (   1.386s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 228939, total time: 16.763000
-10:22:52.336 (   1.391s) [Sim ]ParticleData.cp:185   INFO| ==============================
-10:22:52.338 (   1.394s) [Sim ]ParticleData.cp:186   INFO| Simulation particles print
-10:22:52.346 (   1.402s) [Sim ]ParticleData.cp:204   INFO| 	Num of particles in simulation: 352950, on CPU side: 352950
-10:22:52.350 (   1.406s) [Sim ]ParticleData.cp:208   INFO| xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-10:23:42.242 (  51.298s) [main]       Main.cpp:145   INFO| Clean Up
-10:23:42.245 (  51.300s) [main]     loguru.cpp:478   INFO| atexit
+21:01:46.120 (   0.159s) [main]     loguru.cpp:762   INFO| Logging to 'log.log', mode: 'w', verbosity: 9
+21:01:46.598 (   0.637s) [main]       Main.cpp:188   WARN| Simulation scene size: (918 816 714), Max particles: 262144, Max glass particles: 131072
+21:01:46.608 (   0.646s) [main]GpuResources.cp:132   INFO| new SSBO, name: ParticlePositions, 	id: 1, size: 4194304
+21:01:46.608 (   0.647s) [main]GpuResources.cp:132   INFO| new SSBO, name: GlassParticles, 	id: 2, size: 4194304
+21:01:46.608 (   0.647s) [main]GpuResources.cp:204   INFO| new UBO, name: GlassObjectsDetails, 	id: 3
+21:01:46.608 (   0.647s) [main]GpuResources.cp:204   INFO| new UBO, name: FluidTypes, 	id: 4
+21:01:46.608 (   0.647s) [main]GpuResources.cp:132   INFO| new SSBO, name: Details, 	id: 5, size: 8
+21:01:46.608 (   0.647s) [main]GpuResources.cp:132   INFO| new SSBO, name: SPHVariables, 	id: 6, size: 12582912
+21:01:46.609 (   0.647s) [main]GpuResources.cp:132   INFO| new SSBO, name: SortVariables, 	id: 7, size: 11534336
+21:01:46.609 (   0.648s) [main]GpuResources.cp:132   INFO| new SSBO, name: NeighboursList, 	id: 8, size: 28311552
+21:01:46.614 (   0.652s) [main]GpuResources.cp:132   INFO| new SSBO, name: HelperBuffer, 	id: 9, size: 2139395328
+21:01:46.642 (   0.681s) [main]ThreadManager.c:16    INFO| New thread in list
+21:01:46.642 (   0.681s) [Sim ] Simulation.cpp:148   INFO| Simulation Thread START
+21:01:46.646 (   0.685s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/CellCountingForSort.glsl compile successful, time: 3.145700
+21:01:46.654 (   0.693s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/BitonicSortShader.glsl compile successful, time: 2.238600
+21:01:46.662 (   0.701s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/SortingFinalizer.glsl compile successful, time: 2.101200
+21:01:46.671 (   0.710s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/SphNeighbourSearch.glsl compile successful, time: 2.983700
+21:01:46.688 (   0.726s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/SphDensityPressureFluid.glsl compile successful, time: 4.316200
+21:01:46.699 (   0.737s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/SphAccelerationFluid.glsl compile successful, time: 4.695000
+21:01:46.707 (   0.746s) [Sim ]ComputeShader.c:45    WARN| Shader ./Source/shaders/shaderFiles/SphVelocity.glsl compile successful, time: 3.098000
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: ParticlePositions, 	id: 1, size: 4194304
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: GlassParticles, 	id: 2, size: 4194304
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:199   INFO| UBO attached, name: GlassObjectsDetails, 	id: 3
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:199   INFO| UBO attached, name: FluidTypes, 	id: 4
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: Details, 	id: 5, size: 8
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: SPHVariables, 	id: 6, size: 12582912
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: SortVariables, 	id: 7, size: 11534336
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: NeighboursList, 	id: 8, size: 28311552
+21:01:46.717 (   0.756s) [Sim ]GpuResources.cp:127   INFO| SSBO attached, name: HelperBuffer, 	id: 9, size: 2139395328
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: 1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: -1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: 1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: -1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: 1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: -1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: 1
+21:01:46.717 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: -1
+21:01:46.718 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: 1
+21:01:46.718 (   0.756s) [Sim ]ParticleObjectC:121   INFO| New object added to create: type: -1
+21:01:46.718 (   0.756s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:46.718 (   0.756s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:46.957 (   0.995s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
+21:01:46.957 (   0.996s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:46.957 (   0.996s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:46.957 (   0.996s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 0, length 4194304
+21:01:46.963 (   1.002s) [Sim ]ParticleData.cp:57    INFO| OPEN to add array for GLASS PARTICLES
+21:01:46.964 (   1.002s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 0, length 4194304
+21:01:46.969 (   1.008s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:46.984 (   1.023s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:46.990 (   1.029s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:46.990 (   1.029s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:46.990 (   1.029s) [Sim ]ParticleData.cp:104   INFO| COMMIT GLASS PARTICLES
+21:01:46.997 (   1.036s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 48295, total time: 40.498000
+21:01:47.011 (   1.050s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.011 (   1.050s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.013 (   1.052s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
+21:01:47.013 (   1.052s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.014 (   1.052s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 772720, length 3421584
+21:01:47.014 (   1.052s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.016 (   1.054s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.018 (   1.057s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 116756, total time: 4.797400
+21:01:47.021 (   1.060s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.021 (   1.060s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.037 (   1.076s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
+21:01:47.037 (   1.076s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.037 (   1.076s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2640816, length 1553488
+21:01:47.043 (   1.082s) [Sim ]ParticleData.cp:57    INFO| OPEN to add array for GLASS PARTICLES
+21:01:47.043 (   1.082s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 1545440, length 2648864
+21:01:47.045 (   1.084s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.045 (   1.084s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.048 (   1.087s) [Sim ]ParticleData.cp:104   INFO| COMMIT GLASS PARTICLES
+21:01:47.049 (   1.088s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 968, total time: 12.424300
+21:01:47.052 (   1.091s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.052 (   1.091s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.072 (   1.111s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
+21:01:47.072 (   1.111s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.072 (   1.111s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2656304, length 1538000
+21:01:47.075 (   1.114s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.076 (   1.115s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 1, total time: 3.695900
+21:01:47.078 (   1.117s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.078 (   1.117s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.098 (   1.137s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
+21:01:47.098 (   1.137s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.098 (   1.137s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2656320, length 1537984
+21:01:47.101 (   1.140s) [Sim ]ParticleData.cp:57    INFO| OPEN to add array for GLASS PARTICLES
+21:01:47.101 (   1.140s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 1576416, length 2617888
+21:01:47.102 (   1.141s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.102 (   1.141s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.117 (   1.156s) [Sim ]ParticleData.cp:104   INFO| COMMIT GLASS PARTICLES
+21:01:47.118 (   1.157s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 968, total time: 20.029600
+21:01:47.124 (   1.163s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.124 (   1.163s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.144 (   1.183s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
+21:01:47.144 (   1.183s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.145 (   1.183s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2671808, length 1522496
+21:01:47.148 (   1.187s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.148 (   1.187s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 1, total time: 3.796900
+21:01:47.151 (   1.190s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.151 (   1.190s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.171 (   1.209s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
+21:01:47.171 (   1.210s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.171 (   1.210s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2671824, length 1522480
+21:01:47.171 (   1.210s) [Sim ]ParticleData.cp:57    INFO| OPEN to add array for GLASS PARTICLES
+21:01:47.171 (   1.210s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 1607392, length 2586912
+21:01:47.171 (   1.210s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.175 (   1.214s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.177 (   1.216s) [Sim ]ParticleData.cp:104   INFO| COMMIT GLASS PARTICLES
+21:01:47.178 (   1.217s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 968, total time: 6.974700
+21:01:47.181 (   1.219s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.181 (   1.219s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.200 (   1.239s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
+21:01:47.200 (   1.239s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.200 (   1.239s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2687312, length 1506992
+21:01:47.204 (   1.242s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.204 (   1.243s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 1, total time: 3.675700
+21:01:47.207 (   1.246s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.207 (   1.246s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.226 (   1.265s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: -1
+21:01:47.226 (   1.265s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.227 (   1.265s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2687328, length 1506976
+21:01:47.230 (   1.269s) [Sim ]ParticleData.cp:57    INFO| OPEN to add array for GLASS PARTICLES
+21:01:47.230 (   1.269s) [Sim ]GpuResources.cp:71    INFO| open part GlassParticles, offset 1638368, length 2555936
+21:01:47.230 (   1.269s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.231 (   1.270s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.236 (   1.274s) [Sim ]ParticleData.cp:104   INFO| COMMIT GLASS PARTICLES
+21:01:47.237 (   1.275s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: -1, particles: 968, total time: 10.024600
+21:01:47.240 (   1.279s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.240 (   1.279s) [Sim ] Simulation.cpp:11    INFO| Parsing Order loop
+21:01:47.259 (   1.298s) [Sim ]ParticleObjectC:17    INFO| New object is now created, type: 1
+21:01:47.259 (   1.298s) [Sim ]ParticleData.cp:44    INFO| OPEN to add array for PARTICLES
+21:01:47.259 (   1.298s) [main]FluidObject.cpp:62    WARN| Particle Buffer was opened during draw call, aborting
+21:01:47.259 (   1.298s) [Sim ]GpuResources.cp:71    INFO| open part ParticlePositions, offset 2702816, length 1491488
+21:01:47.265 (   1.303s) [Sim ]ParticleData.cp:91    INFO| COMMIT PARTICLES
+21:01:47.265 (   1.304s) [Sim ]ParticleObjectC:73    INFO| New object added to Simulation: type: 1, particles: 1, total time: 5.479600
+21:01:47.267 (   1.306s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.290 (   1.329s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.312 (   1.351s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.335 (   1.374s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.358 (   1.397s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.381 (   1.420s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.404 (   1.443s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.426 (   1.465s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.449 (   1.488s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.471 (   1.510s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.493 (   1.532s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.515 (   1.554s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.537 (   1.576s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.560 (   1.599s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.582 (   1.621s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.605 (   1.644s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.628 (   1.667s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.650 (   1.689s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.673 (   1.711s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.695 (   1.734s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.717 (   1.756s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.741 (   1.780s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.764 (   1.802s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.785 (   1.824s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.808 (   1.847s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.830 (   1.869s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.853 (   1.892s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.876 (   1.914s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.897 (   1.936s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.920 (   1.959s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.943 (   1.982s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.965 (   2.004s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:47.988 (   2.027s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.011 (   2.050s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.034 (   2.072s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.057 (   2.096s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.080 (   2.119s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.103 (   2.141s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.126 (   2.165s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.149 (   2.188s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.172 (   2.211s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.198 (   2.237s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.222 (   2.261s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.245 (   2.284s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.268 (   2.307s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.292 (   2.331s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.315 (   2.354s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.338 (   2.377s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.361 (   2.400s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.385 (   2.423s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.408 (   2.447s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.431 (   2.470s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.454 (   2.493s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.477 (   2.516s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.500 (   2.539s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.524 (   2.563s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.548 (   2.587s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.571 (   2.610s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.595 (   2.634s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.618 (   2.657s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.642 (   2.681s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.665 (   2.704s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.689 (   2.728s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.712 (   2.751s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.736 (   2.774s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.760 (   2.798s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.783 (   2.822s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.807 (   2.845s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.831 (   2.869s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.854 (   2.893s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.878 (   2.917s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.902 (   2.941s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.927 (   2.966s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.950 (   2.989s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.975 (   3.014s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:48.999 (   3.037s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.022 (   3.061s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.046 (   3.084s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.070 (   3.108s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.094 (   3.132s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.117 (   3.156s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.141 (   3.180s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.165 (   3.204s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.189 (   3.228s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.213 (   3.252s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.237 (   3.276s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.262 (   3.301s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.287 (   3.326s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.312 (   3.350s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.336 (   3.375s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.360 (   3.399s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.385 (   3.424s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.410 (   3.449s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.434 (   3.473s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.459 (   3.497s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.484 (   3.523s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.508 (   3.547s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.534 (   3.572s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.559 (   3.598s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.584 (   3.622s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.609 (   3.648s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.634 (   3.673s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.659 (   3.698s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.684 (   3.723s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.711 (   3.749s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.736 (   3.774s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.762 (   3.801s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.786 (   3.825s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.812 (   3.851s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.836 (   3.875s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.858 (   3.897s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.884 (   3.923s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.910 (   3.948s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.935 (   3.973s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.961 (   4.000s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:49.986 (   4.025s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.011 (   4.050s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.037 (   4.076s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.062 (   4.101s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.088 (   4.126s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.113 (   4.152s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.138 (   4.177s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.163 (   4.202s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.188 (   4.227s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.213 (   4.252s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.239 (   4.278s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.265 (   4.303s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.290 (   4.328s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.316 (   4.354s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.341 (   4.379s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.366 (   4.405s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.392 (   4.431s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.418 (   4.457s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.443 (   4.482s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.469 (   4.508s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.494 (   4.533s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.515 (   4.554s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.540 (   4.579s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.566 (   4.605s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.592 (   4.630s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.617 (   4.656s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.643 (   4.682s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.668 (   4.707s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.694 (   4.733s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.720 (   4.759s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.746 (   4.784s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.771 (   4.810s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.797 (   4.835s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.822 (   4.861s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.847 (   4.886s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.873 (   4.911s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.898 (   4.937s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.924 (   4.963s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.949 (   4.988s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.974 (   5.013s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:50.999 (   5.038s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.025 (   5.064s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.051 (   5.090s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.077 (   5.115s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.102 (   5.141s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.129 (   5.168s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.154 (   5.193s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.179 (   5.218s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.205 (   5.244s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.231 (   5.270s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.256 (   5.295s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.283 (   5.322s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.308 (   5.347s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.334 (   5.373s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.360 (   5.399s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.386 (   5.425s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.412 (   5.451s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.438 (   5.477s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.464 (   5.503s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.490 (   5.528s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.516 (   5.554s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.541 (   5.579s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.567 (   5.606s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.593 (   5.632s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.619 (   5.658s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.644 (   5.683s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.670 (   5.708s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.696 (   5.735s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.721 (   5.759s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.747 (   5.785s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.772 (   5.811s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.798 (   5.837s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.823 (   5.862s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.849 (   5.887s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.874 (   5.912s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.899 (   5.938s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.924 (   5.963s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.949 (   5.988s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.975 (   6.013s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:51.999 (   6.038s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.024 (   6.063s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.050 (   6.088s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.075 (   6.113s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.100 (   6.139s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.124 (   6.163s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.150 (   6.189s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.175 (   6.214s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.199 (   6.238s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.224 (   6.263s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.249 (   6.288s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.273 (   6.312s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.298 (   6.337s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.323 (   6.362s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.348 (   6.386s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.373 (   6.412s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.398 (   6.436s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.422 (   6.460s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.446 (   6.485s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.470 (   6.509s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.494 (   6.533s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.517 (   6.556s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.541 (   6.580s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.566 (   6.604s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.589 (   6.628s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.613 (   6.652s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.637 (   6.676s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.661 (   6.700s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.685 (   6.724s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.709 (   6.748s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.732 (   6.771s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.755 (   6.794s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.779 (   6.818s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.803 (   6.842s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.826 (   6.865s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.849 (   6.888s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.872 (   6.911s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.896 (   6.935s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.919 (   6.958s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.942 (   6.981s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.965 (   7.004s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:52.988 (   7.027s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.011 (   7.050s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.034 (   7.073s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.057 (   7.096s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.080 (   7.119s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.102 (   7.141s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.125 (   7.164s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.147 (   7.186s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.170 (   7.209s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.192 (   7.231s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.215 (   7.254s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.238 (   7.277s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.259 (   7.298s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.281 (   7.320s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.303 (   7.342s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.325 (   7.364s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.348 (   7.386s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.370 (   7.408s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.391 (   7.430s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.414 (   7.453s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.438 (   7.477s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.462 (   7.501s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.483 (   7.522s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.505 (   7.544s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.528 (   7.567s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.550 (   7.588s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.572 (   7.610s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.593 (   7.632s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.616 (   7.655s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.638 (   7.676s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.659 (   7.698s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.682 (   7.720s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.703 (   7.742s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.724 (   7.763s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.746 (   7.785s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.767 (   7.806s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.788 (   7.827s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.809 (   7.848s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.832 (   7.871s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.856 (   7.895s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.880 (   7.919s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.902 (   7.941s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.925 (   7.964s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.948 (   7.987s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.969 (   8.008s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:53.990 (   8.028s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.012 (   8.051s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.035 (   8.074s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.056 (   8.094s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.076 (   8.115s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.097 (   8.135s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.117 (   8.156s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.138 (   8.176s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.158 (   8.197s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.180 (   8.219s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.203 (   8.241s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.223 (   8.262s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.244 (   8.282s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.266 (   8.305s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.286 (   8.325s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.309 (   8.348s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.331 (   8.370s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.354 (   8.393s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.377 (   8.415s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.400 (   8.439s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.423 (   8.462s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.444 (   8.483s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.465 (   8.504s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.485 (   8.524s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.508 (   8.547s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.530 (   8.569s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.553 (   8.591s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.575 (   8.614s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.597 (   8.636s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.617 (   8.656s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.639 (   8.678s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.662 (   8.701s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.685 (   8.724s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.706 (   8.745s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.728 (   8.767s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.751 (   8.790s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.771 (   8.810s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.792 (   8.830s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.813 (   8.852s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.834 (   8.872s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.855 (   8.894s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.877 (   8.916s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.898 (   8.936s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.918 (   8.957s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.940 (   8.979s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.959 (   8.998s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:54.978 (   9.017s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.000 (   9.039s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.020 (   9.059s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.042 (   9.081s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.064 (   9.103s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.085 (   9.124s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.106 (   9.145s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.129 (   9.168s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.153 (   9.191s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.173 (   9.212s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.193 (   9.232s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.215 (   9.254s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.235 (   9.274s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.256 (   9.295s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.276 (   9.315s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.296 (   9.335s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.318 (   9.357s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.340 (   9.379s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.362 (   9.401s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.383 (   9.422s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.402 (   9.441s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.423 (   9.462s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.445 (   9.484s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.467 (   9.506s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.487 (   9.526s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.506 (   9.545s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.527 (   9.566s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.547 (   9.586s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.569 (   9.608s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.589 (   9.627s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.609 (   9.648s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.630 (   9.669s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.650 (   9.689s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.670 (   9.709s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.690 (   9.729s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.709 (   9.748s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.728 (   9.767s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.748 (   9.787s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.768 (   9.806s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.786 (   9.825s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.807 (   9.846s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.825 (   9.864s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.845 (   9.883s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.864 (   9.903s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.883 (   9.922s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.902 (   9.941s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.922 (   9.961s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.941 (   9.980s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.960 (   9.999s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.979 (  10.017s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:55.999 (  10.037s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.018 (  10.057s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.039 (  10.078s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.057 (  10.096s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.076 (  10.115s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.099 (  10.138s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.115 (  10.154s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.133 (  10.172s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.150 (  10.189s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.168 (  10.207s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.184 (  10.223s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.200 (  10.239s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.218 (  10.257s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.234 (  10.273s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.252 (  10.291s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.268 (  10.307s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.285 (  10.324s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.302 (  10.341s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.320 (  10.358s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.336 (  10.375s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.352 (  10.391s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.369 (  10.408s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.387 (  10.426s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.404 (  10.443s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.422 (  10.460s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.440 (  10.478s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.456 (  10.495s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.474 (  10.513s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.490 (  10.529s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.508 (  10.547s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.524 (  10.563s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.542 (  10.581s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.560 (  10.599s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.577 (  10.615s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.593 (  10.632s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.610 (  10.649s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.626 (  10.665s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.643 (  10.681s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.659 (  10.698s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.675 (  10.714s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.692 (  10.731s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.710 (  10.749s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.727 (  10.766s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.744 (  10.783s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.759 (  10.798s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.775 (  10.814s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.792 (  10.830s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.808 (  10.847s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.826 (  10.865s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.844 (  10.883s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.862 (  10.901s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.879 (  10.918s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.896 (  10.935s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.914 (  10.953s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.930 (  10.969s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.948 (  10.987s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.963 (  11.002s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.980 (  11.019s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:56.997 (  11.036s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.014 (  11.053s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.031 (  11.069s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.047 (  11.086s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.064 (  11.103s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.081 (  11.120s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.098 (  11.137s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.114 (  11.153s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.130 (  11.169s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.146 (  11.185s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.163 (  11.202s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.179 (  11.217s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.195 (  11.234s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.212 (  11.251s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.229 (  11.267s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.245 (  11.284s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.261 (  11.300s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.276 (  11.315s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.292 (  11.330s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.308 (  11.347s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.324 (  11.363s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.339 (  11.378s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.354 (  11.393s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.370 (  11.408s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.385 (  11.424s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.400 (  11.439s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.417 (  11.456s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.433 (  11.472s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.448 (  11.487s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.464 (  11.503s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.480 (  11.519s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.496 (  11.535s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.511 (  11.550s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.527 (  11.566s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.543 (  11.582s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.558 (  11.597s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.576 (  11.615s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.591 (  11.630s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.608 (  11.647s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.626 (  11.664s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.641 (  11.680s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.657 (  11.696s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.674 (  11.713s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.691 (  11.730s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.708 (  11.747s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.726 (  11.765s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.743 (  11.782s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.760 (  11.798s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.776 (  11.814s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.793 (  11.831s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.806 (  11.845s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.822 (  11.861s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.837 (  11.876s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.853 (  11.892s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.868 (  11.907s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.883 (  11.922s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.899 (  11.938s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.914 (  11.953s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.929 (  11.968s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.945 (  11.984s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.960 (  11.999s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.974 (  12.013s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:57.989 (  12.028s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.004 (  12.043s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.020 (  12.058s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.034 (  12.073s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.049 (  12.088s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.064 (  12.103s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.078 (  12.117s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.094 (  12.133s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.108 (  12.147s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.123 (  12.161s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.139 (  12.178s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.153 (  12.192s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.168 (  12.207s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.183 (  12.222s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.198 (  12.236s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.212 (  12.251s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.227 (  12.266s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.242 (  12.281s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.257 (  12.296s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.272 (  12.311s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.286 (  12.325s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.302 (  12.341s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.316 (  12.355s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.331 (  12.370s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.346 (  12.385s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.360 (  12.399s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.375 (  12.414s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.390 (  12.428s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.404 (  12.443s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.420 (  12.459s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.436 (  12.474s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.448 (  12.487s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.461 (  12.500s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.477 (  12.515s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.490 (  12.529s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.505 (  12.544s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.520 (  12.558s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.535 (  12.574s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.548 (  12.587s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.563 (  12.602s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.577 (  12.616s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.592 (  12.631s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.606 (  12.645s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.621 (  12.659s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.634 (  12.673s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.652 (  12.691s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.666 (  12.705s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.680 (  12.719s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.694 (  12.733s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.708 (  12.747s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.722 (  12.761s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.737 (  12.776s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.752 (  12.791s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.767 (  12.806s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.781 (  12.820s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.797 (  12.835s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.813 (  12.851s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.826 (  12.865s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.840 (  12.879s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.854 (  12.893s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.870 (  12.908s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.885 (  12.923s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.900 (  12.938s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.915 (  12.954s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.930 (  12.969s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.944 (  12.983s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.960 (  12.999s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.976 (  13.015s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:58.992 (  13.030s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.008 (  13.046s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.023 (  13.062s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.038 (  13.077s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.052 (  13.090s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.066 (  13.105s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.081 (  13.119s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.095 (  13.134s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.109 (  13.148s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.125 (  13.164s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.141 (  13.180s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.155 (  13.194s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.169 (  13.208s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.183 (  13.221s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.196 (  13.234s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.210 (  13.249s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.225 (  13.264s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.239 (  13.278s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.253 (  13.292s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.267 (  13.306s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.282 (  13.321s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.297 (  13.336s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.314 (  13.353s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.330 (  13.369s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.346 (  13.385s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.365 (  13.404s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.381 (  13.420s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.398 (  13.437s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.416 (  13.455s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.435 (  13.474s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.452 (  13.491s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.468 (  13.507s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.484 (  13.523s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.500 (  13.538s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.516 (  13.555s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.534 (  13.573s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.552 (  13.591s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.571 (  13.610s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.588 (  13.626s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.604 (  13.643s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.620 (  13.659s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.639 (  13.678s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.655 (  13.694s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.671 (  13.710s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.688 (  13.727s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.703 (  13.742s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.719 (  13.758s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.736 (  13.774s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.755 (  13.793s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.771 (  13.810s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.788 (  13.827s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.807 (  13.845s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.823 (  13.862s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.839 (  13.878s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.859 (  13.898s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.875 (  13.914s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.892 (  13.931s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.911 (  13.950s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.928 (  13.967s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.947 (  13.986s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.964 (  14.002s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.980 (  14.019s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:01:59.998 (  14.037s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.015 (  14.054s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.031 (  14.070s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.047 (  14.086s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.063 (  14.102s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.079 (  14.118s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.094 (  14.133s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.110 (  14.149s) [Sim ] Simulation.cpp:8     INFO|  =====
+21:02:00.143 (  14.181s) [main]       Main.cpp:154   INFO| Clean Up
+21:02:00.143 (  14.181s) [main]     loguru.cpp:478   INFO| atexit

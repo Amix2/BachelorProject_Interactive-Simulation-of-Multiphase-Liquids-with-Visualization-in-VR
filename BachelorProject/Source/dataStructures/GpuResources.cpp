@@ -12,7 +12,8 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
 
-	glNamedBufferData(index, size, data, GL_STATIC_DRAW);
+	//glNamedBufferData(index, size, data, GL_STATIC_DRAW);
+	glNamedBufferStorage(index, size, data, GL_MAP_WRITE_BIT | GL_MAP_READ_BIT);
 
 	checkOpenGLErrors();
 
@@ -115,7 +116,24 @@ void GpuResources::clearResource(GLuint target)
 	glClearNamedBufferData(target, GL_RGBA32I, GL_RGBA32I, GL_INT, NULL);
 }
 
-//////////////////////
+void GpuResources::updateBuffer(std::string name, GLintptr offset, GLsizeiptr size, const void* data)
+{
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
+
+		GLuint index = GpuResources::m_NamesMap[name];
+		setAsCopyTarget(name);
+		glNamedBufferSubData(index, offset, size, data);
+		checkOpenGLErrors();
+	}
+	else {
+		LOG_F(ERROR, "no Resource for given name");
+		throw "no SSBO for given name";
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 //	SSBO
 
 void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * data, GLuint bindingPointIndex)
@@ -196,12 +214,12 @@ void GpuResources::createUBO(std::string name, GLsizeiptr size, const void* data
 		// resource already made, attach it
 		GLuint index = GpuResources::m_NamesMap[name];
 		attachResource(GL_UNIFORM_BUFFER, bindingPointIndex, index);
-		LOG_F(INFO, "UBO attached, name: %s, \tid: %d", name.c_str(), index);
+		LOG_F(INFO, "UBOattached , name: %s, \tid: %d, size: %d", name.c_str(), index, size);
 	}
 	else {
 		GLuint ubo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);
 
-		LOG_F(INFO, "new UBO, name: %s, \tid: %d", name.c_str(), ubo);
+		LOG_F(INFO, "new UBO, name: %s, \tid: %d, size: %d", name.c_str(), ubo, size);
 	}
 }
 
