@@ -40,18 +40,17 @@ void ParticleObjectManager::init()
 void ParticleObjectManager::synchronizeWithGpu()
 {
 	if (!ParticleObjectManager::m_positionChanged) return;
-	LOG_F(INFO, "SYNC glass OBJECTS");
-	//ParticleData::openGlassObjects();
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
-	//}
-	//ParticleData::commitGlassObjects(0);
-	GlassObjectDetails* cpuObjects = new GlassObjectDetails[m_numOfObjects];
+	ParticleObjectManager::m_positionChanged = false;
 	for (int i = 0; i < m_numOfObjects; i++) {
-		cpuObjects[i].matrix = m_partObjectsVector[i]->m_matrix;
+		ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
 	}
-	GpuResources::updateBuffer(BufferDetails.glassObjectsDetailsName, 0, m_numOfObjects * sizeof(GlassObjectDetails), cpuObjects);
-	delete[] cpuObjects;
+	ParticleData::sendGlassObjects(0);
+	//LOG_F(INFO, "SYNC glass OBJECTS");
+	//ParticleData::openGlassObjects__MAP__();
+	//for (int i = 0; i < m_numOfObjects; i++) {
+	//	ParticleData::m_resGlassObjectsArray__MAP__[i].matrix = m_partObjectsVector[i]->m_matrix;
+	//}
+	//ParticleData::commitGlassObjects__MAP__(0);
 }
 
 int ParticleObjectManager::addObject(const ParticleObject& object)

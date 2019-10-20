@@ -62,28 +62,32 @@ public:
 	//inline static int m_FluidParticlesNum = 0;
 	inline static int m_NumOfParticles = 0;
 	inline static int m_NumOfGlassParticles = 0;
+	inline static int m_numOfObjectsInArray = 0;
 
 	inline static std::atomic_int m_OpenedResources = 0;
 	inline static std::atomic_bool m_ParticleBufferOpen = false;
 
 	// getters - only this class can change data from gpu
-	static Particle* getPositions();
-	static GlassParticle* getGlassParticles();
-	static GlassObjectDetails* getGlassObjects();
-	static unsigned int* getSortingData();
-	static int* getNeighboursData();
-	static SimDetails* getDetails();
+	static std::unique_ptr<Particle[]> getPositions();
+	static std::unique_ptr<GlassParticle[]> getGlassParticles();
+	static std::unique_ptr<GlassObjectDetails[]> getGlassObjects();
+	static std::unique_ptr<GLuint[]> getSortingData();
+	static std::unique_ptr<int[]> getNeighboursData();
+	static std::unique_ptr<SimDetails> getDetails();
 
 
 	// resource pointers, array size is currently not used
-	inline static Particle* m_resParticlesArray = nullptr;
+	inline static Particle* m_resParticlesArray__MAP__ = nullptr;
+	inline static GlassParticle* m_resGlassParticleArray__MAP__ = nullptr;
+	inline static GlassObjectDetails* m_resGlassObjectsArray__MAP__ = nullptr;
+	inline static SimDetails* m_resDetails__MAP__ = nullptr;
 
-	inline static GlassParticle* m_resGlassParticleArray = nullptr;
 
-	inline static GlassObjectDetails* m_resGlassObjectsArray = nullptr;
-	inline static int m_numOfObjectsInArray = 0;
+	inline static std::unique_ptr<Particle[]> m_resParticlesArray = std::make_unique<Particle[]>(Configuration.MAX_PARTICLES_CREATED_IN_TURN);
+	inline static std::unique_ptr<GlassParticle[]> m_resGlassParticleArray = std::make_unique<GlassParticle[]>(Configuration.MAX_PARTICLES_CREATED_IN_TURN);
+	inline static std::unique_ptr<GlassObjectDetails[]> m_resGlassObjectsArray = std::make_unique<GlassObjectDetails[]>(Configuration.MAX_PARTICLE_OBJECTS);
+	inline static std::unique_ptr<SimDetails> m_resDetails = std::make_unique<SimDetails>();
 
-	inline static SimDetails* m_resDetails = nullptr;
 
 	// mutex and condition variable for threads to wait for resource
 	inline static std::condition_variable m_ResourceCondVariable;
@@ -93,16 +97,23 @@ public:
 	/* Init arrays on GPU to store particle data */
 	static void initArraysOnGPU();
 
-	static Particle* openParticlePositions();
-	static GlassParticle* openGlassParticles();
-	static GlassObjectDetails* openGlassObjects();
-	static SimDetails* openDetails();
+	static Particle* openParticlePositions__MAP__();
+	static GlassParticle* openGlassParticles__MAP__();
+	static GlassObjectDetails* openGlassObjects__MAP__();
+	static SimDetails* openDetails__MAP__();
 
 
-	static void commitParticlePositions(int numOfAddedParticles);
-	static void commitGlassParticles(int numOfAddedGlassParticles);
-	static void commitGlassObjects(int numOfAddedGlassObjects);
-	static void commitDetails();
+	static void commitParticlePositions__MAP__(int numOfAddedParticles);
+	static void commitGlassParticles__MAP__(int numOfAddedGlassParticles);
+	static void commitGlassObjects__MAP__(int numOfAddedGlassObjects);
+	static void commitDetails__MAP__();
+
+
+	static void sendParticlePositions(int numOfAddedParticles);
+	static void sendGlassParticles(int numOfAddedGlassParticles);
+	static void sendGlassObjects(int numOfAddedGlassObjects);
+	static void sendDetails();
+
 
 	static void syncSimDetailsWithGpu();
 	static void copyDataForSorting();

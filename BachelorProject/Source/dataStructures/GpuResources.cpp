@@ -12,8 +12,8 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
 
-	//glNamedBufferData(index, size, data, GL_STATIC_DRAW);
-	glNamedBufferStorage(index, size, data, GL_MAP_WRITE_BIT | GL_MAP_READ_BIT);
+	glNamedBufferData(index, size, data, GL_STATIC_DRAW);
+	//glNamedBufferStorage(index, size, data, GL_MAP_WRITE_BIT | GL_MAP_READ_BIT);
 
 	checkOpenGLErrors();
 
@@ -39,7 +39,7 @@ void* GpuResources::getDataResource(GLenum target, std::string name)
 	}
 	else {
 		LOG_F(ERROR, "no Resource for given name");
-		throw "no SSBO for given name";
+		throw "no Resource for given name";
 	}
 }
 
@@ -121,13 +121,28 @@ void GpuResources::updateBuffer(std::string name, GLintptr offset, GLsizeiptr si
 	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
 
 		GLuint index = GpuResources::m_NamesMap[name];
-		setAsCopyTarget(name);
+		//setAsCopyTarget(name);
 		glNamedBufferSubData(index, offset, size, data);
 		checkOpenGLErrors();
 	}
 	else {
 		LOG_F(ERROR, "no Resource for given name");
-		throw "no SSBO for given name";
+		throw "no Resource for given name";
+	}
+}
+
+void GpuResources::getBufferData(std::string name, GLintptr offset, GLsizeiptr size, void* outputData)
+{
+	if (GpuResources::m_NamesMap.find(name) != GpuResources::m_NamesMap.end()) {	// if contsins
+
+		GLuint index = GpuResources::m_NamesMap[name];
+		//setAsCopyTarget(name);
+		glGetNamedBufferSubData(index, offset, size, outputData);
+		checkOpenGLErrors();
+	}
+	else {
+		LOG_F(ERROR, "no Resource for given name");
+		throw "no Resource for given name";
 	}
 }
 
@@ -152,22 +167,22 @@ void GpuResources::createSSBO(std::string name, GLsizeiptr size, const void * da
 
 }
 
-void * GpuResources::getDataSSBO(std::string name)
+void * GpuResources::getDataSSBO__MAP__(std::string name)
 {
 	return getDataResource(GL_SHADER_STORAGE_BUFFER, name);
 }
 
-void * GpuResources::openSSBO(std::string name)
+void * GpuResources::openSSBO__MAP__(std::string name)
 {
 	return openResource(GL_SHADER_STORAGE_BUFFER, name);
 }
 
-void* GpuResources::openPartSSBO(std::string name, GLintptr offset, GLsizeiptr length)
+void* GpuResources::openPartSSBO__MAP__(std::string name, GLintptr offset, GLsizeiptr length)
 {
 	return openPartResource(GL_SHADER_STORAGE_BUFFER, name, offset, length);
 }
 
-void GpuResources::commitSSBO(std::string name)
+void GpuResources::commitSSBO__MAP__(std::string name)
 {
 	commitResource(GL_SHADER_STORAGE_BUFFER, name);
 }
@@ -223,22 +238,22 @@ void GpuResources::createUBO(std::string name, GLsizeiptr size, const void* data
 	}
 }
 
-void* GpuResources::getDataUBO(std::string name)
+void* GpuResources::getDataUBO__MAP__(std::string name)
 {
 	return getDataResource(GL_UNIFORM_BUFFER, name);
 }
 
-void* GpuResources::openUBO(std::string name)
+void* GpuResources::openUBO__MAP__(std::string name)
 {
 	return openResource(GL_UNIFORM_BUFFER, name);
 }
 
-void* GpuResources::openPartUBO(std::string name, GLintptr offset, GLsizeiptr length)
+void* GpuResources::openPartUBO__MAP__(std::string name, GLintptr offset, GLsizeiptr length)
 {
 	return openPartResource(GL_UNIFORM_BUFFER, name, offset, length);
 }
 
-void GpuResources::commitUBO(std::string name)
+void GpuResources::commitUBO__MAP__(std::string name)
 {
 	commitResource(GL_UNIFORM_BUFFER, name);
 }
