@@ -23,6 +23,7 @@
     <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
     <ClCompile Include="Source\glassController\GlassController.cpp" />
     <ClCompile Include="Source\materialObjects\GlassObject.cpp" />
+    <ClCompile Include="Source\materialObjects\PyramidPointerMaterialObject.cpp" />
     <ClCompile Include="Source\scene\camera\CameraController.cpp" />
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="Source\materialObjects\FluidObject.h" />
     <ClInclude Include="Source\materialObjects\MaterialObject.h" />
     <ClInclude Include="Source\materialObjects\NormalVectorsObject.h" />
+    <ClInclude Include="Source\materialObjects\PyramidPointerMaterialObject.h" />
     <ClInclude Include="Source\materialObjects\TestBilboardObject.h" />
     <ClInclude Include="Source\materialObjects\TestMaterialObject.h" />
     <ClInclude Include="Source\dataStructures\FluidType.h" />

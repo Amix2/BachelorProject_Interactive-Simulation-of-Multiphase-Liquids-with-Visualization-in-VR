@@ -8,6 +8,8 @@
 
 #include <GL/glew.h>
 
+#include <glm/glm.hpp>
+
 #include "utilities/Matrices.h"
 
 namespace VR {
@@ -15,8 +17,8 @@ namespace VR {
 	public:
 		VRGeometry();
 		void SetIVRSystem(vr::IVRSystem*);
-		vr::HmdMatrix44_t GetHMDMatrixProjectionEye(vr::Hmd_Eye);
-		vr::HmdMatrix34_t GetHMDMatrixPoseEye(vr::Hmd_Eye);
+		glm::mat4 GetHMDMatrixProjectionEye(vr::Hmd_Eye) const;
+		vr::HmdMatrix34_t GetHMDMatrixPoseEye(vr::Hmd_Eye) const;
 		bool UpdateHMDMatrixPose();
 		bool SetupCameras();
 		unsigned int GetRenderHeight();
@@ -32,7 +34,7 @@ namespace VR {
 
 		Matrix4 SteamVRMatrixToMatrix4(const vr::HmdMatrix34_t&);
 
-		std::map<std::string, vr::HmdMatrix44_t> HmdMatrixProjectionEyes;
+		std::map<std::string, glm::mat4> HmdMatrixProjectionEyes;
 		std::map<std::string, vr::HmdMatrix34_t> HmdMatrixPoseEyes;
 		Matrix4 HmdPose;
 		vr::IVRSystem * VrHandle;
@@ -40,6 +42,6 @@ namespace VR {
 		unsigned int RenderHeight;
 		unsigned int RenderWidth;
 		const float NearClip = 0.1f;
-		const float FarClip = 30.03f;
+		const float FarClip = 200.00f;
 	};
 }

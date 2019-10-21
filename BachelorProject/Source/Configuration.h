@@ -10,7 +10,7 @@
 // https://stackoverflow.com/questions/41308933/how-to-enable-c17-compiling-in-visual-studio
 
 const struct Configuration {
-	inline static int MAX_PARTICLES = 262144;
+	inline static int MAX_PARTICLES = 2*262144;
 	inline static int MAX_GLASS_PARTICLES = 262144/2;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_FLUID_TYPES = 10;
