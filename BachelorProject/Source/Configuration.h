@@ -14,7 +14,7 @@ const struct Configuration {
 	inline static int MAX_GLASS_PARTICLES = 262144/2;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 2*131072;
-	inline static const int MAX_FLUID_TYPES = 10;
+	inline static const int MAX_FLUID_TYPES = 15;
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
