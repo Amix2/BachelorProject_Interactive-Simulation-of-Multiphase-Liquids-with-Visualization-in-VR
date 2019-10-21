@@ -1,7 +1,7 @@
 #pragma once
 
 #include <window/Window.h>
-#include "Camera.h"
+#include "VRCamera.h"
 #include <glm/glm.hpp>
 #include <OpenVR/openvr.h>
 #include "CameraController.h"
@@ -13,7 +13,10 @@ class VRCameraController
 public:
 	VRCameraController(ViewPort& leftEyeViewPort, ViewPort& rightEyeViewPort, float eyesDistance);
 	
-	void setHead(const vr::HmdMatrix34_t& eye);
+	void setHead(const vr::HmdMatrix34_t& view);
+	void setEyeMatrix(const glm::mat4& eyeMatrix, vr::Hmd_Eye eye);
+	void setProjectionMatrix(const glm::mat4& projectionMatrix, vr::Hmd_Eye eye);
+
 	const std::vector<const Scene::Camera*> provideCameras() const override;
 
 private:
@@ -24,7 +27,7 @@ private:
 	glm::vec3 right;
 	glm::vec3 up;
 
-	Scene::Camera leftEye;
-	Scene::Camera rightEye;
+	VRCamera leftEye;
+	VRCamera rightEye;
 
 };
