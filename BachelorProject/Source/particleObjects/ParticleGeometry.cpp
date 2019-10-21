@@ -3,6 +3,8 @@
 inline float gapInPolygon(int vertices, float radius);
 inline glm::vec3 partPositionFromRadius(glm::vec3 center, float radius, float angle);
 
+
+
 int ParticleGeometry::circle(int& numOfParts, glm::vec3 center, float radius, float inCircleGap, VectorDirection vecDirection)
 {
 	//LOG_F(INFO, "Circle rad %f, part %d", radius, numOfParts);

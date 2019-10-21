@@ -33,7 +33,7 @@ struct FluidParticle {
 
 layout(std430, binding = 1) buffer positionsBuf
 {
-	FluidParticle fluidPositions[MAX_FLUID];
+	FluidParticle fluidPositions[];
 };
 
 layout(std430, binding = 4) buffer detailsBuf
@@ -47,12 +47,12 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidVelocity[3 * MAX_FLUID];
 	float fluidAcceleration[3 * MAX_FLUID];
 	float fluidSurfaceVector[3 * MAX_FLUID];
-	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidSurfaceDistance[];
 };
 //
 //layout(std430, binding = 9) buffer lookUpTableBuf
 //{
-//	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
+//	int indexMap[];	// array index of neighbours of set particle
 //};
 
 //////////////////////////////////////////////////

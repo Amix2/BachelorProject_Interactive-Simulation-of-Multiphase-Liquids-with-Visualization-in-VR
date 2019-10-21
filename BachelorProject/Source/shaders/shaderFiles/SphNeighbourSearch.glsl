@@ -26,7 +26,7 @@ struct FluidParticle {
 
 layout(std430, binding = 1) buffer positionsBuf
 {
-	FluidParticle fluidPositions[MAX_FLUID];
+	FluidParticle fluidPositions[];
 };
 
 layout(std430, binding = 4) buffer detailsBuf
@@ -37,17 +37,17 @@ layout(std430, binding = 4) buffer detailsBuf
 
 layout(std430, binding = 6) buffer neighboursBuf
 {
-	int neighboursBeginInd[27*MAX_FLUID];
+	int neighboursBeginInd[];
 };
 
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
-	uint sortIndexArray[SORT_ARRAY_SIZE];
+	uint sortIndexArray[];
 };
 
 layout(std430, binding = 9) buffer lookUpTableBuf
 {
-	int indexMap[MAX_SCENE_X * MAX_SCENE_Y * MAX_SCENE_Z];	// array index of neighbours of set particle
+	int indexMap[];	// array index of neighbours of set particle
 };
 
 //////////////////////////////////////////////////
