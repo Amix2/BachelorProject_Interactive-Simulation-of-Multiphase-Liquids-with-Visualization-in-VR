@@ -1,6 +1,5 @@
 #pragma once
 #include "Camera.h"
-#include "VRCameraController.h"
 
 class VRCamera :
 	public Scene::Camera

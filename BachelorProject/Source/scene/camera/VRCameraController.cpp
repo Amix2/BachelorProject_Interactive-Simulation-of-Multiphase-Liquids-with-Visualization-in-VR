@@ -6,8 +6,8 @@ VRCameraController::VRCameraController(ViewPort& leftEyeViewPort, ViewPort& righ
 	, front{ glm::vec3{ 1.0f, 0.0f, 0.0f } }
 	, up{ glm::vec3{ 0.0f, 1.0f, 0.0f } }
 	, right{ glm::vec3{ 0.0f, 0.0f, 1.0f } }
-	, rightEye{ rightEyeViewPort, this->position + this->right * eyesDistance * 0.5f }
-	, leftEye{ leftEyeViewPort, this->position - this->right * eyesDistance * 0.5f }
+	, rightEye{ rightEyeViewPort}
+	, leftEye{ leftEyeViewPort }
 {}
 
 void VRCameraController::setHead(const vr::HmdMatrix34_t& view) {
