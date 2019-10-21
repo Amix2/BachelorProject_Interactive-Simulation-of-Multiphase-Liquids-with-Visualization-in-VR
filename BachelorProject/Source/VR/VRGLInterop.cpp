@@ -91,9 +91,9 @@ namespace VR {
 		VrInput->DetectPressedButtons();
 		VrInput->HandleInput();
 		cameraController->setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
-		/*cameraController->setEyeMatrix(, vr::Eye_Left);
-		cameraController->setEyeMatrix(, vr::Eye_Right);
-		cameraController->setProjectionMatrix(, vr::Eye_Left);
-		cameraController->setProjectionMatrix(, vr::Eye_Right);*/
+		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Left), vr::Eye_Left);
+		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Right), vr::Eye_Right);
+		cameraController->setProjectionMatrix(VrGeometry->GetHMDMatrixProjectionEye(vr::Eye_Left), vr::Eye_Left);
+		cameraController->setProjectionMatrix(VrGeometry->GetHMDMatrixProjectionEye(vr::Eye_Right), vr::Eye_Right);
 	}
 }
