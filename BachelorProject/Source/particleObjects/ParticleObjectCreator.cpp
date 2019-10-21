@@ -24,18 +24,16 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		////////////////////////////////////////////
 		//		FLUID
 
-		Particle* fluidArray = ParticleData::openParticlePositions();
+		//Particle* fluidArray = ParticleData::openParticlePositions__MAP__();
 
 		// create fluid particles
 		ParticleObjectCreator::createFluid(currentDetails, numOfParticles);
 
 		// request commit
-		ParticleData::commitParticlePositions(numOfParticles);
+		ParticleData::sendParticlePositions(numOfParticles);
 
 		// we have to update particle datails in sim (it might not be opened)
-		SimDetails* details = ParticleData::openDetails();
 		ParticleData::m_resDetails->numOfParticles += numOfParticles;
-		ParticleData::commitDetails();
 
 	}
 
@@ -45,29 +43,30 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 
 		// open arrays
 
-		ParticleData::openParticlePositions();
-		ParticleData::openGlassParticles();
-		//GlassObjectDetails* glassObjects = ParticleData::openGlassObjects();
+		//ParticleData::openParticlePositions__MAP__();
+		//ParticleData::openGlassParticles__MAP__();
+		//GlassObjectDetails* glassObjects = ParticleData::openGlassObjects__MAP__();
 
 		// create particles
 		//ParticleObject mug;
 		MugParticleObject mug(currentDetails, numOfParticles);
 
 		// commit
-		ParticleData::commitParticlePositions(numOfParticles);
-		ParticleData::commitGlassParticles(numOfParticles);
+		ParticleData::sendParticlePositions(numOfParticles);
+		ParticleData::sendGlassParticles(numOfParticles);
 		ParticleData::m_numOfObjectsInArray++;
 		//ParticleData::commitGlassObjects(1);
 
 		// we have to update particle datails in sim (it might not be opened)
-		SimDetails* details = ParticleData::openDetails();
+
 		ParticleData::m_resDetails->numOfParticles += numOfParticles;
 		ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
-		ParticleData::commitDetails();
 
 		//// add object data to managet, it will send it to GPU
 		ParticleObjectManager::addObject(mug);
 	}
+
+	ParticleData::sendDetails();
 
 	auto nTimeEnd = getNanoTime();
 	LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d, total time: %f", currentDetails.fluidType, numOfParticles, getNanoTimeDif(nTimeStart, nTimeEnd));
@@ -90,7 +89,7 @@ void ParticleObjectCreator::createFluid(ParticleObjectDetais details, int &numOf
 	for (float oX = startX; oX <= endX; oX += gap) {
 		for (float oY = startY; oY <= endY; oY += gap) {
 			for (float oZ = startZ; oZ <= endZ; oZ += gap) {
-				if (ParticleData::m_NumOfParticles + numOfParts >= Configuration.MAX_PARTICLES) {
+				if (ParticleData::m_NumOfParticles + numOfParts >= Configuration.MAX_PARTICLES || numOfParts >= Configuration.MAX_PARTICLES_CREATED_IN_TURN) {
 					LOG_F(ERROR, "Created maximum number of particles: %d", numOfParts);
 					return;
 				}
@@ -139,10 +138,10 @@ bool ParticleObjectCreator::hasNewOrder()
 //		}
 //		lock_resource.unlock();
 //	}
-//	if (ParticleData::m_resParticlesArray == nullptr) {	// wait for wimulation to open array
+//	if (ParticleData::m_resParticlesArray__MAP__ == nullptr) {	// wait for wimulation to open array
 //		// request open 
 //		std::unique_lock<std::mutex> lock_resource(ParticleData::m_ResourceMutex);	// take resource mutex
-//		while (ParticleData::m_resParticlesArray == nullptr) {
+//		while (ParticleData::m_resParticlesArray__MAP__ == nullptr) {
 //			// while wanted resource in no opened -> order it and wait
 //			Simulation::m_reqFluidArray = OPEN;
 //			ParticleData::m_ResourceCondVariable.wait(lock_resource);
@@ -200,9 +199,9 @@ bool ParticleObjectCreator::hasNewOrder()
 //		}
 //		lock_resource.unlock();
 //	}
-//	if (ParticleData::m_resDetails == nullptr) {
+//	if (ParticleData::m_resDetails__MAP__ == nullptr) {
 //		std::unique_lock<std::mutex> lock_details(ParticleData::m_ResourceMutex);	// take resource mutex
-//		while (ParticleData::m_resDetails == nullptr) {
+//		while (ParticleData::m_resDetails__MAP__ == nullptr) {
 //			// while wanted resource in no opened -> order it and wait
 //			Simulation::m_reqDetils = OPEN;
 //			ParticleData::m_ResourceCondVariable.wait(lock_details);
@@ -232,7 +231,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //}
 //
 //void weakOpenDetails() {
-//	if (ParticleData::m_resDetails == nullptr && Simulation::m_reqDetils == NO_ORDER) {
+//	if (ParticleData::m_resDetails__MAP__ == nullptr && Simulation::m_reqDetils == NO_ORDER) {
 //		Simulation::m_reqDetils = OPEN;
 //	}
 //}
@@ -305,7 +304,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //			// open fluid array
 //			forceOpenFluid();
 //
-//			Particle* fluidArray = ParticleData::m_resParticlesArray;
+//			Particle* fluidArray = ParticleData::m_resParticlesArray__MAP__;
 //
 //			// create fluid particles
 //			ParticleObjectCreator::createFluid(currentDetails, fluidArray, numOfParticles);
@@ -317,7 +316,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //
 //			// we have to update particle datails in sim (it might not be opened)
 //			forceOpenDetails();
-//			ParticleData::m_resDetails->numOfParticles += numOfParticles;
+//			ParticleData::m_resDetails__MAP__->numOfParticles += numOfParticles;
 //			commitDetails();
 //
 //		}
@@ -345,7 +344,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //
 //			// we have to update particle datails in sim (it might not be opened)
 //			forceOpenDetails();
-//			ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
+//			ParticleData::m_resDetails__MAP__->numOfGlassParticles += numOfParticles;
 //			commitDetails();
 //
 //			// add object data to managet, it will send it to GPU

@@ -34,7 +34,7 @@ uniform int u_turnInStage;
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];
-	uint originalIndex[SORT_ARRAY_SIZE];
+	uint originalIndex[];
 };
 
 //////////////////////////////////////////////////

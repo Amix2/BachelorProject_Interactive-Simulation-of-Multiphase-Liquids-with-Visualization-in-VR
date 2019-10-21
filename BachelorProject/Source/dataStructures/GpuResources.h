@@ -32,20 +32,22 @@ class GpuResources
 
 	static void		clearResource(GLuint target);
 public:
+	static void		updateBuffer(std::string name, GLintptr offset, GLsizeiptr size, const void* data);
+	static void		getBufferData(std::string name, GLintptr offset, GLsizeiptr size, void* outputData);
 
 	static void		createSSBO(std::string name, GLsizeiptr size, const void *data, GLuint bindingPointIndex);	// create SSBO and add its name to local map
-	static void*	getDataSSBO(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit
-	static void*	openSSBO(std::string name);	// download data from gpu to cpu address space, keep it opened untill commitSSBO() call
-	static void*	openPartSSBO(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitSSBO() call
-	static void		commitSSBO(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
+	static void*	getDataSSBO__MAP__(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit
+	static void*	openSSBO__MAP__(std::string name);	// download data from gpu to cpu address space, keep it opened untill commitSSBO() call
+	static void*	openPartSSBO__MAP__(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitSSBO() call
+	static void		commitSSBO__MAP__(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
 	static void		attachSSBO(std::string name, GLuint bindingPointIndex);	// bind existing SSBO to this context
 	static void		clearSSBO(std::string name);
 
 	static void		createUBO(std::string name, GLsizeiptr size, const void* data, GLuint bindingPointIndex);	// create UBO and add its name to local map
-	static void*	getDataUBO(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit
-	static void*	openUBO(std::string name);	// download data from gpu to cpu address space, keep it opened untill commitSSBO() call
-	static void*	openPartUBO(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitUBO() call
-	static void		commitUBO(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
+	static void*	getDataUBO__MAP__(std::string name);	// download data from gpu to cpu address space, data in up to date but cannot be changed, to change data use open & commit
+	static void*	openUBO__MAP__(std::string name);	// download data from gpu to cpu address space, keep it opened untill commitSSBO() call
+	static void*	openPartUBO__MAP__(std::string name, GLintptr offset, GLsizeiptr length);	// download data with offset and length from gpu to cpu address space, keep it opened untill commitUBO() call
+	static void		commitUBO__MAP__(std::string name);	// commits memory changes in cpu adress space and sends them to gpu
 	static void		attachUBO(std::string name, GLuint bindingPointIndex);	// bind existing UBO to this context
 	static void		clearUBO(std::string name);
 
