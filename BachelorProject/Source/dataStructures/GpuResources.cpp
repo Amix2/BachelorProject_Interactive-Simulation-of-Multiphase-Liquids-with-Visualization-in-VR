@@ -12,7 +12,7 @@ GLuint GpuResources::createResource(GLenum target, std::string name, GLsizeiptr 
 	glBindBufferBase(target, bindingPointIndex, index);
 	glBindBuffer(target, index);
 
-	glNamedBufferData(index, size, data, GL_STATIC_DRAW);
+	glNamedBufferData(index, size, data, GL_DYNAMIC_DRAW);
 	//glNamedBufferStorage(index, size, data, GL_MAP_WRITE_BIT | GL_MAP_READ_BIT);
 
 	checkOpenGLErrors();
