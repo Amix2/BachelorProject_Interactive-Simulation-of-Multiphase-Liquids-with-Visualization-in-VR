@@ -56,8 +56,7 @@ void cleanUp();
 void assignHardwareParameters();
 
 //creates objects presented on scene
-//void setupScene(Scene::Scene& scene, Window& window);
-
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher);
 
 // settings
 std::string NAME = "Random window";
@@ -92,50 +91,22 @@ int main(int argc, char ** argv) {
 	VR::VRGLInterop vrglinterop;
 	vrglinterop.activate();
 
-	//if(headsetIsAvaiable){
-	//ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
-	//ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-	//VRCameraController cameraController{ window, leftEyeViewPort, rightEyeViewPort, 3.0f, glm::vec3{ -5.0f, 0.0f, 0.0f } };
-	//scene.addCamera(&cameraController.getLeftCamera());
-	//scene.addCamera(&cameraController.getRightCamera());
-	//}
-	//else 
-	//{
 	CameraController* cameraController;
 	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-	//}
-	if (!vrglinterop.hasVR()) {
-		std::cerr << "Couldn't init VR Core!" << std::endl;
-		HmdConnected = false;
-	}
-	else {
-		HmdConnected = true;
-	}
 
-	//ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
-	//TestMaterialObject cubes{ programCubes, backgroundColor };
-
-	//ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	//TestBilboardObject bilboard{ programBilboard };
-
-	ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
-	FluidObject fluid{ inputDispatcher, programFluid };
-
-	ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
-	AxesObject axes{ programAxes };
-	if(HmdConnected) {
+	if ((HmdConnected = vrglinterop.hasVR())) {
 		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
 		ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
-		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f};
+		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f };
 	}
 	else {
+		std::cerr << "Couldn't init VR Core!" << std::endl;
+
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
 		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 0,40, 0 } };
 	}
-	scene.addCameras(cameraController);
 
-	ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
-	NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
+	scene.addCameras(cameraController);
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -149,20 +120,16 @@ int main(int argc, char ** argv) {
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
+
 	//ParticleData::initArraysOnGPU();
 	printWorkGroupsCapabilities();
 
 
-	//scene.addMaterialObject(&cubes);
-	//scene.addMaterialObject(&bilboard);
-	//scene.addMaterialObject(&axes);
-	//scene.addMaterialObject(&vectorNormals);
-	scene.addMaterialObject(&fluid);
-	//setupScene(scene, window);
+	setupScene(scene, inputDispatcher);
 
 	do 
 	{
-		//glassController.assignUntrackedObjects(scene);
+		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame();
@@ -182,8 +149,8 @@ int main(int argc, char ** argv) {
 
 
 
-/*
-void setupScene(Scene::Scene& scene, Window& window) {
+
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
 
@@ -194,10 +161,10 @@ void setupScene(Scene::Scene& scene, Window& window) {
 	static FluidObject fluid{ inputDispatcher, programFluid };
 
 	static ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
-	static AxesObject axes{ programAxes, scene.getBackgroundColor() };
+	static AxesObject axes{ programAxes };
 
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
-	static NormalVectorsObject vectorNormals{ window, programVectorNormals, scene.getBackgroundColor() };
+	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
@@ -205,7 +172,7 @@ void setupScene(Scene::Scene& scene, Window& window) {
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);
 }
-*/
+
 void initTools()
 {
 	ParticleObjectManager::init();
@@ -319,7 +286,6 @@ void printWorkGroupsCapabilities() {
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);
 	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%I64u\n", value);
 	value = -1;
-
 
 	checkOpenGLErrors();
 }

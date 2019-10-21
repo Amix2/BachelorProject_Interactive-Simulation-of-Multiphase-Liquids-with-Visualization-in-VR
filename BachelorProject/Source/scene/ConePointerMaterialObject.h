@@ -30,5 +30,5 @@ private:
 
 	float* CalculateBaseVertexCoordinateForIndex(unsigned int Index, unsigned int BaseVertices, unsigned int PyramidRadius, unsigned int PyramidHeight);
 
-	~PyramidPointerMaterialObject();
+	~PyramidPointerMaterialObject(); 
 };

@@ -13,8 +13,6 @@ private:
 	unsigned int VBO;
 	unsigned int VAO;
 
-	glm::vec4 background;
-
 	float vertices[36]{
 		1000.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 		-1000.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,

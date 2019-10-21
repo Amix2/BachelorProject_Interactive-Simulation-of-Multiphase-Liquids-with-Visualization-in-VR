@@ -122,12 +122,12 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais details{ 1, 10.1,4.5,10.1, 10.2, 4.8, 10.2};
 	ParticleObjectDetais details2{ -1, 10,4,10, 5, 0, 0 };
 	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
-	ParticleObjectDetais detailsTEST{ 1, 20,20,20, 40, 80, 40 };
+	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 60, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
 	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
-	ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details);
+	//ParticleObjectCreator::addObject(details2);
 	ParticleObjectCreator::addObject(detailsTEST);
 	ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);

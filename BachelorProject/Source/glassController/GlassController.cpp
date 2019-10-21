@@ -32,11 +32,11 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 		int selectedParticleObjectIndex = -1;
 		for (int i = 0; i < ParticleObjectManager::m_numOfObjects; i++) {
 			const ParticleObject* currentParticleObject = ParticleObjectManager::m_partObjectsVector[i].get();
-			glm::vec3 centerAsSeenFromCamera = camera.getViewMatrix() * glm::vec4(currentParticleObject->m_center, 1.0f);
+			glm::vec3 centerAsSeenFromCamera = camera.getProjectionMatrix() * camera.getViewMatrix() * glm::vec4(currentParticleObject->m_center, 1.0f);
 			float distanceFromZAxis = glm::length(glm::vec2{ centerAsSeenFromCamera.x, centerAsSeenFromCamera.y });
 			if (distanceFromZAxis < currentParticleObject->m_innerRadius)
 				if (glm::length(centerAsSeenFromCamera) < distanceFromCamera || distanceFromCamera < 0.0f)
-					selectedParticleObjectIndex = 0;
+					selectedParticleObjectIndex = i;
 		}
 
 		if (selectedParticleObjectIndex >= 0) {
