@@ -55,7 +55,7 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		ParticleData::sendParticlePositions(numOfParticles);
 		ParticleData::sendGlassParticles(numOfParticles);
 		ParticleData::m_numOfObjectsInArray++;
-		//ParticleData::commitGlassObjects__MAP__(1);
+		//ParticleData::commitGlassObjects(1);
 
 		// we have to update particle datails in sim (it might not be opened)
 
@@ -259,7 +259,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //	Simulation::m_reqGlassVectorsArray = COMMIT;
 //}
 //
-//void commitDetails__MAP__()
+//void commitDetails()
 //{
 //	Simulation::m_reqDetils = COMMIT;
 //}
@@ -317,7 +317,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //			// we have to update particle datails in sim (it might not be opened)
 //			forceOpenDetails();
 //			ParticleData::m_resDetails__MAP__->numOfParticles += numOfParticles;
-//			commitDetails__MAP__();
+//			commitDetails();
 //
 //		}
 //
@@ -345,7 +345,7 @@ bool ParticleObjectCreator::hasNewOrder()
 //			// we have to update particle datails in sim (it might not be opened)
 //			forceOpenDetails();
 //			ParticleData::m_resDetails__MAP__->numOfGlassParticles += numOfParticles;
-//			commitDetails__MAP__();
+//			commitDetails();
 //
 //			// add object data to managet, it will send it to GPU
 //			ParticleObjectManager::addObject(mug);

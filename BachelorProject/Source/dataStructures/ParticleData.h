@@ -99,14 +99,14 @@ public:
 
 	static Particle* openParticlePositions__MAP__();
 	static GlassParticle* openGlassParticles__MAP__();
-	static GlassObjectDetails* openGlassObjects__MAP__();
-	static SimDetails* openDetails__MAP__();
+	static GlassObjectDetails* openGlassObjects();
+	static SimDetails* openDetails();
 
 
 	static void commitParticlePositions__MAP__(int numOfAddedParticles);
 	static void commitGlassParticles__MAP__(int numOfAddedGlassParticles);
-	static void commitGlassObjects__MAP__(int numOfAddedGlassObjects);
-	static void commitDetails__MAP__();
+	static void commitGlassObjects(int numOfAddedGlassObjects);
+	static void commitDetails();
 
 
 	static void sendParticlePositions(int numOfAddedParticles);

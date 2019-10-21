@@ -152,8 +152,8 @@ void Simulation::main()
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	//while (!glfwWindowShouldClose(m_mainWindow))
-	for (int i = 0; i < 2000; i++)
+	while (!glfwWindowShouldClose(m_mainWindow))
+	//for (int i = 0; i < 2000; i++)
 	{
 		m_turnNumber++;
 
