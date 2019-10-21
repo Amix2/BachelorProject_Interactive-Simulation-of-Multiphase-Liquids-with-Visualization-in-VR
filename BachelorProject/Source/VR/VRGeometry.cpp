@@ -30,30 +30,30 @@ namespace VR {
 		return GlmHmdMatrix4x4;
 	}
 
-	vr::HmdMatrix34_t VRGeometry::GetHMDMatrixPoseEye(vr::Hmd_Eye HmdEye) const {
+	glm::mat4 VRGeometry::GetHMDMatrixPoseEye(vr::Hmd_Eye HmdEye) const {
 		if (!this->VrHandle) {
-			return vr::HmdMatrix34_t(); // error
+			return glm::mat4(); // error
 		}
 
 		vr::HmdMatrix34_t HmdMatrix3x4 = this->VrHandle->GetEyeToHeadTransform(HmdEye);
-		/*
-		Matrix4 TemporaryMatrix3x4(
+		
+		Matrix4 TemporaryMatrix4x4(
 			HmdMatrix3x4.m[0][0], HmdMatrix3x4.m[1][0], HmdMatrix3x4.m[2][0], 0,
 			HmdMatrix3x4.m[0][1], HmdMatrix3x4.m[1][1], HmdMatrix3x4.m[2][1], 0,
 			HmdMatrix3x4.m[0][2], HmdMatrix3x4.m[1][2], HmdMatrix3x4.m[2][2], 0,
 			HmdMatrix3x4.m[0][3], HmdMatrix3x4.m[1][3], HmdMatrix3x4.m[2][3], 1
 		);
-		TemporaryMatrix3x4.invert();
-		const float* MemoryFromMatrix = TemporaryMatrix3x4.get();
-		vr::HmdMatrix34_t InvertedMatrix3x4(
+		TemporaryMatrix4x4.invert();
+		const float* MemoryFromMatrix = TemporaryMatrix4x4.get();
+		glm::mat4 InvertedMatrix4x4(
 			MemoryFromMatrix[0], MemoryFromMatrix[1], MemoryFromMatrix[2], MemoryFromMatrix[3],
 			MemoryFromMatrix[4], MemoryFromMatrix[5], MemoryFromMatrix[6], MemoryFromMatrix[7],
 			MemoryFromMatrix[8], MemoryFromMatrix[9], MemoryFromMatrix[10], MemoryFromMatrix[11],
 			MemoryFromMatrix[12], MemoryFromMatrix[13], MemoryFromMatrix[14], MemoryFromMatrix[15]
 		);
-		*/
+		
 
-		return HmdMatrix3x4;
+		return InvertedMatrix4x4;
 	}
 
 	bool VRGeometry::UpdateHMDMatrixPose() {

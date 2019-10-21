@@ -35,9 +35,9 @@ void VRCameraController::setEyeMatrix(const glm::mat4& eyePoseMatrix, vr::Hmd_Ey
 
 
 	if (eye == vr::Eye_Left)
-		leftEye.eye = eyePoseMatrix
+		leftEye.eye = eyePoseMatrix;
 	else if (eye == vr::Eye_Right)
-		leftEye.eye = eyePoseMatrix
+		leftEye.eye = eyePoseMatrix;
 }
 
 void VRCameraController::setProjectionMatrix(const glm::mat4& projectionMatrix, vr::Hmd_Eye eye)
