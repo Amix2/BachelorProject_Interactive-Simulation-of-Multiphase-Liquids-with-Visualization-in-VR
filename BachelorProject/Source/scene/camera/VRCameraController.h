@@ -14,7 +14,7 @@ public:
 	VRCameraController(ViewPort& leftEyeViewPort, ViewPort& rightEyeViewPort, float eyesDistance);
 	
 	void setHead(const vr::HmdMatrix34_t& view);
-	void setEyeMatrix(const glm::mat4& eyeMatrix, vr::Hmd_Eye eye);
+	void setEyeMatrix(const vr::HmdMatrix34_t& eyePoseMatrix, vr::Hmd_Eye eye);
 	void setProjectionMatrix(const glm::mat4& projectionMatrix, vr::Hmd_Eye eye);
 
 	const std::vector<const Scene::Camera*> provideCameras() const override;
