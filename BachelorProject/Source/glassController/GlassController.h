@@ -15,6 +15,8 @@ public:
 	void handleKeyPress(int key, KeyState action, float deltaTime) override;
 	
 private:
+	const inline static float VELOCITY = 2.0f;
+
 	int trackedObjects = 0;
 	std::vector<GlassObject*> glassObjects;
 	const Scene::Camera& camera;
@@ -22,5 +24,7 @@ private:
 
 	const ShaderProgram& shaderProgram;
 	const ShaderProgram& selectedProgram;
+
+	void selectGlass();
 };
 

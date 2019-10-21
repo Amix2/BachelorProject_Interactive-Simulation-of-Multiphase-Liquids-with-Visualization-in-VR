@@ -1,12 +1,9 @@
 #include "ParticleObjectManager.h"
 
 
-void ParticleObjectManager::moveObject(int objectNumber, bool direction)
+void ParticleObjectManager::moveObject(int objectNumber, float val)
 {
-	if (direction)
-		m_partObjectsVector[0]->m_matrix = glm::translate(m_partObjectsVector[0]->m_matrix, glm::vec3(0.007, 0, 0));
-	else
-		m_partObjectsVector[0]->m_matrix = glm::translate(m_partObjectsVector[0]->m_matrix, glm::vec3(-0.007, 0, 0));
+	m_partObjectsVector[objectNumber]->m_matrix = glm::translate(m_partObjectsVector[0]->m_matrix, glm::vec3(val, 0, 0));
 	m_positionChanged = true;
 	//m_partObjectsVector[objectNumber].m_targetPosition = targetPosition;
 	//m_partObjectsVector[objectNumber].m_targetVector = targetDirection;
