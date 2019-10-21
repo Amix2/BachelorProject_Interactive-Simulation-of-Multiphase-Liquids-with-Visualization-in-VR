@@ -60,7 +60,7 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
 	if (ParticleData::m_ParticleBufferOpen) {
 		LOG_F(WARNING, "Particle Buffer was opened during draw call, aborting");
-		return;
+		//return;
 	}
 	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);

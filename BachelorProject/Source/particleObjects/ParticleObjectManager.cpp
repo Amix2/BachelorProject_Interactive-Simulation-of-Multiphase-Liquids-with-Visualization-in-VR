@@ -37,10 +37,15 @@ void ParticleObjectManager::init()
 void ParticleObjectManager::synchronizeWithGpu()
 {
 	if (!ParticleObjectManager::m_positionChanged) return;
+	ParticleObjectManager::m_positionChanged = false;
+	//for (int i = 0; i < m_numOfObjects; i++) {
+	//	ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
+	//}
+	//ParticleData::sendGlassObjects(0);
 	//LOG_F(INFO, "SYNC glass OBJECTS");
 	ParticleData::openGlassObjects();
 	for (int i = 0; i < m_numOfObjects; i++) {
-		ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
+		ParticleData::m_resGlassObjectsArray__MAP__[i].matrix = m_partObjectsVector[i]->m_matrix;
 	}
 	ParticleData::commitGlassObjects(0);
 }

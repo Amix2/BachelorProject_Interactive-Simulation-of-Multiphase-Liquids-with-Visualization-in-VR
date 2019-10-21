@@ -17,8 +17,8 @@ namespace Scene {
 		Camera(ViewPort& viewPort, const glm::vec3& position, float pitch, float yaw, float roll);
 		Camera(ViewPort& viewPort, const glm::vec3& position);
 
-		glm::mat4 getViewMatrix() const;
-		glm::mat4 getProjectionMatrix() const;
+		virtual glm::mat4 getViewMatrix() const;
+		virtual glm::mat4 getProjectionMatrix() const;
 		void select() const;
 		void set(glm::vec3 position, float pitch, float yaw, float roll);
 		void set(glm::vec3 position, glm::vec3 front, glm::vec3 up, glm::vec3 right);

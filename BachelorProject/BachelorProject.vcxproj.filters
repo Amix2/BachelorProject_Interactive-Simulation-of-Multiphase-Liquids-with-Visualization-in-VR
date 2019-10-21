@@ -133,6 +133,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\scene\camera\CameraController.cpp">
+    <ClCompile Include="Source\ThreadSynchronizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\VRCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\VRCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\materialObjects\PyramidPointerMaterialObject.cpp">
@@ -276,6 +283,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\scene\camera\CameraController.h">
+    <ClInclude Include="Source\ThreadSynchronizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene\camera\VRCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\materialObjects\PyramidPointerMaterialObject.h">
