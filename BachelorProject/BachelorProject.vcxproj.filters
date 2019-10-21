@@ -135,6 +135,12 @@
     <ClCompile Include="Source\scene\camera\CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\scene\camera\VRCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene\camera\VRCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\shaders\ComputeShader.h">
@@ -273,6 +279,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\scene\camera\CameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene\camera\VRCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
