@@ -77,8 +77,6 @@ namespace VR {
 			GL_LINEAR);
 
 		auto [LeftTexture, RightTexture] = VrGeometry->ObtainTextures(m_nResolveTextureIdLeft, m_nResolveTextureIdRight);
-		vr::TrackedDevicePose_t xxx[vr::k_unMaxTrackedDeviceCount];
-		std::cout << vr::VRCompositor()->WaitGetPoses(xxx, vr::k_unMaxTrackedDeviceCount, nullptr, 0);
 		VrCore->SubmitTexturesToHMD(LeftTexture, RightTexture);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -86,11 +84,11 @@ namespace VR {
 
 	void VRGLInterop::handleInput(VRCameraController* cameraController) {
 
-		VrGeometry->SetupCameras();
 		VrGeometry->UpdateHMDMatrixPose();
+		VrGeometry->SetupCameras();
 		VrInput->DetectPressedButtons();
 		VrInput->HandleInput();
-		cameraController->setHead(VrGeometry->TrackedDevicePose.mDeviceToAbsoluteTracking);
+		cameraController->setHead(VrGeometry->TrackedDevicePoses[0].mDeviceToAbsoluteTracking);
 		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Left), vr::Eye_Left);
 		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Right), vr::Eye_Right);
 		cameraController->setProjectionMatrix(VrGeometry->GetHMDMatrixProjectionEye(vr::Eye_Left), vr::Eye_Left);

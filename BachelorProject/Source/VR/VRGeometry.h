@@ -23,7 +23,7 @@ namespace VR {
 		bool SetupCameras();
 		unsigned int GetRenderHeight();
 		unsigned int GetRenderWidth();
-		vr::TrackedDevicePose_t TrackedDevicePose;
+		vr::TrackedDevicePose_t TrackedDevicePoses[vr::k_unMaxTrackedDeviceCount];
 		std::tuple<vr::Texture_t, vr::Texture_t> ObtainTextures(GLuint LeftResolveTextureId, GLuint RightResolveTextureId);
 
 	protected:

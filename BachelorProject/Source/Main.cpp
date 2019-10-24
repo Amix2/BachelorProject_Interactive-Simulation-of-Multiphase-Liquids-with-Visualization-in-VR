@@ -129,11 +129,13 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+		if (HmdConnected) {
+			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
+		}
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame();
-			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 		}
 	} while (!window.refresh());
 
