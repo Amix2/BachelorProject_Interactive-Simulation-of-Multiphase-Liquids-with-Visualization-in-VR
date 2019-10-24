@@ -73,7 +73,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -115,16 +115,12 @@ int main(int argc, char ** argv) {
 	assignHardwareParameters();
 
 	initTools();
+
 	Simulation::startSimulation(window.glfwWindow);
 	
-	//printWorkGroupsCapabilities();
-
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
-
-	//ParticleData::initArraysOnGPU();
-	printWorkGroupsCapabilities();
 
 
 	setupScene(scene, inputDispatcher);
