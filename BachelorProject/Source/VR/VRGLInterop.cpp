@@ -93,5 +93,8 @@ namespace VR {
 		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Right), vr::Eye_Right);
 		cameraController->setProjectionMatrix(VrGeometry->GetHMDMatrixProjectionEye(vr::Eye_Left), vr::Eye_Left);
 		cameraController->setProjectionMatrix(VrGeometry->GetHMDMatrixProjectionEye(vr::Eye_Right), vr::Eye_Right);
+
+
+
 	}
 }

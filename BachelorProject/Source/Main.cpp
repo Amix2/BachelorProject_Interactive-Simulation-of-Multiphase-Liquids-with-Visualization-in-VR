@@ -60,6 +60,8 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher);
 
 // settings
 std::string NAME = "Random window";
+//H1680
+//W1512
 constexpr unsigned int SCR_WIDTH = 1600;
 constexpr unsigned int SCR_HEIGHT = 900;
 

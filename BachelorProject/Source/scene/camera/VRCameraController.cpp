@@ -30,22 +30,21 @@ void VRCameraController::setHead(const vr::HmdMatrix34_t& view) {
 	);
 }
 
+#include <glm/gtx/string_cast.hpp>
 void VRCameraController::setEyeMatrix(const glm::mat4& eyePoseMatrix, vr::Hmd_Eye eye)
 {
-
-
 	if (eye == vr::Eye_Left)
 		leftEye.eye = eyePoseMatrix;
 	else if (eye == vr::Eye_Right)
-		leftEye.eye = eyePoseMatrix;
+		rightEye.eye = eyePoseMatrix;
 }
 
 void VRCameraController::setProjectionMatrix(const glm::mat4& projectionMatrix, vr::Hmd_Eye eye)
 {
 	if (eye == vr::Eye_Left)
-		leftEye.eye = projectionMatrix;
+		leftEye.projection = projectionMatrix;
 	else if (eye == vr::Eye_Right)
-		leftEye.eye = projectionMatrix;
+		rightEye.projection = projectionMatrix;
 }
 
 const std::vector<const Scene::Camera*> VRCameraController::provideCameras() const
