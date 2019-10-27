@@ -1,12 +1,12 @@
 #include "Simulation.h"
 
-std::chrono::time_point<std::chrono::steady_clock> nTimeTemp, nTimeMain;
-#define TEST_TIME(value) if (MEASURE_TIME) { glFinish(); ##value += getNanoTimeDif(nTimeMain, nTimeTemp=getNanoTime()); nTimeMain=nTimeTemp;}
+float TimeTemp, TimeMain;
+#define TEST_TIME(value) if (MEASURE_TIME) { glFinish();  TimeTemp=(float)glfwGetTime(); ##value += TimeTemp - TimeMain; TimeMain=TimeTemp;}
 
 void Simulation::runSimulationFrame()
 {
 	//LOG_F(INFO, " =====");
-	nTimeMain = getNanoTime();
+	if (MEASURE_TIME)TimeMain = glfwGetTime();
 	if (ParticleObjectCreator::hasNewOrder()) {
 		LOG_F(INFO, "Parsing Order loop");
 		ParticleObjectCreator::createParticlesFromOrderList();
@@ -105,7 +105,6 @@ void Simulation::runSimulationFrame()
 
 	checkOpenGLErrors();
 
-	if(!MEASURE_TIME) _ntSum += getNanoTimeDif(nTimeMain, getNanoTime());
 }
 
 void Simulation::startSimulation(GLFWwindow* baseWindow)
@@ -146,8 +145,11 @@ void Simulation::main()
 	setupSimObjects();
 	checkOpenGLErrors();
 
-	while (!glfwWindowShouldClose(m_mainWindow))
-	//for (int i = 0; i < 2000; i++)
+	double timeStart, timeEnd, timeDif = 0;
+
+	timeStart = glfwGetTime();
+	//while (!glfwWindowShouldClose(m_mainWindow))
+	for (int i = 0; i < 2000; i++)
 	{
 		m_turnNumber++;
 
@@ -155,7 +157,13 @@ void Simulation::main()
 
 		Simulation::handlePrintingTimes();
 
-
+		timeEnd = glfwGetTime();
+		timeDif += timeEnd - timeStart;
+		timeStart = timeEnd;
+		if (m_turnNumber % m_forTitleTimesFrequency == 0) {
+			WindowTitle::setTitle(m_SimTitle, std::to_string((int)(m_forTitleTimesFrequency / timeDif)));
+			timeDif = 0;
+		}
 	}
 	//ParticleData::printParticleData(20);
 	//ParticleData::printGlassParticlesData(20);
@@ -176,6 +184,8 @@ void Simulation::init()
 	m_SphAccelerationFluid = ComputeShader(ShaderFiles.SphAccelerationFluid);
 	m_SphVelocity = ComputeShader(ShaderFiles.SphVelocity);
 
+	WindowTitle::addTitle(m_SimTitle, 3);
+
 }
 
 void Simulation::handlePrintingTimes()
@@ -185,11 +195,11 @@ void Simulation::handlePrintingTimes()
 
 		_ntSum = _ntRangeCalc + _ntSyncDetailsTime + _ntVelocityTime + _ntAccelerationFluidTime + _ntParseRequestsTime + _ntSynchronizeWithGpuTime + _ntCopyForSortTime + _ntCellCountingTime + _ntBitonicSortTime + _ntArrangeVarsTime + _ntNeighbourSearchTime + _ntDensityPressureFluidTime;
 
-		LOG_F(INFO, "Simulation Turn: %u, Particles: [%d, %d], Time: %f \nRequests %f, SyncObj %f, SyncDet %f, RCalc %f, CopyBO %f, CellCounting %f, Sort %f, Arrange %f, Neighbours %f, Dens&PressFL %f, AccFL %f, Vel %f"
+		LOG_F(INFO, "Simulation Turn: %u, Particles: [%d, %d], Time: %0.2f \nRequests %0.2f, SyncObj %0.2f, SyncDet %0.2f, RCalc %0.2f, CopyBO %0.2f, CellCounting %0.2f, Sort %0.2f, Arrange %0.2f, Neighbours %0.2f, Dens&PressFL %0.2f, AccFL %0.2f, Vel %0.2f"
 			, m_turnNumber, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
 			, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntRangeCalc, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 
-		LOG_F(INFO, "Simulation Particles: [%d, %d] \n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n"
+		LOG_F(INFO, "Simulation Particles: [%d, %d] \n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n"
 			, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
 			, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 
@@ -197,7 +207,7 @@ void Simulation::handlePrintingTimes()
 	
 	} else {
 
-		LOG_F(INFO, "Simulation Turn: %u, Particles: [%d, %d], Time: %f", m_turnNumber, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum/m_printTimesFrequency);
+		LOG_F(INFO, "Simulation Turn: %u, Particles: [%d, %d], Time: %0.2f", m_turnNumber, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum/m_printTimesFrequency);
 		_ntSum = 0;
 
 	}

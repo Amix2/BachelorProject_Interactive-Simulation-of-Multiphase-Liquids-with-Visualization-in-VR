@@ -8,6 +8,8 @@
 #include <Configuration.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
+#include <glm/gtx/vector_angle.hpp>
+#include <glm/gtx/perpendicular.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <particleObjects/ParticleGeometry.h>
 #include <dataStructures/ParticleData.h>
@@ -42,6 +44,7 @@ public:
 	float m_innerRadius;
 	float m_height;
 	float m_thickness;
+	float m_distanceToFurthestParticle = 0;
 
 	glm::mat4 m_destinationMatrix;
 
@@ -50,5 +53,7 @@ public:
 
 	ParticleObject();
 
-	void stepTowardsDestination();
+	virtual std::string toString() const;
+
+	virtual void stepTowardsDestination();
 };

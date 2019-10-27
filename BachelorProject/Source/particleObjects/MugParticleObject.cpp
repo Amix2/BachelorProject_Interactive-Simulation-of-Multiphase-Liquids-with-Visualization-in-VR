@@ -19,6 +19,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 	// set up attributes
 	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
+	m_destinationMatrix = m_matrix;// glm::rotate(m_matrix, 0.3f, glm::vec3(1, 0, 0));
 
 	m_center = objectCenter;
 	m_innerRadius = innerRadius;
@@ -213,8 +214,37 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 
 
 	m_thickness = outputThickness;
+	for (int i = numOfParts - 1; i >= 0; i--) {
+		const glm::vec3 partPos = glm::vec3(ParticleData::m_resGlassParticleArray[i].localX, ParticleData::m_resGlassParticleArray[i].localY, ParticleData::m_resGlassParticleArray[i].localZ);
+		const float distance = glm::distance(localCenter, partPos);
+		m_distanceToFurthestParticle = max(m_distanceToFurthestParticle, distance);
+	}
+}
+
+inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
+	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
+	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
+	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;
+
+	float length = (float)sqrt(crossX * crossX +
+		crossY * crossY +
+		crossZ * crossZ);
+
+	if (length > 0)
+		return glm::vec3(crossX / length, crossY / length, crossZ / length);
+	else
+		return glm::vec3();
 }
 
 void MugParticleObject::stepTowardsDestination()
 {
+	const glm::vec3 currUp = glm::vec3(m_matrix[0][1], m_matrix[1][1], m_matrix[2][1]);
+	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[0][1], m_destinationMatrix[1][1], m_destinationMatrix[2][1]);
+	const float totalAngle = glm::angle(currUp, destUp);
+	const float maxAngleInStep = atan2f(Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE, m_distanceToFurthestParticle);
+	const float angleChange = min(totalAngle, maxAngleInStep);
+	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
+		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		m_matrix = glm::rotate(m_matrix, -angleChange, perpVec);
+	}
 }

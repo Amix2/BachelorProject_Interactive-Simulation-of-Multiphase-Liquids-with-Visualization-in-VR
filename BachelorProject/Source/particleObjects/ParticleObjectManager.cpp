@@ -36,7 +36,10 @@ void ParticleObjectManager::init()
 
 void ParticleObjectManager::synchronizeWithGpu()
 {
-	if (!ParticleObjectManager::m_positionChanged) return;
+	for (int i = 0; i < m_numOfObjects; i++) {
+		m_partObjectsVector[i]->stepTowardsDestination();
+	}
+	//if (!ParticleObjectManager::m_positionChanged) return;
 	ParticleObjectManager::m_positionChanged = false;
 	//for (int i = 0; i < m_numOfObjects; i++) {
 	//	ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
@@ -60,6 +63,22 @@ int ParticleObjectManager::addObject(const ParticleObject& object)
 
 	m_numOfObjects++;
 	ParticleObjectManager::m_positionChanged = true;
+	LOG_F(WARNING, "New %s", object.toString().c_str());
+	return m_numOfObjects;
+}
+
+int ParticleObjectManager::addObject(const MugParticleObject& object)
+{
+	if (m_numOfObjects >= Configuration.MAX_PARTICLE_OBJECTS) {
+		LOG_F(ERROR, "Too many particle objects, cannot create a new one");
+		return m_numOfObjects;
+	}
+	m_partObjectsVector.push_back(std::make_unique<MugParticleObject>(object));
+
+	m_numOfObjects++;
+	ParticleObjectManager::m_positionChanged = true;
+
+	LOG_F(WARNING, "New %s", object.toString().c_str());
 	return m_numOfObjects;
 }
 

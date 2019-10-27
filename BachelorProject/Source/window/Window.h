@@ -25,7 +25,7 @@ public:
 	int getHeight() const { return height; }
 	float getDeltaTime() const { return deltaTime; }
 
-	GLFWwindow* glfwWindow;
+	GLFWwindow* glfwWindow = nullptr;
 protected:
 private:
 	InputDispatcher* inputDispatcher;
