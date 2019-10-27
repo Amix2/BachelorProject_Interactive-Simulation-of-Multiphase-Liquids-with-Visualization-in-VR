@@ -130,7 +130,7 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimFluid);
 	ParticleObjectCreator::addObject(optimGlass);
 }
 
@@ -148,8 +148,8 @@ void Simulation::main()
 	double timeStart, timeEnd, timeDif = 0;
 
 	timeStart = glfwGetTime();
-	//while (!glfwWindowShouldClose(m_mainWindow))
-	for (int i = 0; i < 2000; i++)
+	while (!glfwWindowShouldClose(m_mainWindow))
+	//for (int i = 0; i < 500; i++)
 	{
 		m_turnNumber++;
 
@@ -190,7 +190,7 @@ void Simulation::init()
 
 void Simulation::handlePrintingTimes()
 {
-	if (m_turnNumber % m_printTimesFrequency != 0) return;
+	if (!PRINT_TIME || m_turnNumber % m_printTimesFrequency != 0) return;
 	if (MEASURE_TIME) {
 
 		_ntSum = _ntRangeCalc + _ntSyncDetailsTime + _ntVelocityTime + _ntAccelerationFluidTime + _ntParseRequestsTime + _ntSynchronizeWithGpuTime + _ntCopyForSortTime + _ntCellCountingTime + _ntBitonicSortTime + _ntArrangeVarsTime + _ntNeighbourSearchTime + _ntDensityPressureFluidTime;

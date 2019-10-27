@@ -19,7 +19,9 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 	// set up attributes
 	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
-	m_destinationMatrix = m_matrix;// glm::rotate(m_matrix, 0.3f, glm::vec3(1, 0, 0));
+	// glm::translate(m_matrix, objectCenter);//
+//glm::translate(m_matrix, objectCenter);
+	m_destinationMatrix = glm::rotate(glm::translate(m_matrix, glm::vec3(50, 10, 10)), 3.14159265f / 2.0f, glm::vec3(1, 0, 0));
 
 	m_center = objectCenter;
 	m_innerRadius = innerRadius;
@@ -238,13 +240,40 @@ inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
 
 void MugParticleObject::stepTowardsDestination()
 {
-	const glm::vec3 currUp = glm::vec3(m_matrix[0][1], m_matrix[1][1], m_matrix[2][1]);
-	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[0][1], m_destinationMatrix[1][1], m_destinationMatrix[2][1]);
-	const float totalAngle = glm::angle(currUp, destUp);
-	const float maxAngleInStep = atan2f(Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE, m_distanceToFurthestParticle);
-	const float angleChange = min(totalAngle, maxAngleInStep);
-	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
-		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
-		m_matrix = glm::rotate(m_matrix, -angleChange, perpVec);
+	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
+	const glm::vec3 currPos = glm::vec3(m_matrix[3][0], m_matrix[3][1], m_matrix[3][2]);
+	const glm::vec3 destPos = glm::vec3(m_destinationMatrix[3][0], m_destinationMatrix[3][1], m_destinationMatrix[3][2]);
+	const glm::vec3 difVec = destPos - currPos;
+	const float distance = glm::length(difVec);
+	float stepDistanceChange = min(distance, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
+	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
+		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
+		m_matrix = glm::translate(m_matrix, stepVec);
+		m_matrix[3][0] += stepVec.x;
+		m_matrix[3][1] += stepVec.y;
+		m_matrix[3][2] += stepVec.z;
+		stepDistanceLeft -= stepDistanceChange;
 	}
+
+	const glm::vec3 currUp = glm::vec3(m_matrix[1][0], m_matrix[1][1], m_matrix[1][2]);
+	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
+	const float totalAngle = glm::angle(currUp, destUp);
+	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
+	const float angleChange = min(totalAngle, maxAngleInStep);
+	if (totalAngle > Configuration.GLASS_ANGLE_PRECISION) {
+		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
+	}
+
+	stepDistanceLeft -= tanf(angleChange) * m_distanceToFurthestParticle;
+	stepDistanceChange = min(distance - stepDistanceChange, stepDistanceLeft);
+	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
+		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
+		m_matrix = glm::translate(m_matrix, stepVec);
+		m_matrix[3][0] += stepVec.x;
+		m_matrix[3][1] += stepVec.y;
+		m_matrix[3][2] += stepVec.z;
+		stepDistanceLeft -= stepDistanceChange;
+	}
+
 }

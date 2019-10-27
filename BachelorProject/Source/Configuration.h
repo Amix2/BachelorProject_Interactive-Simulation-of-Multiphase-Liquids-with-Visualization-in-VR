@@ -39,10 +39,10 @@ const struct Configuration {
 
 	inline static const glm::vec4 BACKGROUND{ 0.1f, 0.1f, 0.4f, 1.0f };
 	inline static const int MAX_AMOUNT_OF_TITLES = 10;
-	inline static const int TITLE_REFRESH_DELAY = 1000;	// in ms
+	inline static const int TITLE_REFRESH_DELAY = 100;	// in ms
 
-	inline static const float GLASS_ANGLE_PRECISION = 0.001;
-	inline static const float GLASS_DISTANCE_PRECISION = 0.001;
+	inline static const float GLASS_ANGLE_PRECISION = 0.01;
+	inline static const float GLASS_DISTANCE_PRECISION = 0.01;
 } Configuration;
 
 
