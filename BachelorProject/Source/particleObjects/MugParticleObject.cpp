@@ -14,14 +14,14 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 	const glm::vec3 bottomVec = localCenter - glm::vec3(0, height / 2, 0);
 	const glm::vec3 layerGapVecY = glm::vec3(0, layerGap, 0);
 
-	float outputThickness;
+	float outputThickness = -1;
 
 	// set up attributes
 	//m_matrix = glm::rotate(glm::translate(glm::mat4(1.0f), objectCenter), 0.1f, glm::vec3(1,0,0));
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
 	// glm::translate(m_matrix, objectCenter);//
 //glm::translate(m_matrix, objectCenter);
-	m_destinationMatrix = glm::rotate(glm::translate(m_matrix, glm::vec3(50, 10, 10)), 3.14159265f / 2.0f, glm::vec3(1, 0, 0));
+	m_destinationMatrix = glm::rotate(glm::translate(m_matrix, objectCenter), 3.14159265f / 2.0f, glm::vec3(1, 0, 0));
 
 	m_center = objectCenter;
 	m_innerRadius = innerRadius;
@@ -248,7 +248,7 @@ void MugParticleObject::stepTowardsDestination()
 	float stepDistanceChange = min(distance, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
 	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
 		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
-		m_matrix = glm::translate(m_matrix, stepVec);
+		//m_matrix = glm::translate(m_matrix, stepVec);
 		m_matrix[3][0] += stepVec.x;
 		m_matrix[3][1] += stepVec.y;
 		m_matrix[3][2] += stepVec.z;
@@ -269,7 +269,7 @@ void MugParticleObject::stepTowardsDestination()
 	stepDistanceChange = min(distance - stepDistanceChange, stepDistanceLeft);
 	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
 		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
-		m_matrix = glm::translate(m_matrix, stepVec);
+		//m_matrix = glm::translate(m_matrix, stepVec);
 		m_matrix[3][0] += stepVec.x;
 		m_matrix[3][1] += stepVec.y;
 		m_matrix[3][2] += stepVec.z;
