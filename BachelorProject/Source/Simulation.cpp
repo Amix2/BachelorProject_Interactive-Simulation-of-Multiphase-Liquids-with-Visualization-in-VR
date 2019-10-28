@@ -130,7 +130,7 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details2);
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	//ParticleObjectCreator::addObject(optimFluid);
+	ParticleObjectCreator::addObject(optimFluid);
 	ParticleObjectCreator::addObject(optimGlass);
 }
 
