@@ -2,14 +2,18 @@
 
 void WindowTitle::workerMain()
 {
+	for (int i = 0; i < Configuration.MAX_AMOUNT_OF_TITLES; i++) {
+		m_titleNamesList[i] = WindowTitle::DEFEULT_NULL_TITLE;
+	}
 	while (!glfwWindowShouldClose(m_glfwWindow)) {
 		if (m_glfwWindow != nullptr) {
 			std::stringstream ss;
 			bool afterFirst = false;
 			for (int i = 0; i < Configuration.MAX_AMOUNT_OF_TITLES; i++) {
-				if (m_titleStringList[i] != DEFEULT_NULL_TITLE) {
+				if (m_titleNamesList[i].compare(WindowTitle::DEFEULT_NULL_TITLE) != 0) {
 					if (afterFirst) ss << ", ";
-					ss << m_titleNamesList[i] << " " << m_titleStringList[i];
+					else afterFirst = true;
+					ss << m_titleStringList[i];
 				}
 			}
 			glfwSetWindowTitle(m_glfwWindow, ss.str().c_str());
@@ -31,13 +35,14 @@ void WindowTitle::setWindow(GLFWwindow* glfwWindow)
 
 void WindowTitle::addTitle(std::string titleName, int position)
 {
-	if (m_titleNamesList[position] == WindowTitle::DEFEULT_NULL_TITLE) {	// simple add
+	LOG_F(ERROR, " %s", m_titleNamesList[position].c_str());
+	if (m_titleNamesList[position].compare(WindowTitle::DEFEULT_NULL_TITLE) == 0) {	// simple add
 		m_titleNamesList[position] = titleName;
 		m_indexMap.insert({ titleName, position });
 		LOG_F(INFO, "New title added, name: %s, position: %d", titleName.c_str(), position);
 	}
 	else {	// position is already taken
-		while (position < Configuration.MAX_AMOUNT_OF_TITLES && m_titleNamesList[position] == WindowTitle::DEFEULT_NULL_TITLE) {
+		while (position < Configuration.MAX_AMOUNT_OF_TITLES && m_titleNamesList[position].compare(WindowTitle::DEFEULT_NULL_TITLE) != 0) {
 			position++;
 		}
 		if (position == Configuration.MAX_AMOUNT_OF_TITLES) {

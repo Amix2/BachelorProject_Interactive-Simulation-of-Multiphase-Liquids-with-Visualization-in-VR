@@ -7,15 +7,17 @@
 #include <ThreadManager.h>
 #include <sstream>
 #include <Windows.h>
+#include <algorithm>
 
 class WindowTitle
 {
 private:
-	inline static const std::string DEFEULT_NULL_TITLE = std::string("");
+	inline static const std::string DEFEULT_NULL_TITLE = std::string("NULL_TITLE_DO_NOT_USE_AS_TITLE");
 
 	inline static std::unordered_map<std::string, int> m_indexMap;
 	inline static std::string m_titleStringList[Configuration.MAX_AMOUNT_OF_TITLES] = { "" };
-	inline static std::string m_titleNamesList[Configuration.MAX_AMOUNT_OF_TITLES] = { DEFEULT_NULL_TITLE };
+	inline static std::string m_titleNamesList[Configuration.MAX_AMOUNT_OF_TITLES];
+
 
 	inline static GLFWwindow* m_glfwWindow;
 
