@@ -43,6 +43,8 @@ const struct Configuration {
 
 	inline static const float GLASS_ANGLE_PRECISION = 0.01;
 	inline static const float GLASS_DISTANCE_PRECISION = 0.01;
+
+	inline static const int TARGET_SIM_FPS = 30;
 } Configuration;
 
 

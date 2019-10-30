@@ -96,12 +96,23 @@ void main(void)
 		const vec3 pSurfVec = vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2]); 
 		float dotProduct = dot(pVelocity, pSurfVec);
 		if(dotProduct < 0) {	// angle is greater than 90deg, velocity points into a glass
-			pVelocity = (pVelocity - 2 * (dotProduct) * pSurfVec) * BOUNCE_VELOCITY_MULTIPLIER;
+			pVelocity =  (pVelocity - 2 * (dotProduct) * pSurfVec);
 		}
 
-//		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.1) {
-//			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.1 / DELTA_TIME;
+		pPosition = pPosition + pSurfVec * (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber]);
+
+		if(length(pVelocity) > (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber])) {
+			pVelocity = pVelocity * (1 - (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber]) / length(pVelocity));
+		} else {
+			pVelocity = vec3(0,0,0);
+		}
+
+//		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.2) {
+//			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.2 / DELTA_TIME;
 //		}
+		//pVelocity = vec3(0, 1000, 0);
+		//fluidPositions[myThreadNumber].type = 1000;
+
 	}
 
 	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {

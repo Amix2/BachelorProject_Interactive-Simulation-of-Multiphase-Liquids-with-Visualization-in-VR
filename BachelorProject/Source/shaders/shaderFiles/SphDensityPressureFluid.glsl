@@ -155,27 +155,28 @@ void main(void)
 				const GlassParticle neiGlassParticle = glassParticles[ -(neiPartcie.type+1) ];	// -1 ==> 0 | -2 ==> 1
 				const vec4 neiLocalGlassVector = vec4(neiGlassParticle.vecX, neiGlassParticle.vecY, neiGlassParticle.vecZ, 0.0f);
 				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
-				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) / dist;
+				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) ;
 
-				pGlassSurfaceVector += neiGlobalGlassVector.xyz;
+				pGlassSurfaceVector += neiGlobalGlassVector.xyz * (1/dist);
 			}
 
 		}
 	}
 
+	//atomicAdd(fluidPositions[myParticleIndex].type, 1000);
 
 	shDensity[mySharedIndex] = pDensity;
 		
-	pGlassSurfaceVector = normalize(pGlassSurfaceVector);
-
 	shSurfaceVector[3*mySharedIndex+0] = pGlassSurfaceVector.x;
 	shSurfaceVector[3*mySharedIndex+1] = pGlassSurfaceVector.y;
 	shSurfaceVector[3*mySharedIndex+2] = pGlassSurfaceVector.z;
 
-
+	//memoryBarrierShared();
+	//barrier();
+	//if(mySharedIndex%27 == 0) {
 	if(atomicAdd(counters[myLocalGroupNumber], 1) == 26) {
-		float outDensity, outVecX, outVecY, outVecZ;
-		outDensity = outVecX = outVecY = outVecZ = 0;
+		float outDensity =0, outVecX=0, outVecY=0, outVecZ=0;
+		//outDensity = outVecX = outVecY = outVecZ = 0;
 		for(int i=0; i<27; i++) {
 			outDensity += shDensity[27*myLocalGroupNumber+i];
 			outVecX += shSurfaceVector[3*(27*myLocalGroupNumber+i) + 0];
@@ -187,6 +188,7 @@ void main(void)
 		fluidDensityPressure[2*myParticleIndex+1] = fluidTypeArray[myFluid.type].stiffness * abs(outDensity - fluidTypeArray[myFluid.type].density);
 
 		const float vecLen = sqrt(outVecX * outVecX + outVecY * outVecY + outVecZ * outVecZ);
+
 
 		fluidSurfaceVector[3*myParticleIndex+0] = outVecX / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+1] = outVecY / vecLen;

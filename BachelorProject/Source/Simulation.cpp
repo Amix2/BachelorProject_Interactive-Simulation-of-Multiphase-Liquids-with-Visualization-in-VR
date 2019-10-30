@@ -7,7 +7,7 @@ void Simulation::runSimulationFrame()
 {
 	//LOG_F(INFO, " =====");
 	if (MEASURE_TIME)TimeMain = glfwGetTime();
-	if (ParticleObjectCreator::hasNewOrder()) {
+	while (ParticleObjectCreator::hasNewOrder()) {
 		LOG_F(INFO, "Parsing Order loop");
 		ParticleObjectCreator::createParticlesFromOrderList();
 		//glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT | GL_UNIFORM_BARRIER_BIT);
@@ -120,14 +120,27 @@ void Simulation::setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 10.1,4.5,10.1, 10.2, 14.8, 10.2};
 	ParticleObjectDetais details2{ -1, 10,4,10, 2, 0, 0 };
-	ParticleObjectDetais details3{ -1, 20,15,20, 15,1,10};
-	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 60, 35 };
+
+	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
+	ParticleObjectDetais details4{ -1, 20,3,20, 3,0,0 };
+	ParticleObjectDetais details5{ 1, 20, 15.14, 20, 20.1,15.3,20.1 };
+	ParticleObjectDetais details6{ 1, 20, 5.14, 20, 20.1,5.3,20.1 };
+
+	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 70, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 
-	ParticleObjectDetais optimFluid{ 1, 20,20,20, 60, 50, 60 };
-	ParticleObjectDetais optimGlass{ -1, 40,35,40, 28,0.5,35 };
+	ParticleObjectDetais optimFluid{ 1, 21,40,21, 59, 60, 59 };
+	ParticleObjectDetais optimGlass{ -1, 40,45,40, 28,0.5,35 };
+
 	//ParticleObjectCreator::addObject(details);
 	//ParticleObjectCreator::addObject(details2);
+
+	//ParticleObjectCreator::addObject(details5);
+	//ParticleObjectCreator::addObject(details6);
+
+	ParticleObjectCreator::addObject(details4);
+	ParticleObjectCreator::addObject(details3);
+	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 	ParticleObjectCreator::addObject(optimFluid);
@@ -147,27 +160,39 @@ void Simulation::main()
 
 	double timeStart, timeEnd, timeDif = 0;
 
-	timeStart = glfwGetTime();
 	while (!glfwWindowShouldClose(m_mainWindow))
-	//for (int i = 0; i < 500; i++)
+	//for (int i = 0; i < 1000; i++)
 	{
+		timeStart = glfwGetTime();
+
 		m_turnNumber++;
 
 		Simulation::runSimulationFrame();
-
+		//glFinish();
 		Simulation::handlePrintingTimes();
 
 		timeEnd = glfwGetTime();
+
+		const int sleepTime = (1.0 / 30 - (timeEnd - timeStart)) * 1000;
+		if(sleepTime > 0)
+			Sleep(sleepTime);
+
 		timeDif += timeEnd - timeStart;
-		timeStart = timeEnd;
+
 		if (m_turnNumber % m_forTitleTimesFrequency == 0) {
-			WindowTitle::setTitle(m_SimTitle, std::to_string((int)(m_forTitleTimesFrequency / timeDif)));
+			WindowTitle::setTitle(m_SimFpsTitle, "Sim FPS [max " + std::to_string(Configuration.TARGET_SIM_FPS) + "]: " + std::to_string((int)(m_forTitleTimesFrequency / timeDif)));
+			WindowTitle::setTitle(m_SimParticleTitle, std::to_string(ParticleData::m_NumOfParticles) +" particles");
+			WindowTitle::setTitle(m_SimGlassParticleTitle, std::to_string(ParticleData::m_NumOfGlassParticles) + " glass particles");
 			timeDif = 0;
 		}
+		//ParticleData::printGlassObjectsData(2);
+		//ParticleData::printParticleData(2000);
+		//ParticleData::printSPHData(1, 1, 1, 1, 1, 2000);
 	}
-	//ParticleData::printParticleData(20);
-	//ParticleData::printGlassParticlesData(20);
-	//ParticleData::printGlassObjectsData(20);
+	//ParticleData::printParticleData(2000);
+	//ParticleData::printGlassParticlesData(2000);
+	//ParticleData::printGlassObjectsData(2);
+	//ParticleObjectManager::printObjects(2);
 	//ParticleData::printSPHData(1, 1, 1, 1, 1,20);
 	//ParticleData::printNeighboursData(20);
 	//ParticleData::printSortingData(20);
@@ -184,7 +209,9 @@ void Simulation::init()
 	m_SphAccelerationFluid = ComputeShader(ShaderFiles.SphAccelerationFluid);
 	m_SphVelocity = ComputeShader(ShaderFiles.SphVelocity);
 
-	WindowTitle::addTitle(m_SimTitle, 3);
+	WindowTitle::addTitle(m_SimFpsTitle, 3);
+	WindowTitle::addTitle(m_SimParticleTitle, 4);
+	WindowTitle::addTitle(m_SimGlassParticleTitle, 5);
 
 }
 

@@ -116,7 +116,7 @@ void main(void)
 	vec3 pViscosityVec = vec3(0,0,0);
 	vec3 pAcceleration = vec3(0,0,0);
 
-	float pMinGlassAngle = 99.0f;	// any number higher than Kernel Base
+	float pMinGlassDistance = 99.0f;	// any number higher than Kernel Base
 
 	const FluidType myType = fluidTypeArray[myFluid.type];
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
@@ -146,11 +146,12 @@ void main(void)
 				neiVariablesIndex = int(myParticleIndex);
 				accelerationMultiplier = 1;
 
-				vec3 pGlassSurfaceVector = vec3(fluidSurfaceVector[3*myParticleIndex+0], fluidSurfaceVector[3*myParticleIndex+1], fluidSurfaceVector[3*myParticleIndex+2]);
+				const vec3 pGlassSurfaceVector = vec3(fluidSurfaceVector[3*myParticleIndex+0], fluidSurfaceVector[3*myParticleIndex+1], fluidSurfaceVector[3*myParticleIndex+2]);
 	
 				const float cosAngle = dot(direction, pGlassSurfaceVector);
-				//if(dist < pMinGlassAngle) pMinGlassAngle = dist;
-				if(cosAngle < pMinGlassAngle) pMinGlassAngle = cosAngle;
+				//if(dist < pMinGlassDistance) pMinGlassDistance = dist;
+				const float thisSurfaceDist = cosAngle * dist;
+				if(thisSurfaceDist < pMinGlassDistance) pMinGlassDistance = thisSurfaceDist;
 
 			}
 
@@ -173,9 +174,9 @@ void main(void)
 	shFluidAcceleration[3*mySharedIndex+1] = pAcceleration.y;
 	shFluidAcceleration[3*mySharedIndex+2] = pAcceleration.z;
 
-	shFluidSurfaceDistance[mySharedIndex] = pMinGlassAngle;
+	shFluidSurfaceDistance[mySharedIndex] = pMinGlassDistance;
 
-
+	//memoryBarrierShared();
 	if(atomicAdd(counters[myLocalGroupNumber], 1) == 26) {
 
 		float outSurfDist, outAccX, outAccY, outAccZ;

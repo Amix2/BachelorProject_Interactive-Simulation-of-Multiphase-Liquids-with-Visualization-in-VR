@@ -41,7 +41,9 @@ class Simulation
 	inline static const bool MEASURE_TIME = false;
 	inline static const bool PRINT_TIME = false;
 
-	inline static const std::string m_SimTitle = "Sim FPS:";
+	inline static const std::string m_SimFpsTitle = "Sim FPS ";
+	inline static const std::string m_SimParticleTitle = "Sim Num of particles";
+	inline static const std::string m_SimGlassParticleTitle = "Sim Num of Glass particles";
 
 public:
 
