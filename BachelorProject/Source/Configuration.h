@@ -29,7 +29,7 @@ const struct Configuration {
 	inline static const float BOUNCE_DISTANCE = 0.15f;
 	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
 
-	inline static const float MAX_PARTICLE_SPEED = 2.0f;
+	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 	inline static const float MAX_PARTICLE_STEP_DISTANCE = MAX_PARTICLE_SPEED * DELTA_TIME;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.2f;
 

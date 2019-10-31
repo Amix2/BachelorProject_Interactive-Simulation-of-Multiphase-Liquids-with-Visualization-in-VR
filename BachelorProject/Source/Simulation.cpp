@@ -122,9 +122,9 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais details2{ -1, 10,4,10, 2, 0, 0 };
 
 	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
-	ParticleObjectDetais details4{ -1, 20,3,20, 3,0,0 };
+	ParticleObjectDetais details4{ -1, 20,5,20, 3,0,0 };
 	ParticleObjectDetais details5{ 1, 20, 15.14, 20, 20.1,15.3,20.1 };
-	ParticleObjectDetais details6{ 1, 20, 5.14, 20, 20.1,5.3,20.1 };
+	ParticleObjectDetais details6{ 1, 20, 5.04, 20, 20.1,5.3,20.1 };
 
 	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 70, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
@@ -136,10 +136,10 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details5);
-	//ParticleObjectCreator::addObject(details6);
+	ParticleObjectCreator::addObject(details6);
 
 	ParticleObjectCreator::addObject(details4);
-	ParticleObjectCreator::addObject(details3);
+	//ParticleObjectCreator::addObject(details3);
 	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
@@ -161,7 +161,7 @@ void Simulation::main()
 	double timeStart, timeEnd, timeDif = 0;
 
 	while (!glfwWindowShouldClose(m_mainWindow))
-	//for (int i = 0; i < 1000; i++)
+	//for (int i = 0; i < 1; i++)
 	{
 		timeStart = glfwGetTime();
 
@@ -193,7 +193,7 @@ void Simulation::main()
 	//ParticleData::printGlassParticlesData(2000);
 	//ParticleData::printGlassObjectsData(2);
 	//ParticleObjectManager::printObjects(2);
-	//ParticleData::printSPHData(1, 1, 1, 1, 1,20);
+	//ParticleData::printSPHData(1, 1, 1, 1, 1,2000);
 	//ParticleData::printNeighboursData(20);
 	//ParticleData::printSortingData(20);
 }

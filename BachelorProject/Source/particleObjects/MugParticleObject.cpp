@@ -94,13 +94,13 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, { ParticleGeometry::UP_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
 			, { ParticleGeometry::DOWN_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
-		ParticleGeometry::cylinder(numOfParts
-			, glm::vec2(localCenter.x, localCenter.z)
-			, bottom - 2 * layerGap, top 	// heights
-			, innerRadius + layerGap	// radius
-			, inCircleGap, layerGap, ParticleGeometry::INSIDE
-			, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::INSIDE }
-			, { ParticleGeometry::DOWN, ParticleGeometry::ZERO, ParticleGeometry::INSIDE });
+		//ParticleGeometry::cylinder(numOfParts
+		//	, glm::vec2(localCenter.x, localCenter.z)
+		//	, bottom - 2 * layerGap, top 	// heights
+		//	, innerRadius + layerGap	// radius
+		//	, inCircleGap, layerGap, ParticleGeometry::INSIDE
+		//	, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::INSIDE }
+		//	, { ParticleGeometry::DOWN, ParticleGeometry::ZERO, ParticleGeometry::INSIDE });
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -116,14 +116,14 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, 0, 0, ParticleGeometry::EQUALS		// inner
 			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
 			, inCircleGap, layerGap, ParticleGeometry::UP
-			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP });
+			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE });
 
-		ParticleGeometry::filledCircle(numOfParts
-			, bottomVec - layerGapVecY
-			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
-			, inCircleGap, layerGap, ParticleGeometry::UP
-			, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::UP });
+		//ParticleGeometry::filledCircle(numOfParts
+		//	, bottomVec - layerGapVecY
+		//	, 0, 0, ParticleGeometry::EQUALS		// inner
+		//	, innerRadius, innerRadius - layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
+		//	, inCircleGap, layerGap, ParticleGeometry::UP
+		//	, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::UP });
 
 		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY - layerGapVecY
