@@ -352,6 +352,7 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 	}
 	const int siz = Configuration.MAX_PARTICLES;
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < limit && i<ParticleData::m_NumOfParticles; i++) {
+	//for (int i = 69998; i < 69998 +1 && i < limit && i < ParticleData::m_NumOfParticles; i++) {
 		std::stringstream ss;
 		bool fluid = false;
 		if (velocity) {

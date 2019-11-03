@@ -84,12 +84,14 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidAcceleration[3 * MAX_FLUID];
 	float fluidSurfaceVector[3 * MAX_FLUID];
 	float fluidSurfaceDistance[MAX_FLUID];
-	float fluidDensityPressure[];
+	float fluidDensityPressure[2*MAX_FLUID];
+	float glassForceMultiplier[MAX_FLUID];
 };
 
 
 shared float shDensity[270];
 shared float shSurfaceVector[3 * 270];
+shared float shDistanceToParts[2 * 270];
 
 shared uint counters[10];
 
@@ -134,6 +136,9 @@ void main(void)
 	
 
 	vec3 pGlassSurfaceVector = vec3(0,0,0);
+	float closestGLass = 99.0f;
+	float distanceToFluid = 0;
+	float distanceToGlass = 0;
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -157,7 +162,14 @@ void main(void)
 				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
 				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) ;
 
-				pGlassSurfaceVector += neiGlobalGlassVector.xyz * (1/1);
+				if(true || dist < closestGLass) {
+					pGlassSurfaceVector += neiGlobalGlassVector.xyz * (Kernel(dist));
+					closestGLass = dist;
+				}
+
+				distanceToGlass += Kernel(dist);
+			} else if(neiPartcie.type > 0) {	// if fluid not glass
+				distanceToFluid += Kernel(dist);
 			}
 
 		}
@@ -171,17 +183,22 @@ void main(void)
 	shSurfaceVector[3*mySharedIndex+1] = pGlassSurfaceVector.y;
 	shSurfaceVector[3*mySharedIndex+2] = pGlassSurfaceVector.z;
 
+	shDistanceToParts[2*mySharedIndex+0] = distanceToFluid;
+	shDistanceToParts[2*mySharedIndex+1] = distanceToGlass;
+
 	//memoryBarrierShared();
 	//barrier();
 	//if(mySharedIndex%27 == 0) {
 	if(atomicAdd(counters[myLocalGroupNumber], 1) == 26) {
-		float outDensity =0, outVecX=0, outVecY=0, outVecZ=0;
+		float outDensity =0, outVecX=0, outVecY=0, outVecZ=0, sumDistToFluid=0, sumDistToGlass=0;
 		//outDensity = outVecX = outVecY = outVecZ = 0;
 		for(int i=0; i<27; i++) {
 			outDensity += shDensity[27*myLocalGroupNumber+i];
 			outVecX += shSurfaceVector[3*(27*myLocalGroupNumber+i) + 0];
 			outVecY += shSurfaceVector[3*(27*myLocalGroupNumber+i) + 1];
 			outVecZ += shSurfaceVector[3*(27*myLocalGroupNumber+i) + 2];
+			sumDistToFluid += shDistanceToParts[2*(27*myLocalGroupNumber+i) + 0];
+			sumDistToGlass += shDistanceToParts[2*(27*myLocalGroupNumber+i) + 1];
 		}
 
 		fluidDensityPressure[2*myParticleIndex] = outDensity;
@@ -193,6 +210,7 @@ void main(void)
 		fluidSurfaceVector[3*myParticleIndex+0] = outVecX / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+1] = outVecY / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+2] = outVecZ / vecLen;
+		glassForceMultiplier[myParticleIndex] = sumDistToFluid / sumDistToGlass;
 	}
 	
 }

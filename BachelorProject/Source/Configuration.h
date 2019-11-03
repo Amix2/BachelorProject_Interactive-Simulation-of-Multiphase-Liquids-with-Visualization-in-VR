@@ -26,7 +26,7 @@ const struct Configuration {
 	inline static const float DELTA_TIME = 0.0005;
 	inline static const float GRAVITY_Y = -3000;
 	inline static const float VELOCITY_FACTOR = 0.7f;
-	inline static const float BOUNCE_DISTANCE = 0.15f;
+	inline static const float BOUNCE_DISTANCE = 0.40f;
 	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
 
 	inline static const float MAX_PARTICLE_SPEED = 0.5f;
@@ -34,7 +34,7 @@ const struct Configuration {
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.2f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 12;
-	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 7 * MAX_PARTICLES;
+	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 9 * MAX_PARTICLES;
 	inline static const int SIZE_OF_HELPER_BUFFER = 4*sizeof(float) * MAX_PARTICLES;
 
 	inline static const glm::vec4 BACKGROUND{ 0.1f, 0.1f, 0.4f, 1.0f };

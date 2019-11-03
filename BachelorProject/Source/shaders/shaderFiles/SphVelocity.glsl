@@ -101,10 +101,11 @@ void main(void)
 	if(K > 0) {
 		if(K > 1.0) K = 1.0;
 		pNewPosition += pSurfaceVec * (K);
-		pVelocity = (pNewPosition - pPosition) * (1/DELTA_TIME);
+		pVelocity = (pNewPosition - pPosition) * (1/1);
 		if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
 			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
 		}
+		//fluidPositions[myThreadNumber].type = 1000;
 	}
 
 //	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
