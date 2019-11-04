@@ -166,7 +166,7 @@ void main(void)
 				if(thisSurfaceDist < pMinGlassDistance) pMinGlassDistance = thisSurfaceDist;
 
 				const float tPressSc = myType.mass * (2*pPressure/pow(pDensity, 2) ) * KernelDerivative(dist);
-				pPressureVec += direction * tPressSc * 5;
+				pPressureVec += direction * tPressSc * 4;
 
 
 			} else {	// if fluid;

@@ -216,7 +216,8 @@ void ParticleData::printParticleData(int limit)
 	
 	LOG_F(INFO, "Simulation particles print\tNum of particles in simulation: %d", m_NumOfParticles);
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < m_NumOfParticles && i < limit; i++) {
-		if(data[i].type>0)LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, data[i].x, data[i].y, data[i].z, data[i].type);
+		//if(data[i].type>0)
+			LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, data[i].x, data[i].y, data[i].z, data[i].type);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 

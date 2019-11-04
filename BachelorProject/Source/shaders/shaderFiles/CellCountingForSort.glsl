@@ -19,6 +19,10 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 //////////////////////////////////////////////////
 //	STORAGE
 
+uniform mat4 u_emiterMatrix;
+uniform int u_emiterParticlesNumber;
+uniform float u_emiterVelocity;
+
 struct FluidParticle {
 	float x, y, z;
 	int type;
@@ -84,8 +88,6 @@ layout(std430, binding = 8) buffer simVariablesBuf
 //////////////////////////////////////////////////
 //	FUNCTIONS
 
-	void findMyArraySections(out uint myFluidFirst, out uint myFluidLast, out uint mySortFirst);
-
 	uint getCellIndex(in float pX, in float pY, in float pZ);
 
 //////////////////////////////////////////////////
@@ -96,8 +98,27 @@ void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	//if(myThreadNumber >= numOfParticles) return;
+	if(myThreadNumber >= numOfParticles && numOfParticles + u_emiterParticlesNumber > myThreadNumber) {
+		// emiter
+		vec3 right = vec3(u_emiterMatrix[0][0], u_emiterMatrix[0][1], u_emiterMatrix[0][2]);
+		vec3 up = vec3(u_emiterMatrix[1][0], u_emiterMatrix[1][1], u_emiterMatrix[1][2]);
+		vec3 forward = vec3(u_emiterMatrix[2][0], u_emiterMatrix[2][1], u_emiterMatrix[2][2]) * u_emiterVelocity;
+		vec3 position = vec3(u_emiterMatrix[3][0], u_emiterMatrix[3][1], u_emiterMatrix[3][2]);
+		fluidPositions[myThreadNumber].x = position.x;
+		fluidPositions[myThreadNumber].y = position.y;
+		fluidPositions[myThreadNumber].z = position.z;
+		fluidPositions[myThreadNumber].type = 1;
+
+		fluidVelocity[3*myThreadNumber+0] = forward.x;
+		fluidVelocity[3*myThreadNumber+1] = forward.y;
+		fluidVelocity[3*myThreadNumber+2] = forward.z;
+
+		atomicAdd(numOfParticles, 1);
+	}
 	FluidParticle myParticle = fluidPositions[myThreadNumber];
 	const int myType = myParticle.type;
+
+
 	if(myType < 0) {
 		// its a glass particle
 		//const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1

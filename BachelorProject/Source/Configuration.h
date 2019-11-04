@@ -14,7 +14,7 @@ const struct Configuration {
 	inline static int MAX_GLASS_PARTICLES = 262144/2;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 2*131072;
-	inline static const int MAX_FLUID_TYPES = 15;
+	inline static const int MAX_FLUID_TYPES = 10;
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
@@ -23,13 +23,13 @@ const struct Configuration {
 	inline static int SCENE_SIZE_Y = 8;
 	inline static int SCENE_SIZE_Z = 7;
 
-	inline static const float DELTA_TIME = 0.0005;
-	inline static const float GRAVITY_Y = -3000;
+	inline static const float DELTA_TIME = 0.0025f;
+	inline static const float GRAVITY_Y = -500;
 	inline static const float VELOCITY_FACTOR = 0.7f;
 	inline static const float BOUNCE_DISTANCE = 0.40f;
 	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
 
-	inline static const float MAX_PARTICLE_SPEED = 0.5f;
+	inline static const float MAX_PARTICLE_SPEED = 1.0f;
 	inline static const float MAX_PARTICLE_STEP_DISTANCE = MAX_PARTICLE_SPEED * DELTA_TIME;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.2f;
 

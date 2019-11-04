@@ -25,6 +25,7 @@ public:
 	void setUniformVariable(const std::string& name, bool value) const;
 	void setUniformVariable(const std::string& name, int value) const;
 	void setUniformVariable(const std::string& name, float value) const;
+	void setUniformVariable(const std::string& name, const glm::mat4& value) const;
 
 	void runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, bool block = false);
 };
