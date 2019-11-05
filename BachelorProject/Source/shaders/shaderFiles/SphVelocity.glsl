@@ -100,10 +100,12 @@ void main(void)
 	vec3 pNewPosition = pPosition + pVelocity * DELTA_TIME;
 
 	float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, normalize(pVelocity)));
-
+	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
 	if(K > 0) {
 		if(K > 1.0) K = 1.0;
-		pNewPosition += pSurfaceVec * (K/3);
+		pNewPosition += pSurfaceVec * (K/2);
 		const float newVelLen = max(glassMaxVelocity[myThreadNumber], length(pVelocity));
 		pVelocity = normalize(pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type = 1000;

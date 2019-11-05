@@ -132,8 +132,8 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 70, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 
-	ParticleObjectDetais optimFluid{ 1, 21,40,21, 59, 60, 59 };
-	ParticleObjectDetais optimGlass{ -1, 40,45,40, 28,0.5,35 };
+	ParticleObjectDetais optimFluid{ 1, 21,70,21, 59, 100, 59 };
+	ParticleObjectDetais optimGlass{ -1, 40,55,40, 28,0.5,35 };
 	const float x = 40, y = 27.7, z = 11.80;
 	ParticleObjectDetais detailsSing{ 1, x, y, z, x+0.1, y+0.1, z+0.1};
 
@@ -148,10 +148,10 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
-	//ParticleObjectCreator::addObject(optimFluid);
-	//ParticleObjectCreator::addObject(optimGlass);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(optimFluid);
+	ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 

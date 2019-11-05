@@ -2,7 +2,7 @@
 out vec4 FragColor;
 
 float near = 0.1;
-float far = 200.0;
+float far = 1000.0;
 
 uniform vec4 background;
 
