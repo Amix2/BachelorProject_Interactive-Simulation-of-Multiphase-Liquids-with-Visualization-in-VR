@@ -3,7 +3,7 @@
 
 void ParticleObjectManager::moveObject(int objectNumber, float val)
 {
-	m_partObjectsVector[objectNumber]->m_matrix = glm::translate(m_partObjectsVector[objectNumber]->m_matrix, glm::vec3(val, 0, 0));
+	m_partObjectsVector[objectNumber]->m_destinationMatrix = glm::translate(m_partObjectsVector[objectNumber]->m_destinationMatrix, glm::vec3(val, 0, 0));
 	m_positionChanged = true;
 	//m_partObjectsVector[objectNumber].m_targetPosition = targetPosition;
 	//m_partObjectsVector[objectNumber].m_targetVector = targetDirection;
