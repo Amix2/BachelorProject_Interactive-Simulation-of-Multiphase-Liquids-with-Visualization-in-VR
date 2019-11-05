@@ -16,7 +16,7 @@ void Simulation::runSimulationFrame()
 		//glFinish();
 	}
 
-	if (ParticleData::m_NumOfParticles == 0) return;
+	if (ParticleData::m_NumOfParticles + Simulation::m_emiterNumOfParticles == 0) return;
 	// open or close resources required by other threads
 	if (ParticleData::m_OpenedResources > 0) {
 		LOG_F(WARNING, "Simulation loop with opened resources");
@@ -48,8 +48,6 @@ void Simulation::runSimulationFrame()
 
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
 	ParticleData::m_NumOfParticles += m_emiterNumOfParticles;
-	//ParticleData::syncSimDetailsWithGpu();
-
 
 	TEST_TIME(_ntCellCountingTime);
 
@@ -142,7 +140,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -150,16 +148,16 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	//ParticleObjectCreator::addObject(detailsTEST);
-	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 
 	Simulation::setEmiterMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(10, 30, 20)));
-	Simulation::setEmiterNumOfParticles(1);
-	Simulation::setEmiterVelocity(1000);
+	//Simulation::setEmiterNumOfParticles(9);
+	Simulation::setEmiterVelocity(100);
 }
 
 void Simulation::setEmiterMatrix(const glm::mat4& matrix)

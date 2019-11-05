@@ -8,7 +8,7 @@
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
-
+#define FLUID_PARTICLE_BUILD_GAP 10.0f
 
 #define INSERT_VARIABLES_HERE
 
@@ -41,12 +41,12 @@ struct GlassObjectDetails {
 
 layout(std430, binding = 1) buffer positionsBuf
 {
-	FluidParticle fluidPositions[MAX_FLUID];
+	FluidParticle fluidPositions[];
 };
 
 layout(std430, binding = 2) buffer glassPartBuf
 {
-	GlassParticle glassParticles[MAX_GLASS];
+	GlassParticle glassParticles[];
 };
 
 layout(std140, binding = 3) uniform glassObjectsBuf
@@ -62,15 +62,13 @@ layout(std430, binding = 4) buffer detailsBuf
 
 layout(std430, binding = 6) buffer neighboursBuf
 {
-	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+	int neighboursBeginInd[];	// array index of neighbours of set particle
 };
 
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
 	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
@@ -104,9 +102,17 @@ void main(void)
 		vec3 up = vec3(u_emiterMatrix[1][0], u_emiterMatrix[1][1], u_emiterMatrix[1][2]);
 		vec3 forward = vec3(u_emiterMatrix[2][0], u_emiterMatrix[2][1], u_emiterMatrix[2][2]) * u_emiterVelocity;
 		vec3 position = vec3(u_emiterMatrix[3][0], u_emiterMatrix[3][1], u_emiterMatrix[3][2]);
-		fluidPositions[myThreadNumber].x = position.x;
-		fluidPositions[myThreadNumber].y = position.y;
-		fluidPositions[myThreadNumber].z = position.z;
+
+		const int xId = int(myThreadNumber % 3);
+		const int yId = int(myThreadNumber - numOfParticles) / 3;
+		const int numOfParticlesInRow = int(sqrt(u_emiterParticlesNumber));
+		const int offset = int(numOfParticlesInRow/2);
+
+		const vec3 myEmitPosition = position + (xId-offset) * FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * FLUID_PARTICLE_BUILD_GAP * up;
+
+		fluidPositions[myThreadNumber].x = myEmitPosition.x;
+		fluidPositions[myThreadNumber].y = myEmitPosition.y;
+		fluidPositions[myThreadNumber].z = myEmitPosition.z;
 		fluidPositions[myThreadNumber].type = 1;
 
 		fluidVelocity[3*myThreadNumber+0] = forward.x;

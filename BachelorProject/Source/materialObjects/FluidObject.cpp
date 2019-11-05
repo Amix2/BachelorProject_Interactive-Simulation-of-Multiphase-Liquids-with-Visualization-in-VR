@@ -47,7 +47,7 @@ void FluidObject::init()
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		LOG_F(ERROR, "Failed to load texture");
 	} 
 	stbi_image_free(data);
 

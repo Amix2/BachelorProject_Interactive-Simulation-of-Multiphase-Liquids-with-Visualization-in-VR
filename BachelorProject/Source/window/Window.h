@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <window/listener/WindowSizeListener.h>
 #include <inputDispatcher/InputDispatcher.h>
+#include <Logger.h>
 
 class Window {
 public:

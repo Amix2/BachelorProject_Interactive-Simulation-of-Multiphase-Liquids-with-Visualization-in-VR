@@ -86,7 +86,7 @@ int main(int argc, char ** argv) {
 	InputDispatcher inputDispatcher;
 	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
-		std::cout << "Failed to init window";
+		LOG_F(ERROR, "Failed to init window");
 		exit(1);
 	}
 
@@ -209,8 +209,9 @@ void assignHardwareParameters()
 	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
 	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
 
-	Configuration.MAX_PARTICLES = std::min(maxNumOfParticles, Configuration.MAX_PARTICLES);
-	Configuration.MAX_GLASS_PARTICLES = std::min(maxNumOfGlassParticles, Configuration.MAX_GLASS_PARTICLES);
+	while(Configuration.MAX_PARTICLES > maxNumOfParticles) Configuration.MAX_PARTICLES *= 0.5;
+	while(Configuration.MAX_GLASS_PARTICLES > maxNumOfGlassParticles) Configuration.MAX_GLASS_PARTICLES *= 0.5;
+
 	const int baseX = Configuration.SCENE_SIZE_X;
 	const int baseY = Configuration.SCENE_SIZE_Y;
 	const int baseZ = Configuration.SCENE_SIZE_Z;

@@ -44,7 +44,7 @@ class Simulation
 	inline static int m_emiterNumOfParticles;
 	inline static float m_emiterVelocity;
 	inline static const int m_printTimesFrequency = 1024;
-	inline static const int m_forTitleTimesFrequency = 64;
+	inline static const int m_forTitleTimesFrequency = 16;
 	inline static const bool MEASURE_TIME = false;
 	inline static const bool PRINT_TIME = false;
 

@@ -94,13 +94,13 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, { ParticleGeometry::UP_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
 			, { ParticleGeometry::DOWN_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
-		//ParticleGeometry::cylinder(numOfParts
-		//	, glm::vec2(localCenter.x, localCenter.z)
-		//	, bottom - 2 * layerGap, top 	// heights
-		//	, innerRadius + layerGap	// radius
-		//	, inCircleGap, layerGap, ParticleGeometry::INSIDE
-		//	, { ParticleGeometry::UP, ParticleGeometry::UP, ParticleGeometry::INSIDE }
-		//	, { ParticleGeometry::DOWN, ParticleGeometry::ZERO, ParticleGeometry::INSIDE });
+		ParticleGeometry::cylinder(numOfParts
+			, glm::vec2(localCenter.x, localCenter.z)
+			, top - 2 * layerGap, top 	// heights
+			, innerRadius + layerGap	// radius
+			, inCircleGap, layerGap, ParticleGeometry::INSIDE
+			, { ParticleGeometry::UP, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
+			, { ParticleGeometry::ZERO, ParticleGeometry::ZERO, ParticleGeometry::ZERO });
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -128,7 +128,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY - layerGapVecY
 			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius + layerGap, innerRadius + layerGap / 2, ParticleGeometry::NOT_EQUALS	// outer
+			, innerRadius + 2*layerGap, innerRadius + 1.5f * layerGap, ParticleGeometry::NOT_EQUALS	// outer
 			, inCircleGap, layerGap, ParticleGeometry::DOWN
 			, { ParticleGeometry::DOWN, ParticleGeometry::DOWN, ParticleGeometry::DOWN });
 	}
@@ -259,8 +259,8 @@ void MugParticleObject::stepTowardsDestination()
 	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
 	const float totalAngle = glm::angle(currUp, destUp);
 	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
-	const float angleChange = min(totalAngle, maxAngleInStep);
-	if (totalAngle > Configuration.GLASS_ANGLE_PRECISION) {
+	const float angleChange = min(totalAngle < Configuration.GLASS_ANGLE_PRECISION ?  0 : totalAngle, maxAngleInStep);
+	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
 		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
 		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
 	}

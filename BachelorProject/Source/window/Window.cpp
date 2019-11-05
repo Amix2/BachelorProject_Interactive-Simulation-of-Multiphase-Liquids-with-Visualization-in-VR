@@ -1,5 +1,4 @@
 #include "Window.h"
-#include "Window.h"
 
 Window::Window(int width, int height, std::string name, InputDispatcher& inputDispatcher)
 	: width { width }
@@ -26,7 +25,7 @@ bool Window::init()
 	glfwWindow = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
 	if (glfwWindow == NULL)
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
+		LOG_F(ERROR, "Failed to create GLFW window");
 		glfwTerminate();
 		return false;
 	}

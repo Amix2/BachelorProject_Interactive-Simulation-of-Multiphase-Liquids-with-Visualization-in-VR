@@ -47,7 +47,10 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidVelocity[3 * MAX_FLUID];
 	float fluidAcceleration[3 * MAX_FLUID];
 	float fluidSurfaceVector[3 * MAX_FLUID];
-	float fluidSurfaceDistance[];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensityPressure[2*MAX_FLUID];
+	float glassForceMultiplier[MAX_FLUID];
+	float glassMaxVelocity[MAX_FLUID];
 };
 //
 //layout(std430, binding = 9) buffer lookUpTableBuf
@@ -100,12 +103,13 @@ void main(void)
 
 	if(K > 0) {
 		if(K > 1.0) K = 1.0;
-		pNewPosition += pSurfaceVec * (K);
-		pVelocity = (pNewPosition - pPosition) * (1/1);
-		if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
-			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
-		}
+		pNewPosition += pSurfaceVec * (K/3);
+		const float newVelLen = max(glassMaxVelocity[myThreadNumber], length(pVelocity));
+		pVelocity = normalize(pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type = 1000;
+	}
+	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
 	}
 
 //	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
