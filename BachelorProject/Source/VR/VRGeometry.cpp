@@ -14,69 +14,55 @@ namespace VR {
 		this->VrHandle->GetRecommendedRenderTargetSize(&RenderWidth, &RenderHeight);
 	}
 
+	glm::mat4 openvr_m34_to_mat4(const vr::HmdMatrix34_t& t) {
+		return glm::mat4(
+			t.m[0][0], t.m[1][0], t.m[2][0], 0.0f,
+			t.m[0][1], t.m[1][1], t.m[2][1], 0.0f,
+			t.m[0][2], t.m[1][2], t.m[2][2], 0.0f,
+			t.m[0][3], t.m[1][3], t.m[2][3], 1.0f
+		);
+	}
+
+	glm::mat4 openvr_m44_to_mat4(const vr::HmdMatrix44_t& t) {
+		return glm::mat4(
+			t.m[0][0], t.m[1][0], t.m[2][0], t.m[3][0],
+			t.m[0][1], t.m[1][1], t.m[2][1], t.m[3][1],
+			t.m[0][2], t.m[1][2], t.m[2][2], t.m[3][2],
+			t.m[0][3], t.m[1][3], t.m[2][3], t.m[3][3]
+		);
+	}
+
 	glm::mat4 VRGeometry::GetHMDMatrixProjectionEye(vr::Hmd_Eye HmdEye) const {
 		if (!this->VrHandle) {
+			std::cout << "Bad P" << std::endl;
 			return glm::mat4(); // error
 		}
 
 		vr::HmdMatrix44_t HmdMatrix4x4 = this->VrHandle->GetProjectionMatrix(HmdEye, this->NearClip, this->FarClip);
-		glm::mat4 GlmHmdMatrix4x4(
-			HmdMatrix4x4.m[0][0], HmdMatrix4x4.m[1][0], HmdMatrix4x4.m[2][0], HmdMatrix4x4.m[3][0],
-			HmdMatrix4x4.m[0][1], HmdMatrix4x4.m[1][1], HmdMatrix4x4.m[2][1], HmdMatrix4x4.m[3][1],
-			HmdMatrix4x4.m[0][2], HmdMatrix4x4.m[1][2], HmdMatrix4x4.m[2][2], HmdMatrix4x4.m[3][2],
-			HmdMatrix4x4.m[0][3], HmdMatrix4x4.m[1][3], HmdMatrix4x4.m[2][3], HmdMatrix4x4.m[3][3]
-		);
+		glm::mat4 GlmProjectionMatrix4x4 = openvr_m44_to_mat4(HmdMatrix4x4);
 
-		return GlmHmdMatrix4x4;
+		return GlmProjectionMatrix4x4;
 	}
 
 	glm::mat4 VRGeometry::GetHMDMatrixPoseEye(vr::Hmd_Eye HmdEye) const {
-		if (!this->VrHandle) {
+		if (this->VrHandle == nullptr) {
+			std::cout << "Bad E" << std::endl;
 			return glm::mat4(); // error
 		}
 
 		vr::HmdMatrix34_t HmdMatrix3x4 = this->VrHandle->GetEyeToHeadTransform(HmdEye);
 		
-		Matrix4 TemporaryMatrix4x4(
-			HmdMatrix3x4.m[0][0], HmdMatrix3x4.m[1][0], HmdMatrix3x4.m[2][0], 0,
-			HmdMatrix3x4.m[0][1], HmdMatrix3x4.m[1][1], HmdMatrix3x4.m[2][1], 0,
-			HmdMatrix3x4.m[0][2], HmdMatrix3x4.m[1][2], HmdMatrix3x4.m[2][2], 0,
-			HmdMatrix3x4.m[0][3], HmdMatrix3x4.m[1][3], HmdMatrix3x4.m[2][3], 1
-		);
-		TemporaryMatrix4x4.invert();
-		const float* MemoryFromMatrix = TemporaryMatrix4x4.get();
-		glm::mat4 InvertedMatrix4x4(
-			MemoryFromMatrix[0], MemoryFromMatrix[1], MemoryFromMatrix[2], MemoryFromMatrix[3],
-			MemoryFromMatrix[4], MemoryFromMatrix[5], MemoryFromMatrix[6], MemoryFromMatrix[7],
-			MemoryFromMatrix[8], MemoryFromMatrix[9], MemoryFromMatrix[10], MemoryFromMatrix[11],
-			MemoryFromMatrix[12], MemoryFromMatrix[13], MemoryFromMatrix[14], MemoryFromMatrix[15]
-		);
-		
+		glm::mat4 GlmEyeMatrix4x4 = openvr_m34_to_mat4(HmdMatrix3x4);
 
-		return InvertedMatrix4x4;
+		return glm::inverse(GlmEyeMatrix4x4);
 	}
 
 	bool VRGeometry::UpdateHMDMatrixPose() {
-		if (!this->VrHandle) {
+		if (this->VrHandle == nullptr) {
 			return false; // error
 		}
 
-		//vr::VRCompositor()->WaitGetPoses(this->TrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0);
-		this->VrHandle->GetDeviceToAbsoluteTrackingPose(vr::TrackingUniverseStanding, 0, &this->TrackedDevicePose, 1);
-
-		/*
-		ValidPosesCount = 0;
-		for (unsigned int Device = 0; Device < vr::k_unMaxTrackedDeviceCount; ++Device) {
-			if (this->TrackedDevicePose[Device].bPoseIsValid) {
-				++ValidPosesCount;
-			}
-		}
-
-		if (this->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].bPoseIsValid) {
-			this->HmdPose = SteamVRMatrixToMatrix4(this->TrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].mDeviceToAbsoluteTracking);
-			this->HmdPose.invert();
-		}
-		*/
+		vr::VRCompositor()->WaitGetPoses(this->TrackedDevicePoses, vr::k_unMaxTrackedDeviceCount, NULL, 0);
 
 		return true;
 	}

@@ -5,13 +5,20 @@ VRCamera::VRCamera(ViewPort& viewPort)
 	, projection{ glm::mat4{ 0.0f } }
 	, eye{ glm::mat4{ 0.0f } } {}
 
+#include <glm/gtx/string_cast.hpp>
 glm::mat4 VRCamera::getViewMatrix() const
 {
+
+
+
 	return eye * Scene::Camera::getViewMatrix();
 }
 
 glm::mat4 VRCamera::getProjectionMatrix() const
 {
+
+
+
 	return projection;
 }
 
