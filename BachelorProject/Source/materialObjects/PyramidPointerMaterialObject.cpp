@@ -1,57 +1,91 @@
 #include "PyramidPointerMaterialObject.h"
 
+PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor)
+	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor } {
+}
+
 bool PyramidPointerMaterialObject::InitializeBufferObjects() {
-	unsigned int VertexArrayObject{ 0 };
-	unsigned int VertexBufferObject{ 0 };
+	GLuint VertexArrayObject{};
+	GLuint VertexBufferObject{};
+	GLuint ElementBufferObject{};
 
-	this->BufferObjects["VAO"] = VertexArrayObject;
-	this->BufferObjects["VBO"] = VertexBufferObject;
+	glEnable(GL_DEPTH_TEST);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glGenVertexArrays(1, &VertexArrayObject);
+	glBindVertexArray(VertexArrayObject);
+
+	glGenBuffers(1, &VertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+
+	glGenBuffers(1, &ElementBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
+
+	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(GLfloat), this->Vertices, GL_DYNAMIC_DRAW);
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 12 * sizeof(GLuint), this->Elements, GL_DYNAMIC_DRAW);
+
+	this->VAO = VertexArrayObject;
+	this->VBO = VertexBufferObject;
+	this->EBO = ElementBufferObject;
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
 	return true;
 }
 
-bool PyramidPointerMaterialObject::InitializeVertices() {
-	if (this->Vertices == nullptr) {
-		return false;
-	}
+//bool PyramidPointerMaterialObject::InitializeVertices() {
+//	if (this->Vertices == nullptr) {
+//		return false;
+//	}
+//
+//	// Initialize top vertex
+//	memset(this->Vertices, 0, 3 * sizeof(float));
+//	//memcpy(this->Vertices + 3, this->PyramidColor, sizeof(this->PyramidColor));
+//	// Initialize bottom vertices
+//	for (unsigned int Index = 1; Index <= this->BaseVertices; ++Index) {
+//		unsigned int FirstVertexCoordinateIndex = 6 * Index;
+//		unsigned int FirstVertexColorIndex = 6 * Index + 3;
+//		float *BaseVertexCoordinate = this->CalculateBaseVertexCoordinateForIndex(Index, this->PyramidRadius, this->PyramidHeight);
+//		memcpy(this->Vertices + FirstVertexCoordinateIndex, BaseVertexCoordinate, sizeof(BaseVertexCoordinate));
+//		//memcpy(this->Vertices + FirstVertexColorIndex, this->PyramidColor, sizeof(this->PyramidColor));
+//
+//		delete[] BaseVertexCoordinate;
+//	}
+//
+//	return true;
+//}
 
-	// Initialize top vertex
-	memset(this->Vertices, 0, 3 * sizeof(float));
-	memcpy(this->Vertices + 3, this->PyramidColor, sizeof(this->PyramidColor));
-	// Initialize bottom vertices
-	for (unsigned int Index = 1; Index <= this->BaseVertices; ++Index) {
-		unsigned int FirstVertexCoordinateIndex = 6 * Index;
-		unsigned int FirstVertexColorIndex = 6 * Index + 3;
-		float *BaseVertexCoordinate = this->CalculateBaseVertexCoordinateForIndex(Index, this->BaseVertices, this->PyramidRadius, this->PyramidHeight);
-		memcpy(this->Vertices + FirstVertexCoordinateIndex, BaseVertexCoordinate, sizeof(BaseVertexCoordinate));
-		memcpy(this->Vertices + FirstVertexColorIndex, this->PyramidColor, sizeof(this->PyramidColor));
-
-		delete[] BaseVertexCoordinate;
-	}
-
-	return true;
-}
-
-float* PyramidPointerMaterialObject::CalculateBaseVertexCoordinateForIndex(unsigned int Index, unsigned int BaseVertices, unsigned int PyramidRadius, unsigned int PyramidHeight) const {
-	float* VertexCoordinates = new float[3];
-	if (VertexCoordinates == nullptr) {
-		return nullptr;
-	}
-
-	// TODO
-
-	return VertexCoordinates;
-}
+//glm::vec3 PyramidPointerMaterialObject::CalculateBaseVertexCoordinateForIndex(unsigned int Index, double PyramidRadius, double PyramidHeight) const {
+//	glm::vec3 VertexCoordinates{};
+//	//
+//	
+//	return VertexCoordinates;
+//}
+//
+//glm::vec3 PyramidPointerMaterialObject::CalculateBaseVertexPosition(double PyramidRadius, double PyramidHeight) {
+//	glm::vec3 
+//	return glm::vec3{};
+//}
 
 void PyramidPointerMaterialObject::init() {
 	this->InitializeBufferObjects();
-	this->InitializeVertices();
+	//this->InitializeVertices();
+	this->shaderProgram.use();
+	this->shaderProgram.setUniformVariable("pyramidColor", this->PyramidColor);
+	this->shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 }
 
 void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& projection) const {
-	//
-}
+	glBindVertexArray(this->VAO);
 
-PyramidPointerMaterialObject::~PyramidPointerMaterialObject() {
-	delete[] this->Vertices;
+	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+
+	this->shaderProgram.use();
+	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::mat4{ 1.0f });
+
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 }

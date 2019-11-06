@@ -36,6 +36,7 @@
 #include <thread>
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
+#include <materialObjects/PyramidPointerMaterialObject.h>
 #include <VR/VRCore.h>
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
@@ -166,11 +167,15 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0} };
+
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid);
 	scene.addMaterialObject(&axes);
 	scene.addMaterialObject(&vectorNormals);
+	scene.addMaterialObject(&pyramidPointer);
 }
 
 void initTools()
