@@ -29,13 +29,12 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntSynchronizeWithGpuTime);
 
-	ParticleData::syncSimDetailsWithGpu();
+	//ParticleData::syncSimDetailsWithGpu();
 
 	TEST_TIME(_ntSyncDetailsTime);
 
-	const int numOfFluid = ParticleData::m_NumOfParticles + m_emiterNumOfParticles;
+	const int numOfFluid = ParticleData::m_NumOfParticles + Emiter::m_emiterdThisTurn;
 	const int numOfFluidDiv256 = (int)ceil(numOfFluid / 256.0f);
-	const int numOfFluidAndEmiterDiv256 = (int)ceil((numOfFluid+m_emiterNumOfParticles) / 256.0f);
 	const int numOfFluidDivXX = (int)ceil(numOfFluid / 300.0f);
 	const int numOfFluidDiv1024 = (int)ceil(numOfFluid / 1024.0f);
 	const int numOfFluidPow2 = (int)pow(2, (int)ceil(log2(numOfFluid)));
@@ -47,8 +46,9 @@ void Simulation::runSimulationFrame()
 
 
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
-	ParticleData::m_NumOfParticles += m_emiterNumOfParticles;
-
+	//ParticleData::m_NumOfParticles += Emiter::m_emiterdThisTurn;
+	ParticleData::syncSimDetailsWithGpu(Emiter::m_emiterdThisTurn);
+	//return;
 	TEST_TIME(_ntCellCountingTime);
 
 
@@ -101,7 +101,7 @@ void Simulation::runSimulationFrame()
 
 
 	TEST_TIME(_ntVelocityTime);
-
+	ParticleData::syncSimDetailsWithGpu(0);
 
 	checkOpenGLErrors();
 
@@ -132,8 +132,8 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 70, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
 
-	ParticleObjectDetais optimFluid{ 1, 21,70,21, 59, 100, 59 };
-	ParticleObjectDetais optimGlass{ -1, 40,55,40, 28,0.5,35 };
+	ParticleObjectDetais optimFluid{ 1, 121,70,121, 159, 100, 159 };
+	ParticleObjectDetais optimGlass{ -1, 140,55,140, 28,0.5,35 };
 	const float x = 40, y = 27.7, z = 11.80;
 	ParticleObjectDetais detailsSing{ 1, x, y, z, x+0.1, y+0.1, z+0.1};
 
@@ -150,14 +150,14 @@ void Simulation::setupSimObjects()
 	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimFluid);
 	ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 
-	Simulation::setEmiterMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(10, 30, 20)));
+	//Simulation::setEmiterMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(10, 30, 20)));
 	//Simulation::setEmiterNumOfParticles(9);
-	Simulation::setEmiterVelocity(100);
+	//Simulation::setEmiterVelocity(100);
 }
 
 void Simulation::setEmiterMatrix(const glm::mat4& matrix)
@@ -190,17 +190,18 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	double timeStart, timeEnd, timeDif = 0;
-
 	while (!glfwWindowShouldClose(m_mainWindow))
-	for (int i = 0; i < 1; i++)
+	//for (int i = 0; i < 1000; i++)
 	{
 		timeStart = glfwGetTime();
 
-		m_turnNumber++;
 
+		Emiter::updateTurn(m_turnNumber);
 		Simulation::runSimulationFrame();
 		//glFinish();
 		Simulation::handlePrintingTimes();
+
+		m_turnNumber++;
 
 		timeEnd = glfwGetTime();
 
@@ -247,6 +248,8 @@ void Simulation::init()
 	WindowTitle::addTitle(m_SimGlassParticleTitle, 5);
 
 	Simulation::setEmiterNumOfParticles(0);
+
+	Emiter::setEmiterComputeShader(&m_CellCounting);
 }
 
 void Simulation::handlePrintingTimes()

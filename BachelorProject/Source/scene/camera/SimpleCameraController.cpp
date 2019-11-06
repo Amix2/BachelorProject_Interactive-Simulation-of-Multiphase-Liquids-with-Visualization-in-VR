@@ -72,3 +72,9 @@ const std::vector<const Scene::Camera*> SimpleCameraController::provideCameras()
 {
 	return std::vector<const Scene::Camera*>{ &this->camera };
 }
+
+glm::mat4 SimpleCameraController::getEmiterMatrix() const
+{
+	const glm::vec3 positionOffset = camera.getFront() * 20.0f - camera.getUp() * 2.0f;
+	return glm::mat4(glm::vec4(camera.getRight(), 0), glm::vec4(camera.getUp(), 0), glm::vec4(camera.getFront(), 0), glm::vec4(camera.getPosition() + positionOffset, 1));
+}

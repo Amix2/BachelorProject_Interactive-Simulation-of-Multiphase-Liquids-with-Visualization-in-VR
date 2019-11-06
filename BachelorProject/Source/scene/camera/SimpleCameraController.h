@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include "Camera.h"
 #include "CameraController.h"
+#include <simulationObjects/EmiterMatrixProvider.h>
 
 
 class SimpleCameraController
@@ -20,6 +21,7 @@ public:
 
 	const std::vector<const Scene::Camera*> provideCameras() const override;
 
+	glm::mat4 getEmiterMatrix() const override;
 private:
 	inline static const double MOUSE_SENSITIVITY = 0.1;
 	inline static const float VELOCITY = 200.0f;

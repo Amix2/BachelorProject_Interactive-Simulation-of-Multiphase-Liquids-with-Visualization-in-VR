@@ -159,12 +159,13 @@ void ParticleData::sendDetails()
 	GpuResources::updateBuffer(BufferDetails.detailsName, 0, sizeof(SimDetails), m_resDetails.get());
 }
 
-void ParticleData::syncSimDetailsWithGpu()
+void ParticleData::syncSimDetailsWithGpu(int addParticles)
 {
 	//m_resDetails = std::move(ParticleData::getDetails());
 	//m_NumOfGlassParticles = m_resDetails->numOfGlassParticles;
 	//m_NumOfParticles = m_resDetails->numOfParticles;
 	ParticleData::openDetails();
+	ParticleData::m_resDetails__MAP__->numOfParticles += addParticles;
 	const SimDetails gpuDetails = *ParticleData::m_resDetails__MAP__;
 	ParticleData::m_NumOfParticles = gpuDetails.numOfParticles;
 	ParticleData::m_NumOfGlassParticles = gpuDetails.numOfGlassParticles;

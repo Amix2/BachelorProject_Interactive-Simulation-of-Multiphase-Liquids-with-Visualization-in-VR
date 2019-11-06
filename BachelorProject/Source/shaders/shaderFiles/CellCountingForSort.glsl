@@ -8,7 +8,7 @@
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
-#define FLUID_PARTICLE_BUILD_GAP 10.0f
+#define EMITER_FLUID_PARTICLE_BUILD_GAP 10.0f
 
 #define INSERT_VARIABLES_HERE
 
@@ -96,19 +96,19 @@ void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	//if(myThreadNumber >= numOfParticles) return;
-	if(myThreadNumber >= numOfParticles && numOfParticles + u_emiterParticlesNumber > myThreadNumber) {
+	if(myThreadNumber >= numOfParticles && myThreadNumber < numOfParticles + u_emiterParticlesNumber) {
 		// emiter
 		vec3 right = vec3(u_emiterMatrix[0][0], u_emiterMatrix[0][1], u_emiterMatrix[0][2]);
 		vec3 up = vec3(u_emiterMatrix[1][0], u_emiterMatrix[1][1], u_emiterMatrix[1][2]);
 		vec3 forward = vec3(u_emiterMatrix[2][0], u_emiterMatrix[2][1], u_emiterMatrix[2][2]) * u_emiterVelocity;
 		vec3 position = vec3(u_emiterMatrix[3][0], u_emiterMatrix[3][1], u_emiterMatrix[3][2]);
 
-		const int xId = int(myThreadNumber % 3);
-		const int yId = int(myThreadNumber - numOfParticles) / 3;
 		const int numOfParticlesInRow = int(sqrt(u_emiterParticlesNumber));
+		const int xId = int(myThreadNumber % numOfParticlesInRow);
+		const int yId = int(myThreadNumber - numOfParticles) / numOfParticlesInRow;
 		const int offset = int(numOfParticlesInRow/2);
 
-		const vec3 myEmitPosition = position + (xId-offset) * FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * FLUID_PARTICLE_BUILD_GAP * up;
+		const vec3 myEmitPosition = position + (xId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * up;
 
 		fluidPositions[myThreadNumber].x = myEmitPosition.x;
 		fluidPositions[myThreadNumber].y = myEmitPosition.y;
@@ -119,7 +119,6 @@ void main(void)
 		fluidVelocity[3*myThreadNumber+1] = forward.y;
 		fluidVelocity[3*myThreadNumber+2] = forward.z;
 
-		atomicAdd(numOfParticles, 1);
 	}
 	FluidParticle myParticle = fluidPositions[myThreadNumber];
 	const int myType = myParticle.type;

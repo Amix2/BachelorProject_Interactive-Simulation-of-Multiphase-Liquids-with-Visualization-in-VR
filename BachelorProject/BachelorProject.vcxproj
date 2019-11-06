@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
+    <ClCompile Include="Source\simulationObjects\EmiterMatrixProvider.cpp" />
+    <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
     <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
     <ClCompile Include="Source\glassController\GlassController.cpp" />
@@ -65,6 +68,9 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
+    <ClInclude Include="Source\simulationObjects\Emiter.h" />
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
     <ClInclude Include="Source\inputDispatcher\KeyState.h" />
     <ClInclude Include="Source\inputDispatcher\listener\KeyInputListener.h" />

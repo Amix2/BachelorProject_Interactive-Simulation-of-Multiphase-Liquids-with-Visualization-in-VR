@@ -259,7 +259,7 @@ void MugParticleObject::stepTowardsDestination()
 	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
 	const float totalAngle = glm::angle(currUp, destUp);
 	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
-	const float angleChange = min(totalAngle < Configuration.GLASS_ANGLE_PRECISION ?  0 : totalAngle, maxAngleInStep);
+	const float angleChange = min(totalAngle, maxAngleInStep);
 	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
 		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
 		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);

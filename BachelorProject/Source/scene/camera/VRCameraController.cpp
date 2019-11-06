@@ -59,3 +59,9 @@ const std::vector<const Scene::Camera*> VRCameraController::provideCameras() con
 {
 	return std::vector<const Scene::Camera*>{ &this->leftEye, &this->rightEye };
 }
+
+glm::mat4 VRCameraController::getEmiterMatrix() const
+{
+	const glm::vec3 positionOffset = this->front * 20.0f - this->up * 2.0f;
+	return glm::mat4(glm::vec4(this->right, 0), glm::vec4(this->up, 0), glm::vec4(this->front, 0), glm::vec4(this->position + positionOffset, 1));
+}

@@ -51,6 +51,7 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 	float glassForceMultiplier[MAX_FLUID];
 	float glassMaxVelocity[MAX_FLUID];
+	int numOfFluidNeighbours[MAX_FLUID];
 };
 //
 //layout(std430, binding = 9) buffer lookUpTableBuf
@@ -88,6 +89,9 @@ void main(void)
 	vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
 
 	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
+	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
 
 	const vec3 pSurfaceVec = normalize(vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2])); 
 	const float pSurfaceDistance = fluidSurfaceDistance[myThreadNumber];
@@ -100,19 +104,18 @@ void main(void)
 	vec3 pNewPosition = pPosition + pVelocity * DELTA_TIME;
 
 	float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, normalize(pVelocity)));
-	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
-		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
-	}
 	if(K > 0) {
 		if(K > 1.0) K = 1.0;
 		pNewPosition += pSurfaceVec * (K/2);
-		const float newVelLen = max(glassMaxVelocity[myThreadNumber], length(pVelocity));
+		const float newVelLen = min(glassMaxVelocity[myThreadNumber], length(pVelocity));
 		pVelocity = normalize(pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type = 1000;
 	}
 	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
 		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
 	}
+
+
 
 //	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
 //			//	https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector

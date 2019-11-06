@@ -45,6 +45,7 @@
 #include <glassController/GlassController.h>
 #include <Configuration.h>
 #include <window/WindowTitle.h>
+#include <simulationObjects/Emiter.h>
 
 void printWorkGroupsCapabilities();
 
@@ -127,6 +128,8 @@ int main(int argc, char ** argv) {
 
 
 	setupScene(scene, inputDispatcher);
+	Emiter::setEmiter(cameraController, 25, 1000.0f);
+	Emiter::setInputDispatcher(&inputDispatcher);
 
 	do 
 	{

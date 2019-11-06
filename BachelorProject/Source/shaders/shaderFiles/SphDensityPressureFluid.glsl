@@ -87,6 +87,7 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 	float glassForceMultiplier[MAX_FLUID];
 	float glassMaxVelocity[MAX_FLUID];
+	int numOfFluidNeighbours[MAX_FLUID];
 };
 
 
@@ -94,6 +95,7 @@ shared float shDensity[270];
 shared float shSurfaceVector[3 * 270];
 shared float shDistanceToParts[2 * 270];
 shared float shMaxGlassVelocity[270];
+shared int shNumOfNeighbours[270];
 shared uint counters[10];
 
 //////////////////////////////////////////////////
@@ -140,6 +142,7 @@ void main(void)
 	float distanceToFluid = 0;
 	float distanceToGlass = 0;
 	float maxGlassVelocity = 0;
+	int numOFNeighbours = 0;
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -155,7 +158,7 @@ void main(void)
 			if(dist >= 1) continue;
 
 			pDensity += fluidTypeArray[myFluid.type].mass * Kernel(dist);
-
+			numOFNeighbours++;
 			if(neiPartcie.type < 0 && dist > 0) {	// if GLASS
 
 				const GlassParticle neiGlassParticle = glassParticles[ -(neiPartcie.type+1) ];	// -1 ==> 0 | -2 ==> 1
@@ -188,12 +191,13 @@ void main(void)
 	shDistanceToParts[2*mySharedIndex+1] = distanceToGlass;
 
 	shMaxGlassVelocity[mySharedIndex] = maxGlassVelocity;
-
+	shNumOfNeighbours[mySharedIndex] = numOFNeighbours;
 	//memoryBarrierShared();
 	//barrier();
 	//if(mySharedIndex%27 == 0) {
 	if(atomicAdd(counters[myLocalGroupNumber], 1) == 26) {
 		float outDensity =0, outVecX=0, outVecY=0, outVecZ=0, sumDistToFluid=0, sumDistToGlass=0, outMaxGlassVelocity=0;
+		int outNumOfNeighbours = 0;
 		//outDensity = outVecX = outVecY = outVecZ = 0;
 		for(int i=0; i<27; i++) {
 			outDensity += shDensity[27*myLocalGroupNumber+i];
@@ -203,6 +207,7 @@ void main(void)
 			sumDistToFluid += shDistanceToParts[2*(27*myLocalGroupNumber+i) + 0];
 			sumDistToGlass += shDistanceToParts[2*(27*myLocalGroupNumber+i) + 1];
 			if(shMaxGlassVelocity[27*myLocalGroupNumber+i] > outMaxGlassVelocity) outMaxGlassVelocity = shMaxGlassVelocity[27*myLocalGroupNumber+i];
+			outNumOfNeighbours += shNumOfNeighbours[27*myLocalGroupNumber+i];
 		}
 
 		fluidDensityPressure[2*myParticleIndex] = outDensity;
@@ -216,6 +221,7 @@ void main(void)
 		fluidSurfaceVector[3*myParticleIndex+2] = outVecZ / vecLen;
 		glassForceMultiplier[myParticleIndex] = sumDistToFluid;
 		glassMaxVelocity[myParticleIndex] = outMaxGlassVelocity;
+		numOfFluidNeighbours[myParticleIndex] = outNumOfNeighbours;
 	}
 	
 }

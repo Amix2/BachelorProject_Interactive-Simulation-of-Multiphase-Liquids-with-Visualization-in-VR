@@ -46,19 +46,19 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 		{
 		case GLFW_KEY_5:
 			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, deltaTime * VELOCITY);
+				ParticleObjectManager::moveObject(currentlySelected, VELOCITY * deltaTime);
 			break;
 		case GLFW_KEY_6:
 			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, -deltaTime * VELOCITY);
+				ParticleObjectManager::moveObject(currentlySelected, -VELOCITY * deltaTime);
 			break;
 		case GLFW_KEY_7:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, 0.5f * deltaTime, glm::vec3(1, 0, 0));
 			break;
 		case GLFW_KEY_8:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, -deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, -0.5f * deltaTime, glm::vec3(1, 0, 0));
 			break;
 		default:
 			break;
