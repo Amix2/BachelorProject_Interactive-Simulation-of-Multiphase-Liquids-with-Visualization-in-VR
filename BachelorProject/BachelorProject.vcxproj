@@ -20,14 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
-    <ClCompile Include="Source\simulationObjects\EmiterMatrixProvider.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
     <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
     <ClCompile Include="Source\glassController\GlassController.cpp" />
     <ClCompile Include="Source\materialObjects\GlassObject.cpp" />
     <ClCompile Include="Source\materialObjects\PyramidPointerMaterialObject.cpp" />
-    <ClCompile Include="Source\scene\camera\CameraController.cpp" />
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />

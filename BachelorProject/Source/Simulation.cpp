@@ -78,7 +78,6 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntArrangeVarsTime);
 
-
 	m_SphNeighbourSearch.runShader(numOfFluidMul27Div256, 1, 1, false);
 
 
@@ -140,7 +139,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -150,7 +149,7 @@ void Simulation::setupSimObjects()
 	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	//ParticleObjectCreator::addObject(optimFluid);
+	ParticleObjectCreator::addObject(optimFluid);
 	ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
@@ -223,12 +222,12 @@ void Simulation::main()
 		//ParticleData::printSPHData(1, 1, 1, 1, 1, 2000);
 
 	}
+	//ParticleData::printNeighboursData(1);
 	//ParticleData::printParticleData(200000);
 	//ParticleData::printGlassParticlesData(2000);
 	//ParticleData::printGlassObjectsData(2);
 	//ParticleObjectManager::printObjects(2);
 	//ParticleData::printSPHData(1, 1, 1, 1, 1,200000);
-	//ParticleData::printNeighboursData(20);
 	//ParticleData::printSortingData(20);
 }
 

@@ -29,6 +29,7 @@ struct FluidType {
 	float stiffness;
 	float viscosity;
 	float density;
+	vec4 color;
 };
 
 struct GlassParticle {

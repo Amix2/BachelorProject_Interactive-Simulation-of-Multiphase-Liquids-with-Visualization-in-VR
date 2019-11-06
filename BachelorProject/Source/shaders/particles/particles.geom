@@ -1,4 +1,4 @@
-#version 330 core
+#version 430 core
 layout (points) in;
 layout (triangle_strip, max_vertices = 4) out;
 
@@ -7,7 +7,11 @@ uniform mat4 projection;
 uniform float particleSize;
 
 out vec2 texCoord;
-out float type;
+flat out int type;
+
+in VS_OUT {
+	int type;
+} gs_in[];
 
 
 mat4 translate(float x, float y, float z){
@@ -35,7 +39,7 @@ void buildBilboard(vec4 position)
 	modelView[2][1] = 0.0; 
 	modelView[2][2] = 1.0; 
 
-	type = position.w;
+	type = gs_in[0].type;
     texCoord = vec2(0.0, 0.0);
     gl_Position = projection * modelView * (vec4(-particleSize, -particleSize, 0.0, 1.0)); // 1:bottom-left   
     EmitVertex();   
@@ -53,6 +57,6 @@ void buildBilboard(vec4 position)
 }
 
 void main() {
-	if((gl_in[0].gl_Position).w > 0.0)
+	if(gs_in[0].type > 0)
 		buildBilboard(gl_in[0].gl_Position);
 }

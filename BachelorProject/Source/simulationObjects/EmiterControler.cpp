@@ -27,6 +27,7 @@ void EmiterControler::handleKeyPress(int key, KeyState action, float deltaTime)
 			break;
 		case GLFW_KEY_MINUS:
 			m_numOfEmitedParticles -= int(floor(sqrt(m_numOfEmitedParticles)));
+			if (m_numOfEmitedParticles == 0) m_numOfEmitedParticles = 1;
 			break;
 		default:
 			break;

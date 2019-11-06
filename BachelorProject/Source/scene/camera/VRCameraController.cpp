@@ -11,7 +11,7 @@ VRCameraController::VRCameraController(ViewPort& leftEyeViewPort, ViewPort& righ
 {}
 
 void VRCameraController::setHead(const vr::HmdMatrix34_t& view) {
-	this->position = glm::vec3(view.m[0][3], view.m[1][3], view.m[2][3]) * MULTIPLYER;
+	this->position = (glm::vec3(view.m[0][3], view.m[1][3], view.m[2][3])) * MULTIPLYER + glm::vec3(100, 0, 150);
 	this->front = -glm::vec3(view.m[0][2], view.m[1][2], view.m[2][2]);
 	this->up = glm::vec3(view.m[0][1], view.m[1][1], view.m[2][1]);
 	this->right = -glm::vec3(view.m[0][0], view.m[1][0], view.m[2][0]);
@@ -62,6 +62,6 @@ const std::vector<const Scene::Camera*> VRCameraController::provideCameras() con
 
 glm::mat4 VRCameraController::getEmiterMatrix() const
 {
-	const glm::vec3 positionOffset = this->front * 20.0f - this->up * 2.0f;
+	const glm::vec3 positionOffset = (this->front * 50.0f  - this->up * 2.0f);
 	return glm::mat4(glm::vec4(this->right, 0), glm::vec4(this->up, 0), glm::vec4(this->front, 0), glm::vec4(this->position + positionOffset, 1));
 }
