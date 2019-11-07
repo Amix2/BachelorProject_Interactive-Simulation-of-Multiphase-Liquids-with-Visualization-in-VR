@@ -29,7 +29,7 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntSynchronizeWithGpuTime);
 
-	//ParticleData::syncSimDetailsWithGpu();
+	ParticleData::syncSimDetailsWithGpu();
 
 	TEST_TIME(_ntSyncDetailsTime);
 

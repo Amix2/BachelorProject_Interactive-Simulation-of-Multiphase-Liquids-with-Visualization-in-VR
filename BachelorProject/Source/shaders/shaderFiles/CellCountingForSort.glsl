@@ -113,7 +113,7 @@ void main(void)
 		fluidPositions[myThreadNumber].x = myEmitPosition.x;
 		fluidPositions[myThreadNumber].y = myEmitPosition.y;
 		fluidPositions[myThreadNumber].z = myEmitPosition.z;
-		fluidPositions[myThreadNumber].type = 1;
+		fluidPositions[myThreadNumber].type = 2;
 
 		fluidVelocity[3*myThreadNumber+0] = forward.x;
 		fluidVelocity[3*myThreadNumber+1] = forward.y;
