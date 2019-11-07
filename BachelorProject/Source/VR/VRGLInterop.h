@@ -11,10 +11,12 @@
 namespace VR {
 	class VRGLInterop {
 	public:
-
-		std::unique_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
-		std::unique_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
-		std::unique_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
+		VRGLInterop(const VRGLInterop& vrglinterop) = default;
+		VRGLInterop() = default;
+		VRGLInterop& operator=(const VRGLInterop&) = default;
+		std::shared_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
+		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
+		std::shared_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
 
 		bool VRactive;
 

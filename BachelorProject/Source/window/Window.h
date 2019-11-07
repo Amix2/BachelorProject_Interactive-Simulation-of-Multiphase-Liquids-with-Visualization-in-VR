@@ -63,6 +63,7 @@ private:
 	void handleMouseScroll(double xoffset, double yoffset);
 	void handleMouseButtonPressed(int button, int action);
 	void handleKeyPressed(int key, int action);
+	//void handleControllerButtonPressed(int button,)
 };
 
 #endif // !WINDOW_H

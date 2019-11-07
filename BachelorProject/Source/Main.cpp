@@ -57,7 +57,7 @@ void cleanUp();
 void assignHardwareParameters();
 
 //creates objects presented on scene
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher);
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop);
 
 // settings
 std::string NAME = "Random window";
@@ -91,7 +91,7 @@ int main(int argc, char ** argv) {
 	}
 
 	Scene::Scene scene{ Configuration::BACKGROUND };
-	VR::VRGLInterop vrglinterop;
+	VR::VRGLInterop vrglinterop{};
 	vrglinterop.activate();
 
 	CameraController* cameraController;
@@ -128,7 +128,7 @@ int main(int argc, char ** argv) {
 	printWorkGroupsCapabilities();
 
 
-	setupScene(scene, inputDispatcher);
+	setupScene(scene, inputDispatcher, vrglinterop);
 
 	do 
 	{
@@ -155,7 +155,7 @@ int main(int argc, char ** argv) {
 
 
 
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
 
@@ -172,7 +172,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
 	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0} };
+	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
