@@ -10,6 +10,7 @@ GlassController::GlassController(InputDispatcher& inputDispatcher, const Scene::
 		GLFW_KEY_6,
 		GLFW_KEY_7,
 		GLFW_KEY_8,
+		GLFW_KEY_3,
 		GLFW_MOUSE_BUTTON_LEFT,
 	});
 }
@@ -27,27 +28,37 @@ void GlassController::assignUntrackedObjects(Scene::Scene& scene)
 
 void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 {
-	if (key == GLFW_MOUSE_BUTTON_LEFT && action == FALLING_EDGE) {
-		selectGlass();
+	if (action == FALLING_EDGE) {
+		switch (key) {
+		case GLFW_MOUSE_BUTTON_LEFT:
+			selectGlass();
+			break;
+		case GLFW_KEY_3:
+			for (GlassObject* glassObject : glassObjects)
+				glassObject->toggleRender();
+			break;
+		default:
+			break;
+		}
 	}
 	else if (action == PRESSED) {
 		switch (key)
 		{
 		case GLFW_KEY_5:
 			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, deltaTime * VELOCITY);
+				ParticleObjectManager::moveObject(currentlySelected, VELOCITY * deltaTime);
 			break;
 		case GLFW_KEY_6:
 			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, -deltaTime * VELOCITY);
+				ParticleObjectManager::moveObject(currentlySelected, -VELOCITY * deltaTime);
 			break;
 		case GLFW_KEY_7:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix, deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, 0.5f * deltaTime, glm::vec3(1, 0, 0));
 			break;
 		case GLFW_KEY_8:
 			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_matrix, -deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, -0.5f * deltaTime, glm::vec3(1, 0, 0));
 			break;
 		default:
 			break;

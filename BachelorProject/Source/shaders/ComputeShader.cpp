@@ -99,6 +99,22 @@ void ComputeShader::setUniformVariable(const std::string& name, float value) con
 	checkOpenGLErrors();
 }
 
+void ComputeShader::setUniformVariable(const std::string& name, const glm::mat4& value) const
+{
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		glUseProgram(this->csProgram);
+		glUniformMatrix4fv(m_UniformsMap[name], 1, GL_FALSE, & value[0][0]);
+
+	}
+	else {
+		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
+		m_UniformsMap.insert({ name, uniformIdx });
+		glUseProgram(this->csProgram);
+		glUniformMatrix4fv(uniformIdx, 1, GL_FALSE, & value[0][0]);
+	}
+	checkOpenGLErrors();
+}
+
 void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, bool block)
 {
 	//LOG_F(INFO, "Run Compute shader %s with %d", this->m_shaderFileName.c_str(), num_groups_x);

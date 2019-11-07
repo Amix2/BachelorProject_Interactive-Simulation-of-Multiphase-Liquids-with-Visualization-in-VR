@@ -23,7 +23,7 @@ namespace VR {
 		bool SetupCameras();
 		unsigned int GetRenderHeight();
 		unsigned int GetRenderWidth();
-		vr::TrackedDevicePose_t TrackedDevicePose;
+		vr::TrackedDevicePose_t TrackedDevicePoses[vr::k_unMaxTrackedDeviceCount];
 		std::tuple<vr::Texture_t, vr::Texture_t> ObtainTextures(GLuint LeftResolveTextureId, GLuint RightResolveTextureId);
 
 	protected:
@@ -42,6 +42,6 @@ namespace VR {
 		unsigned int RenderHeight;
 		unsigned int RenderWidth;
 		const float NearClip = 0.1f;
-		const float FarClip = 200.00f;
+		const float FarClip = 1000.00f;
 	};
 }

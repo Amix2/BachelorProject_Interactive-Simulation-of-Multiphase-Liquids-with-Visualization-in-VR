@@ -3,7 +3,7 @@
 
 void ParticleObjectManager::moveObject(int objectNumber, float val)
 {
-	m_partObjectsVector[objectNumber]->m_matrix = glm::translate(m_partObjectsVector[0]->m_matrix, glm::vec3(val, 0, 0));
+	m_partObjectsVector[objectNumber]->m_destinationMatrix = glm::translate(m_partObjectsVector[objectNumber]->m_destinationMatrix, glm::vec3(val, 0, 0));
 	m_positionChanged = true;
 	//m_partObjectsVector[objectNumber].m_targetPosition = targetPosition;
 	//m_partObjectsVector[objectNumber].m_targetVector = targetDirection;
@@ -36,7 +36,11 @@ void ParticleObjectManager::init()
 
 void ParticleObjectManager::synchronizeWithGpu()
 {
-	if (!ParticleObjectManager::m_positionChanged) return;
+	for (int i = 0; i < m_numOfObjects; i++) {
+		m_partObjectsVector[i]->stepTowardsDestination();
+		//LOG_F(WARNING, "OLG %s", m_partObjectsVector[i]->toString().c_str());
+	}
+	//if (!ParticleObjectManager::m_positionChanged) return;
 	ParticleObjectManager::m_positionChanged = false;
 	//for (int i = 0; i < m_numOfObjects; i++) {
 	//	ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
@@ -60,19 +64,35 @@ int ParticleObjectManager::addObject(const ParticleObject& object)
 
 	m_numOfObjects++;
 	ParticleObjectManager::m_positionChanged = true;
+	LOG_F(WARNING, "New %s", object.toString().c_str());
+	return m_numOfObjects;
+}
+
+int ParticleObjectManager::addObject(const MugParticleObject& object)
+{
+	if (m_numOfObjects >= Configuration.MAX_PARTICLE_OBJECTS) {
+		LOG_F(ERROR, "Too many particle objects, cannot create a new one");
+		return m_numOfObjects;
+	}
+	m_partObjectsVector.push_back(std::make_unique<MugParticleObject>(object));
+
+	m_numOfObjects++;
+	ParticleObjectManager::m_positionChanged = true;
+
+	LOG_F(WARNING, "New %s", object.toString().c_str());
 	return m_numOfObjects;
 }
 
 void ParticleObjectManager::printObjects(int limit)
 {
-	//LOG_F(INFO, "==============================");
-	//LOG_F(INFO, "LOCAL Particle Objects print");
-	//
-	//LOG_F(INFO, "\tNum of objects: %d", m_numOfObjects);
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "LOCAL Particle Objects print");
+	
+	LOG_F(INFO, "\tNum of objects: %d", m_numOfObjects.load());
 
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	LOG_F(INFO, "%d:\t%s", i, m_partObjectsVector[i].print().c_str());
-	//}
+	for (int i = 0; i < m_numOfObjects; i++) {
+		LOG_F(INFO, "%d:\t%s", i, m_partObjectsVector[i]->toString().c_str());
+	}
 
-	//LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }

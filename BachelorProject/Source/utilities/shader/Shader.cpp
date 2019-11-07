@@ -17,7 +17,7 @@ Shader::Shader(std::string shaderPath, std::string type)
 	}
 	catch (std::ifstream::failure e)
 	{
-		std::cout << "ERROR::SHADER::" + type + "::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		LOG_F(ERROR, "ERROR::SHADER::%s::FILE_NOT_SUCCESFULLY_READ", type.c_str());
 	}
 
 	const char* shaderCodeC = shaderCode.c_str();
@@ -28,7 +28,7 @@ Shader::Shader(std::string shaderPath, std::string type)
 	else if (type == "GEOMETRY")
 		ID = glCreateShader(GL_GEOMETRY_SHADER);
 	else
-		std::cout << "ERROR::INTERNAL bad shader type: " << type << std::endl;
+		LOG_F(ERROR, "ERROR::INTERNAL bad shader type: %s", type);
 	glShaderSource(ID, 1, &shaderCodeC, NULL);
 	glCompileShader(ID);
 	checkCompileErrors(type);
@@ -43,9 +43,9 @@ void Shader::checkCompileErrors(std::string type)
 	if (success == GL_FALSE)
 	{
 		glGetShaderInfoLog(ID, INFO_LOG_SIZE, NULL, infoLog);
-		std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+		LOG_F(ERROR, "ERROR::SHADER_COMPILATION_ERROR of type: %s\n%s\n -- --------------------------------------------------- -- ", type.c_str(), infoLog);
 	}
 	else {
-		std::cout << "SUCCESS successful compilation of shader no. " << ID << ", of type: " << type << std::endl;
+		LOG_F(INFO, "SUCCESS successful compilation of shader no. %d, of type: %s", ID, type.c_str());
 	}
 }

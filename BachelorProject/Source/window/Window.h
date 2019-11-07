@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <window/listener/WindowSizeListener.h>
 #include <inputDispatcher/InputDispatcher.h>
+#include <Logger.h>
 
 class Window {
 public:
@@ -25,7 +26,7 @@ public:
 	int getHeight() const { return height; }
 	float getDeltaTime() const { return deltaTime; }
 
-	GLFWwindow* glfwWindow;
+	GLFWwindow* glfwWindow = nullptr;
 protected:
 private:
 	InputDispatcher* inputDispatcher;

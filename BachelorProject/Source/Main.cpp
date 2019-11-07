@@ -45,6 +45,8 @@
 #include <memory>
 #include <glassController/GlassController.h>
 #include <Configuration.h>
+#include <window/WindowTitle.h>
+#include <simulationObjects/Emiter.h>
 
 void printWorkGroupsCapabilities();
 
@@ -61,8 +63,10 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher);
 
 // settings
 std::string NAME = "Random window";
-constexpr unsigned int SCR_WIDTH = 1600;
-constexpr unsigned int SCR_HEIGHT = 900;
+//H1680
+//W1512
+constexpr unsigned int SCR_WIDTH = 1920;
+constexpr unsigned int SCR_HEIGHT = 1080;
 
 static bool HmdConnected;
 
@@ -84,9 +88,11 @@ int main(int argc, char ** argv) {
 	InputDispatcher inputDispatcher;
 	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
-		std::cout << "Failed to init window";
+		LOG_F(ERROR, "Failed to init window");
 		exit(1);
 	}
+
+	WindowTitle::setWindow(window.glfwWindow);
 
 	Scene::Scene scene{ Configuration::BACKGROUND };
 	VR::VRGLInterop vrglinterop;
@@ -114,27 +120,27 @@ int main(int argc, char ** argv) {
 	assignHardwareParameters();
 
 	initTools();
+
 	Simulation::startSimulation(window.glfwWindow);
 	
-	//printWorkGroupsCapabilities();
-
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
 
-	//ParticleData::initArraysOnGPU();
-	printWorkGroupsCapabilities();
-
 
 	setupScene(scene, inputDispatcher);
+	Emiter::setEmiter(cameraController, 25, 1000.0f);
+	Emiter::setInputDispatcher(&inputDispatcher);
 
 	do 
 	{
+		if (HmdConnected) {
+			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
+		}
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame();
-			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 		}
 	} while (!window.refresh());
 
@@ -180,6 +186,8 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
 
 void initTools()
 {
+	WindowTitle::init();
+
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();
@@ -209,8 +217,9 @@ void assignHardwareParameters()
 	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
 	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
 
-	Configuration.MAX_PARTICLES = std::min(maxNumOfParticles, Configuration.MAX_PARTICLES);
-	Configuration.MAX_GLASS_PARTICLES = std::min(maxNumOfGlassParticles, Configuration.MAX_GLASS_PARTICLES);
+	while(Configuration.MAX_PARTICLES > maxNumOfParticles) Configuration.MAX_PARTICLES *= 0.5;
+	while(Configuration.MAX_GLASS_PARTICLES > maxNumOfGlassParticles) Configuration.MAX_GLASS_PARTICLES *= 0.5;
+
 	const int baseX = Configuration.SCENE_SIZE_X;
 	const int baseY = Configuration.SCENE_SIZE_Y;
 	const int baseZ = Configuration.SCENE_SIZE_Z;

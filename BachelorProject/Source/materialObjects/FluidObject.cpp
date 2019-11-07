@@ -20,10 +20,8 @@ void FluidObject::init()
 	int index = GpuResources::getIndex(BufferDetails::particlePositionsName);
 	glBindBuffer(GL_ARRAY_BUFFER, index);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 1, GL_INT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	int width;
 	int height;
@@ -43,11 +41,10 @@ void FluidObject::init()
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		LOG_F(ERROR, "Failed to load texture");
 	} 
 	stbi_image_free(data);
 

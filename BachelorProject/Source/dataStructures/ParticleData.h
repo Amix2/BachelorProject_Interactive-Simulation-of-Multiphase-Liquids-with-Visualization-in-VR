@@ -115,7 +115,7 @@ public:
 	static void sendDetails();
 
 
-	static void syncSimDetailsWithGpu();
+	static void syncSimDetailsWithGpu(int addParticles = 0);
 	static void copyDataForSorting();
 
 	// Prints info about fluid particles
