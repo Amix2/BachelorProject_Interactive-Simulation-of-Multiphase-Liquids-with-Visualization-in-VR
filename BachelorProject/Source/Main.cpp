@@ -59,7 +59,7 @@ void cleanUp();
 void assignHardwareParameters();
 
 //creates objects presented on scene
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher);
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop);
 
 // settings
 std::string NAME = "Random window";
@@ -95,7 +95,7 @@ int main(int argc, char ** argv) {
 	WindowTitle::setWindow(window.glfwWindow);
 
 	Scene::Scene scene{ Configuration::BACKGROUND };
-	VR::VRGLInterop vrglinterop;
+	VR::VRGLInterop vrglinterop{};
 	vrglinterop.activate();
 
 	CameraController* cameraController;
@@ -128,7 +128,8 @@ int main(int argc, char ** argv) {
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
 
 
-	setupScene(scene, inputDispatcher);
+
+	setupScene(scene, inputDispatcher, vrglinterop);
 	Emiter::setEmiter(cameraController, 25, 1000.0f);
 	Emiter::setInputDispatcher(&inputDispatcher);
 
@@ -157,7 +158,7 @@ int main(int argc, char ** argv) {
 
 
 
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
 
@@ -174,7 +175,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher) {
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
 	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0} };
+	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);

@@ -13,6 +13,7 @@
 #include "utilities/Matrices.h"
 
 namespace VR {
+	glm::mat4 openvr_m34_to_mat4(const vr::HmdMatrix34_t& t);
 	class VRGeometry {
 	public:
 		VRGeometry();

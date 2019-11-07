@@ -1,7 +1,8 @@
 #include "PyramidPointerMaterialObject.h"
+#include <VR/VRGeometry.h>
 
-PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor)
-	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor } {
+PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop)
+	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, vrglinterop{ vrglinterop } {
 }
 
 bool PyramidPointerMaterialObject::InitializeBufferObjects() {
@@ -83,9 +84,11 @@ void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
-
+	vr::TrackedDevicePose_t trackedDevicePose;
+	vr::VRControllerState_t controllerState;
+	int deviceId;
 	this->shaderProgram.use();
-	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::mat4{ 1.0f });
+	this->shaderProgram.setUniformVariable("MVP", projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[1].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 }));
 
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 }

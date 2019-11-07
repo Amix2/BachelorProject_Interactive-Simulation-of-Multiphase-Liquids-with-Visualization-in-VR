@@ -5,10 +5,11 @@
 #include "MaterialObject.h"
 #include <Configuration.h>
 #include <vector>
+#include <VR/VRGLInterop.h>
 
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
-	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor);
+	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 
@@ -20,6 +21,7 @@ private:
 	//bool InitializeVertices();
 	std::map<std::string, GLuint> BufferObjects{};
 	GLuint VAO, VBO, EBO;
+	VR::VRGLInterop vrglinterop;
 	glm::vec4 PyramidColor{};
 	const unsigned long BaseVertices = 3;
 	const float TETRAHEDRON_RADIUS = 0.6124f;
