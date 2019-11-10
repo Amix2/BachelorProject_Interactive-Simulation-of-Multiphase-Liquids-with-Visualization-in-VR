@@ -11,7 +11,7 @@ struct GPUEmiter {
 	float velocity;
 	int emitThisTurn;
 	int fluidType;
-	float _padding;
+	float rotationAngle;
 };
 
 class Emiter
@@ -26,6 +26,7 @@ private:
 	int m_fluidType = 0;
 	bool m_isActive		= true;
 	bool m_updateMatrix = true;
+	float m_rotationAngle	= 0;
 public:
 	Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType);
 	Emiter() {}

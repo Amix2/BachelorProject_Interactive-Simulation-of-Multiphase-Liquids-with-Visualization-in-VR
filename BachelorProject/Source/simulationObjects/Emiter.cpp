@@ -16,12 +16,14 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 		return 0;
 	}
 
+	m_rotationAngle += 0.1;
 	if (m_updateMatrix) {
 		m_Matrix = m_provider->getEmiterMatrix();
 	}
 	data->matrix = m_Matrix;
 	data->velocity = m_Velocity;
 	data->fluidType = m_fluidType;
+	data->rotationAngle = m_rotationAngle;
 	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
 		m_emitThisTurn = m_numOfParticles;
 	}
@@ -29,7 +31,7 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 		m_emitThisTurn = 0;
 	}
 	data->emitThisTurn = m_emitThisTurn;
-	return m_emitThisTurn;
+	return m_emitThisTurn * m_emitThisTurn;
 }
 
 std::string Emiter::toString()
@@ -46,25 +48,22 @@ std::string Emiter::toString()
 int Emiter::changeSize(int rowsNumber)
 {
 	LOG_F(WARNING, "changeSize, %d", rowsNumber);
-	if (rowsNumber > 0) increaseSize(rowsNumber);
-	else decreaseSize(rowsNumber);
+	m_numOfParticles += rowsNumber;
+	if (m_numOfParticles <= 0) m_numOfParticles = 1;
 	return m_numOfParticles;
 }
 
 int Emiter::increaseSize(int addRows)
 {
 	LOG_F(WARNING, "increaseSize, %d", addRows);
-	for(int i = addRows; i>0; i--)
-		m_numOfParticles += int(ceil(sqrt(m_numOfParticles)));
+	m_numOfParticles += addRows;
 	return m_numOfParticles;
 }
 
 int Emiter::decreaseSize(int revemeRows)
 {
 	LOG_F(WARNING, "decreaseSize, %d", revemeRows);
-	for (int i = revemeRows; i > 0; i--) {
-		m_numOfParticles -= int(floor(sqrt(m_numOfParticles)));
-		if (m_numOfParticles == 0) m_numOfParticles = 1;
-	}
+	m_numOfParticles -= revemeRows;
+	if (m_numOfParticles <= 0) m_numOfParticles = 1;
 	return m_numOfParticles;
 }

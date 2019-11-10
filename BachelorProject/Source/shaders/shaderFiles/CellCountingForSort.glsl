@@ -42,7 +42,7 @@ struct Emiter {
 	float velocity;
 	int emitThisTurn;
 	int fluidType;
-	float _padding;
+	float rotationAngle;
 };
 
 layout(std430, binding = 1) buffer positionsBuf
@@ -101,11 +101,22 @@ layout(std140, binding = 10) uniform emitersBuf
 
 //////////////////////////////////////////////////
 //	CODE
-
+mat4 rotationMatrix(vec3 axis, float angle)
+{
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+    
+    return mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+                oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+                oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+                0.0,                                0.0,                                0.0,                                1.0);
+}
 
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+
 	//if(myThreadNumber >= numOfParticles) return;
 	if(myThreadNumber >= numOfParticles) {
 		// emiter
@@ -113,8 +124,8 @@ void main(void)
 		Emiter emiter = emiterArray[0];
 		int emiterID = 0;
 		while(emiterID < MAX_EMITERS && indOffset >= 0) {
-			if(indOffset - emiter.emitThisTurn >= 0) {
-				indOffset -= emiter.emitThisTurn;
+			if(indOffset - emiter.emitThisTurn*emiter.emitThisTurn >= 0) {
+				indOffset -= emiter.emitThisTurn*emiter.emitThisTurn;
 				emiterID ++;
 				emiter = emiterArray[emiterID];
 		
@@ -125,26 +136,34 @@ void main(void)
 		
 		if(emiterID != MAX_EMITERS){
 
-			vec3 right = vec3(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2]);
-			vec3 up = vec3(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2]);
-			vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]) * emiter.velocity;
+			vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]);
+			const mat4 rotationMatrix = rotationMatrix(forward, emiter.rotationAngle);
+
+			vec4 right = rotationMatrix * vec4(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2], 0.0);
+			vec4 up = rotationMatrix * vec4(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2], 0.0);
 			vec3 position = vec3(emiter.matrix[3][0], emiter.matrix[3][1], emiter.matrix[3][2]);
 
-			const int numOfParticlesInRow = int(sqrt(emiter.emitThisTurn));
+
+
+			const int numOfParticlesInRow = emiter.emitThisTurn;
 			const int xId = int(indOffset % numOfParticlesInRow);
 			const int yId = int(indOffset / numOfParticlesInRow);
 			const int offset = int(numOfParticlesInRow/2);
+			const float xOffset = float(xId) - (numOfParticlesInRow-1) * 0.5;
+			const float yOffset = float(yId) - (numOfParticlesInRow-1) * 0.5;
 
-			const vec3 myEmitPosition = position + (xId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * up;
+			const vec3 myEmitPosition = position + xOffset * EMITER_FLUID_PARTICLE_BUILD_GAP * right.xyz + yOffset * EMITER_FLUID_PARTICLE_BUILD_GAP * up.xyz;
+			if(length(position - myEmitPosition) <= emiter.emitThisTurn * EMITER_FLUID_PARTICLE_BUILD_GAP * 0.5) {
+				fluidPositions[myThreadNumber].x = myEmitPosition.x;
+				fluidPositions[myThreadNumber].y = myEmitPosition.y;
+				fluidPositions[myThreadNumber].z = myEmitPosition.z;
+				fluidPositions[myThreadNumber].type = emiter.fluidType;
 
-			fluidPositions[myThreadNumber].x = myEmitPosition.x;
-			fluidPositions[myThreadNumber].y = myEmitPosition.y;
-			fluidPositions[myThreadNumber].z = myEmitPosition.z;
-			fluidPositions[myThreadNumber].type = emiter.fluidType;
+				fluidVelocity[3*myThreadNumber+0] = forward.x * emiter.velocity;
+				fluidVelocity[3*myThreadNumber+1] = forward.y * emiter.velocity;
+				fluidVelocity[3*myThreadNumber+2] = forward.z * emiter.velocity;
+			}
 
-			fluidVelocity[3*myThreadNumber+0] = forward.x;
-			fluidVelocity[3*myThreadNumber+1] = forward.y;
-			fluidVelocity[3*myThreadNumber+2] = forward.z;
 		}
 
 	}

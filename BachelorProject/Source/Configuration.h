@@ -19,7 +19,7 @@ const struct Configuration {
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
-	inline static const float EMITER_FLUID_PARTICLE_BUILD_GAP = 0.85f;
+	inline static const float EMITER_FLUID_PARTICLE_BUILD_GAP = 0.9f;
 
 	inline static int SCENE_SIZE_X = 9;
 	inline static int SCENE_SIZE_Y = 8;
@@ -31,7 +31,7 @@ const struct Configuration {
 	inline static const float BOUNCE_DISTANCE = 0.50f;
 	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
 
-	inline static const float MAX_PARTICLE_SPEED = 0.5f;
+	inline static const float MAX_PARTICLE_SPEED = 1.0f;
 	inline static const float MAX_PARTICLE_STEP_DISTANCE = MAX_PARTICLE_SPEED;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.3f;
 

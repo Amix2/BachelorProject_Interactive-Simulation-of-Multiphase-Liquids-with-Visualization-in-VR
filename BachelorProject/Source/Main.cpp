@@ -111,7 +111,7 @@ int main(int argc, char ** argv) {
 		std::cerr << "Couldn't init VR Core!" << std::endl;
 
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 10,40, 10 } };
+		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
 	}
 
 	scene.addCameras(cameraController);

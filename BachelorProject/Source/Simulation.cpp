@@ -50,9 +50,8 @@ void Simulation::runSimulationFrame()
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
 	ParticleData::m_NumOfParticles += emitedThisTurn;
 	ParticleData::syncSimDetailsWithGpu(emitedThisTurn);
-	//return;
-	TEST_TIME(_ntCellCountingTime);
 
+	TEST_TIME(_ntCellCountingTime);
 
 	ParticleData::copyDataForSorting();
 
@@ -149,8 +148,8 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	//ParticleObjectCreator::addObject(detailsTEST);
-	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
@@ -174,10 +173,9 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	double timeStart, timeEnd, timeDif = 0;
-	//while (!glfwWindowShouldClose(m_mainWindow))
-	for (int i = 0; i < 500; i++)
+	while (!glfwWindowShouldClose(m_mainWindow))
+	for (int i = 0; i < 1; i++)
 	{
-		m_turnNumber++;
 		timeStart = glfwGetTime();
 
 
@@ -208,9 +206,10 @@ void Simulation::main()
 		//Sleep(5000);
 		//ParticleData::printSPHData(1, 1, 1, 1, 1, 2000);
 
+		m_turnNumber++;
 	}
-	//ParticleData::printNeighboursData(1);
 	//ParticleData::printParticleData(200000);
+	//ParticleData::printNeighboursData(1);
 	//ParticleData::printGlassParticlesData(2000);
 	//ParticleData::printGlassObjectsData(2);
 	//ParticleObjectManager::printObjects(2);
