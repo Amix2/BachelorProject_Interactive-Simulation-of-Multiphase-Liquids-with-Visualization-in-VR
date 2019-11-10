@@ -13,7 +13,7 @@
 #include <thread>
 #include <math.h>
 #include <window/WindowTitle.h>
-#include <simulationObjects/Emiter.h>
+#include <simulationObjects/EmiterManager.h>
 
 //enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
@@ -37,13 +37,9 @@ class Simulation
 
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
-	inline static const std::string emiterMatrixUniform = "u_emiterMatrix";
-	inline static const std::string emiterParticlesNumberUnifom = "u_emiterParticlesNumber";
-	inline static const std::string emiterVelocityUniform = "u_emiterVelocity";
-	inline static bool m_emiterChanges = false;
-	inline static glm::mat4 m_emiterMatrix;
-	inline static int m_emiterNumOfParticles;
-	inline static float m_emiterVelocity;
+
+	inline static glm::mat4 m_Matrix;
+	inline static float m_Velocity;
 	inline static const int m_printTimesFrequency = 1024;
 	inline static const int m_forTitleTimesFrequency = 16;
 	inline static const bool MEASURE_TIME = false;
@@ -75,8 +71,5 @@ public:
 
 	static void setupSimObjects();
 
-	static void setEmiterMatrix(const glm::mat4& matrix);
-	static void setEmiterNumOfParticles(const int numOfParticles);
-	static void setEmiterVelocity(const float velocity);
 };
 

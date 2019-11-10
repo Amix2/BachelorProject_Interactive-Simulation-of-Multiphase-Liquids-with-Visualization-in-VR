@@ -11,8 +11,14 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_A,
 		GLFW_KEY_D,
 		GLFW_KEY_Q,
-		GLFW_KEY_E
+		GLFW_KEY_E,
+		GLFW_KEY_0,	// togle emiter
+		GLFW_KEY_P,	// togle emiter matrix update
+		GLFW_KEY_EQUAL,	// increase emiter size
+		GLFW_KEY_MINUS	// decrease emiter size
 	});
+
+	emiter = EmiterManager::createEmiter(this, 25, 1000.0f);
 }
 
 
@@ -61,6 +67,24 @@ void SimpleCameraController::handleKeyPress(int key, KeyState action, float delt
 			break;
 		case GLFW_KEY_E:
 			camera.setPosition(camera.getPosition() - glm::vec3(0, 1, 0) * deltaTime * VELOCITY);
+			break;
+		default:
+			break;
+		}
+	}
+	else if (action == KeyState::FALLING_EDGE) {
+		switch (key) {
+		case GLFW_KEY_0:
+			emiter->toggleActive();
+			break;
+		case GLFW_KEY_P:
+			emiter->togleMatrixUpdate();
+			break;
+		case GLFW_KEY_EQUAL:
+			emiter->increaseSize(1);
+			break;
+		case GLFW_KEY_MINUS:
+			emiter->decreaseSize(1);
 			break;
 		default:
 			break;

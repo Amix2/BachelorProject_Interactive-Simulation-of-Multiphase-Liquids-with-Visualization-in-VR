@@ -15,6 +15,7 @@ const struct Configuration {
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 262144;
 	inline static const int MAX_FLUID_TYPES = 10;
+	inline static const int MAX_EMITERS = 5;
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
@@ -76,6 +77,9 @@ const struct BufferDetails {
 
 	inline static const std::string HelperBufferName = "HelperBuffer";	// SSBO
 	inline static const int HelperBufferBinding = 9;
+
+	inline static const std::string EmiterBufferName = "EmiterBuffer";	// UBO
+	inline static const int EmiterBufferBinding = 10;
 
 } BufferDetails;
 

@@ -16,7 +16,7 @@ void Simulation::runSimulationFrame()
 		//glFinish();
 	}
 
-	if (ParticleData::m_NumOfParticles + Simulation::m_emiterNumOfParticles == 0) return;
+	//if (ParticleData::m_NumOfParticles + Simulation::m_emiterNumOfParticles == 0) return;
 	// open or close resources required by other threads
 	if (ParticleData::m_OpenedResources > 0) {
 		LOG_F(WARNING, "Simulation loop with opened resources");
@@ -26,6 +26,7 @@ void Simulation::runSimulationFrame()
 
 	// exchange information about glass objects with gpu
 	ParticleObjectManager::synchronizeWithGpu();
+	const int emitedThisTurn = EmiterManager::updateAllEmiters(m_turnNumber);
 
 	TEST_TIME(_ntSynchronizeWithGpuTime);
 
@@ -33,7 +34,7 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntSyncDetailsTime);
 
-	const int numOfFluid = ParticleData::m_NumOfParticles + Emiter::m_emiterdThisTurn;
+	const int numOfFluid = ParticleData::m_NumOfParticles + emitedThisTurn;
 	const int numOfFluidDiv256 = (int)ceil(numOfFluid / 256.0f);
 	const int numOfFluidDivXX = (int)ceil(numOfFluid / 300.0f);
 	const int numOfFluidDiv1024 = (int)ceil(numOfFluid / 1024.0f);
@@ -46,8 +47,8 @@ void Simulation::runSimulationFrame()
 
 
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
-	//ParticleData::m_NumOfParticles += Emiter::m_emiterdThisTurn;
-	ParticleData::syncSimDetailsWithGpu(Emiter::m_emiterdThisTurn);
+	ParticleData::m_NumOfParticles += emitedThisTurn;
+	ParticleData::syncSimDetailsWithGpu(emitedThisTurn);
 	//return;
 	TEST_TIME(_ntCellCountingTime);
 
@@ -139,7 +140,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -149,8 +150,8 @@ void Simulation::setupSimObjects()
 	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
-	ParticleObjectCreator::addObject(optimGlass);
+	//ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 
@@ -159,23 +160,6 @@ void Simulation::setupSimObjects()
 	//Simulation::setEmiterVelocity(100);
 }
 
-void Simulation::setEmiterMatrix(const glm::mat4& matrix)
-{
-	m_emiterMatrix = matrix;
-	m_CellCounting.setUniformVariable(emiterMatrixUniform, matrix);
-}
-
-void Simulation::setEmiterNumOfParticles(const int numOfParticles)
-{
-	m_emiterNumOfParticles = numOfParticles;
-	m_CellCounting.setUniformVariable(emiterParticlesNumberUnifom, numOfParticles);
-}
-
-void Simulation::setEmiterVelocity(const float velocity)
-{
-	m_emiterVelocity = velocity;
-	m_CellCounting.setUniformVariable(emiterVelocityUniform, velocity);
-}
 
 void Simulation::main()
 {
@@ -190,17 +174,17 @@ void Simulation::main()
 
 	double timeStart, timeEnd, timeDif = 0;
 	while (!glfwWindowShouldClose(m_mainWindow))
-	//for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 1; i++)
 	{
+		m_turnNumber++;
 		timeStart = glfwGetTime();
 
 
-		Emiter::updateTurn(m_turnNumber);
+		//EmiterManager::updateTurn(m_turnNumber);
 		Simulation::runSimulationFrame();
 		//glFinish();
 		Simulation::handlePrintingTimes();
 
-		m_turnNumber++;
 
 		timeEnd = glfwGetTime();
 
@@ -216,6 +200,8 @@ void Simulation::main()
 			WindowTitle::setTitle(m_SimGlassParticleTitle, std::to_string(ParticleData::m_NumOfGlassParticles) + " glass particles");
 			timeDif = 0;
 		}
+
+		EmiterManager::printEmiters();
 		//ParticleData::printGlassObjectsData(2);
 		//ParticleData::printParticleData(2000);
 		//Sleep(5000);
@@ -246,9 +232,7 @@ void Simulation::init()
 	WindowTitle::addTitle(m_SimParticleTitle, 4);
 	WindowTitle::addTitle(m_SimGlassParticleTitle, 5);
 
-	Simulation::setEmiterNumOfParticles(0);
-
-	Emiter::setEmiterComputeShader(&m_CellCounting);
+	//EmiterManager::setEmiterComputeShader(&m_CellCounting);
 }
 
 void Simulation::handlePrintingTimes()

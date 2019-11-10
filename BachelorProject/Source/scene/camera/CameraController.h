@@ -2,10 +2,10 @@
 
 #include <vector>
 #include "Camera.h"
-#include <simulationObjects/EmiterMatrixProvider.h>
+#include <simulationObjects/EmiterProvider.h>
 
 class CameraController
-	: public EmiterMatrixProvider 
+	: public EmiterProvider 
 {
 public:
 	virtual const std::vector<const Scene::Camera*> provideCameras() const = 0;

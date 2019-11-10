@@ -229,7 +229,7 @@ void GpuResources::createUBO(std::string name, GLsizeiptr size, const void* data
 		// resource already made, attach it
 		GLuint index = GpuResources::m_NamesMap[name];
 		attachResource(GL_UNIFORM_BUFFER, bindingPointIndex, index);
-		LOG_F(INFO, "UBOattached , name: %s, \tid: %d, size: %d", name.c_str(), index, size);
+		LOG_F(INFO, "UBO attached , name: %s, \tid: %d, size: %d", name.c_str(), index, size);
 	}
 	else {
 		GLuint ubo = createResource(GL_UNIFORM_BUFFER, name, size, data, bindingPointIndex);

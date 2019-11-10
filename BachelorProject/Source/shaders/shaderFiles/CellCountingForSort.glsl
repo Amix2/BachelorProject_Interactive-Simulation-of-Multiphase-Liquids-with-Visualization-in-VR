@@ -9,6 +9,7 @@
 #define MAX_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
 #define EMITER_FLUID_PARTICLE_BUILD_GAP 10.0f
+#define MAX_EMITERS 5
 
 #define INSERT_VARIABLES_HERE
 
@@ -19,9 +20,6 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 //////////////////////////////////////////////////
 //	STORAGE
 
-uniform mat4 u_emiterMatrix;
-uniform int u_emiterParticlesNumber;
-uniform float u_emiterVelocity;
 
 struct FluidParticle {
 	float x, y, z;
@@ -37,6 +35,13 @@ struct GlassParticle {
 
 struct GlassObjectDetails {
 	mat4 matrix;
+};
+
+struct Emiter {
+	mat4 matrix;
+	float velocity;
+	int emitThisTurn;
+	float padding[2];
 };
 
 layout(std430, binding = 1) buffer positionsBuf
@@ -80,6 +85,11 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+layout(std140, binding = 10) uniform emitersBuf
+{
+	Emiter emiterArray[MAX_EMITERS];
+};
+
 
 // section in array to know what particles should be calculated by this thread, ...Last -> 1 after last that should be calculated
 
@@ -96,28 +106,45 @@ void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
 	//if(myThreadNumber >= numOfParticles) return;
-	if(myThreadNumber >= numOfParticles && myThreadNumber < numOfParticles + u_emiterParticlesNumber) {
+	if(myThreadNumber >= numOfParticles) {
 		// emiter
-		vec3 right = vec3(u_emiterMatrix[0][0], u_emiterMatrix[0][1], u_emiterMatrix[0][2]);
-		vec3 up = vec3(u_emiterMatrix[1][0], u_emiterMatrix[1][1], u_emiterMatrix[1][2]);
-		vec3 forward = vec3(u_emiterMatrix[2][0], u_emiterMatrix[2][1], u_emiterMatrix[2][2]) * u_emiterVelocity;
-		vec3 position = vec3(u_emiterMatrix[3][0], u_emiterMatrix[3][1], u_emiterMatrix[3][2]);
+		int indOffset = int(myThreadNumber) - int(numOfParticles);
+		Emiter emiter = emiterArray[0];
+		int emiterID = 0;
+		while(emiterID < MAX_EMITERS && indOffset >= 0) {
+			if(indOffset - emiter.emitThisTurn >= 0) {
+				indOffset -= emiter.emitThisTurn;
+				emiterID ++;
+				emiter = emiterArray[emiterID];
+		
+			} else {
+				break;
+			}
+		}
+		
+		if(emiterID != MAX_EMITERS){
 
-		const int numOfParticlesInRow = int(sqrt(u_emiterParticlesNumber));
-		const int xId = int(myThreadNumber % numOfParticlesInRow);
-		const int yId = int(myThreadNumber - numOfParticles) / numOfParticlesInRow;
-		const int offset = int(numOfParticlesInRow/2);
+			vec3 right = vec3(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2]);
+			vec3 up = vec3(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2]);
+			vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]) * emiter.velocity;
+			vec3 position = vec3(emiter.matrix[3][0], emiter.matrix[3][1], emiter.matrix[3][2]);
 
-		const vec3 myEmitPosition = position + (xId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * up;
+			const int numOfParticlesInRow = int(sqrt(emiter.emitThisTurn));
+			const int xId = int(indOffset % numOfParticlesInRow);
+			const int yId = int(indOffset / numOfParticlesInRow);
+			const int offset = int(numOfParticlesInRow/2);
 
-		fluidPositions[myThreadNumber].x = myEmitPosition.x;
-		fluidPositions[myThreadNumber].y = myEmitPosition.y;
-		fluidPositions[myThreadNumber].z = myEmitPosition.z;
-		fluidPositions[myThreadNumber].type = 2;
+			const vec3 myEmitPosition = position + (xId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * right + (yId-offset) * EMITER_FLUID_PARTICLE_BUILD_GAP * up;
 
-		fluidVelocity[3*myThreadNumber+0] = forward.x;
-		fluidVelocity[3*myThreadNumber+1] = forward.y;
-		fluidVelocity[3*myThreadNumber+2] = forward.z;
+			fluidPositions[myThreadNumber].x = myEmitPosition.x;
+			fluidPositions[myThreadNumber].y = myEmitPosition.y;
+			fluidPositions[myThreadNumber].z = myEmitPosition.z;
+			fluidPositions[myThreadNumber].type = 2;
+
+			fluidVelocity[3*myThreadNumber+0] = forward.x;
+			fluidVelocity[3*myThreadNumber+1] = forward.y;
+			fluidVelocity[3*myThreadNumber+2] = forward.z;
+		}
 
 	}
 	FluidParticle myParticle = fluidPositions[myThreadNumber];

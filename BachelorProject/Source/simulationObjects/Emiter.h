@@ -1,39 +1,44 @@
 #pragma once
-#include <shaders/ComputeShader.h>
-#include <simulationObjects/EmiterMatrixProvider.h>
+#include <glm/glm.hpp>
 #include <Configuration.h>
-#include <Logger.h>
+#include <sstream>
+#include <simulationObjects/EmiterProvider.h>
 #include <glm/gtx/string_cast.hpp>
 #include <dataStructures/ParticleData.h>
-#include <inputDispatcher/InputDispatcher.h>
-#include <simulationObjects/EmiterControler.h>
-#include <memory>
+
+struct GPUEmiter {
+	glm::mat4 matrix;
+	float velocity;
+	int emitThisTurn;
+	float _padding[2];
+};
 
 class Emiter
 {
 private:
-	inline static int m_initState = 0;
-	inline static int m_TARGET_INIT_STATE= 3;
+	EmiterProvider* m_provider	= nullptr;
+	glm::mat4 m_Matrix	= glm::mat4();
+	int m_emitFrequency	= 0;
+	float m_Velocity	= 0;
+	int m_emitThisTurn	= 0;
+	int m_numOfParticles	= 0;
+	bool m_isActive		= true;
+	bool m_updateMatrix = true;
 public:
-	inline static ComputeShader* m_emiterComputeShader = nullptr;
-	inline static EmiterMatrixProvider* m_matrixProvider;
-	inline static InputDispatcher* m_inputDispatcher;
-	inline static std::unique_ptr<EmiterControler> m_controler = std::make_unique<EmiterControler>();
+	Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity);
+	Emiter() {}
 
-	inline static glm::mat4 m_emiterMatrix;
-	inline static int m_emitFrequancy;
-	inline static float m_emiterVelocity = -1.0f;
-	inline static int m_emiterdThisTurn = 0;
+	int fillGPUdata(GPUEmiter* data, int turnNumber);
 
-	static void setEmiter(EmiterMatrixProvider* matrixProvider, int numOfParticles, float velocity);
-	static void setInputDispatcher(InputDispatcher* inputDispatcher);
+	std::string toString();
 
-	static void updateTurn(int turnNumber);
 
-	static void setEmiterComputeShader(ComputeShader* shader);
-
-	inline static const std::string emiterMatrixUniform = "u_emiterMatrix";
-	inline static const std::string emiterParticlesNumberUnifom = "u_emiterParticlesNumber";
-	inline static const std::string emiterVelocityUniform = "u_emiterVelocity";
+	int changeSize(int rowsNumber);
+	int increaseSize(int addRows);
+	int decreaseSize(int revemeRows);
+	void setActive(bool active) { m_isActive = active; }
+	void toggleActive() { m_isActive = !m_isActive; }
+	void setMatrixUpdate(bool update) { m_updateMatrix = update; }
+	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }
 };
 

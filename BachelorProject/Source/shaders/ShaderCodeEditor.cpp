@@ -22,6 +22,7 @@ void ShaderCodeEditor::init()
 	addVariable("BOUNCE_DISTANCE", Configuration.BOUNCE_DISTANCE);
 	addVariable("BOUNCE_VELOCITY_MULTIPLIER", Configuration.BOUNCE_VELOCITY_MULTIPLIER);
 	addVariable("EMITER_FLUID_PARTICLE_BUILD_GAP", Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP);
+	addVariable("MAX_EMITERS", Configuration.MAX_EMITERS);
 }
 
 template<typename V>

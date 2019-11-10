@@ -1,59 +1,69 @@
 #include "Emiter.h"
 
-void Emiter::setEmiter(EmiterMatrixProvider* matrixProvider, int numOfParticles, float velocity)
+Emiter::Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity) : m_provider(provider), m_numOfParticles(initNumberOfParticles)
 {
-	LOG_F(INFO, "Set emiter provider");
-	m_matrixProvider = matrixProvider;
-	m_controler->setNumOfEmitedParticles(numOfParticles);
-	m_emiterVelocity = min(velocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
-	if (m_emiterComputeShader != nullptr) m_emiterComputeShader->setUniformVariable(emiterVelocityUniform, m_emiterVelocity);
+	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
+	m_emitFrequency = int(ceil(Configuration.FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
 
-	m_emitFrequancy = int(ceil(Configuration.FLUID_PARTICLE_BUILD_GAP / (m_emiterVelocity*Configuration.DELTA_TIME)));
-	m_initState++;
+	//m_Matrix = glm::mat4();
 }
 
-void Emiter::setInputDispatcher(InputDispatcher* inputDispatcher)
+int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 {
-	m_inputDispatcher = inputDispatcher;
-	m_controler->setInputDispatcher(inputDispatcher);
-	m_initState++;
-}
-
-void Emiter::updateTurn(int turnNumber)
-{
-	//LOG_F(WARNING, "update turn %d", m_emitFrequancy);
-	if (m_initState < m_TARGET_INIT_STATE) return;
-
-	if (!m_controler->m_emiterActive) {
-		m_emiterComputeShader->setUniformVariable(emiterParticlesNumberUnifom, 0);
-		m_emiterdThisTurn = 0;
-		return;
+	if (!m_isActive) {
+		m_emitThisTurn = 0;
+		return 0;
 	}
 
-	if (m_controler->m_updateMatrix) {
-		m_emiterMatrix = m_matrixProvider->getEmiterMatrix();
+	if (m_updateMatrix) {
+		m_Matrix = m_provider->getEmiterMatrix();
 	}
-
-	if (turnNumber % m_emitFrequancy == 0  &&  ParticleData::m_NumOfParticles + m_controler->m_numOfEmitedParticles < Configuration.MAX_PARTICLES) {
-		//LOG_F(WARNING, "%d / %d :: %s", m_emitFrequancy, turnNumber, glm::to_string(m_matrixProvider->getEmiterMatrix()).c_str());
-		m_emiterComputeShader->setUniformVariable(emiterMatrixUniform, m_emiterMatrix);
-		m_emiterComputeShader->setUniformVariable(emiterParticlesNumberUnifom, m_controler->m_numOfEmitedParticles);
-		m_emiterdThisTurn = m_controler->m_numOfEmitedParticles;
+	data->matrix = m_Matrix;
+	data->velocity = m_Velocity;
+	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
+		m_emitThisTurn = m_numOfParticles;
 	}
 	else {
-		m_emiterComputeShader->setUniformVariable(emiterParticlesNumberUnifom, 0);
-		m_emiterdThisTurn = 0;
+		m_emitThisTurn = 0;
 	}
+	data->emitThisTurn = m_emitThisTurn;
+	return m_emitThisTurn;
 }
 
-void Emiter::setEmiterComputeShader(ComputeShader* shader)
+std::string Emiter::toString()
 {
-	LOG_F(INFO, "Set emiter shader");
-	m_emiterComputeShader = shader;
-	if(m_emiterVelocity != -1.0f) m_emiterComputeShader->setUniformVariable(emiterVelocityUniform, m_emiterVelocity);
-	m_emiterComputeShader->setUniformVariable(emiterParticlesNumberUnifom, 0);
-	m_emiterdThisTurn = 0;
-	m_initState++;
+	std::stringstream ss;
+	ss << "Emiter :: active: \t" << (m_isActive ? "true" : "false") << "\n\tParticles: " << m_numOfParticles << ", this turn: " << m_emitThisTurn
+		<< "\n\tVel: " << m_Velocity
+		<< "\n\tFrequency: " << m_emitFrequency
+		<< "\n\tMat ["<< (m_updateMatrix ? "update" : "no-update") <<"]: " << glm::to_string(m_Matrix);
+	return std::string(ss.str());
 }
 
+
+int Emiter::changeSize(int rowsNumber)
+{
+	LOG_F(WARNING, "changeSize, %d", rowsNumber);
+	if (rowsNumber > 0) increaseSize(rowsNumber);
+	else decreaseSize(rowsNumber);
+	return m_numOfParticles;
+}
+
+int Emiter::increaseSize(int addRows)
+{
+	LOG_F(WARNING, "increaseSize, %d", addRows);
+	for(int i = addRows; i>0; i--)
+		m_numOfParticles += int(ceil(sqrt(m_numOfParticles)));
+	return m_numOfParticles;
+}
+
+int Emiter::decreaseSize(int revemeRows)
+{
+	LOG_F(WARNING, "decreaseSize, %d", revemeRows);
+	for (int i = revemeRows; i > 0; i--) {
+		m_numOfParticles -= int(floor(sqrt(m_numOfParticles)));
+		if (m_numOfParticles == 0) m_numOfParticles = 1;
+	}
+	return m_numOfParticles;
+}

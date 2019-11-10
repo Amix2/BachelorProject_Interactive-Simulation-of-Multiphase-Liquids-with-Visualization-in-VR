@@ -34,6 +34,9 @@ void ParticleData::initArraysOnGPU()
 	// SSBO for neighbour look up table
 	GpuResources::createSSBO(BufferDetails.HelperBufferName, (GLsizeiptr)Configuration.SCENE_SIZE_X * Configuration.SCENE_SIZE_Y * Configuration.SCENE_SIZE_Z * sizeof(GLint), NULL, BufferDetails.HelperBufferBinding);
 
+	Emiter emitersArray[Configuration.MAX_EMITERS];
+	GpuResources::createUBO(BufferDetails.EmiterBufferName, Configuration.MAX_EMITERS * sizeof(Emiter), emitersArray, BufferDetails.EmiterBufferBinding);
+
 	checkOpenGLErrors();
 
 }
@@ -48,7 +51,6 @@ Particle* ParticleData::openParticlePositions__MAP__()
 	);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resParticlesArray__MAP__;
 }
 
@@ -61,7 +63,6 @@ GlassParticle* ParticleData::openGlassParticles__MAP__()
 	);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resGlassParticleArray__MAP__;
 }
 
@@ -72,7 +73,6 @@ GlassObjectDetails* ParticleData::openGlassObjects()
 	m_resGlassObjectsArray__MAP__ = (GlassObjectDetails*)GpuResources::openUBO__MAP__(BufferDetails.glassObjectsDetailsName);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resGlassObjectsArray__MAP__;
 }
 
@@ -82,8 +82,15 @@ SimDetails* ParticleData::openDetails()
 	m_resDetails__MAP__ = (SimDetails*)GpuResources::openSSBO__MAP__(BufferDetails.detailsName);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resDetails__MAP__;
+}
+
+void ParticleData::openEmiters()
+{
+	//LOG_F(INFO, "OPEN details struct");
+	m_resEmiters__MAP__ = (GPUEmiter*)GpuResources::openSSBO__MAP__(BufferDetails.EmiterBufferName);
+
+	m_OpenedResources++;
 }
 
 void ParticleData::commitParticlePositions__MAP__(int numOfAddedParticles)
@@ -94,7 +101,6 @@ void ParticleData::commitParticlePositions__MAP__(int numOfAddedParticles)
 	m_NumOfParticles += numOfAddedParticles;
 	m_resParticlesArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 
 	m_ParticleBufferOpen = false;
 }
@@ -107,7 +113,6 @@ void ParticleData::commitGlassParticles__MAP__(int numOfAddedGlassParticles)
 	m_NumOfGlassParticles += numOfAddedGlassParticles;
 	m_resGlassParticleArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
@@ -118,7 +123,6 @@ void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
 	m_numOfObjectsInArray += numOfAddedGlassObjects;
 	m_resGlassObjectsArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 void ParticleData::commitDetails()
@@ -129,7 +133,16 @@ void ParticleData::commitDetails()
 
 	m_resDetails__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
+}
+
+void ParticleData::commitEmiters()
+{
+	//LOG_F(INFO, "COMMIT details");
+
+	GpuResources::commitSSBO__MAP__(BufferDetails.EmiterBufferName);
+
+	m_resEmiters__MAP__ = nullptr;
+	m_OpenedResources--;
 }
 
 
