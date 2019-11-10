@@ -18,7 +18,7 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_MINUS	// decrease emiter size
 	});
 
-	emiter = EmiterManager::createEmiter(this, 25, 1000.0f);
+	emiter = EmiterManager::createEmiter(this, 1, 1000.0f, 2);
 }
 
 

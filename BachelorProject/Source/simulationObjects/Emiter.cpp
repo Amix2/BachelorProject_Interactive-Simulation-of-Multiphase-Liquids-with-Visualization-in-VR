@@ -1,10 +1,10 @@
 #include "Emiter.h"
 
-Emiter::Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity) : m_provider(provider), m_numOfParticles(initNumberOfParticles)
+Emiter::Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType) : m_provider(provider), m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType)
 {
 	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
-	m_emitFrequency = int(ceil(Configuration.FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
+	m_emitFrequency = int(ceil(Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
 
 	//m_Matrix = glm::mat4();
 }
@@ -21,6 +21,7 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 	}
 	data->matrix = m_Matrix;
 	data->velocity = m_Velocity;
+	data->fluidType = m_fluidType;
 	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
 		m_emitThisTurn = m_numOfParticles;
 	}

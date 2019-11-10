@@ -10,7 +10,8 @@ struct GPUEmiter {
 	glm::mat4 matrix;
 	float velocity;
 	int emitThisTurn;
-	float _padding[2];
+	int fluidType;
+	float _padding;
 };
 
 class Emiter
@@ -22,10 +23,11 @@ private:
 	float m_Velocity	= 0;
 	int m_emitThisTurn	= 0;
 	int m_numOfParticles	= 0;
+	int m_fluidType = 0;
 	bool m_isActive		= true;
 	bool m_updateMatrix = true;
 public:
-	Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity);
+	Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType);
 	Emiter() {}
 
 	int fillGPUdata(GPUEmiter* data, int turnNumber);

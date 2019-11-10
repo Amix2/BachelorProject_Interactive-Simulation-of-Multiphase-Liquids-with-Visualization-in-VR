@@ -18,7 +18,7 @@ private:
 
 public:
 
-	static Emiter* createEmiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity);
+	static Emiter* createEmiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType);
 
 	static void printEmiters();
 

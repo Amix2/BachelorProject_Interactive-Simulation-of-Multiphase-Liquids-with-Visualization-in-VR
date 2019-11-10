@@ -27,6 +27,7 @@ void Simulation::runSimulationFrame()
 	// exchange information about glass objects with gpu
 	ParticleObjectManager::synchronizeWithGpu();
 	const int emitedThisTurn = EmiterManager::updateAllEmiters(m_turnNumber);
+	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 
 	TEST_TIME(_ntSynchronizeWithGpuTime);
 
@@ -173,8 +174,8 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	double timeStart, timeEnd, timeDif = 0;
-	while (!glfwWindowShouldClose(m_mainWindow))
-	for (int i = 0; i < 1; i++)
+	//while (!glfwWindowShouldClose(m_mainWindow))
+	for (int i = 0; i < 500; i++)
 	{
 		m_turnNumber++;
 		timeStart = glfwGetTime();
@@ -201,7 +202,7 @@ void Simulation::main()
 			timeDif = 0;
 		}
 
-		EmiterManager::printEmiters();
+		//EmiterManager::printEmiters();
 		//ParticleData::printGlassObjectsData(2);
 		//ParticleData::printParticleData(2000);
 		//Sleep(5000);

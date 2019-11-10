@@ -41,7 +41,8 @@ struct Emiter {
 	mat4 matrix;
 	float velocity;
 	int emitThisTurn;
-	float padding[2];
+	int fluidType;
+	float _padding;
 };
 
 layout(std430, binding = 1) buffer positionsBuf
@@ -139,7 +140,7 @@ void main(void)
 			fluidPositions[myThreadNumber].x = myEmitPosition.x;
 			fluidPositions[myThreadNumber].y = myEmitPosition.y;
 			fluidPositions[myThreadNumber].z = myEmitPosition.z;
-			fluidPositions[myThreadNumber].type = 2;
+			fluidPositions[myThreadNumber].type = emiter.fluidType;
 
 			fluidVelocity[3*myThreadNumber+0] = forward.x;
 			fluidVelocity[3*myThreadNumber+1] = forward.y;

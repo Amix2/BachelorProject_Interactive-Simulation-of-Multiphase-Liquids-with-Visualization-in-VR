@@ -1,8 +1,8 @@
 #include "EmiterManager.h"
 
-Emiter* EmiterManager::createEmiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity)
+Emiter* EmiterManager::createEmiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType)
 {
-	m_emitersVector.push_back(Emiter(provider, initNumberOfParticles, initVelocity));
+	m_emitersVector.push_back(Emiter(provider, initNumberOfParticles, initVelocity, initFluidType));
 	return &m_emitersVector[m_emitersVector.size()-1];
 }
 
