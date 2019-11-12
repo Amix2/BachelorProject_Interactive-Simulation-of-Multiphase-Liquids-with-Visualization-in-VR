@@ -37,6 +37,7 @@
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
+#include <materialObjects/MoveIndicatorObject.h>
 #include <VR/VRCore.h>
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
@@ -94,7 +95,7 @@ int main(int argc, char ** argv) {
 
 	WindowTitle::setWindow(window.glfwWindow);
 
-	Scene::Scene scene{ Configuration::BACKGROUND };
+	Scene::Scene scene{ Configuration::BACKGROUND, 2 };
 	VR::VRGLInterop vrglinterop{};
 	vrglinterop.activate();
 
@@ -126,8 +127,9 @@ int main(int argc, char ** argv) {
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
-
-
+	ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
+	MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
+	scene.addMaterialObject(&moveIndicatorObject, 0);
 
 	setupScene(scene, inputDispatcher, vrglinterop);
 	Emiter::setEmiter(cameraController, 25, 1000.0f);
@@ -150,14 +152,6 @@ int main(int argc, char ** argv) {
 }
 
 
-
-
-
-
-
-
-
-
 void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
@@ -165,7 +159,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	//static ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	//static TestBilboardObject bilboard{ programBilboard };
 
-	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.frag" };
 	static FluidObject fluid{ inputDispatcher, programFluid };
 
 	static ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
@@ -174,15 +168,15 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
-	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
+	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
-	scene.addMaterialObject(&fluid);
-	scene.addMaterialObject(&axes);
-	scene.addMaterialObject(&vectorNormals);
-	scene.addMaterialObject(&pyramidPointer);
+	scene.addMaterialObject(&fluid, 0);
+	scene.addMaterialObject(&axes, 0);
+	scene.addMaterialObject(&vectorNormals, 0);
+	//	scene.addMaterialObject(&pyramidPointer);
 }
 
 void initTools()

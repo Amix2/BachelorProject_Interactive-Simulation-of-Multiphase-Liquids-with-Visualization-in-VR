@@ -11,13 +11,16 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_A,
 		GLFW_KEY_D,
 		GLFW_KEY_Q,
-		GLFW_KEY_E
+		GLFW_KEY_E,
+		GLFW_MOUSE_BUTTON_LEFT
 	});
 }
 
 
 void SimpleCameraController::handleMouseMove(float xoffset, float yoffset)
 {
+	if (isLocked)
+		return;
 	xoffset *= MOUSE_SENSITIVITY;
 	yoffset *= MOUSE_SENSITIVITY;
 
@@ -65,6 +68,13 @@ void SimpleCameraController::handleKeyPress(int key, KeyState action, float delt
 		default:
 			break;
 		}
+	}
+	else if (action == KeyState::FALLING_EDGE && key == GLFW_MOUSE_BUTTON_LEFT) {
+		isLocked = true;
+	}
+
+	else if (action == KeyState::RISING_EDGE && key == GLFW_MOUSE_BUTTON_LEFT) {
+		isLocked = false;
 	}
 }
 

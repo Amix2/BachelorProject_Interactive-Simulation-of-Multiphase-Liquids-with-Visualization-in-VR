@@ -1,7 +1,9 @@
 #include "Scene.h"
 
-Scene::Scene::Scene(glm::vec4 backgroundColor)
-	: backgroundColor{ backgroundColor } {}
+Scene::Scene::Scene(glm::vec4 backgroundColor, int numberOfLayers)
+	: backgroundColor{ backgroundColor } 
+	, numberOfLayers{ numberOfLayers }
+	, layers( numberOfLayers, std::vector<MaterialObject*>()) {}
 
 void Scene::Scene::addCameras(const CameraController* controller)
 {
@@ -10,9 +12,9 @@ void Scene::Scene::addCameras(const CameraController* controller)
 	}
 }
 
-void Scene::Scene::addMaterialObject(MaterialObject* materialObject)
+void Scene::Scene::addMaterialObject(MaterialObject* materialObject, unsigned int layer)
 {
-	objects.push_back(materialObject);
+	layers[layer].push_back(materialObject);
 	materialObject->init();
 }
 
@@ -28,8 +30,10 @@ void Scene::Scene::renderScene()
 
 	for (const Camera* camera : cameras) {
 		camera->select();
-		for (const MaterialObject* object : objects) {
-			object->load(camera->getViewMatrix(), camera->getProjectionMatrix());
+		for (const auto objects : layers) {
+			for (const MaterialObject* object : objects) {
+				object->load(camera->getViewMatrix(), camera->getProjectionMatrix());
+			}
 		}
 	}
 }

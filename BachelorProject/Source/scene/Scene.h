@@ -12,9 +12,9 @@ namespace Scene {
 	class Scene
 	{
 	public:
-		Scene(glm::vec4 backgroundColor);
+		Scene(glm::vec4 backgroundColor, int layers);
 		void addCameras(const CameraController* controller);
-		void addMaterialObject(MaterialObject* materialObject);
+		void addMaterialObject(MaterialObject* materialObject, unsigned int layer);
 		void renderScene();
 		glm::vec4 getBackgroundColor() { return backgroundColor; }
 
@@ -22,8 +22,9 @@ namespace Scene {
 	protected:
 	private:
 		glm::vec4 backgroundColor;
+		int numberOfLayers;
 
-		std::vector<MaterialObject*> objects;
+		std::vector<std::vector<MaterialObject*>> layers;
 	};
 }
 
