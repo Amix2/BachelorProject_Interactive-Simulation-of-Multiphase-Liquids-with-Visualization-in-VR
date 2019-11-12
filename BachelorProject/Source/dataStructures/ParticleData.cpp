@@ -230,7 +230,7 @@ void ParticleData::printParticleData(int limit)
 	
 	LOG_F(INFO, "Simulation particles print\tNum of particles in simulation: %d", m_NumOfParticles);
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < m_NumOfParticles && i < limit; i++) {
-		//if(data[i].type>0)
+		if(data[i].type>0)
 			LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, data[i].x, data[i].y, data[i].z, data[i].type);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -374,6 +374,7 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 			ss << "vel: " << array[3 * i + 0] << "," << array[3 * i + 1] << "," << array[3 * i + 2] << " | ";
 		}
 		if (acceleration) {
+			if (array[3 * siz + 3 * i + 1] != 0) fluid = true;
 			ss << "acc: " << array[3*siz + 3 * i + 0] << "," << array[3 * siz + 3 * i + 1] << "," << array[3 * siz + 3 * i + 2] << " | ";
 		}
 		if (surface) {

@@ -24,7 +24,7 @@ private:
 	int m_emitThisTurn	= 0;
 	int m_numOfParticles	= 0;
 	int m_fluidType = 0;
-	bool m_isActive		= true;
+	bool m_isActive		= false;
 	bool m_updateMatrix = true;
 	float m_rotationAngle	= 0;
 public:
@@ -39,6 +39,9 @@ public:
 	int changeSize(int rowsNumber);
 	int increaseSize(int addRows);
 	int decreaseSize(int revemeRows);
+	float increaseVelocity(int stepsUp=1);
+	float decreaseVelocity(int stepsDown=1);
+	float chengeVeloccity(float defVelocity);
 	void setActive(bool active) { m_isActive = active; }
 	void toggleActive() { m_isActive = !m_isActive; }
 	void setMatrixUpdate(bool update) { m_updateMatrix = update; }

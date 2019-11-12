@@ -29,7 +29,7 @@ const struct Configuration {
 	inline static const float GRAVITY_Y = -800;
 	inline static const float VELOCITY_FACTOR = 0.7f;
 	inline static const float BOUNCE_DISTANCE = 0.50f;
-	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 1.0f;
+	inline static const float BOUNCE_VELOCITY_MULTIPLIER = 0.5f;
 
 	inline static const float MAX_PARTICLE_SPEED = 1.0f;
 	inline static const float MAX_PARTICLE_STEP_DISTANCE = MAX_PARTICLE_SPEED;

@@ -16,7 +16,6 @@
 
 #define INSERT_VARIABLES_HERE
 
-
 layout(local_size_x = 270, local_size_y = 1, local_size_z = 1) in;
 
 //////////////////////////////////////////////////
@@ -67,13 +66,12 @@ layout(std430, binding = 7) buffer sortingHelpBuf
 
 layout(std430, binding = 8) buffer simVariablesBuf
 {
-	float simVariablesArray[];
-//	float fluidVelocity[3 * MAX_FLUID];
-//	float fluidAcceleration[3 * MAX_FLUID];
-//	float fluidSurfaceVector[3 * MAX_FLUID];
-//	float fluidSurfaceDistance[MAX_FLUID];
-//	float fluidDensityPressure[2*MAX_FLUID];
-//	float glassForceMultiplier[MAX_FLUID];
+	float fluidVelocity[3 * MAX_FLUID];
+	float fluidAcceleration[3 * MAX_FLUID];
+	float fluidSurfaceVector[3 * MAX_FLUID];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensityPressure[2*MAX_FLUID];
+	float glassForceMultiplier[MAX_FLUID];
 };
 
 shared float shFluidSurfaceDistance[270];
@@ -98,8 +96,6 @@ float KernelSecondDerivative(in float x) {
 	return 45 * (1 - x) / M_PI;         
 }
 
-
-
 #define GLASS_KERNEL_MULTIPLIER 1
 float GlassKernelDerivative(in float x) {  
 	if(x >= 1) return 0.0;
@@ -111,54 +107,6 @@ float GlassKernelSecondDerivative(in float x) {
 	return 45 * (1 - GLASS_KERNEL_MULTIPLIER*(x-(1-1/GLASS_KERNEL_MULTIPLIER))) / M_PI;         
 }
 
-/*
-layout(std430, binding = 8) buffer simVariablesBuf
-{
-	float fluidVelocity[3 * MAX_FLUID];
-	float fluidAcceleration[3 * MAX_FLUID];
-	float fluidSurfaceVector[3 * MAX_FLUID];
-	float fluidSurfaceDistance[MAX_FLUID];
-	float fluidDensityPressure[2*MAX_FLUID];
-	float glassForceMultiplier[MAX_FLUID];
-};
-*/
-void setVariablesArray(in int offset, in uint pID, float vX, float vY, float vZ) {
-	simVariablesArray[offset*MAX_FLUID + 3*pID + 0] = vX; 
-	simVariablesArray[offset*MAX_FLUID + 3*pID + 1] = vY; 
-	simVariablesArray[offset*MAX_FLUID + 3*pID + 2] = vZ;
-}
-void setVariablesArray(in int offset, in uint pID, float vX, float vY) {
-	simVariablesArray[offset*MAX_FLUID + 2*pID + 0] = vX; 
-	simVariablesArray[offset*MAX_FLUID + 2*pID + 1] = vY; 
-}
-void setVariablesArray(in int offset, in uint pID, float val) {
-	simVariablesArray[offset*MAX_FLUID + 2*pID] = val; 
-}
-void setVariablesArray(in int offset, in uint pID, vec3 vecVal) {
-	setVariablesArray(offset, pID, vecVal.x, vecVal.y, vecVal.z);
-}
-void setFluidVelocity(in uint pID, in vec3 vecVal) {setVariablesArray(0, pID, vecVal);}
-void setFluidAcceleration(in uint pID, in vec3 vecVal) {setVariablesArray(3, pID, vecVal);}
-void setFluidSurfaceVector(in uint pID, in vec3 vecVal) {setVariablesArray(6, pID, vecVal);}
-void setFluidSurfaceDistance(in uint pID, in float val) {setVariablesArray(9, pID, val);}
-void setFluidDensityPressure(in uint pID, in float dens, in float press) {setVariablesArray(10, pID, dens, press);}
-void setGlassForceMultiplier(in uint pID, in float val) {setVariablesArray(12, pID, val);}
-
-vec3 getVec3VariablesArray(in int offset, in uint pID) {
-	return vec3(simVariablesArray[offset*MAX_FLUID + 3*pID + 0], simVariablesArray[offset*MAX_FLUID + 3*pID + 1], simVariablesArray[offset*MAX_FLUID + 3*pID + 2]);
-}
-vec2 getVec2VariablesArray(in int offset, in uint pID) {
-	return vec2(simVariablesArray[offset*MAX_FLUID + 2*pID + 0], simVariablesArray[offset*MAX_FLUID + 2*pID + 1]);
-}
-float getFloatVariablesArray(in int offset, in uint pID) {
-	return simVariablesArray[offset*MAX_FLUID + pID];
-}
-vec3 getFluidVelocity(in uint pID) { return(getVec3VariablesArray(0, pID));}
-vec3 getFluidAcceleration(in uint pID) { return(getVec3VariablesArray(3, pID));}
-vec3 getFluidSurfaceVector(in uint pID) { return(getVec3VariablesArray(6, pID));}
-float getFluidSurfaceDistance(in uint pID) { return(getFloatVariablesArray(9, pID));}
-vec2 getFluidDensityPressure(in uint pID) { return(getVec2VariablesArray(10, pID));}
-float getGlassForceMultiplier(in uint pID) { return(getFloatVariablesArray(12, pID));}
 
 void main(void)
 {
@@ -184,11 +132,10 @@ void main(void)
 	float pMinGlassDistance = 99.0f;	// any number higher than Kernel Base
 
 	const FluidType myType = fluidTypeArray[myFluid.type];
-	const vec2 pDensityPressureVec = getFluidDensityPressure(myParticleIndex);
-	const float pDensity =	pDensityPressureVec.x;
-	const float pPressure = pDensityPressureVec.y;
-	const vec3 pVelocity = getFluidVelocity(myParticleIndex); 
-	const float pGlassMultiplier = 3*getGlassForceMultiplier(myParticleIndex)+1;
+	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
+	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
+	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
+	const float pGlassMultiplier = 2*glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -202,7 +149,7 @@ void main(void)
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
-			vec3 neiVelocity = getFluidVelocity(neiIter); 
+			vec3 neiVelocity = vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]); 
 
 			const float dist = distance(myFluidPosition, vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			if(dist >= 1 || dist == 0) {
@@ -212,7 +159,7 @@ void main(void)
 
 			const vec3 direction = normalize(myFluidPosition - vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
 			if(neiPartcie.type < 0) {	// glass
-				const vec3 pGlassSurfaceVector = getFluidSurfaceVector(myParticleIndex);
+				const vec3 pGlassSurfaceVector = vec3(fluidSurfaceVector[3*myParticleIndex+0], fluidSurfaceVector[3*myParticleIndex+1], fluidSurfaceVector[3*myParticleIndex+2]);
 	
 				const float cosAngle = dot(direction, pGlassSurfaceVector);
 				//if(dist < pMinGlassDistance) pMinGlassDistance = dist;
@@ -224,9 +171,8 @@ void main(void)
 
 
 			} else {	// if fluid;
-				const vec2 neiDensityPressure = getFluidDensityPressure(neiIter);
-				const float neiDensity = neiDensityPressure.x;
-				const float neiPressure = neiDensityPressure.y;
+				const float neiDensity = fluidDensityPressure[2*neiIter+0];
+				const float neiPressure = fluidDensityPressure[2*neiIter+1];
 
 				const float tPressSc = myType.mass * (pPressure/pow(pDensity, 2) + neiPressure/pow(neiDensity, 2)) * KernelDerivative(dist);
 				pPressureVec += direction * tPressSc;
@@ -262,9 +208,12 @@ void main(void)
 			outAccY += shFluidAcceleration[3*(27*myLocalGroupNumber+i) + 1];
 			outAccZ += shFluidAcceleration[3*(27*myLocalGroupNumber+i) + 2];
 		}
-		setFluidAcceleration(myParticleIndex, vec3(outAccX, outAccY, outAccZ));
 
-		setFluidSurfaceDistance(myParticleIndex, outSurfDist);
+		fluidAcceleration[3*myParticleIndex+0] = outAccX;
+		fluidAcceleration[3*myParticleIndex+1] = outAccY;
+		fluidAcceleration[3*myParticleIndex+2] = outAccZ;
+
+		fluidSurfaceDistance[myParticleIndex] = outSurfDist;
 	}
 
 }

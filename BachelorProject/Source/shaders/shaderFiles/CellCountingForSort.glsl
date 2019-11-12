@@ -121,8 +121,8 @@ void main(void)
 	if(myThreadNumber >= numOfParticles) {
 		// emiter
 		int indOffset = int(myThreadNumber) - int(numOfParticles);
-		Emiter emiter = emiterArray[0];
 		int emiterID = 0;
+		Emiter emiter = emiterArray[0];
 		while(emiterID < MAX_EMITERS && indOffset >= 0) {
 			if(indOffset - emiter.emitThisTurn*emiter.emitThisTurn >= 0) {
 				indOffset -= emiter.emitThisTurn*emiter.emitThisTurn;
@@ -136,23 +136,23 @@ void main(void)
 		
 		if(emiterID != MAX_EMITERS){
 
-			vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]);
+			const vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]);
 			const mat4 rotationMatrix = rotationMatrix(forward, emiter.rotationAngle);
 
-			vec4 right = rotationMatrix * vec4(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2], 0.0);
-			vec4 up = rotationMatrix * vec4(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2], 0.0);
-			vec3 position = vec3(emiter.matrix[3][0], emiter.matrix[3][1], emiter.matrix[3][2]);
+			const vec4 right = rotationMatrix * vec4(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2], 0.0);
+			const vec4 up = rotationMatrix * vec4(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2], 0.0);
+			const vec3 position = vec3(emiter.matrix[3][0], emiter.matrix[3][1], emiter.matrix[3][2]);
 
 
 
 			const int numOfParticlesInRow = emiter.emitThisTurn;
-			const int xId = int(indOffset % numOfParticlesInRow);
-			const int yId = int(indOffset / numOfParticlesInRow);
-			const int offset = int(numOfParticlesInRow/2);
-			const float xOffset = float(xId) - (numOfParticlesInRow-1) * 0.5;
-			const float yOffset = float(yId) - (numOfParticlesInRow-1) * 0.5;
 
-			const vec3 myEmitPosition = position + xOffset * EMITER_FLUID_PARTICLE_BUILD_GAP * right.xyz + yOffset * EMITER_FLUID_PARTICLE_BUILD_GAP * up.xyz;
+
+
+			const vec3 myEmitPosition = position 
+				+ (indOffset % numOfParticlesInRow - (numOfParticlesInRow-1) * 0.5) * EMITER_FLUID_PARTICLE_BUILD_GAP * right.xyz 
+				+ (indOffset / numOfParticlesInRow - (numOfParticlesInRow-1) * 0.5) * EMITER_FLUID_PARTICLE_BUILD_GAP * up.xyz;
+
 			if(length(position - myEmitPosition) <= emiter.emitThisTurn * EMITER_FLUID_PARTICLE_BUILD_GAP * 0.5) {
 				fluidPositions[myThreadNumber].x = myEmitPosition.x;
 				fluidPositions[myThreadNumber].y = myEmitPosition.y;

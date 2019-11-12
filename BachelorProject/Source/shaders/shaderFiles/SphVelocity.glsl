@@ -86,14 +86,12 @@ void main(void)
 
 	if(myFluid.type<0) return;
 
-	vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
+	const vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
 
 	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
-	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
-		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
-	}
 
-	const vec3 pSurfaceVec = normalize(vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2])); 
+
+	const vec3 pSurfaceVec = (vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2])); 
 	const float pSurfaceDistance = fluidSurfaceDistance[myThreadNumber];
 
 	//const vec3 pAcceleration = vec3(0,GRAVITY_Y,0);
@@ -102,19 +100,20 @@ void main(void)
 	pVelocity = (pVelocity + pAcceleration * DELTA_TIME);
 
 	vec3 pNewPosition = pPosition + pVelocity * DELTA_TIME;
-
-	float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, normalize(pVelocity)));
+	const vec3 pNormVelocity = normalize(pVelocity);
+	const float pLenVelocity = length(pVelocity);
+	const float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, pNormVelocity));
 	if(K > 0) {
-		if(K > 1.0) K = 1.0;
-		pNewPosition += pSurfaceVec * (K/2);
-		const float newVelLen = min(glassMaxVelocity[myThreadNumber], length(pVelocity));
-		pVelocity = normalize(pNewPosition - pPosition) * newVelLen;
-		//fluidPositions[myThreadNumber].type = 1000;
-	}
-	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
-		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
+		//if(K > 1.0) K = 1.0;
+		pNewPosition += pSurfaceVec * (K);
+		const float newVelLen = min(glassMaxVelocity[myThreadNumber], pLenVelocity);
+		pVelocity = (pNewPosition - pPosition) * newVelLen;
+		//fluidPositions[myThreadNumber].type +=2;
 	}
 
+	if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
 
 
 //	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE

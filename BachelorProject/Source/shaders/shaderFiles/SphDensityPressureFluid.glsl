@@ -154,12 +154,13 @@ void main(void)
 		// for every neighbour in 1 cell starting from first until their cell index change
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
-			neiIter++;
 			const float dist = distance(myFluidPosition, vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
-			if(dist >= 1) continue;
+			if(dist >= 1) {
+				neiIter++;
+				continue;
+			}
 
 			pDensity += fluidTypeArray[myFluid.type].mass * Kernel(dist);
-			numOFNeighbours++;
 			if(neiPartcie.type < 0 && dist > 0) {	// if GLASS
 
 				const GlassParticle neiGlassParticle = glassParticles[ -(neiPartcie.type+1) ];	// -1 ==> 0 | -2 ==> 1
@@ -174,8 +175,10 @@ void main(void)
 				const float glassVelocityLen = length(vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]));
 				if(glassVelocityLen > maxGlassVelocity) maxGlassVelocity = glassVelocityLen;
 			} else if(neiPartcie.type > 0) {	// if fluid not glass
+				numOFNeighbours++;
 				distanceToFluid += 1+ Kernel(dist);
 			}
+			neiIter++;
 
 		}
 	}

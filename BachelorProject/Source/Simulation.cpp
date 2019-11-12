@@ -31,9 +31,6 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntSynchronizeWithGpuTime);
 
-	ParticleData::syncSimDetailsWithGpu();
-
-	TEST_TIME(_ntSyncDetailsTime);
 
 	const int numOfFluid = ParticleData::m_NumOfParticles + emitedThisTurn;
 	const int numOfFluidDiv256 = (int)ceil(numOfFluid / 256.0f);
@@ -79,6 +76,10 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntArrangeVarsTime);
 
+	ParticleData::syncSimDetailsWithGpu();
+
+	TEST_TIME(_ntSyncDetailsTime);
+
 	m_SphNeighbourSearch.runShader(numOfFluidMul27Div256, 1, 1, false);
 
 
@@ -118,7 +119,7 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 
 void Simulation::setupSimObjects()
 {
-	ParticleObjectDetais details{ 1, 10.1,4.5,10.1, 10.2, 14.8, 10.2};
+	ParticleObjectDetais details{ 1, 10.0,5.5,10.0, 10.2, 5.8, 10.2};
 	ParticleObjectDetais details2{ -1, 10,4,10, 2, 0, 0 };
 
 	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
@@ -187,7 +188,7 @@ void Simulation::main()
 
 		timeEnd = glfwGetTime();
 
-		const int sleepTime = (1.0 / 30 - (timeEnd - timeStart)) * 1000;
+		const int sleepTime = (1.0 / Configuration.TARGET_SIM_FPS - (timeEnd - timeStart)) * 1000;
 		if(sleepTime > 0)
 			Sleep(sleepTime);
 

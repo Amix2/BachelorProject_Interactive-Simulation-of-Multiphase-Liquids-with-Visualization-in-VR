@@ -15,7 +15,9 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_0,	// togle emiter
 		GLFW_KEY_P,	// togle emiter matrix update
 		GLFW_KEY_EQUAL,	// increase emiter size
-		GLFW_KEY_MINUS	// decrease emiter size
+		GLFW_KEY_MINUS,	// decrease emiter size
+		GLFW_KEY_O,	// emiter velocity ++
+		GLFW_KEY_L	// emiter velocity --
 	});
 
 	emiter = EmiterManager::createEmiter(this, 2, 1000.0f, 2);
@@ -85,6 +87,12 @@ void SimpleCameraController::handleKeyPress(int key, KeyState action, float delt
 			break;
 		case GLFW_KEY_MINUS:
 			emiter->decreaseSize(1);
+			break;
+		case GLFW_KEY_O:
+			emiter->increaseVelocity();
+			break;
+		case GLFW_KEY_L:
+			emiter->decreaseVelocity();
 			break;
 		default:
 			break;
