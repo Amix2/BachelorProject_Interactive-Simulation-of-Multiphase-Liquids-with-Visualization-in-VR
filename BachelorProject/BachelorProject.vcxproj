@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
+    <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
     <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
@@ -68,6 +70,9 @@
   <ItemGroup>
     <ClInclude Include="Source\simulationObjects\EmiterManager.h" />
     <ClInclude Include="Source\simulationObjects\EmiterProvider.h" />
+    <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\simulationObjects\Emiter.h" />
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
     <ClInclude Include="Source\inputDispatcher\KeyState.h" />
@@ -123,6 +128,8 @@
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
     <None Include="Source\shaders\glass\glass.vert" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.frag" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.vert" />
     <None Include="Source\shaders\normalVectors\normalVectors.frag" />
     <None Include="Source\shaders\normalVectors\normalVectors.geom" />
     <None Include="Source\shaders\normalVectors\normalVectors.vert" />

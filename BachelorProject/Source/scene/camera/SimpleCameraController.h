@@ -28,5 +28,7 @@ private:
 	inline static const double MOUSE_SENSITIVITY = 0.1;
 	inline static const float VELOCITY = 200.0f;
 
+	bool isLocked = false;
+
 	Scene::Camera camera;
 };

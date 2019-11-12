@@ -3,7 +3,7 @@
 
 out vec4 FragColor;
   
-in vec2 texCoord;
+in vec2 UV;
 flat in int type;
 
 struct FluidType {
@@ -24,7 +24,7 @@ uniform sampler2D ourTexture;
 uniform vec4 background;
 
 float near = 0.1; 
-float far  = 1000.0; 
+float far  = 200.0; 
   
 float LinearizeDepth(float depth) 
 {
@@ -38,8 +38,10 @@ float avg(float a, float b) {
 
 void main()
 {
+	if(type <= 0)
+		discard;
 	float depth = LinearizeDepth(gl_FragCoord.z) / far;
-	vec4 texturedPixel = texture(ourTexture, texCoord);
+	vec4 texturedPixel = texture(ourTexture, UV);
 	const FluidType fluidType = fluidTypeArray[type];
 	texturedPixel.x = avg(fluidType.color.x, texturedPixel.x);
 	texturedPixel.y = avg(fluidType.color.y, texturedPixel.y);
