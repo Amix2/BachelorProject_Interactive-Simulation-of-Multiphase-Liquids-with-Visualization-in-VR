@@ -46,7 +46,6 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\simulationObjects\EmiterManager.cpp" />
-    <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
     <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -104,7 +103,6 @@
     <ClInclude Include="Source\simulationObjects\EmiterManager.h" />
     <ClInclude Include="Source\simulationObjects\EmiterProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
-    <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
     <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
   </ItemGroup>
   <ItemGroup>

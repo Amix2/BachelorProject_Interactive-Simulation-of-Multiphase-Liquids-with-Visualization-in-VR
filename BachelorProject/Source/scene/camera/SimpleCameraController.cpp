@@ -12,7 +12,7 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_D,
 		GLFW_KEY_Q,
 		GLFW_KEY_E,
-		GLFW_MOUSE_BUTTON_LEFT
+		GLFW_MOUSE_BUTTON_LEFT,
 		GLFW_KEY_0,	// togle emiter
 		GLFW_KEY_P,	// togle emiter matrix update
 		GLFW_KEY_EQUAL,	// increase emiter size
@@ -100,6 +100,7 @@ void SimpleCameraController::handleKeyPress(int key, KeyState action, float delt
 		default:
 			break;
 		}
+	}
 		
 	if (action == KeyState::FALLING_EDGE && key == GLFW_MOUSE_BUTTON_LEFT) {
 		isLocked = true;
