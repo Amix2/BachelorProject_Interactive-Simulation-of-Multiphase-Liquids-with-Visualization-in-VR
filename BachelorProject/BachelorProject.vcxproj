@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\input\VRPositionProvider.cpp" />
     <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
@@ -66,6 +67,8 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
+    <ClInclude Include="Source\input\VRPositionProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\simulationObjects\Emiter.h" />

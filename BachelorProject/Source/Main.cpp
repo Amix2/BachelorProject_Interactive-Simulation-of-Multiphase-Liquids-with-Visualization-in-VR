@@ -137,6 +137,7 @@ int main(int argc, char ** argv) {
 	{
 		if (HmdConnected) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
+			// vrglinterop.provide
 		}
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();

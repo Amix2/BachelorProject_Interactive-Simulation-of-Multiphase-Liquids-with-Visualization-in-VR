@@ -40,6 +40,14 @@ void InputDispatcher::handleMouseScroll(float scroll)
 		listener->handleMouseScroll(scroll);
 }
 
+void InputDispatcher::handleControllerInput(const vr::EVREventType eventType, const vr::EVRButtonId buttonId)
+{
+	for (auto listener : this->controllerInputListeners)
+	{
+		listener->handleControllerInput(eventType, buttonId);
+	}
+}
+
 void InputDispatcher::dispatchInput(float deltaTime)
 {
 	for (int button : pressedKeys) {
@@ -62,4 +70,9 @@ void InputDispatcher::subscribeForKeyInput(KeyInputListener* listener, const int
 		keysToListeners[key] = new std::unordered_set<KeyInputListener*>{ listener };
 	else
 		keysToListeners[key]->insert(listener);
+}
+
+void InputDispatcher::subscribeForControllerInput(const ControllerInputListener *listener, const vr::EVREventType eventType, const vr::EVRButtonId buttonId)
+{
+	//
 }

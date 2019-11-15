@@ -46,6 +46,7 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
+    <ClCompile Include="Source\input\VRPositionProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -101,6 +102,8 @@
     <ClInclude Include="Source\simulationObjects\Emiter.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
+    <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
+    <ClInclude Include="Source\input\VRPositionProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

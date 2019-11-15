@@ -64,6 +64,7 @@ bool Window::refresh()
 	lastFrame = currentFrame;
 
 	glfwPollEvents();
+	// vrPollEvents();
 	inputDispatcher->dispatchInput(deltaTime);
 
 	return glfwWindowShouldClose(glfwWindow);
@@ -157,4 +158,9 @@ void Window::handleKeyPressed(int key, int action)
 		glfwSetWindowShouldClose(glfwWindow, true);
 	else if(action != GLFW_REPEAT)
 		inputDispatcher->handleButtonAction(key, action, deltaTime);
+}
+
+void Window::handleControllerButtonPressed(const vr::EVREventType eventType, const vr::EVRButtonId buttonId)
+{
+	inputDispatcher->handleControllerInput(eventType, buttonId);
 }

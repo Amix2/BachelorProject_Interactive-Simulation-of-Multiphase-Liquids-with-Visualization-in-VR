@@ -7,6 +7,7 @@
 #include <VR/VRInput.h>
 #include <VR/VRCore.h>
 #include <scene/camera/VRCameraController.h>
+#include <input\VRPositionProvider.h>
 
 namespace VR {
 	class VRGLInterop {
@@ -14,9 +15,10 @@ namespace VR {
 		VRGLInterop(const VRGLInterop& vrglinterop) = default;
 		VRGLInterop() = default;
 		VRGLInterop& operator=(const VRGLInterop&) = default;
-		std::shared_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
-		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
-		std::shared_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
+		std::shared_ptr<VR::VRCore> VrCore = std::make_shared<VR::VRCore>();
+		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_shared<VR::VRGeometry>();
+		std::shared_ptr<VR::VRInput> VrInput = std::make_shared<VR::VRInput>();
+		std::shared_ptr<VRPositionProvider> provider = std::make_shared<VRPositionProvider>();
 
 		bool VRactive;
 

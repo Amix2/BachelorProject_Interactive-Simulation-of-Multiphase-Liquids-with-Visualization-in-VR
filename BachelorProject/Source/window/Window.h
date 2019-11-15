@@ -4,6 +4,7 @@
 
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
+#include <OpenVR/openvr.h>
 
 #include <string>
 #include <iostream>
@@ -64,7 +65,7 @@ private:
 	void handleMouseScroll(double xoffset, double yoffset);
 	void handleMouseButtonPressed(int button, int action);
 	void handleKeyPressed(int key, int action);
-	//void handleControllerButtonPressed(int button,)
+	void handleControllerButtonPressed(const vr::EVREventType eventType, const vr::EVRButtonId buttonId);
 };
 
 #endif // !WINDOW_H
