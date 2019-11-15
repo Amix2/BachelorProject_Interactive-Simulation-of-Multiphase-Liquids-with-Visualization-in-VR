@@ -83,9 +83,11 @@ void SimpleCameraController::handleKeyPress(int key, KeyState action, float delt
 		switch (key) {
 		case GLFW_KEY_0:
 			emiter->toggleActive();
+			emiter->updateMatrix(this->getEmiterMatrix());
 			break;
 		case GLFW_KEY_P:
 			emiter->togleMatrixUpdate();
+			emiter->updateMatrix(this->getEmiterMatrix());
 			break;
 		case GLFW_KEY_EQUAL:
 			emiter->increaseSize(1);
