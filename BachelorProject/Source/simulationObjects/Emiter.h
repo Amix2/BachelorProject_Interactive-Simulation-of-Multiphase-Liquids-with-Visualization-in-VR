@@ -11,7 +11,7 @@ struct GPUEmiter {
 	float velocity;
 	int emitThisTurn;
 	int fluidType;
-	float rotationAngle;
+	float _padding;
 };
 
 class Emiter

@@ -21,7 +21,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 	m_matrix = glm::translate(glm::mat4(1.0f), objectCenter);
 	// glm::translate(m_matrix, objectCenter);//
 	m_destinationMatrix = m_matrix;
-	m_destinationMatrix =glm::translate(m_matrix, glm::vec3(0,100,0));
+	//m_destinationMatrix =glm::translate(m_matrix, glm::vec3(0,100,0));
 
 	m_center = objectCenter;
 	m_innerRadius = innerRadius;
@@ -292,7 +292,5 @@ void MugParticleObject::stepTowardsDestination()
 	else {
 		previousTurnPositionChange += 0;
 	}
-	LOG_F(WARNING, "%f", previousTurnPositionChange);
-
 
 }
