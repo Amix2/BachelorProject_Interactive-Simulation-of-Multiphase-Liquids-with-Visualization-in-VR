@@ -9,18 +9,6 @@ Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType)
 	//m_Matrix = glm::mat4();
 }
 
-glm::mat4 rotationMatrix(glm::vec3 axis, float angle)
-{
-	const float s = sin(angle);
-	const float c = cos(angle);
-	const float oc = 1.0 - c;
-
-	return glm::mat4(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0,
-		oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0,
-		oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0,
-		0.0, 0.0, 0.0, 1.0);
-}
-
 int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 {
 	if (!m_isActive) {
@@ -29,22 +17,21 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 		return 0;
 	}
 
-	m_rotationAngle += 0.1;
-	if (m_updateMatrix) {
-		//m_Matrix = m_provider->getEmiterMatrix();
-	}
 
-	data->matrix = m_Matrix * glm::rotate(glm::mat4{ 1 }, m_rotationAngle, glm::vec3(0,0,1));
-	data->velocity = m_Velocity;
-	data->fluidType = m_fluidType;
 	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
+		m_rotationAngle += 0.1;
+		data->matrix = m_Matrix * glm::rotate(glm::mat4{ 1 }, m_rotationAngle, glm::vec3(0,0,1));
+		data->velocity = m_Velocity;
+		data->fluidType = m_fluidType;
 		m_emitThisTurn = m_numOfParticles;
+		data->emitThisTurn = m_emitThisTurn;
+		return m_emitThisTurn * m_emitThisTurn;
 	}
 	else {
 		m_emitThisTurn = 0;
+		data->emitThisTurn = 0;
+		return 0;
 	}
-	data->emitThisTurn = m_emitThisTurn;
-	return m_emitThisTurn * m_emitThisTurn;
 }
 
 std::string Emiter::toString()
