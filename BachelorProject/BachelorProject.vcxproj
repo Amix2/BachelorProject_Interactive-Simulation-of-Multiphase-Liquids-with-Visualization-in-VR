@@ -19,12 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
+    <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
     <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
     <ClCompile Include="Source\glassController\GlassController.cpp" />
     <ClCompile Include="Source\materialObjects\GlassObject.cpp" />
     <ClCompile Include="Source\materialObjects\PyramidPointerMaterialObject.cpp" />
-    <ClCompile Include="Source\scene\camera\CameraController.cpp" />
     <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
     <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
     <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="Source\scene\camera\VRCamera.cpp" />
     <ClCompile Include="Source\scene\camera\VRCameraController.cpp" />
     <ClCompile Include="Source\scene\Scene.cpp" />
+    <ClCompile Include="Source\simulationObjects\EmiterManager.cpp" />
     <ClCompile Include="Source\ThreadSynchronizer.cpp" />
     <ClCompile Include="Source\window\ViewPort.cpp" />
     <ClCompile Include="Source\window\Window.cpp" />
@@ -65,6 +67,11 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\simulationObjects\EmiterManager.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterProvider.h" />
+    <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
+    <ClInclude Include="Source\simulationObjects\Emiter.h" />
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
     <ClInclude Include="Source\inputDispatcher\KeyState.h" />
     <ClInclude Include="Source\inputDispatcher\listener\KeyInputListener.h" />
@@ -119,6 +126,8 @@
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
     <None Include="Source\shaders\glass\glass.vert" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.frag" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.vert" />
     <None Include="Source\shaders\normalVectors\normalVectors.frag" />
     <None Include="Source\shaders\normalVectors\normalVectors.geom" />
     <None Include="Source\shaders\normalVectors\normalVectors.vert" />

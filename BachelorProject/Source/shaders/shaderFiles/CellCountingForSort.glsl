@@ -8,7 +8,8 @@
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
-
+#define EMITER_FLUID_PARTICLE_BUILD_GAP 10.0f
+#define MAX_EMITERS 5
 
 #define INSERT_VARIABLES_HERE
 
@@ -18,6 +19,7 @@ layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
 
 //////////////////////////////////////////////////
 //	STORAGE
+
 
 struct FluidParticle {
 	float x, y, z;
@@ -35,14 +37,22 @@ struct GlassObjectDetails {
 	mat4 matrix;
 };
 
+struct Emiter {
+	mat4 matrix;
+	float velocity;
+	int emitThisTurn;
+	int fluidType;
+	float _padding;
+};
+
 layout(std430, binding = 1) buffer positionsBuf
 {
-	FluidParticle fluidPositions[MAX_FLUID];
+	FluidParticle fluidPositions[];
 };
 
 layout(std430, binding = 2) buffer glassPartBuf
 {
-	GlassParticle glassParticles[MAX_GLASS];
+	GlassParticle glassParticles[];
 };
 
 layout(std140, binding = 3) uniform glassObjectsBuf
@@ -58,15 +68,13 @@ layout(std430, binding = 4) buffer detailsBuf
 
 layout(std430, binding = 6) buffer neighboursBuf
 {
-	int neighboursBeginInd[27*MAX_FLUID];	// array index of neighbours of set particle
+	int neighboursBeginInd[];	// array index of neighbours of set particle
 };
 
 layout(std430, binding = 7) buffer sortingHelpBuf
 {
 	uint sortIndexArray[SORT_ARRAY_SIZE];	// cell number in sorter order
 	uint originalIndex[SORT_ARRAY_SIZE];
-	FluidParticle	CPY_Positions[MAX_FLUID];
-	float	CPY_Velocity[3 * MAX_FLUID];
 };
 
 layout(std430, binding = 8) buffer simVariablesBuf
@@ -78,26 +86,79 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidDensityPressure[2*MAX_FLUID];
 };
 
+layout(std140, binding = 10) uniform emitersBuf
+{
+	Emiter emiterArray[MAX_EMITERS];
+};
+
 
 // section in array to know what particles should be calculated by this thread, ...Last -> 1 after last that should be calculated
 
 //////////////////////////////////////////////////
 //	FUNCTIONS
 
-	void findMyArraySections(out uint myFluidFirst, out uint myFluidLast, out uint mySortFirst);
-
 	uint getCellIndex(in float pX, in float pY, in float pZ);
 
 //////////////////////////////////////////////////
 //	CODE
 
-
 void main(void)
 {
 	const uint myThreadNumber = gl_WorkGroupID.x * gl_WorkGroupSize.x + gl_LocalInvocationIndex;
+
 	//if(myThreadNumber >= numOfParticles) return;
+	if(myThreadNumber >= numOfParticles) {
+		// emiter
+		int indOffset = int(myThreadNumber) - int(numOfParticles);
+		int emiterID = 0;
+		Emiter emiter = emiterArray[0];
+		while(emiterID < MAX_EMITERS && indOffset >= 0) {
+			if(indOffset - emiter.emitThisTurn*emiter.emitThisTurn >= 0) {
+				indOffset -= emiter.emitThisTurn*emiter.emitThisTurn;
+				emiterID ++;
+				emiter = emiterArray[emiterID];
+		
+			} else {
+				break;
+			}
+		}
+		
+		if(emiterID != MAX_EMITERS){
+
+			const vec3 forward = vec3(emiter.matrix[2][0], emiter.matrix[2][1], emiter.matrix[2][2]);
+
+			const vec4 right = vec4(emiter.matrix[0][0], emiter.matrix[0][1], emiter.matrix[0][2], 0.0);
+			const vec4 up = vec4(emiter.matrix[1][0], emiter.matrix[1][1], emiter.matrix[1][2], 0.0);
+			const vec3 position = vec3(emiter.matrix[3][0], emiter.matrix[3][1], emiter.matrix[3][2]);
+
+
+
+			const int numOfParticlesInRow = emiter.emitThisTurn;
+
+
+
+			const vec3 myEmitPosition = position 
+				+ (indOffset % numOfParticlesInRow - (numOfParticlesInRow-1) * 0.5) * EMITER_FLUID_PARTICLE_BUILD_GAP * right.xyz 
+				+ (indOffset / numOfParticlesInRow - (numOfParticlesInRow-1) * 0.5) * EMITER_FLUID_PARTICLE_BUILD_GAP * up.xyz;
+
+			if(length(position - myEmitPosition) <= emiter.emitThisTurn * EMITER_FLUID_PARTICLE_BUILD_GAP * 0.5) {
+				fluidPositions[myThreadNumber].x = myEmitPosition.x;
+				fluidPositions[myThreadNumber].y = myEmitPosition.y;
+				fluidPositions[myThreadNumber].z = myEmitPosition.z;
+				fluidPositions[myThreadNumber].type = emiter.fluidType;
+
+				fluidVelocity[3*myThreadNumber+0] = forward.x * emiter.velocity;
+				fluidVelocity[3*myThreadNumber+1] = forward.y * emiter.velocity;
+				fluidVelocity[3*myThreadNumber+2] = forward.z * emiter.velocity;
+			}
+
+		}
+
+	}
 	FluidParticle myParticle = fluidPositions[myThreadNumber];
 	const int myType = myParticle.type;
+
+
 	if(myType < 0) {
 		// its a glass particle
 		//const int myGlassParticleIndex = int((-1)*(myType+1));	// -1 ==> 0 | -2 ==> 1

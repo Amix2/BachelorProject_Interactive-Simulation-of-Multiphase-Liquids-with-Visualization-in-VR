@@ -19,7 +19,10 @@ public:
 
 	const std::vector<const Scene::Camera*> provideCameras() const override;
 
+
 private:
+	inline static const float MULTIPLYER = 100.f;
+
 	float eyesDistance;
 	glm::vec3 headUp;
 	glm::vec3 position;

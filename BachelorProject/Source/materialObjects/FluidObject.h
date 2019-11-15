@@ -23,7 +23,16 @@ private:
 	inline static const float INITIAL_PARTICLES_SIZE = 0.3;
 
 	unsigned int VAO;
+	unsigned int instanceVBO;
 	unsigned int textureID;
 	float particleSize;
+
+	unsigned int quadVBO;
+	float quadVertices[4 * 4]{
+		-1.0f, -1.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 1.0f
+	};
 };
 

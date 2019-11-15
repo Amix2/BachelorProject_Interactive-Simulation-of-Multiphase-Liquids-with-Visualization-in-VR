@@ -20,8 +20,8 @@ namespace VR {
 
 		bool VRactive;
 
-		const unsigned int SCR_WIDTH = 1600;
-		const unsigned int SCR_HEIGHT = 900;
+		const unsigned int SCR_WIDTH = 1920;
+		const unsigned int SCR_HEIGHT = 1080;
 		GLuint m_nResolveFramebufferIdLeft;
 		GLuint m_nResolveTextureIdLeft;
 

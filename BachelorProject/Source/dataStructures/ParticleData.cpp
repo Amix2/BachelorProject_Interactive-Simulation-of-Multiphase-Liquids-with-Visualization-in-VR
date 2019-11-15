@@ -34,6 +34,9 @@ void ParticleData::initArraysOnGPU()
 	// SSBO for neighbour look up table
 	GpuResources::createSSBO(BufferDetails.HelperBufferName, (GLsizeiptr)Configuration.SCENE_SIZE_X * Configuration.SCENE_SIZE_Y * Configuration.SCENE_SIZE_Z * sizeof(GLint), NULL, BufferDetails.HelperBufferBinding);
 
+	Emiter emitersArray[Configuration.MAX_EMITERS];
+	GpuResources::createUBO(BufferDetails.EmiterBufferName, Configuration.MAX_EMITERS * sizeof(Emiter), emitersArray, BufferDetails.EmiterBufferBinding);
+
 	checkOpenGLErrors();
 
 }
@@ -48,7 +51,6 @@ Particle* ParticleData::openParticlePositions__MAP__()
 	);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resParticlesArray__MAP__;
 }
 
@@ -61,7 +63,6 @@ GlassParticle* ParticleData::openGlassParticles__MAP__()
 	);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resGlassParticleArray__MAP__;
 }
 
@@ -72,7 +73,6 @@ GlassObjectDetails* ParticleData::openGlassObjects()
 	m_resGlassObjectsArray__MAP__ = (GlassObjectDetails*)GpuResources::openUBO__MAP__(BufferDetails.glassObjectsDetailsName);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resGlassObjectsArray__MAP__;
 }
 
@@ -82,8 +82,15 @@ SimDetails* ParticleData::openDetails()
 	m_resDetails__MAP__ = (SimDetails*)GpuResources::openSSBO__MAP__(BufferDetails.detailsName);
 
 	m_OpenedResources++;
-	ParticleData::m_ResourceCondVariable.notify_all();
 	return m_resDetails__MAP__;
+}
+
+void ParticleData::openEmiters()
+{
+	//LOG_F(INFO, "OPEN details struct");
+	m_resEmiters__MAP__ = (GPUEmiter*)GpuResources::openSSBO__MAP__(BufferDetails.EmiterBufferName);
+
+	m_OpenedResources++;
 }
 
 void ParticleData::commitParticlePositions__MAP__(int numOfAddedParticles)
@@ -94,7 +101,6 @@ void ParticleData::commitParticlePositions__MAP__(int numOfAddedParticles)
 	m_NumOfParticles += numOfAddedParticles;
 	m_resParticlesArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 
 	m_ParticleBufferOpen = false;
 }
@@ -107,7 +113,6 @@ void ParticleData::commitGlassParticles__MAP__(int numOfAddedGlassParticles)
 	m_NumOfGlassParticles += numOfAddedGlassParticles;
 	m_resGlassParticleArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
@@ -118,7 +123,6 @@ void ParticleData::commitGlassObjects(int numOfAddedGlassObjects)
 	m_numOfObjectsInArray += numOfAddedGlassObjects;
 	m_resGlassObjectsArray__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
 }
 
 void ParticleData::commitDetails()
@@ -129,7 +133,16 @@ void ParticleData::commitDetails()
 
 	m_resDetails__MAP__ = nullptr;
 	m_OpenedResources--;
-	ParticleData::m_ResourceCondVariable.notify_all();
+}
+
+void ParticleData::commitEmiters()
+{
+	//LOG_F(INFO, "COMMIT details");
+
+	GpuResources::commitSSBO__MAP__(BufferDetails.EmiterBufferName);
+
+	m_resEmiters__MAP__ = nullptr;
+	m_OpenedResources--;
 }
 
 
@@ -149,8 +162,8 @@ void ParticleData::sendGlassParticles(int numOfAddedGlassParticles)
 
 void ParticleData::sendGlassObjects(int numOfAddedGlassObjects)
 {
-	GpuResources::updateBuffer(BufferDetails.glassObjectsDetailsName, 0, m_numOfObjectsInArray * sizeof(GlassObjectDetails), m_resGlassObjectsArray.get());
 	m_numOfObjectsInArray += numOfAddedGlassObjects;
+	GpuResources::updateBuffer(BufferDetails.glassObjectsDetailsName, 0, m_numOfObjectsInArray * sizeof(GlassObjectDetails), m_resGlassObjectsArray.get());
 }
 
 void ParticleData::sendDetails()
@@ -159,12 +172,13 @@ void ParticleData::sendDetails()
 	GpuResources::updateBuffer(BufferDetails.detailsName, 0, sizeof(SimDetails), m_resDetails.get());
 }
 
-void ParticleData::syncSimDetailsWithGpu()
+void ParticleData::syncSimDetailsWithGpu(int addParticles)
 {
 	//m_resDetails = std::move(ParticleData::getDetails());
 	//m_NumOfGlassParticles = m_resDetails->numOfGlassParticles;
 	//m_NumOfParticles = m_resDetails->numOfParticles;
 	ParticleData::openDetails();
+	ParticleData::m_resDetails__MAP__->numOfParticles += addParticles;
 	const SimDetails gpuDetails = *ParticleData::m_resDetails__MAP__;
 	ParticleData::m_NumOfParticles = gpuDetails.numOfParticles;
 	ParticleData::m_NumOfGlassParticles = gpuDetails.numOfGlassParticles;
@@ -216,7 +230,8 @@ void ParticleData::printParticleData(int limit)
 	
 	LOG_F(INFO, "Simulation particles print\tNum of particles in simulation: %d", m_NumOfParticles);
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < m_NumOfParticles && i < limit; i++) {
-		LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, data[i].x, data[i].y, data[i].z, data[i].type);
+		if(data[i].type>0)
+			LOG_F(INFO, "%d:\t( %.4f  %.4f  %.4f ) [%d]", i, data[i].x, data[i].y, data[i].z, data[i].type);
 	}
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
@@ -352,11 +367,14 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 	}
 	const int siz = Configuration.MAX_PARTICLES;
 	for (int i = 0; i < Configuration.MAX_PARTICLES && i < limit && i<ParticleData::m_NumOfParticles; i++) {
+	//for (int i = 69998; i < 69998 +1 && i < limit && i < ParticleData::m_NumOfParticles; i++) {
 		std::stringstream ss;
+		bool fluid = false;
 		if (velocity) {
 			ss << "vel: " << array[3 * i + 0] << "," << array[3 * i + 1] << "," << array[3 * i + 2] << " | ";
 		}
 		if (acceleration) {
+			if (array[3 * siz + 3 * i + 1] != 0) fluid = true;
 			ss << "acc: " << array[3*siz + 3 * i + 0] << "," << array[3 * siz + 3 * i + 1] << "," << array[3 * siz + 3 * i + 2] << " | ";
 		}
 		if (surface) {
@@ -364,11 +382,13 @@ void ParticleData::printSPHData(bool velocity, bool acceleration, bool surface, 
 		}
 		if (density) {
 			ss << "dens: " << array[10 * siz +2*i ] << " | ";
+			if (array[10 * siz + 2 * i] != 0) fluid = true;
 		}
 		if (pressure) {
 			ss << "press: " << array[10 * siz + 2*i+1] << " | ";
+			if (array[10 * siz + 2 * i + 1] != 0) fluid = true;
 		}
-		LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
+		if(fluid) LOG_F(INFO, "\t %d: %s", i, ss.str().c_str());
 	}
 
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");

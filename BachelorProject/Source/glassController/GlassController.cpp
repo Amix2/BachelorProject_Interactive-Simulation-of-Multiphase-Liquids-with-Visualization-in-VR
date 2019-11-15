@@ -6,13 +6,16 @@ GlassController::GlassController(InputDispatcher& inputDispatcher, const Scene::
 	, selectedProgram{ selectedProgram }
 {
 	inputDispatcher.subscribeForKeyInput(this, std::vector<int>{
+		GLFW_KEY_3,
+		GLFW_KEY_4,
 		GLFW_KEY_5,
 		GLFW_KEY_6,
 		GLFW_KEY_7,
 		GLFW_KEY_8,
-		GLFW_KEY_3,
 		GLFW_MOUSE_BUTTON_LEFT,
 	});
+
+	inputDispatcher.subscribeForMousePositionChanges(this);
 }
 
 void GlassController::assignUntrackedObjects(Scene::Scene& scene)
@@ -21,7 +24,7 @@ void GlassController::assignUntrackedObjects(Scene::Scene& scene)
 		for (int i = trackedObjects; i < ParticleObjectManager::m_numOfObjects; i++) {
 			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, *ParticleObjectManager::m_partObjectsVector[i] };
 			glassObjects.push_back(object);
-			scene.addMaterialObject(object);
+			scene.addMaterialObject(object, 0);
 			trackedObjects++;
 		}
 }
@@ -32,38 +35,64 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 		switch (key) {
 		case GLFW_MOUSE_BUTTON_LEFT:
 			selectGlass();
+			moveAccumulator = 0.0f;
+			destinationValid = false;
 			break;
 		case GLFW_KEY_3:
 			for (GlassObject* glassObject : glassObjects)
 				glassObject->toggleRender();
 			break;
-		default:
+		case GLFW_KEY_4:
+			mode = MOVE;
 			break;
-		}
-	}
-	else if (action == PRESSED) {
-		switch (key)
-		{
 		case GLFW_KEY_5:
-			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, deltaTime * VELOCITY);
+			mode = ROTATE;
 			break;
 		case GLFW_KEY_6:
-			if (currentlySelected != -1)
-				ParticleObjectManager::moveObject(currentlySelected, -deltaTime * VELOCITY);
+			selectedAxis = glm::vec3{ 1.0f, 0.0f, 0.0f };
 			break;
 		case GLFW_KEY_7:
-			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+			selectedAxis = glm::vec3{ 0.0f, 1.0f, 0.0f };
 			break;
 		case GLFW_KEY_8:
-			if (currentlySelected != -1)
-				ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, -deltaTime * VELOCITY * 0.05f, glm::vec3(1, 0, 0));
+			selectedAxis = glm::vec3{ 0.0f, 0.0f, 1.0f };
+			break;
+		default:
+			break; 
+		}
+	}
+	else if (action == RISING_EDGE) {
+		switch (key)
+		{
+		case GLFW_MOUSE_BUTTON_LEFT:
+			submitMove();
+			destinationValid = true;
 			break;
 		default:
 			break;
 		}
+
 	}
+}
+
+void GlassController::handleMouseMove(float x, float y)
+{
+	if(!destinationValid)
+		moveAccumulator -= SENSITIVITY * x;
+}
+
+const glm::mat4* GlassController::getCurrentlySelectedModelMatrix() const
+{
+	if (currentlySelected != -1)
+		return &ParticleObjectManager::m_partObjectsVector[currentlySelected].get()->m_matrix;
+	return nullptr;
+}
+
+const glm::mat4* GlassController::getCurrentlySelectedDestinationMatrix() const
+{
+	if (currentlySelected != -1)
+		return &ParticleObjectManager::m_partObjectsVector[currentlySelected].get()->m_destinationMatrix;
+	return nullptr;
 }
 
 void GlassController::selectGlass() {
@@ -71,7 +100,7 @@ void GlassController::selectGlass() {
 	int selectedParticleObjectIndex = -1;
 	for (int i = 0; i < ParticleObjectManager::m_numOfObjects; i++) {
 		const ParticleObject* currentParticleObject = ParticleObjectManager::m_partObjectsVector[i].get();
-		glm::vec3 centerAsSeenFromCamera = camera.getViewMatrix() * glm::vec4(currentParticleObject->m_center, 1.0f);
+		glm::vec3 centerAsSeenFromCamera = camera.getViewMatrix() * glm::vec4(currentParticleObject->m_matrix[3][0], currentParticleObject->m_matrix[3][1], currentParticleObject->m_matrix[3][2], 1.0f);
 		float distanceFromZAxis = glm::length(glm::vec2{ centerAsSeenFromCamera.x, centerAsSeenFromCamera.y });
 		if (distanceFromZAxis < currentParticleObject->m_innerRadius)
 			if (glm::length(centerAsSeenFromCamera) < distanceFromCamera || distanceFromCamera < 0.0f)
@@ -96,4 +125,13 @@ void GlassController::selectGlass() {
 		glassObjects[currentlySelected]->select(false);
 		currentlySelected = -1;
 	}
+}
+
+void GlassController::submitMove()
+{
+	if(glm::abs(moveAccumulator) > 1.0 && currentlySelected != -1) // EPSILON
+		if(mode == MOVE) 
+			ParticleObjectManager::moveObject(currentlySelected, moveAccumulator, selectedAxis);
+		else if(mode == ROTATE)
+			ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix = glm::rotate(ParticleObjectManager::m_partObjectsVector[currentlySelected]->m_destinationMatrix, 0.1f * moveAccumulator, selectedAxis);
 }

@@ -1,12 +1,10 @@
 #include "ParticleObjectManager.h"
 
 
-void ParticleObjectManager::moveObject(int objectNumber, float val)
+void ParticleObjectManager::moveObject(int objectNumber, float val, glm::vec3 axis)
 {
-	m_partObjectsVector[objectNumber]->m_matrix = glm::translate(m_partObjectsVector[0]->m_matrix, glm::vec3(val, 0, 0));
+	m_partObjectsVector[objectNumber]->m_destinationMatrix = glm::translate(m_partObjectsVector[objectNumber]->m_destinationMatrix, val * axis);
 	m_positionChanged = true;
-	//m_partObjectsVector[objectNumber].m_targetPosition = targetPosition;
-	//m_partObjectsVector[objectNumber].m_targetVector = targetDirection;
 }
 
 glm::vec3* ParticleObjectManager::getObjectsPositions()
@@ -38,6 +36,7 @@ void ParticleObjectManager::synchronizeWithGpu()
 {
 	for (int i = 0; i < m_numOfObjects; i++) {
 		m_partObjectsVector[i]->stepTowardsDestination();
+		//LOG_F(WARNING, "OLG %s", m_partObjectsVector[i]->toString().c_str());
 	}
 	//if (!ParticleObjectManager::m_positionChanged) return;
 	ParticleObjectManager::m_positionChanged = false;
@@ -84,14 +83,14 @@ int ParticleObjectManager::addObject(const MugParticleObject& object)
 
 void ParticleObjectManager::printObjects(int limit)
 {
-	//LOG_F(INFO, "==============================");
-	//LOG_F(INFO, "LOCAL Particle Objects print");
-	//
-	//LOG_F(INFO, "\tNum of objects: %d", m_numOfObjects);
+	LOG_F(INFO, "==============================");
+	LOG_F(INFO, "LOCAL Particle Objects print");
+	
+	LOG_F(INFO, "\tNum of objects: %d", m_numOfObjects.load());
 
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	LOG_F(INFO, "%d:\t%s", i, m_partObjectsVector[i].print().c_str());
-	//}
+	for (int i = 0; i < m_numOfObjects; i++) {
+		LOG_F(INFO, "%d:\t%s", i, m_partObjectsVector[i]->toString().c_str());
+	}
 
-	//LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 }

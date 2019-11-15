@@ -31,7 +31,6 @@ struct FluidType {
 	float stiffness;
 	float viscosity;
 	float density;
-	vec4 color;
 };
 
 struct GlassObjectDetails {
@@ -135,7 +134,7 @@ void main(void)
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
 	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
 	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
-	const float pGlassMultiplier = 2*glassForceMultiplier[myParticleIndex];
+	const float pGlassMultiplier = 1+glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -167,7 +166,7 @@ void main(void)
 				if(thisSurfaceDist < pMinGlassDistance) pMinGlassDistance = thisSurfaceDist;
 
 				const float tPressSc = myType.mass * (2*pPressure/pow(pDensity, 2) ) * KernelDerivative(dist);
-				pPressureVec += direction * tPressSc * pGlassMultiplier;
+				pPressureVec += direction * tPressSc * 4;
 
 
 			} else {	// if fluid;

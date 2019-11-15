@@ -47,7 +47,11 @@ layout(std430, binding = 8) buffer simVariablesBuf
 	float fluidVelocity[3 * MAX_FLUID];
 	float fluidAcceleration[3 * MAX_FLUID];
 	float fluidSurfaceVector[3 * MAX_FLUID];
-	float fluidSurfaceDistance[];
+	float fluidSurfaceDistance[MAX_FLUID];
+	float fluidDensityPressure[2*MAX_FLUID];
+	float glassForceMultiplier[MAX_FLUID];
+	float glassMaxVelocity[MAX_FLUID];
+	int numOfFluidNeighbours[MAX_FLUID];
 };
 //
 //layout(std430, binding = 9) buffer lookUpTableBuf
@@ -82,41 +86,70 @@ void main(void)
 
 	if(myFluid.type<0) return;
 
-	vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
+	const vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
 
 	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
+
+
+	const vec3 pSurfaceVec = (vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2])); 
+	const float pSurfaceDistance = fluidSurfaceDistance[myThreadNumber];
 
 	//const vec3 pAcceleration = vec3(0,GRAVITY_Y,0);
 	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
 	pVelocity = (pVelocity + pAcceleration * DELTA_TIME);
-	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
-			//	https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
 
-		const vec3 pSurfVec = vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2]); 
-		float dotProduct = dot(pVelocity, pSurfVec);
-		if(dotProduct < 0) {	// angle is greater than 90deg, velocity points into a glass
-			pVelocity = (pVelocity - 2 * (dotProduct) * pSurfVec) * BOUNCE_VELOCITY_MULTIPLIER;
-		}
+	vec3 pNewPosition = pPosition + pVelocity * DELTA_TIME;
+	const vec3 pNormVelocity = normalize(pVelocity);
+	const float pLenVelocity = length(pVelocity);
+	const float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, pNormVelocity));
+	if(K > 0) {
+		//if(K > 1.0) K = 1.0;
+		pNewPosition += pSurfaceVec * (K);
+		const float newVelLen = min(glassMaxVelocity[myThreadNumber], pLenVelocity);
+		pVelocity = (pNewPosition - pPosition) * newVelLen;
+		//fluidPositions[myThreadNumber].type +=2;
+	}
 
-//		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.1) {
-//			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.1 / DELTA_TIME;
+	if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
+		pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
+
+
+//	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE
+//			//	https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+//
+//		const vec3 pSurfVec = vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2]); 
+//		float dotProduct = dot(pVelocity, pSurfVec);
+//		if(dotProduct < 0) {	// angle is greater than 90deg, velocity points into a glass
+//			pVelocity =  (pVelocity - 2 * (dotProduct) * pSurfVec);
 //		}
-	}
+//
+//		pPosition = pPosition + pSurfVec * (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber]);
+//
+//		if(length(pVelocity) > (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber])) {
+//			pVelocity = pVelocity * (1 - (BOUNCE_DISTANCE - fluidSurfaceDistance[myThreadNumber]) / length(pVelocity));
+//		} else {
+//			pVelocity = vec3(0,0,0);
+//		}
+//
+////		if(length(pVelocity) * DELTA_TIME < MAX_PARTICLE_SPEED * 0.2) {
+////			pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED * 0.2 / DELTA_TIME;
+////		}
+//		//pVelocity = vec3(0, 1000, 0);
+//		//fluidPositions[myThreadNumber].type = 1000;
+//
+//	}
 
-	if(length(pVelocity) * DELTA_TIME > MAX_PARTICLE_SPEED) {
-		pVelocity = normalize(pVelocity) * MAX_PARTICLE_SPEED / DELTA_TIME;
-	}
-
-	pPosition = pPosition + pVelocity * DELTA_TIME;
+	//pPosition = pPosition + pVelocity * DELTA_TIME;
 
 	fluidVelocity[3*myThreadNumber+0] = pVelocity.x;
 	fluidVelocity[3*myThreadNumber+1] = pVelocity.y;
 	fluidVelocity[3*myThreadNumber+2] = pVelocity.z;
 
-	fluidPositions[myThreadNumber].x = pPosition.x;
-	fluidPositions[myThreadNumber].y = pPosition.y;
-	fluidPositions[myThreadNumber].z = pPosition.z;
+	fluidPositions[myThreadNumber].x = pNewPosition.x;
+	fluidPositions[myThreadNumber].y = pNewPosition.y;
+	fluidPositions[myThreadNumber].z = pNewPosition.z;
 
 	//indexMap[sortIndexArray[myThreadNumber]] = 0;
 }

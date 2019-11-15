@@ -15,6 +15,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <Utils.h>
+#include <simulationObjects/Emiter.h>
 
 /*	LIST OF ARRAYS
 	for fluid particles = 16x float
@@ -52,6 +53,7 @@ struct GlassParticle {
 struct GlassObjectDetails {
 	glm::mat4 matrix = glm::mat4(0.0);
 };
+struct GPUEmiter;
 
 /* Keeps all details for fluid particles, performs all action with particles */
 class ParticleData
@@ -81,18 +83,13 @@ public:
 	inline static GlassParticle* m_resGlassParticleArray__MAP__ = nullptr;
 	inline static GlassObjectDetails* m_resGlassObjectsArray__MAP__ = nullptr;
 	inline static SimDetails* m_resDetails__MAP__ = nullptr;
+	inline static GPUEmiter* m_resEmiters__MAP__ = nullptr;
 
 
 	inline static std::unique_ptr<Particle[]> m_resParticlesArray = std::make_unique<Particle[]>(Configuration.MAX_PARTICLES_CREATED_IN_TURN);
 	inline static std::unique_ptr<GlassParticle[]> m_resGlassParticleArray = std::make_unique<GlassParticle[]>(Configuration.MAX_PARTICLES_CREATED_IN_TURN);
 	inline static std::unique_ptr<GlassObjectDetails[]> m_resGlassObjectsArray = std::make_unique<GlassObjectDetails[]>(Configuration.MAX_PARTICLE_OBJECTS);
 	inline static std::unique_ptr<SimDetails> m_resDetails = std::make_unique<SimDetails>();
-
-
-	// mutex and condition variable for threads to wait for resource
-	inline static std::condition_variable m_ResourceCondVariable;
-	inline static std::mutex m_ResourceMutex;
-
 
 	/* Init arrays on GPU to store particle data */
 	static void initArraysOnGPU();
@@ -101,13 +98,14 @@ public:
 	static GlassParticle* openGlassParticles__MAP__();
 	static GlassObjectDetails* openGlassObjects();
 	static SimDetails* openDetails();
+	static void openEmiters();
 
 
 	static void commitParticlePositions__MAP__(int numOfAddedParticles);
 	static void commitGlassParticles__MAP__(int numOfAddedGlassParticles);
 	static void commitGlassObjects(int numOfAddedGlassObjects);
 	static void commitDetails();
-
+	static void commitEmiters();
 
 	static void sendParticlePositions(int numOfAddedParticles);
 	static void sendGlassParticles(int numOfAddedGlassParticles);
@@ -115,7 +113,7 @@ public:
 	static void sendDetails();
 
 
-	static void syncSimDetailsWithGpu();
+	static void syncSimDetailsWithGpu(int addParticles = 0);
 	static void copyDataForSorting();
 
 	// Prints info about fluid particles

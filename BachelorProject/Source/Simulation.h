@@ -13,6 +13,7 @@
 #include <thread>
 #include <math.h>
 #include <window/WindowTitle.h>
+#include <simulationObjects/EmiterManager.h>
 
 //enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
@@ -36,12 +37,17 @@ class Simulation
 
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
+
+	inline static glm::mat4 m_Matrix;
+	inline static float m_Velocity;
 	inline static const int m_printTimesFrequency = 1024;
-	inline static const int m_forTitleTimesFrequency = 64;
+	inline static const int m_forTitleTimesFrequency = 16;
 	inline static const bool MEASURE_TIME = false;
 	inline static const bool PRINT_TIME = false;
 
-	inline static const std::string m_SimTitle = "Sim FPS:";
+	inline static const std::string m_SimFpsTitle = "Sim FPS ";
+	inline static const std::string m_SimParticleTitle = "Sim Num of particles";
+	inline static const std::string m_SimGlassParticleTitle = "Sim Num of Glass particles";
 
 public:
 

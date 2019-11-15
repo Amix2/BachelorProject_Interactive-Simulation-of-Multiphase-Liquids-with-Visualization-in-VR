@@ -43,6 +43,6 @@ namespace VR {
 		unsigned int RenderHeight;
 		unsigned int RenderWidth;
 		const float NearClip = 0.1f;
-		const float FarClip = 200.00f;
+		const float FarClip = 1000.00f;
 	};
 }

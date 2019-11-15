@@ -37,6 +37,7 @@
 #include <materialObjects/AxesObject.h>
 #include <materialObjects/NormalVectorsObject.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
+#include <materialObjects/MoveIndicatorObject.h>
 #include <VR/VRCore.h>
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
@@ -46,6 +47,8 @@
 #include <glassController/GlassController.h>
 #include <Configuration.h>
 #include <window/WindowTitle.h>
+#include <simulationObjects/EmiterManager.h>
+#include <simulationObjects/Emiter.h>
 
 void printWorkGroupsCapabilities();
 
@@ -64,8 +67,8 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 std::string NAME = "Random window";
 //H1680
 //W1512
-constexpr unsigned int SCR_WIDTH = 1600;
-constexpr unsigned int SCR_HEIGHT = 900;
+constexpr unsigned int SCR_WIDTH = 1920;
+constexpr unsigned int SCR_HEIGHT = 1080;
 
 static bool HmdConnected;
 
@@ -75,7 +78,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -87,13 +90,13 @@ int main(int argc, char ** argv) {
 	InputDispatcher inputDispatcher;
 	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
-		std::cout << "Failed to init window";
+		LOG_F(ERROR, "Failed to init window");
 		exit(1);
 	}
 
 	WindowTitle::setWindow(window.glfwWindow);
 
-	Scene::Scene scene{ Configuration::BACKGROUND };
+	Scene::Scene scene{ Configuration::BACKGROUND, 2 };
 	VR::VRGLInterop vrglinterop{};
 	vrglinterop.activate();
 
@@ -109,7 +112,7 @@ int main(int argc, char ** argv) {
 		std::cerr << "Couldn't init VR Core!" << std::endl;
 
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 0,40, 0 } };
+		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
 	}
 
 	scene.addCameras(cameraController);
@@ -125,9 +128,13 @@ int main(int argc, char ** argv) {
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
-
+	ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
+	MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
+	scene.addMaterialObject(&moveIndicatorObject, 0);
 
 	setupScene(scene, inputDispatcher, vrglinterop);
+	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
+	//EmiterManager::setInputDispatcher(&inputDispatcher);
 
 	do 
 	{
@@ -146,14 +153,6 @@ int main(int argc, char ** argv) {
 }
 
 
-
-
-
-
-
-
-
-
 void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
@@ -161,7 +160,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	//static ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
 	//static TestBilboardObject bilboard{ programBilboard };
 
-	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.frag" };
 	static FluidObject fluid{ inputDispatcher, programFluid };
 
 	static ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
@@ -170,15 +169,15 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
-	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
+	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
-	scene.addMaterialObject(&fluid);
-	scene.addMaterialObject(&axes);
-	scene.addMaterialObject(&vectorNormals);
-	scene.addMaterialObject(&pyramidPointer);
+	scene.addMaterialObject(&fluid, 0);
+	scene.addMaterialObject(&axes, 0);
+	scene.addMaterialObject(&vectorNormals, 0);
+	//	scene.addMaterialObject(&pyramidPointer);
 }
 
 void initTools()
@@ -214,8 +213,9 @@ void assignHardwareParameters()
 	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
 	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
 
-	Configuration.MAX_PARTICLES = std::min(maxNumOfParticles, Configuration.MAX_PARTICLES);
-	Configuration.MAX_GLASS_PARTICLES = std::min(maxNumOfGlassParticles, Configuration.MAX_GLASS_PARTICLES);
+	while(Configuration.MAX_PARTICLES > maxNumOfParticles) Configuration.MAX_PARTICLES *= 0.5;
+	while(Configuration.MAX_GLASS_PARTICLES > maxNumOfGlassParticles) Configuration.MAX_GLASS_PARTICLES *= 0.5;
+
 	const int baseX = Configuration.SCENE_SIZE_X;
 	const int baseY = Configuration.SCENE_SIZE_Y;
 	const int baseZ = Configuration.SCENE_SIZE_Z;

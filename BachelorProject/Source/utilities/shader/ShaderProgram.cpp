@@ -64,6 +64,6 @@ void ShaderProgram::checkLinkingErrors()
 		std::cout << "ERROR::PROGRAM_LINKING_ERROR" << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 	}
 	else {
-		std::cout << "SUCCESS successful linking of program no. " << ID << std::endl;
+		LOG_F(INFO, "SUCCESS successful linking of program no. %d ", ID);
 	}
 }

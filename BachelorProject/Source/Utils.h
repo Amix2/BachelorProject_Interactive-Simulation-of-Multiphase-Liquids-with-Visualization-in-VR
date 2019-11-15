@@ -5,6 +5,7 @@
 #include <vector>
 #include <Logger.h>
 #include <chrono>
+#include <glm/glm.hpp>
 
 // function-like macro to check open gl errors, they had to be macros to get correct file name in logger
 #define checkOpenGLErrors()															\
@@ -16,3 +17,8 @@
 long getTime();
 std::chrono::time_point<std::chrono::steady_clock> getNanoTime();
 double getNanoTimeDif(std::chrono::time_point<std::chrono::steady_clock> start, std::chrono::time_point<std::chrono::steady_clock> finish);
+
+glm::vec3 getUp(glm::mat4 matrix);
+glm::vec3 getRight(glm::mat4 matrix);
+glm::vec3 getForward(glm::mat4 matrix);
+glm::vec3 getPosition(glm::mat4 matrix);

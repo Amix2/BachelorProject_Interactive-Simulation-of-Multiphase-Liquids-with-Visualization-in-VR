@@ -35,7 +35,6 @@ void WindowTitle::setWindow(GLFWwindow* glfwWindow)
 
 void WindowTitle::addTitle(std::string titleName, int position)
 {
-	LOG_F(ERROR, " %s", m_titleNamesList[position].c_str());
 	if (m_titleNamesList[position].compare(WindowTitle::DEFEULT_NULL_TITLE) == 0) {	// simple add
 		m_titleNamesList[position] = titleName;
 		m_indexMap.insert({ titleName, position });

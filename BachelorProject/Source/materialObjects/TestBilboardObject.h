@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <stb_image/stb_image.h>
+#include <Logger.h>
 
 class TestBilboardObject : public MaterialObject
 {
