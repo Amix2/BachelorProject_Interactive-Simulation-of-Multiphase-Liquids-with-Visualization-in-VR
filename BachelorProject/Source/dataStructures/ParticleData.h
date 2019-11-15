@@ -15,7 +15,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <Utils.h>
-#include <simulationObjects/Emiter.h>
+#include <emiters/Emiter.h>
 
 /*	LIST OF ARRAYS
 	for fluid particles = 16x float

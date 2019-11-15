@@ -208,6 +208,8 @@ void Simulation::main()
 		//ParticleData::printSPHData(1, 1, 1, 1, 1, 2000);
 
 		m_turnNumber++;
+
+		//SelectableObjectManager::print();
 	}
 	//ParticleData::printParticleData(200000);
 	//ParticleData::printNeighboursData(1);

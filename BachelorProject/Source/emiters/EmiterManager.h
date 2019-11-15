@@ -1,12 +1,13 @@
 #pragma once
 
-#include <simulationObjects/EmiterProvider.h>
+#include <emiters/EmiterProvider.h>
 #include <Configuration.h>
 #include <Logger.h>
 #include <glm/gtx/string_cast.hpp>
-#include <simulationObjects/Emiter.h>
+#include <emiters/Emiter.h>
 #include <memory>
 #include <Logger.h>
+#include <selectableObject/SelectableObjectManager.h>
 class EmiterManager
 {
 private:

@@ -44,9 +44,10 @@
     <ClCompile Include="Source\VR\VRInput.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Source\window\WindowTitle.cpp" />
-    <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
-    <ClCompile Include="Source\simulationObjects\EmiterManager.cpp" />
     <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
+    <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
+    <ClCompile Include="Source\emiters\Emiter.cpp" />
+    <ClCompile Include="Source\emiters\EmiterManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -99,11 +100,13 @@
     <ClInclude Include="Source\VR\VRGLInterop.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
     <ClInclude Include="Source\window\WindowTitle.h" />
-    <ClInclude Include="Source\simulationObjects\Emiter.h" />
-    <ClInclude Include="Source\simulationObjects\EmiterManager.h" />
-    <ClInclude Include="Source\simulationObjects\EmiterProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
+    <ClInclude Include="Source\selectableObject\SelectableObject.h" />
+    <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
+    <ClInclude Include="Source\emiters\Emiter.h" />
+    <ClInclude Include="Source\emiters\EmiterManager.h" />
+    <ClInclude Include="Source\emiters\EmiterProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

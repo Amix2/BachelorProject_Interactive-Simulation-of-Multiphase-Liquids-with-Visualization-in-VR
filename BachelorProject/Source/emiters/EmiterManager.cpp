@@ -3,6 +3,7 @@
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType)
 {
 	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType));
+	SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
 	return &m_emitersVector[m_emitersVector.size()-1];
 }
 

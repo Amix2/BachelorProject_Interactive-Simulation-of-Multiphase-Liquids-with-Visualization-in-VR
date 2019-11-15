@@ -3,8 +3,8 @@
 #include <glm/glm.hpp>
 #include "Camera.h"
 #include "CameraController.h"
-#include <simulationObjects/EmiterProvider.h>
-#include <simulationObjects/EmiterManager.h>
+#include <emiters/EmiterProvider.h>
+#include <emiters/EmiterManager.h>
 
 
 class SimpleCameraController

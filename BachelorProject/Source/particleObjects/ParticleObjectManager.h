@@ -14,6 +14,7 @@
 #include <particleObjects/MugParticleObject.h>
 #include <Configuration.h>
 #include <memory>
+#include <selectableObject/SelectableObjectManager.h>
 
 // Holds all particle object in scene, allows selecting and moving objects
 class ParticleObjectManager {
@@ -35,8 +36,7 @@ public:
 
 	static void synchronizeWithGpu();
 
-	static int addObject(const ParticleObject& object);
-	static int addObject(const MugParticleObject& object);
+	static int addObject(MugParticleObject& object);
 	static void init();
 
 	static void printObjects(int limit = 5);

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Camera.h"
-#include <simulationObjects/EmiterProvider.h>
+#include <emiters/EmiterProvider.h>
 
 class CameraController
 {

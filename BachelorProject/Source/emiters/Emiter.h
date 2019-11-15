@@ -2,9 +2,10 @@
 #include <glm/glm.hpp>
 #include <Configuration.h>
 #include <sstream>
-#include <simulationObjects/EmiterProvider.h>
+#include <emiters/EmiterProvider.h>
 #include <glm/gtx/string_cast.hpp>
 #include <dataStructures/ParticleData.h>
+#include <selectableObject/SelectableObject.h>
 
 struct GPUEmiter {
 	glm::mat4 matrix;
@@ -15,6 +16,7 @@ struct GPUEmiter {
 };
 
 class Emiter
+	: public SelectableObject
 {
 private:
 	int m_emitFrequency	= 0;
@@ -26,13 +28,19 @@ private:
 	float m_rotationAngle	= 0;
 	bool m_updateMatrix = true;
 	glm::mat4 m_Matrix	= glm::mat4();
+	bool m_selected = false;
 public:
 	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType);
 	Emiter() {}
 
 	int fillGPUdata(GPUEmiter* data, int turnNumber);
 
-	std::string toString();
+
+	bool isSelected() override { return m_selected; }
+	void grab() override;
+	void release() override;
+	glm::mat4* getMatrix() override;
+	void setMatrix(const glm::mat4& matrix) override;
 
 	void updateMatrix(const glm::mat4 &matrix);
 
@@ -46,5 +54,8 @@ public:
 	void toggleActive() { m_isActive = !m_isActive; }
 	void setMatrixUpdate(bool update) { m_updateMatrix = update; }
 	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }
+
+
+	std::string toString();
 };
 

@@ -1,6 +1,107 @@
 #include "MugParticleObject.h"
 
+inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
+
+void MugParticleObject::grab()
+{
+	m_selected = true;
+}
+
+void MugParticleObject::release()
+{
+	m_selected = false;
+}
+
+glm::mat4* MugParticleObject::getMatrix()
+{
+	return &(m_matrix);
+}
+
+void MugParticleObject::setMatrix(const glm::mat4& matrix)
+{
+	m_destinationMatrix = matrix;
+}
+
 MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) {
+	this->create(details, numOfParts);
+}
+
+
+
+void MugParticleObject::stepTowardsDestination()
+{
+	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
+	const glm::vec3 currPos = glm::vec3(m_matrix[3][0], m_matrix[3][1], m_matrix[3][2]);
+	const glm::vec3 destPos = glm::vec3(m_destinationMatrix[3][0], m_destinationMatrix[3][1], m_destinationMatrix[3][2]);
+	const glm::vec3 difVec = destPos - currPos;
+	const float distance = glm::length(difVec);
+
+	const float maxPositionChange = previousTurnPositionChange + MUG_TURN_VELOCITY_CHANGE * Configuration.DELTA_TIME;
+
+	float stepDistanceChange = min(distance, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
+	stepDistanceChange = min(maxPositionChange, stepDistanceChange);
+
+	float linearPositionChange = 0;
+
+	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
+		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
+		m_matrix[3][0] += stepVec.x;
+		m_matrix[3][1] += stepVec.y;
+		m_matrix[3][2] += stepVec.z;
+		stepDistanceLeft -= stepDistanceChange;
+		previousTurnPositionChange = stepDistanceChange;
+		linearPositionChange = stepDistanceChange;
+	}
+	else {
+		previousTurnPositionChange = 0;
+	}
+
+
+	const glm::vec3 currUp = glm::vec3(m_matrix[1][0], m_matrix[1][1], m_matrix[1][2]);
+	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
+	const float totalAngle = glm::angle(currUp, destUp);
+	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
+	const float angleChange = min(totalAngle, maxAngleInStep);
+	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
+		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
+		stepDistanceLeft -= tanf(angleChange) * m_distanceToFurthestParticle;
+	}
+
+
+	stepDistanceChange = min(distance - stepDistanceChange, stepDistanceLeft);
+	stepDistanceChange = min(maxPositionChange - linearPositionChange, stepDistanceChange);
+	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
+		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
+		m_matrix[3][0] += stepVec.x;
+		m_matrix[3][1] += stepVec.y;
+		m_matrix[3][2] += stepVec.z;
+		stepDistanceLeft -= stepDistanceChange;
+		previousTurnPositionChange += stepDistanceChange;
+	}
+	else {
+		previousTurnPositionChange += 0;
+	}
+
+}
+
+inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
+	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
+	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
+	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;
+
+	float length = (float)sqrt(crossX * crossX +
+		crossY * crossY +
+		crossZ * crossZ);
+
+	if (length > 0)
+		return glm::vec3(crossX / length, crossY / length, crossZ / length);
+	else
+		return glm::vec3();
+}
+
+void MugParticleObject::create(ParticleObjectDetais details, int& numOfParts)
+{
 	const float inCircleGap = Configuration.GLASS_PARTICLE_BUILD_GAP; // gap on oX, in a circle
 	const float layerGap = (float)inCircleGap * (float)sqrt(3) * 0.5f;	// gap on oY
 	const float innerRadius = details.innerRadius;
@@ -46,7 +147,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, innerRadius + layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE
 			, { ParticleGeometry::UP, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
-			, { ParticleGeometry::DOWN, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
+		, { ParticleGeometry::DOWN, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -54,7 +155,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE
 			, { ParticleGeometry::UP, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
-			, { ParticleGeometry::DOWN, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE });
+		, { ParticleGeometry::DOWN, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE });
 
 
 		ParticleGeometry::filledCircle(numOfParts
@@ -84,7 +185,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 				x x  v v v v v  x x
 		*/
 
-		outputThickness = 2*layerGap;
+		outputThickness = 2 * layerGap;
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -92,7 +193,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, innerRadius + 2 * layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::OUTSIDE
 			, { ParticleGeometry::UP_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE }
-			, { ParticleGeometry::DOWN_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
+		, { ParticleGeometry::DOWN_OUTSIDE, ParticleGeometry::OUTSIDE, ParticleGeometry::OUTSIDE });
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -100,7 +201,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, innerRadius + layerGap	// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE
 			, { ParticleGeometry::UP, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
-			, { ParticleGeometry::ZERO, ParticleGeometry::ZERO, ParticleGeometry::ZERO });
+		, { ParticleGeometry::ZERO, ParticleGeometry::ZERO, ParticleGeometry::ZERO });
 
 		ParticleGeometry::cylinder(numOfParts
 			, glm::vec2(localCenter.x, localCenter.z)
@@ -108,7 +209,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 			, innerRadius				// radius
 			, inCircleGap, layerGap, ParticleGeometry::INSIDE
 			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::INSIDE, ParticleGeometry::INSIDE }
-			, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE });
+		, { ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE, ParticleGeometry::UP_INSIDE });
 
 
 		ParticleGeometry::filledCircle(numOfParts
@@ -128,7 +229,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 		ParticleGeometry::filledCircle(numOfParts
 			, bottomVec - layerGapVecY - layerGapVecY
 			, 0, 0, ParticleGeometry::EQUALS		// inner
-			, innerRadius + 2*layerGap, innerRadius + 1.5f * layerGap, ParticleGeometry::NOT_EQUALS	// outer
+			, innerRadius + 2 * layerGap, innerRadius + 1.5f * layerGap, ParticleGeometry::NOT_EQUALS	// outer
 			, inCircleGap, layerGap, ParticleGeometry::DOWN
 			, { ParticleGeometry::DOWN, ParticleGeometry::DOWN, ParticleGeometry::DOWN });
 	}
@@ -221,76 +322,4 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 		const float distance = glm::distance(localCenter, partPos);
 		m_distanceToFurthestParticle = max(m_distanceToFurthestParticle, distance);
 	}
-}
-
-inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
-	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
-	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
-	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;
-
-	float length = (float)sqrt(crossX * crossX +
-		crossY * crossY +
-		crossZ * crossZ);
-
-	if (length > 0)
-		return glm::vec3(crossX / length, crossY / length, crossZ / length);
-	else
-		return glm::vec3();
-}
-
-void MugParticleObject::stepTowardsDestination()
-{
-	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
-	const glm::vec3 currPos = glm::vec3(m_matrix[3][0], m_matrix[3][1], m_matrix[3][2]);
-	const glm::vec3 destPos = glm::vec3(m_destinationMatrix[3][0], m_destinationMatrix[3][1], m_destinationMatrix[3][2]);
-	const glm::vec3 difVec = destPos - currPos;
-	const float distance = glm::length(difVec);
-
-	const float maxPositionChange = previousTurnPositionChange + MUG_TURN_VELOCITY_CHANGE * Configuration.DELTA_TIME;
-
-	float stepDistanceChange = min(distance, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
-	stepDistanceChange = min(maxPositionChange, stepDistanceChange);
-
-	float linearPositionChange = 0;
-
-	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
-		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
-		m_matrix[3][0] += stepVec.x;
-		m_matrix[3][1] += stepVec.y;
-		m_matrix[3][2] += stepVec.z;
-		stepDistanceLeft -= stepDistanceChange;
-		previousTurnPositionChange = stepDistanceChange;
-		linearPositionChange = stepDistanceChange;
-	}
-	else {
-		previousTurnPositionChange = 0;
-	}
-
-
-	const glm::vec3 currUp = glm::vec3(m_matrix[1][0], m_matrix[1][1], m_matrix[1][2]);
-	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
-	const float totalAngle = glm::angle(currUp, destUp);
-	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
-	const float angleChange = min(totalAngle, maxAngleInStep);
-	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
-		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
-		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
-		stepDistanceLeft -= tanf(angleChange) * m_distanceToFurthestParticle;
-	}
-
-
-	stepDistanceChange = min(distance - stepDistanceChange, stepDistanceLeft);
-	stepDistanceChange = min(maxPositionChange - linearPositionChange, stepDistanceChange);
-	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
-		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
-		m_matrix[3][0] += stepVec.x;
-		m_matrix[3][1] += stepVec.y;
-		m_matrix[3][2] += stepVec.z;
-		stepDistanceLeft -= stepDistanceChange;
-		previousTurnPositionChange += stepDistanceChange;
-	}
-	else {
-		previousTurnPositionChange += 0;
-	}
-
 }

@@ -13,6 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <particleObjects/ParticleGeometry.h>
 #include <dataStructures/ParticleData.h>
+#include <selectableObject/SelectableObject.h>
 
 
 struct ParticleObjectDetais {
@@ -34,8 +35,11 @@ struct ParticleObjectDetais {
 };
 
 // Represents single object like mug etc
-class ParticleObject {
-	// index of glass particless from this object in global glass particle array (on gpu)
+class ParticleObject
+	: public SelectableObject 
+{
+protected:
+	bool m_selected = false;
 
 public:
 	glm::mat4 m_matrix;
@@ -48,12 +52,10 @@ public:
 
 	glm::mat4 m_destinationMatrix;
 
-
-	void createMug(ParticleObjectDetais details,  int& numOfParts);
-
 	ParticleObject();
 
 	virtual std::string toString() const;
 
 	virtual void stepTowardsDestination();
+
 };

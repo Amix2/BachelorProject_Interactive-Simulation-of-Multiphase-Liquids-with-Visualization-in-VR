@@ -44,6 +44,26 @@ std::string Emiter::toString()
 	return std::string(ss.str());
 }
 
+void Emiter::grab()
+{
+	m_selected = true;
+}
+
+void Emiter::release()
+{
+	m_selected = false;
+}
+
+glm::mat4* Emiter::getMatrix()
+{
+	return &(m_Matrix);
+}
+
+void Emiter::setMatrix(const glm::mat4& matrix)
+{
+	m_Matrix = matrix;
+}
+
 void Emiter::updateMatrix(const glm::mat4& matrix)
 {
 	if (m_updateMatrix) {

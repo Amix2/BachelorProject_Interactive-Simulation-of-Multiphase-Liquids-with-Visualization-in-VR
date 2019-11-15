@@ -13,7 +13,8 @@
 #include <thread>
 #include <math.h>
 #include <window/WindowTitle.h>
-#include <simulationObjects/EmiterManager.h>
+#include <emiters/EmiterManager.h>
+#include <selectableObject/SelectableObjectManager.h>
 
 //enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 

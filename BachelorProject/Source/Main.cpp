@@ -47,8 +47,8 @@
 #include <glassController/GlassController.h>
 #include <Configuration.h>
 #include <window/WindowTitle.h>
-#include <simulationObjects/EmiterManager.h>
-#include <simulationObjects/Emiter.h>
+#include <emiters/EmiterManager.h>
+#include <emiters/Emiter.h>
 
 void printWorkGroupsCapabilities();
 
