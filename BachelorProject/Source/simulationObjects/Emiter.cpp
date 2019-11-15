@@ -1,6 +1,6 @@
 #include "Emiter.h"
 
-Emiter::Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType) : m_provider(provider), m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType)
+Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType) : m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType)
 {
 	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
@@ -31,7 +31,7 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 
 	m_rotationAngle += 0.1;
 	if (m_updateMatrix) {
-		m_Matrix = m_provider->getEmiterMatrix();
+		//m_Matrix = m_provider->getEmiterMatrix();
 	}
 
 	data->matrix = m_Matrix * glm::rotate(glm::mat4{ 1 }, m_rotationAngle, glm::vec3(0,0,1));
@@ -55,6 +55,13 @@ std::string Emiter::toString()
 		<< "\n\tFrequency: " << m_emitFrequency
 		<< "\n\tMat ["<< (m_updateMatrix ? "update" : "no-update") <<"]: " << glm::to_string(m_Matrix);
 	return std::string(ss.str());
+}
+
+void Emiter::updateMatrix(const glm::mat4& matrix)
+{
+	if (m_updateMatrix) {
+		m_Matrix = matrix;
+	}
 }
 
 

@@ -21,7 +21,7 @@ SimpleCameraController::SimpleCameraController(InputDispatcher& inputDispatcher,
 		GLFW_KEY_L	// emiter velocity --
 	});
 
-	emiter = EmiterManager::createEmiter(this, 2, 1000.0f, 2);
+	emiter = EmiterManager::createEmiter(2, 1000.0f, 2);
 }
 
 
@@ -39,6 +39,8 @@ void SimpleCameraController::handleMouseMove(float xoffset, float yoffset)
 		cameraPitch + (float)yoffset;
 		
 	camera.setRotation(constrainedPitch, camera.getYaw() + (float)xoffset, camera.getRoll());
+	emiter->updateMatrix(this->getEmiterMatrix());
+	
 }
 
 void SimpleCameraController::handleMouseScroll(float scroll)

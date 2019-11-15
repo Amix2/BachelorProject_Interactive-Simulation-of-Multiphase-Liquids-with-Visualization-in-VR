@@ -7,7 +7,6 @@
 #include <simulationObjects/Emiter.h>
 #include <memory>
 #include <Logger.h>
-
 class EmiterManager
 {
 private:
@@ -18,7 +17,7 @@ private:
 
 public:
 
-	static Emiter* createEmiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType);
+	static Emiter* createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType);
 
 	static void printEmiters();
 

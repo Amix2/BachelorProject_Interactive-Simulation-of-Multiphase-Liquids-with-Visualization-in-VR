@@ -17,24 +17,24 @@ struct GPUEmiter {
 class Emiter
 {
 private:
-	EmiterProvider* m_provider	= nullptr;
-	glm::mat4 m_Matrix	= glm::mat4();
 	int m_emitFrequency	= 0;
 	float m_Velocity	= 0;
 	int m_emitThisTurn	= 0;
 	int m_numOfParticles	= 0;
 	int m_fluidType = 0;
 	bool m_isActive		= false;
-	bool m_updateMatrix = true;
 	float m_rotationAngle	= 0;
+	bool m_updateMatrix = true;
+	glm::mat4 m_Matrix	= glm::mat4();
 public:
-	Emiter(EmiterProvider* provider, int initNumberOfParticles, float initVelocity, int initFluidType);
+	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType);
 	Emiter() {}
 
 	int fillGPUdata(GPUEmiter* data, int turnNumber);
 
 	std::string toString();
 
+	void updateMatrix(const glm::mat4 &matrix);
 
 	int changeSize(int rowsNumber);
 	int increaseSize(int addRows);

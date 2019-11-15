@@ -19,6 +19,7 @@ namespace Scene {
 
 		virtual glm::mat4 getViewMatrix() const;
 		virtual glm::mat4 getProjectionMatrix() const;
+
 		void select() const;
 		void set(glm::vec3 position, float pitch, float yaw, float roll);
 		void set(glm::vec3 position, glm::vec3 front, glm::vec3 up, glm::vec3 right);
@@ -27,7 +28,6 @@ namespace Scene {
 		void setRotation(float pitch, float yaw, float roll);
 		void setPosition(const glm::vec3& position);
 		void setZoom(float zoom) { this->zoom = zoom; }
-
 		const glm::vec3 getPosition() const { return position; };
 		const glm::vec3 getFront() const { return front; };
 		const glm::vec3 getRight() const { return right; };
