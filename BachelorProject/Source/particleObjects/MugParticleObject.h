@@ -8,6 +8,6 @@ class MugParticleObject :
 public:
 	MugParticleObject(ParticleObjectDetais details, int& numOfParts);
 
-	void stepTowardsDestination();
+	void stepTowardsDestination() override;
 };
 

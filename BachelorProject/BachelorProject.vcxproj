@@ -62,6 +62,7 @@
     <ClCompile Include="Source\VR\VRGLInterop.cpp" />
     <ClCompile Include="Source\VR\VRInput.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="Source\VR\VRGeometry.h" />
     <ClInclude Include="Source\VR\VRGLInterop.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
+    <ClInclude Include="Source\window\WindowTitle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

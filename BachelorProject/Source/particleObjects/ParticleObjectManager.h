@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp>
 #include <particleObjects/ParticleGeometry.h>
+#include <particleObjects/MugParticleObject.h>
 #include <Configuration.h>
 #include <memory>
 
@@ -35,6 +36,7 @@ public:
 	static void synchronizeWithGpu();
 
 	static int addObject(const ParticleObject& object);
+	static int addObject(const MugParticleObject& object);
 	static void init();
 
 	static void printObjects(int limit = 5);

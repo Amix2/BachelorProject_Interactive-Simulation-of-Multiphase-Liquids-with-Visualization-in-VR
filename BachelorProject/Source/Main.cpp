@@ -45,6 +45,7 @@
 #include <memory>
 #include <glassController/GlassController.h>
 #include <Configuration.h>
+#include <window/WindowTitle.h>
 
 void printWorkGroupsCapabilities();
 
@@ -74,7 +75,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -89,6 +90,8 @@ int main(int argc, char ** argv) {
 		std::cout << "Failed to init window";
 		exit(1);
 	}
+
+	WindowTitle::setWindow(window.glfwWindow);
 
 	Scene::Scene scene{ Configuration::BACKGROUND };
 	VR::VRGLInterop vrglinterop{};
@@ -116,16 +119,12 @@ int main(int argc, char ** argv) {
 	assignHardwareParameters();
 
 	initTools();
+
 	Simulation::startSimulation(window.glfwWindow);
 	
-	//printWorkGroupsCapabilities();
-
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
-
-	//ParticleData::initArraysOnGPU();
-	printWorkGroupsCapabilities();
 
 
 	setupScene(scene, inputDispatcher, vrglinterop);
@@ -184,6 +183,8 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 
 void initTools()
 {
+	WindowTitle::init();
+
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();

@@ -12,6 +12,7 @@
 #include <mutex>
 #include <thread>
 #include <math.h>
+#include <window/WindowTitle.h>
 
 //enum Resource_Request { NO_ORDER, OPEN, COMMIT, COMMIT_AND_OPEN };
 
@@ -36,7 +37,11 @@ class Simulation
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
 	inline static const int m_printTimesFrequency = 1024;
+	inline static const int m_forTitleTimesFrequency = 64;
 	inline static const bool MEASURE_TIME = false;
+	inline static const bool PRINT_TIME = false;
+
+	inline static const std::string m_SimTitle = "Sim FPS:";
 
 public:
 
