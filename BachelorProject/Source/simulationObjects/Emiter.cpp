@@ -21,10 +21,12 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 	if (m_updateMatrix) {
 		m_Matrix = m_provider->getEmiterMatrix();
 	}
-	data->matrix = m_Matrix;
+	glm::vec3 forward = getForward(m_Matrix);
+	data->matrix = glm::rotate(m_Matrix, m_rotationAngle, forward);
+	LOG_F(ERROR, "\n%s\n%s\n%s", glm::to_string(forward).c_str(), glm::to_string(m_Matrix).c_str(), glm::to_string(data->matrix).c_str());
 	data->velocity = m_Velocity;
 	data->fluidType = m_fluidType;
-	data->rotationAngle = m_rotationAngle;
+	data->rotationAngle = 0;
 	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
 		m_emitThisTurn = m_numOfParticles;
 	}
