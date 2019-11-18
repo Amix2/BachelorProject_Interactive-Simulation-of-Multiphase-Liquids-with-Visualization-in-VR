@@ -4,7 +4,7 @@ namespace VR {
 	bool VRGLInterop::activate() {
 		VRactive = VrCore->InitializeCore();
 		if (!VRactive) return false;
-		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
+		VrInput->init();
 		VrGeometry->SetIVRSystem(VrCore->GetVrSystem());
 		////////////////////
 
@@ -86,7 +86,7 @@ namespace VR {
 
 		VrGeometry->UpdateHMDMatrixPose();
 		VrGeometry->SetupCameras();
-		VrInput->DetectPressedButtons();
+		// VrInput->DetectPressedButtons();
 		// VrInput->HandleInput();
 		cameraController->setHead(VrGeometry->TrackedDevicePoses[0].mDeviceToAbsoluteTracking);
 		cameraController->setEyeMatrix(VrGeometry->GetHMDMatrixPoseEye(vr::Eye_Left), vr::Eye_Left);

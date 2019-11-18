@@ -71,8 +71,3 @@ void InputDispatcher::subscribeForKeyInput(KeyInputListener* listener, const int
 	else
 		keysToListeners[key]->insert(listener);
 }
-
-void InputDispatcher::subscribeForControllerInput(const ControllerInputListener *listener, const vr::EVREventType eventType, const vr::EVRButtonId buttonId)
-{
-	//
-}

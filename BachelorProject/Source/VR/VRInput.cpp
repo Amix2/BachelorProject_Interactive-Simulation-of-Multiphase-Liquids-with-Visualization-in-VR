@@ -1,11 +1,58 @@
-#include <filesystem>
-#include <array>
-
-#include "InputConfig.h"
-
 #include "VRInput.h"
 
 namespace VR {
+	//VRInput::vrinput(const std::shared_ptr<vrcore> vrcore) : vrcore{ vrcore }
+	//{
+	//	//
+	//}
+
+	VRInput::VRInput(const std::shared_ptr<VRCore> VRCore)
+	{
+	}
+
+	bool VRInput::init()
+	{
+		//
+	}
+
+	std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> VRInput::GetDetectedControllers()
+	{
+		return this->DetectedControllers;
+	}
+
+	std::vector<CompleteVRControllerEvent> VRInput::GetDetectedEvents()
+	{
+		return this->DetectedEvents;
+	}
+
+	bool VRInput::DetectControllers()
+	{
+		for (unsigned int id = 0; id < vr::k_unMaxTrackedDeviceCount; ++id) {
+			vr::ETrackedDeviceClass trackedDeviceClass = this->VRCore->GetVrSystem()->GetTrackedDeviceClass(id);
+			if (trackedDeviceClass !=
+				vr::ETrackedDeviceClass::TrackedDeviceClass_Controller ||
+				!VRCore->GetVrSystem()->IsTrackedDeviceConnected(id))
+				continue;
+
+			//Confirmed that the device in question is a connected controller
+
+			//This is all copied from above:
+			vr::TrackedDevicePose_t trackedDevicePose;
+			vr::VRControllerState_t controllerState;
+			VRCore->GetVrSystem()->GetControllerStateWithPose(
+				vr::TrackingUniverseStanding, id, &controllerState,
+				sizeof(controllerState), &trackedDevicePose);
+
+			//Do things with the TrackedDevicePose_t struct
+		}
+	}
+
+	bool VRInput::DetectEvents()
+	{
+		return true;
+	}
+
+	/*
 	bool VRInput::InitializeVRInput(std::string PathToActions) {
 		this->ActionLoader = std::make_unique<VR::ActionLoader>(PathToActions);
 
@@ -95,4 +142,5 @@ namespace VR {
 	vr::VRActionHandle_t ActionLoader::GetActionHandle(std::string Name) {
 		return this->ActionMap[Name];
 	}
+	*/
 }

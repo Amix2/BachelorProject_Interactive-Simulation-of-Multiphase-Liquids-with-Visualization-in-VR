@@ -15,7 +15,14 @@ namespace VR {
 			return false;
 		}
 
+		this->IsCoreInitialized = true;
+
 		return true;
+	}
+
+	bool VRCore::CoreInitialized()
+	{
+		return this->IsCoreInitialized;
 	}
 
 	bool VRCore::InitializeCompositor() {
