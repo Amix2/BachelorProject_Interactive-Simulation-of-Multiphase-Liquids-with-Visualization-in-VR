@@ -26,7 +26,7 @@ public:
 	glm::mat4 getEmiterMatrix() const;
 private:
 	inline static const double MOUSE_SENSITIVITY = 0.1;
-	inline static const float VELOCITY = 200.0f;
+	inline static const float VELOCITY = 20.0f;
 
 	bool isLocked = false;
 
