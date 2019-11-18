@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 #include "Shader.h"
 
@@ -28,5 +29,8 @@ private:
 	unsigned int ID;
 
 	void checkLinkingErrors();
+
+	mutable std::unordered_map<std::string, GLint> m_UniformsMap;
+	GLint getUniformLocation(const std::string& name) const;
 };
 
