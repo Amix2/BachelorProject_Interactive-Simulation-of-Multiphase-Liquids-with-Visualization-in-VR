@@ -52,6 +52,7 @@
     <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
     <ClCompile Include="Source\utilities\Texture.cpp" />
     <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
+    <ClCompile Include="Source\digitalHand\DataProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
     <ClInclude Include="Source\utilities\Texture.h" />
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
+    <ClInclude Include="Source\digitalHand\DataProvider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
