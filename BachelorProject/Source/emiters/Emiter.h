@@ -36,7 +36,7 @@ public:
 	int fillGPUdata(GPUEmiter* data, int turnNumber);
 
 
-	bool isSelected() override { return m_selected; }
+	bool isSelected() const override { return m_selected; }
 	void grab() override;
 	void release() override;
 	glm::mat4* getMatrix() override;

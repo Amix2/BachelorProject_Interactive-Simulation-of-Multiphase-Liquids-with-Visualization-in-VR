@@ -20,12 +20,9 @@ GlassController::GlassController(InputDispatcher& inputDispatcher, const Scene::
 
 void GlassController::assignUntrackedObjects(Scene::Scene& scene)
 {
-	if(trackedObjects < ParticleObjectManager::m_numOfObjects)
-		for (int i = trackedObjects; i < ParticleObjectManager::m_numOfObjects; i++) {
-			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, ParticleObjectManager::m_partObjectsVector[i].get() };
-			glassObjects.push_back(object);
-			scene.addMaterialObject(object, 0);
-			trackedObjects++;
+		for (; trackedObjects < ParticleObjectManager::m_numOfObjects; trackedObjects++) {
+			ParticleObjectManager::m_partObjectsVector[trackedObjects]->createGlassObject(shaderProgram, selectedProgram);
+			scene.addMaterialObject(ParticleObjectManager::m_partObjectsVector[trackedObjects].get(), 0);
 		}
 }
 
@@ -39,7 +36,7 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 			destinationValid = false;
 			break;
 		case GLFW_KEY_3:
-			for (GlassObject* glassObject : glassObjects)
+			for (auto& glassObject : ParticleObjectManager::m_partObjectsVector)
 				glassObject->toggleRender();
 			break;
 		case GLFW_KEY_4:
@@ -109,20 +106,20 @@ void GlassController::selectGlass() {
 
 	if (selectedParticleObjectIndex >= 0) {
 		if (currentlySelected == selectedParticleObjectIndex) {
-			glassObjects[selectedParticleObjectIndex]->select(false);
+			ParticleObjectManager::m_partObjectsVector[selectedParticleObjectIndex]->release();
 			currentlySelected = -1;
 		}
 		else {
-			glassObjects[selectedParticleObjectIndex]->select(true);
+			ParticleObjectManager::m_partObjectsVector[selectedParticleObjectIndex]->grab();
 
 			if (currentlySelected != -1) {
-				glassObjects[currentlySelected]->select(false);
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->release();
 			}
 			currentlySelected = selectedParticleObjectIndex;
 		}
 	}
 	else if (currentlySelected != -1) {
-		glassObjects[currentlySelected]->select(false);
+		ParticleObjectManager::m_partObjectsVector[currentlySelected]->release();
 		currentlySelected = -1;
 	}
 }

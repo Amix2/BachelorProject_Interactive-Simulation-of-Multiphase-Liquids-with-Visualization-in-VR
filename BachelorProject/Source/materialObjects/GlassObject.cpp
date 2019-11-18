@@ -1,9 +1,11 @@
 #include "GlassObject.h"
 
 GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject* glass)
-	: MaterialObject{ shaderProgram }
+	: shaderProgram{ shaderProgram }
 	, selectedProgram{ selectedProgram }
 	, model{ &glass->m_matrix }
+	, owner{ glass }
+
 {
 	generateMesh(*glass);
 }
@@ -31,31 +33,30 @@ void GlassObject::init()
 
 void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-	if (render) {
-		if (selected) {
-			glStencilFunc(GL_ALWAYS, 1, 0xFF);
-			glStencilMask(0xFF);
-		}
+	if (!owner->render) return;
+	if (owner->isSelected()) {
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+	}
 
-		glBindVertexArray(VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		shaderProgram.use();
-		shaderProgram.setUniformVariable("MVP", projection * view * (*model));
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	shaderProgram.use();
+	shaderProgram.setUniformVariable("MVP", projection * view * (*model));
+
+	glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
+
+	if (owner->isSelected()) {
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+
+		selectedProgram.use();
+		selectedProgram.setUniformVariable("MVP", projection * view * glm::scale((*model), glm::vec3{ 1.01f }));
 
 		glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
 
-		if (selected) {
-			glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-			glStencilMask(0x00);
-
-			selectedProgram.use();
-			selectedProgram.setUniformVariable("MVP", projection * view * glm::scale((*model), glm::vec3{ 1.01f }));
-
-			glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
-
-			glStencilMask(0xFF);
-		}
+		glStencilMask(0xFF);
 	}
 }
 

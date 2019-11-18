@@ -49,6 +49,8 @@
 #include <window/WindowTitle.h>
 #include <emiters/EmiterManager.h>
 #include <emiters/Emiter.h>
+#include <utilities/GraphicShaderStorage.h>
+#include <scene/camera/EmittingCameraController.h>
 
 void printWorkGroupsCapabilities();
 
@@ -112,7 +114,7 @@ int main(int argc, char ** argv) {
 		std::cerr << "Couldn't init VR Core!" << std::endl;
 
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
+		cameraController = new EmittingCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
 	}
 
 	scene.addCameras(cameraController);
@@ -126,7 +128,9 @@ int main(int argc, char ** argv) {
 	Simulation::startSimulation(window.glfwWindow);
 	
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
+	GraphicShaderStorage::addShader(ShaderNames.GlassObject, programGlass);
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
+	GraphicShaderStorage::addShader(ShaderNames.SelectedGlassObject, programSelectedGlass);
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
 	ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
 	MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };

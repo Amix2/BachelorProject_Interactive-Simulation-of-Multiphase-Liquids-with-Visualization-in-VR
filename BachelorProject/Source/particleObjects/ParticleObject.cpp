@@ -22,10 +22,13 @@ std::string ParticleObject::toString() const
 
 void ParticleObject::init()
 {
+	//createGlassObject(GraphicShaderStorage::getShader(ShaderNames.GlassObject), GraphicShaderStorage::getShader(ShaderNames.SelectedGlassObject));
+	glassObject->init();
 }
 
 void ParticleObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
+	glassObject->load(view, projection);
 }
 
 void ParticleObject::createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram)
