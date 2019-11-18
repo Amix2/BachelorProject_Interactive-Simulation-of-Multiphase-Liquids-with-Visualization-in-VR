@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
     <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
     <ClCompile Include="Source\utilities\GraphicShaderStorage.cpp" />
     <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
@@ -71,6 +72,7 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\digitalHand\DigitalHand.h" />
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
     <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
