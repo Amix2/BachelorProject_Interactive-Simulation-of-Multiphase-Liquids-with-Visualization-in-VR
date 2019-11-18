@@ -42,6 +42,7 @@
     <ClCompile Include="Source\scene\Scene.cpp" />
     <ClCompile Include="Source\emiters\EmiterManager.cpp" />
     <ClCompile Include="Source\ThreadSynchronizer.cpp" />
+    <ClCompile Include="Source\utilities\Texture.cpp" />
     <ClCompile Include="Source\window\ViewPort.cpp" />
     <ClCompile Include="Source\window\Window.cpp" />
     <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="Source\scene\camera\VRCameraController.h" />
     <ClInclude Include="Source\scene\Scene.h" />
     <ClInclude Include="Source\ThreadSynchronizer.h" />
+    <ClInclude Include="Source\utilities\Texture.h" />
     <ClInclude Include="Source\window\ViewPort.h" />
     <ClInclude Include="Source\window\Window.h" />
     <ClInclude Include="Source\window\listener\WindowSizeListener.h" />

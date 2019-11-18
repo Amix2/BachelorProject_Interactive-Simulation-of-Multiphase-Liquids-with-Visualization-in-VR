@@ -48,6 +48,7 @@
     <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
     <ClCompile Include="Source\emiters\Emiter.cpp" />
     <ClCompile Include="Source\emiters\EmiterManager.cpp" />
+    <ClCompile Include="Source\utilities\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -107,6 +108,7 @@
     <ClInclude Include="Source\emiters\Emiter.h" />
     <ClInclude Include="Source\emiters\EmiterManager.h" />
     <ClInclude Include="Source\emiters\EmiterProvider.h" />
+    <ClInclude Include="Source\utilities\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
