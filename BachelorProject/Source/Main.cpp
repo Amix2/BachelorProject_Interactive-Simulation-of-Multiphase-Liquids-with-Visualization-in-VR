@@ -173,15 +173,15 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
-	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid, 0);
 	scene.addMaterialObject(&axes, 0);
 	scene.addMaterialObject(&vectorNormals, 0);
-	//	scene.addMaterialObject(&pyramidPointer);
+	scene.addMaterialObject(&pyramidPointer, 0);
 }
 
 void initTools()

@@ -38,7 +38,7 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 			break;
 		case GLFW_MOUSE_BUTTON_RIGHT:
 			if (currentlySelected != -1) {
-				glassObjects[currentlySelected]->select(false);
+				ParticleObjectManager::m_partObjectsVector[currentlySelected]->release();
 				currentlySelected = -1;
 			}
 			break;
@@ -112,7 +112,7 @@ void GlassController::selectGlass() {
 
 	if (selectedParticleObjectIndex >= 0) {
 		if (currentlySelected != selectedParticleObjectIndex) {
-			glassObjects[selectedParticleObjectIndex]->grab();
+			ParticleObjectManager::m_partObjectsVector[selectedParticleObjectIndex]->grab();
 
 			if (currentlySelected != -1) {
 				ParticleObjectManager::m_partObjectsVector[currentlySelected]->release();

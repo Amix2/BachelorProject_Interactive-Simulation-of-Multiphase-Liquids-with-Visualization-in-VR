@@ -49,8 +49,8 @@ void FluidObject::init()
 
 	colorMap = std::make_unique<Texture2D>("./_asset/ball2.png");
 	normalMap = std::make_unique<Texture2D>("./_asset/ball_normalmap.png");
-	colorMap->init();
-	normalMap->init();
+	colorMap->init(false);
+	normalMap->init(true);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
