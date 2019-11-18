@@ -88,4 +88,13 @@ void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& 
 	this->shaderProgram.setUniformVariable("MVP", projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[1].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 }));
 
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+	this->shaderProgram.setUniformVariable("MVP", projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[2].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 }));
+
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+	this->shaderProgram.setUniformVariable("MVP", projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 }));
+
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
+	this->shaderProgram.setUniformVariable("MVP", projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 }));
+
+	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 }

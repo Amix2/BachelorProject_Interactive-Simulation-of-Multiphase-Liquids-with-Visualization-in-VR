@@ -10,6 +10,19 @@ FluidObject::FluidObject(InputDispatcher& window, const ShaderProgram& shaderPro
 		GLFW_KEY_2
 	});
 }
+glm::mat4 rotateFromAToB(glm::vec4 A, glm::vec4 B) {
+	glm::vec3 crossAB = cross(glm::vec3(A), glm::vec3(B));
+	glm::vec4 a = glm::vec4(crossAB / glm::length(crossAB), 0);
+	float alpha = glm::acos(glm::dot(glm::vec3(A), glm::vec3(B)));
+	float s = sin(alpha);
+	float c = cos(alpha);
+	return glm::mat4(
+		glm::vec4(a.x * a.x * (1 - c) + c, a.x * a.y * (1 - c) - s * a.z, a.x * a.z * (1 - c) - s * a.y, 0),
+		glm::vec4(a.x * a.y * (1 - c) - s * a.z, a.y * a.y * (1 - c) + c, a.y * a.z * (1 - c) + s * a.x, 0),
+		glm::vec4(a.x * a.z * (1 - c) + s * a.y, a.y * a.z * (1 - c) - s * a.x, a.z * a.z * (1 - c) + c, 0),
+		glm::vec4(0, 0, 0, 1)
+	);
+}
 
 void FluidObject::init()
 {
@@ -34,36 +47,23 @@ void FluidObject::init()
 	glEnableVertexAttribArray(2);
 	glVertexAttribDivisor(2, 1);
 
-	int width;
-	int height;
-	int nrChannels;
-	unsigned char* data = stbi_load("./_asset/ball2.png", &width, &height, &nrChannels, 0);
-
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	float textureBorderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f }; //transparent
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, textureBorderColor);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		LOG_F(ERROR, "Failed to load texture");
-	} 
-	stbi_image_free(data);
+	colorMap = std::make_unique<Texture2D>("./_asset/ball2.png");
+	normalMap = std::make_unique<Texture2D>("./_asset/ball_normalmap.png");
+	colorMap->init();
+	normalMap->init();
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
+	shaderProgram.setUniformVariable("colorTexture", 0);
+	shaderProgram.setUniformVariable("normalTexture", 1);
+	//shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 1, 1, 0)));
 
+	glm::mat4 m = rotateFromAToB(glm::vec4{ 0,0,1,0 }, glm::vec4{ -1,0,0,0 });
+	LOG_F(ERROR, glm::to_string(glm::vec4(1, 0, 0, 0) * m).c_str());
+	LOG_F(ERROR, glm::to_string(glm::vec4(0, 0, 1, 0) * m).c_str());
+	LOG_F(ERROR, glm::to_string(glm::vec4(0, 1, 0, 0) * m).c_str());
 }
+
 
 void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
@@ -71,14 +71,18 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 		LOG_F(WARNING, "Particle Buffer was opened during draw call, aborting");
 		return;
 	}
-	glBindTexture(GL_TEXTURE_2D, textureID);
+
+	colorMap->useAs(GL_TEXTURE0);
+	normalMap->useAs(GL_TEXTURE1);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
 	shaderProgram.setUniformVariable("particleSize", particleSize);
-
+	glm::vec4 ld = glm::vec4(1, 0, 1, 0);
+	shaderProgram.setUniformVariable("lightDir", ld);
 	glBindVertexArray(VAO);
+
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, ParticleData::m_NumOfParticles);
 }
 

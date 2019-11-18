@@ -13,6 +13,7 @@ GlassController::GlassController(InputDispatcher& inputDispatcher, const Scene::
 		GLFW_KEY_7,
 		GLFW_KEY_8,
 		GLFW_MOUSE_BUTTON_LEFT,
+		GLFW_MOUSE_BUTTON_RIGHT
 	});
 
 	inputDispatcher.subscribeForMousePositionChanges(this);
@@ -34,6 +35,12 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 			selectGlass();
 			moveAccumulator = 0.0f;
 			destinationValid = false;
+			break;
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			if (currentlySelected != -1) {
+				glassObjects[currentlySelected]->select(false);
+				currentlySelected = -1;
+			}
 			break;
 		case GLFW_KEY_3:
 			for (auto& glassObject : ParticleObjectManager::m_partObjectsVector)
@@ -68,7 +75,6 @@ void GlassController::handleKeyPress(int key, KeyState action, float deltaTime)
 		default:
 			break;
 		}
-
 	}
 }
 
@@ -105,12 +111,8 @@ void GlassController::selectGlass() {
 	}
 
 	if (selectedParticleObjectIndex >= 0) {
-		if (currentlySelected == selectedParticleObjectIndex) {
-			ParticleObjectManager::m_partObjectsVector[selectedParticleObjectIndex]->release();
-			currentlySelected = -1;
-		}
-		else {
-			ParticleObjectManager::m_partObjectsVector[selectedParticleObjectIndex]->grab();
+		if (currentlySelected != selectedParticleObjectIndex) {
+			glassObjects[selectedParticleObjectIndex]->grab();
 
 			if (currentlySelected != -1) {
 				ParticleObjectManager::m_partObjectsVector[currentlySelected]->release();

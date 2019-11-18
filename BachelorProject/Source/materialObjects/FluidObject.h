@@ -3,12 +3,12 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stb_image/stb_image.h>
 #include <dataStructures/GpuResources.h>
 #include <Configuration.h>
 #include <dataStructures/ParticleData.h>
 #include <inputDispatcher/InputDispatcher.h>
 #include <Configuration.h>
+#include <utilities/Texture.h>
 
 class FluidObject :
 	public MaterialObject,
@@ -24,7 +24,9 @@ private:
 
 	unsigned int VAO;
 	unsigned int instanceVBO;
-	unsigned int textureID;
+	std::unique_ptr<Texture2D> colorMap;
+	std::unique_ptr<Texture2D> normalMap;
+
 	float particleSize;
 
 	unsigned int quadVBO;

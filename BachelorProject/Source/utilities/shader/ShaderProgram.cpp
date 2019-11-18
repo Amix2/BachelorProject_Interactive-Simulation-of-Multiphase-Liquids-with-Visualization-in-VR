@@ -29,27 +29,27 @@ ShaderProgram::ShaderProgram(const char* vertexShaderPath, const char* geometryS
 
 void ShaderProgram::setUniformVariable(const std::string& name, bool value) const
 {
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+	glUniform1i(getUniformLocation(name), (int)value);
 }
 
 void ShaderProgram::setUniformVariable(const std::string& name, int value) const
 {
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1i(getUniformLocation(name), value);
 }
 
 void ShaderProgram::setUniformVariable(const std::string& name, float value) const
 {
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1f(getUniformLocation(name), value);
 }
 
 void ShaderProgram::setUniformVariable(const std::string& name, const glm::mat4& value) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &value[0][0]);
 }
 
 void ShaderProgram::setUniformVariable(const std::string& name, const glm::vec4& value) const
 {
-	glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+	glUniform4fv(getUniformLocation(name), 1, &value[0]);
 }
 
 void ShaderProgram::checkLinkingErrors()
@@ -66,4 +66,16 @@ void ShaderProgram::checkLinkingErrors()
 	else {
 		LOG_F(INFO, "SUCCESS successful linking of program no. %d ", ID);
 	}
+}
+
+GLint ShaderProgram::getUniformLocation(const std::string& name) const
+{
+	GLint uniformIdx;
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		return m_UniformsMap[name];
+
+	}
+	uniformIdx = glGetUniformLocation(ID, name.c_str());
+	m_UniformsMap[name] = uniformIdx;
+	return uniformIdx;
 }
