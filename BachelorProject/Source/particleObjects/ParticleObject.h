@@ -14,8 +14,11 @@
 #include <particleObjects/ParticleGeometry.h>
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>
+#include <memory>
+#include <materialObjects/MaterialObject.h>
+#include <materialObjects/GlassObject.h>
 
-
+class GlassObject;
 struct ParticleObjectDetais {
 	int fluidType;	// -1 -> glass | >0 -> index in fluid type array | 0 -> reserved
 	union {
@@ -36,10 +39,11 @@ struct ParticleObjectDetais {
 
 // Represents single object like mug etc
 class ParticleObject
-	: public SelectableObject 
+	: public SelectableObject, MaterialObject
 {
 protected:
 	bool m_selected = false;
+	std::shared_ptr<GlassObject> glassObject;
 
 public:
 	glm::mat4 m_matrix;
@@ -54,8 +58,12 @@ public:
 
 	ParticleObject();
 
-	virtual std::string toString() const;
+	void init() override;
+	void load(const glm::mat4& view, const glm::mat4& projection) const override;
+	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
+
 
 	virtual void stepTowardsDestination();
 
+	virtual std::string toString() const;
 };

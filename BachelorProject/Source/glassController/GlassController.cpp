@@ -22,7 +22,7 @@ void GlassController::assignUntrackedObjects(Scene::Scene& scene)
 {
 	if(trackedObjects < ParticleObjectManager::m_numOfObjects)
 		for (int i = trackedObjects; i < ParticleObjectManager::m_numOfObjects; i++) {
-			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, *ParticleObjectManager::m_partObjectsVector[i] };
+			GlassObject* object = new GlassObject{ shaderProgram, selectedProgram, ParticleObjectManager::m_partObjectsVector[i].get() };
 			glassObjects.push_back(object);
 			scene.addMaterialObject(object, 0);
 			trackedObjects++;

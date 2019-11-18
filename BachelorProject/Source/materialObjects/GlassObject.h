@@ -1,14 +1,14 @@
 #pragma once
-#include "MaterialObject.h"
 #include <particleObjects/ParticleObject.h>
 #include <vector>
 #include <glm/gtx/rotate_vector.hpp>
 #include <Configuration.h>
+class ParticleObject;
 
 class GlassObject : public MaterialObject
 {
 public:
-	GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject& glass);
+	GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject* glass);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void select(bool flag) { selected = flag; }

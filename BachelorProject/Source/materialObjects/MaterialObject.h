@@ -13,6 +13,7 @@ public:
 	void toggleRender() { render = !render; }
 protected:
 	MaterialObject(ShaderProgram shaderProgram);
+	MaterialObject() {}
 	ShaderProgram shaderProgram;
 private:
 };

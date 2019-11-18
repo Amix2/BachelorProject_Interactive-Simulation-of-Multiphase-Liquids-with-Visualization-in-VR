@@ -1,11 +1,11 @@
 #include "GlassObject.h"
 
-GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject& glass)
+GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject* glass)
 	: MaterialObject{ shaderProgram }
 	, selectedProgram{ selectedProgram }
-	, model{ &glass.m_matrix }
+	, model{ &glass->m_matrix }
 {
-	generateMesh(glass);
+	generateMesh(*glass);
 }
 
 void GlassObject::init()

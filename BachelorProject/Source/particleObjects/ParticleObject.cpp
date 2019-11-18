@@ -20,6 +20,19 @@ std::string ParticleObject::toString() const
 	return std::string(ss.str());
 }
 
+void ParticleObject::init()
+{
+}
+
+void ParticleObject::load(const glm::mat4& view, const glm::mat4& projection) const
+{
+}
+
+void ParticleObject::createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram)
+{
+	glassObject = std::make_shared<GlassObject>(shaderProgram, selectedProgram, (const ParticleObject*) this);
+}
+
 void ParticleObject::stepTowardsDestination()
 {
 	m_matrix = m_destinationMatrix;
