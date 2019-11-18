@@ -9,15 +9,16 @@
 #include <Logger.h>
 #include <shaders/ShaderCodeEditor.h>
 #include <Utils.h>
+#include <memory>
 
 class ComputeShader
 {
 	GLuint csProgram = -1;
 	std::string m_shaderFileName;
 
-	inline static std::unordered_map<std::string, GLint> m_UniformsMap;
 
 public:
+	mutable std::unordered_map<std::string, GLint> m_UniformsMap;
 	ComputeShader(const std::string shaderFileName);
 	ComputeShader() {}
 	~ComputeShader();
@@ -28,5 +29,7 @@ public:
 	void setUniformVariable(const std::string& name, const glm::mat4& value) const;
 
 	void runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z, bool block = false);
+
+	GLint getUniformLocation(const std::string& name) const;
 };
 

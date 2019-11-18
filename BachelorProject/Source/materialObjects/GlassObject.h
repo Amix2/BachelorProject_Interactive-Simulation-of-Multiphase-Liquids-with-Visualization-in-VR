@@ -13,7 +13,7 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void select(bool flag) { selected = flag; }
 	void select() { selected = !selected; }
-	void toggleRender() { render = !render;  }
+	
 private:
 	const ShaderProgram selectedProgram;
 
@@ -28,7 +28,7 @@ private:
 	int verticesSize;
 	int indicesSize;
 
-	bool render = true;
+
 	bool selected = false;
 
 	void generateMesh(const ParticleObject& glass);

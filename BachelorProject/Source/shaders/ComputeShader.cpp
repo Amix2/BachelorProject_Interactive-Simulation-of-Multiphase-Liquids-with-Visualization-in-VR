@@ -49,69 +49,35 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 ComputeShader::~ComputeShader()
 {
 }
-
 void ComputeShader::setUniformVariable(const std::string& name, bool value) const
 {
-	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
-		glUseProgram(this->csProgram);
-		glUniform1i(m_UniformsMap[name], (int)value);
-
-	}
-	else {
-		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
-		m_UniformsMap.insert({ name, uniformIdx });
-		glUseProgram(this->csProgram);
-		glUniform1i(uniformIdx, (int)value);
-	}
+	glUseProgram(this->csProgram);
+	GLint uniformIdx = getUniformLocation(name);
+	glUniform1i(uniformIdx, (int)value);
 	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, int value) const
 {
-
-	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
-		glUseProgram(this->csProgram);
-		glUniform1i(m_UniformsMap[name], value);
-
-	}
-	else {
-		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
-		m_UniformsMap.insert({ name, uniformIdx });
-		glUseProgram(this->csProgram);
-		glUniform1i(uniformIdx, value);
-	}
+	glUseProgram(this->csProgram);
+	GLint uniformIdx = getUniformLocation(name);
+	glUniform1i(uniformIdx, value);
 	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, float value) const
 {
-	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
-		glUseProgram(this->csProgram);
-		glUniform1f(m_UniformsMap[name], value);
-
-	}
-	else {
-		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
-		m_UniformsMap.insert({ name, uniformIdx });
-		glUseProgram(this->csProgram);
-		glUniform1f(uniformIdx, value);
-	}
+	glUseProgram(this->csProgram);
+	GLint uniformIdx = getUniformLocation(name);
+	glUniform1f(uniformIdx, value);
 	checkOpenGLErrors();
 }
 
 void ComputeShader::setUniformVariable(const std::string& name, const glm::mat4& value) const
 {
-	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
-		glUseProgram(this->csProgram);
-		glUniformMatrix4fv(m_UniformsMap[name], 1, GL_FALSE, & value[0][0]);
-
-	}
-	else {
-		GLint uniformIdx = glGetUniformLocation(csProgram, name.c_str());
-		m_UniformsMap.insert({ name, uniformIdx });
-		glUseProgram(this->csProgram);
-		glUniformMatrix4fv(uniformIdx, 1, GL_FALSE, & value[0][0]);
-	}
+	glUseProgram(this->csProgram);
+	GLint uniformIdx = getUniformLocation(name);
+	glUniformMatrix4fv(uniformIdx, 1, GL_FALSE, & value[0][0]);
 	checkOpenGLErrors();
 }
 
@@ -128,4 +94,16 @@ void ComputeShader::runShader(GLuint num_groups_x, GLuint num_groups_y, GLuint n
 	}
 	//Sleep(100);
 	checkOpenGLErrors();
+}
+
+GLint ComputeShader::getUniformLocation(const std::string& name) const 
+{
+	GLint uniformIdx;
+	if (m_UniformsMap.find(name) != m_UniformsMap.end()) {
+		return m_UniformsMap[name];
+
+	}
+	uniformIdx = glGetUniformLocation(csProgram, name.c_str());
+	m_UniformsMap[name] = uniformIdx;
+	return uniformIdx;
 }
