@@ -56,9 +56,8 @@ void FluidObject::init()
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 	shaderProgram.setUniformVariable("colorTexture", 0);
 	shaderProgram.setUniformVariable("normalTexture", 1);
-	//shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 1, 1, 0)));
+	shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 1, 1, 0)));
 
-	glm::mat4 m = rotateFromAToB(glm::vec4{ 0,0,1,0 }, glm::vec4{ -1,0,0,0 });
 
 }
 
@@ -77,8 +76,6 @@ void FluidObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	shaderProgram.setUniformVariable("projection", projection);
 	shaderProgram.setUniformVariable("view", view);
 	shaderProgram.setUniformVariable("particleSize", particleSize);
-	glm::vec4 ld = glm::vec4(1, 0, 1, 0);
-	shaderProgram.setUniformVariable("lightDir", ld);
 	glBindVertexArray(VAO);
 
 	glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, ParticleData::m_NumOfParticles);

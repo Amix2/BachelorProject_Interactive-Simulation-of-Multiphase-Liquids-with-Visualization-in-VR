@@ -54,7 +54,7 @@ void main()
 
 	const FluidType fluidType = fluidTypeArray[type];
 	
-	float lightIntensity = min(max(dot(vec3(vec4(pixelNormal, 0)), cameraSpaceLightDir), 0), 1);
+	float lightIntensity = min(max(dot(vec3(rot * vec4(pixelNormal, 0)), cameraSpaceLightDir), 0), 1);
 
 	texturedPixel.r = avg(fluidType.color.r, texturedPixel.r);
 	texturedPixel.g = avg(fluidType.color.g, texturedPixel.g);
@@ -63,18 +63,18 @@ void main()
 
 	texturedPixel *= lightIntensity;
 
+//		FragColor = vec4(
+//		mix(texturedPixel.r * 0.2 + 0.8 * ambient.r,
+//		mix(texturedPixel.g * 0.2 + 0.8 * ambient.g,
+//		mix(texturedPixel.b * 0.2 + 0.8 * ambient.b,
+//		1.0
+//		);
 
 
 	FragColor = vec4(
-		mix(texturedPixel.r, background.r, depth),
-		mix(texturedPixel.g, background.g, depth),
-		mix(texturedPixel.b, background.b, depth),
+		mix(texturedPixel.r * 0.2 + 0.8 * ambient.r, background.r, depth),
+		mix(texturedPixel.g * 0.2 + 0.8 * ambient.g, background.g, depth),
+		mix(texturedPixel.b * 0.2 + 0.8 * ambient.b, background.b, depth),
 		1.0
 		);
-//	FragColor = vec4(
-//		mix(texturedPixel.r * 0.2 + 0.8 * ambient.r, background.r, depth),
-//		mix(texturedPixel.g * 0.2 * 0.8 * ambient.g, background.g, depth),
-//		mix(texturedPixel.b * 0.2 + 0.8 * ambient.b, background.b, depth),
-//		1.0
-//		);
 }

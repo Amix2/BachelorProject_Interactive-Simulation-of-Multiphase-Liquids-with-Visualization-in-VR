@@ -47,17 +47,16 @@ void main()
 	modelView[1][0] = 0.0; 
 	modelView[1][1] = 1.0; 
 	modelView[1][2] = 0.0; 
-	modelView[2][0] = 0.0; 
-	modelView[2][1] = 0.0; 
-	modelView[2][2] = 1.0;
 	
-	rot = rotateFromAToB(vec4(0, 0, -1, 0), vec4(modelView[3][0], modelView[3][1], modelView[3][2], 0));
-	vec4 position = projection *  modelView * vec4(quadOffset * particleSize, 0.0, 1.0);
+	//rot = mat4(1);
+	mat4 MVP =  modelView;
+	rot = rotateFromAToB(vec4(MVP[3][0], MVP[3][1], 0, 0), vec4(0, 0, 1, 0));
+	vec4 position = projection * modelView * vec4(quadOffset * particleSize, 0.0, 1.0);
 	if(position.x * position.y * position.z == 0)
 		type = 0;
 	else 
 		type = floatBitsToInt(particleData.w);
 	UV = quadUV;
-	cameraSpaceLightDir = normalize(vec3(lightDir));
+	cameraSpaceLightDir = normalize(vec3(rot * view * lightDir));
 	gl_Position =  position;
 }
