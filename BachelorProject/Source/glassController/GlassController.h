@@ -28,7 +28,7 @@ private:
 	const inline static float SENSITIVITY = 0.1f;
 
 	int trackedObjects = 0;
-	std::vector<GlassObject*> glassObjects;
+
 	const Scene::Camera& camera;
 	int currentlySelected = -1;
 

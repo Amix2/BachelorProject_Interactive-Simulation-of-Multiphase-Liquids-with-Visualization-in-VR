@@ -8,7 +8,7 @@
 class Texture2D {
 public:
 	Texture2D(std::string path) : path{ path } {}
-	void init();
+	void init(bool genMimMaps);
 	void useAs(int num);
 private:
 	std::string path;

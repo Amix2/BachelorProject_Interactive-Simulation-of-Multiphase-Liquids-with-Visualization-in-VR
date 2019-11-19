@@ -49,8 +49,8 @@ void FluidObject::init()
 
 	colorMap = std::make_unique<Texture2D>("./_asset/ball2.png");
 	normalMap = std::make_unique<Texture2D>("./_asset/ball_normalmap.png");
-	colorMap->init();
-	normalMap->init();
+	colorMap->init(false);
+	normalMap->init(true);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
@@ -59,9 +59,7 @@ void FluidObject::init()
 	//shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 1, 1, 0)));
 
 	glm::mat4 m = rotateFromAToB(glm::vec4{ 0,0,1,0 }, glm::vec4{ -1,0,0,0 });
-	LOG_F(ERROR, glm::to_string(glm::vec4(1, 0, 0, 0) * m).c_str());
-	LOG_F(ERROR, glm::to_string(glm::vec4(0, 0, 1, 0) * m).c_str());
-	LOG_F(ERROR, glm::to_string(glm::vec4(0, 1, 0, 0) * m).c_str());
+
 }
 
 

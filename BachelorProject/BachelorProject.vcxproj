@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
+    <ClCompile Include="Source\utilities\GraphicShaderStorage.cpp" />
     <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
     <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
     <ClCompile Include="Source\emiters\Emiter.cpp" />
@@ -70,6 +72,8 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
+    <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
     <ClInclude Include="Source\selectableObject\SelectableObject.h" />
     <ClInclude Include="Source\emiters\EmiterManager.h" />

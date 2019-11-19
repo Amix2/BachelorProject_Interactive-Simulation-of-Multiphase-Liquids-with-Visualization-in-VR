@@ -50,6 +50,8 @@
 #include <emiters/EmiterManager.h>
 #include <emiters/Emiter.h>
 #include <window/FrameBuffer.h>
+#include <utilities/GraphicShaderStorage.h>
+#include <scene/camera/EmittingCameraController.h>
 
 void printWorkGroupsCapabilities();
 
@@ -117,7 +119,7 @@ int main(int argc, char ** argv) {
 		LOG_F(INFO, "Couldn't init VR Core - switching to regular display mode");
 
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
-		cameraController = new SimpleCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
+		cameraController = new EmittingCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
 	}
 
 	scene.addCameras(cameraController);
@@ -131,7 +133,9 @@ int main(int argc, char ** argv) {
 	Simulation::startSimulation(window.glfwWindow);
 	
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
+	GraphicShaderStorage::addShader(ShaderNames.GlassObject, programGlass);
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
+	GraphicShaderStorage::addShader(ShaderNames.SelectedGlassObject, programSelectedGlass);
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
 
 
@@ -178,18 +182,17 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 
 	static ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
 	static MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
-
-	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
+	
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid, 0);
 	scene.addMaterialObject(&axes, 0);
 	scene.addMaterialObject(&vectorNormals, 0);
-	//scene.addMaterialObject(&pyramidPointer);
 	scene.addMaterialObject(&moveIndicatorObject, 0);
-
+	scene.addMaterialObject(&pyramidPointer, 0);
 }
 
 void initTools()

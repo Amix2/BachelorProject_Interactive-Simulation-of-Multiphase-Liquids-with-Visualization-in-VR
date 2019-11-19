@@ -48,6 +48,8 @@
     <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
     <ClCompile Include="Source\emiters\Emiter.cpp" />
     <ClCompile Include="Source\emiters\EmiterManager.cpp" />
+    <ClCompile Include="Source\utilities\GraphicShaderStorage.cpp" />
+    <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
     <ClCompile Include="Source\utilities\Texture.cpp" />
     <ClCompile Include="Source\window\FrameBuffer.cpp" />
   </ItemGroup>
@@ -108,6 +110,8 @@
     <ClInclude Include="Source\emiters\Emiter.h" />
     <ClInclude Include="Source\emiters\EmiterManager.h" />
     <ClInclude Include="Source\emiters\EmiterProvider.h" />
+    <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
+    <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
     <ClInclude Include="Source\utilities\Texture.h" />
     <ClInclude Include="Source\window\FrameBuffer.h" />
     <ClInclude Include="Source\window\listener\WindowSizeListener.h" />

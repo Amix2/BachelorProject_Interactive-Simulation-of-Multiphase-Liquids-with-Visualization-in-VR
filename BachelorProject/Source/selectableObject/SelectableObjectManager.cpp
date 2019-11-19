@@ -12,7 +12,7 @@ void SelectableObjectManager::print()
 	int i = 0;
 	for (SelectableObject* object : m_selectableObjects) {
 		bool test = object->isSelected();
-		glm::mat4* mat = object->getMatrix();
+		const glm::mat4* mat = object->getMatrix();
 		LOG_F(INFO, "%d:\tselected: %s, \n\tmatrix: %s", i, object->isSelected() ? "true" : "false",  glm::to_string(*(mat)).c_str());
 	}
 

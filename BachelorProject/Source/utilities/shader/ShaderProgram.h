@@ -13,6 +13,7 @@
 class ShaderProgram
 {
 public:
+	ShaderProgram() {}
 	ShaderProgram(const char* vertexPath, const char* fragmentPath);
 	ShaderProgram(const char* vertexShaderPath, const char* geometryShaderPath, const char* fragmentShaderPath);
 
