@@ -1,7 +1,7 @@
 #pragma once
-class WindowSizeListener
+class FrameBufferSizeListener
 {
 public:
-	void virtual handleWindowResize(int width, int height) = 0;
+	void virtual handleFrameBufferResize(int width, int height) = 0;
 };
 

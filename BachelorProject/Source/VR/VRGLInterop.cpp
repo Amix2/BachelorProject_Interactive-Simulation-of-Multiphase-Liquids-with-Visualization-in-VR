@@ -1,7 +1,7 @@
 #include "VRGLInterop.h"
 
 namespace VR {
-	bool VRGLInterop::activate() {
+	bool VRGLInterop::init() {
 		VRactive = VrCore->InitializeCore();
 		if (!VRactive) return false;
 		VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
@@ -15,7 +15,7 @@ namespace VR {
 		glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdLeft);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdLeft, 0);
 
 		// check FBO status
@@ -39,7 +39,7 @@ namespace VR {
 		glBindTexture(GL_TEXTURE_2D, m_nResolveTextureIdRight);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, SCR_WIDTH, SCR_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_nResolveTextureIdRight, 0);
 
 		// check FBO status
@@ -61,18 +61,18 @@ namespace VR {
 		return VRactive;
 	}
 
-	void VRGLInterop::sumbitFrame() {
+	void VRGLInterop::sumbitFrame(const FrameBuffer& frameBuffer) {
 
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
 
-		glBlitFramebuffer(0, 0, SCR_WIDTH * 0.5f, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT,
+		glBlitFramebuffer(0, 0, frameBuffer.getWidth() * 0.5f, frameBuffer.getHeight(), 0, 0, frameBuffer.getWidth(), frameBuffer.getHeight(),
 			GL_COLOR_BUFFER_BIT,
 			GL_LINEAR);
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdRight);
 
-		glBlitFramebuffer(SCR_WIDTH * 0.5f, 0, SCR_WIDTH, SCR_HEIGHT, 0, 0, SCR_WIDTH, SCR_HEIGHT,
+		glBlitFramebuffer(frameBuffer.getWidth() * 0.5f, 0, frameBuffer.getWidth(), frameBuffer.getHeight(), 0, 0, frameBuffer.getWidth(), frameBuffer.getHeight(),
 			GL_COLOR_BUFFER_BIT,
 			GL_LINEAR);
 

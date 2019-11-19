@@ -49,6 +49,7 @@
     <ClCompile Include="Source\emiters\Emiter.cpp" />
     <ClCompile Include="Source\emiters\EmiterManager.cpp" />
     <ClCompile Include="Source\utilities\Texture.cpp" />
+    <ClCompile Include="Source\window\FrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -79,7 +80,6 @@
     <ClInclude Include="Source\ThreadSynchronizer.h" />
     <ClInclude Include="Source\window\ViewPort.h" />
     <ClInclude Include="Source\window\Window.h" />
-    <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
     <ClInclude Include="Source\shaders\ShaderCodeEditor.h" />
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
     <ClInclude Include="Source\particleObjects\ParticleObject.h" />
@@ -109,6 +109,8 @@
     <ClInclude Include="Source\emiters\EmiterManager.h" />
     <ClInclude Include="Source\emiters\EmiterProvider.h" />
     <ClInclude Include="Source\utilities\Texture.h" />
+    <ClInclude Include="Source\window\FrameBuffer.h" />
+    <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
