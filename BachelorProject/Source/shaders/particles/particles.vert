@@ -30,8 +30,7 @@ layout (location = 2) in vec4 particleData;
 flat out int type;
 out vec2 UV;
 out vec3 cameraSpaceLightDir;	
-out mat4 rot;
-out mat4 inv;
+out mat4 perspectiveRotation;
 
 uniform mat4 view;
 uniform mat4 projection;
@@ -40,23 +39,25 @@ uniform vec4 lightDir;
 
 void main()
 {	
-	mat4 modelView =  view * translate(particleData.x, particleData.y, particleData.z);
-	modelView[0][0] = 1.0; 
-	modelView[0][1] = 0.0; 
-	modelView[0][2] = 0.0; 
-	modelView[1][0] = 0.0; 
-	modelView[1][1] = 1.0; 
-	modelView[1][2] = 0.0; 
+	mat4 MV =  view * translate(particleData.x, particleData.y, particleData.z);
+	MV[0][0] = 1.0; 
+	MV[0][1] = 0.0; 
+	MV[0][2] = 0.0; 
+	MV[1][0] = 0.0; 
+	MV[1][1] = 1.0; 
+	MV[1][2] = 0.0; 
+	MV[2][0] = 0.0; 
+	MV[2][1] = 0.0; 
+	MV[2][2] = 1.0; 
+
 	
-	//rot = mat4(1);
-	mat4 MVP =  modelView;
-	rot = rotateFromAToB(vec4(MVP[3][0], MVP[3][1], 0, 0), vec4(0, 0, 1, 0));
-	vec4 position = projection * modelView * vec4(quadOffset * particleSize, 0.0, 1.0);
+	perspectiveRotation = rotateFromAToB(vec4(0,0,-1,0), normalize(vec4(MV[3][0], MV[3][1], MV[3][2], 0)));
+	vec4 position = projection * MV * vec4(quadOffset * particleSize, 0.0, 1.0);
 	if(position.x * position.y * position.z == 0)
 		type = 0;
 	else 
 		type = floatBitsToInt(particleData.w);
 	UV = quadUV;
-	cameraSpaceLightDir = normalize(vec3(rot * view * lightDir));
+	cameraSpaceLightDir = normalize(vec3(view * lightDir));
 	gl_Position =  position;
 }

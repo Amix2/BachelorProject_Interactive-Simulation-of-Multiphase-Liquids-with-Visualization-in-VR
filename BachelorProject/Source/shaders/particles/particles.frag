@@ -6,8 +6,7 @@ out vec4 FragColor;
 in vec2 UV;
 in vec3 cameraSpaceLightDir;
 flat in int type;
-in mat4 rot;
-in mat4 inv;
+in mat4 perspectiveRotation;
 
 struct FluidType {
 	float mass;
@@ -34,6 +33,7 @@ float far  = 100.0;
 float LinearizeDepth(float depth) 
 {
     float z = depth * 2.0 - 1.0; 
+
     return (2.0 * near * far) / (far + near - z * (far - near));	
 }
 
@@ -54,7 +54,7 @@ void main()
 
 	const FluidType fluidType = fluidTypeArray[type];
 	
-	float lightIntensity = min(max(dot(vec3(rot * vec4(pixelNormal, 0)), cameraSpaceLightDir), 0), 1);
+	float lightIntensity = max(dot(vec3(perspectiveRotation * vec4(pixelNormal, 0)), cameraSpaceLightDir), 0);
 
 	texturedPixel.r = avg(fluidType.color.r, texturedPixel.r);
 	texturedPixel.g = avg(fluidType.color.g, texturedPixel.g);
@@ -62,14 +62,6 @@ void main()
 	vec3 ambient = vec3(texturedPixel);
 
 	texturedPixel *= lightIntensity;
-
-//		FragColor = vec4(
-//		mix(texturedPixel.r * 0.2 + 0.8 * ambient.r,
-//		mix(texturedPixel.g * 0.2 + 0.8 * ambient.g,
-//		mix(texturedPixel.b * 0.2 + 0.8 * ambient.b,
-//		1.0
-//		);
-
 
 	FragColor = vec4(
 		mix(texturedPixel.r * 0.2 + 0.8 * ambient.r, background.r, depth),
