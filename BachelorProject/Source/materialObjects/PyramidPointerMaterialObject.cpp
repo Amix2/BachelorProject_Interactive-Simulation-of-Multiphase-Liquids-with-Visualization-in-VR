@@ -2,7 +2,13 @@
 #include <VR/VRGeometry.h>
 
 PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop)
-	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, vrglinterop{ vrglinterop } {
+	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, vrglinterop{ vrglinterop } 
+{
+}
+
+PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor)
+	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }
+{
 }
 
 bool PyramidPointerMaterialObject::InitializeBufferObjects() {

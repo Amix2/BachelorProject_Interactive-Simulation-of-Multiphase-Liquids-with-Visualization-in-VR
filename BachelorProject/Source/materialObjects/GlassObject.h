@@ -5,12 +5,15 @@
 #include <Configuration.h>
 class ParticleObject;
 
-class GlassObject
+class GlassObject : public MaterialObject
 {
 public:
 	GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject* glass);
 	void init();
 	void load(const glm::mat4& view, const glm::mat4& projection) const;
+
+	bool getRender() const;
+	void toggleRender() = delete;
 	
 private:
 	const ShaderProgram selectedProgram;

@@ -10,6 +10,7 @@
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
 	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop);
+	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 

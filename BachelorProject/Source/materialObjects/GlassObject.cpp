@@ -33,7 +33,7 @@ void GlassObject::init()
 
 void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-	if (!owner->render) return;
+	if (!owner->getRender()) return;
 	if (owner->isSelected()) {
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilMask(0xFF);
@@ -58,6 +58,11 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 
 		glStencilMask(0xFF);
 	}
+}
+
+bool GlassObject::getRender() const
+{
+	return owner->getRender(); 
 }
 
 void GlassObject::generateMesh(const ParticleObject& glass)

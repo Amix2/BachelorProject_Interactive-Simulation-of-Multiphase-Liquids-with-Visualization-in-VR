@@ -1,6 +1,6 @@
 #pragma once
 
-enum class KeyState {
+enum KeyState {
 	FALLING_EDGE,
 	RISING_EDGE,
 	PRESSED

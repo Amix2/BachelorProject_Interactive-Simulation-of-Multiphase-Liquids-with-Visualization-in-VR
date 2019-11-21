@@ -51,6 +51,7 @@
 #include <emiters/Emiter.h>
 #include <utilities/GraphicShaderStorage.h>
 #include <scene/camera/EmittingCameraController.h>
+#include <digitalHand/DigitalHand.h>
 
 void printWorkGroupsCapabilities();
 
@@ -139,6 +140,12 @@ int main(int argc, char ** argv) {
 	setupScene(scene, inputDispatcher, vrglinterop);
 	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
+
+	HandDataProvider handDataProvider;
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND);
+	scene.addMaterialObject(&leftHand, 0);
+	scene.addMaterialObject(&rightHand, 0);
 
 	do 
 	{

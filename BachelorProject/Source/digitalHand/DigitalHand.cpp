@@ -1,8 +1,16 @@
 #include "DigitalHand.h"
 
-DigitalHand::DigitalHand(DataProvider* dataprovider) : dataProvider{ dataprovider }
+DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand) : m_dataProvider{ dataprovider }, m_hand{ hand }
 {
-	//pyramid = std::make_shared<PyramidPointerMaterialObject>()
+	m_pyramid = std::make_shared<PyramidPointerMaterialObject>();
+}
+
+void DigitalHand::init()
+{
+}
+
+void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
+{
 }
 
 void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
