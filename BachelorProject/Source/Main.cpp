@@ -142,8 +142,9 @@ int main(int argc, char ** argv) {
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
 
 	HandDataProvider handDataProvider;
-	DigitalHand leftHand(&handDataProvider, LEFT_HAND);
-	DigitalHand rightHand(&handDataProvider, RIGHT_HAND);
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, vrglinterop);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
 
