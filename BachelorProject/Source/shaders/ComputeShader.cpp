@@ -2,7 +2,7 @@
 
 ComputeShader::ComputeShader(const std::string shaderFileName)
 {
-	auto ntStart = getNanoTime();
+	auto ntStart = Utils::getNanoTime();
 	GLuint csCreatorID = glCreateShader(GL_COMPUTE_SHADER);
 
 	std::ifstream csInputFileStream(shaderFileName);
@@ -41,8 +41,8 @@ ComputeShader::ComputeShader(const std::string shaderFileName)
 
 	this->m_shaderFileName = shaderFileName;
 
-	auto ntEnd = getNanoTime();
-	LOG_F(WARNING, "Shader %s compile successful, time: %f", shaderFileName.c_str(), getNanoTimeDif(ntStart, ntEnd));
+	auto ntEnd = Utils::getNanoTime();
+	LOG_F(WARNING, "Shader %s compile successful, time: %f", shaderFileName.c_str(), Utils::getNanoTimeDif(ntStart, ntEnd));
 }
 
 

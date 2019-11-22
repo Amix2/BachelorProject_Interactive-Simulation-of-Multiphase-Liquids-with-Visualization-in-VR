@@ -143,7 +143,7 @@ int main(int argc, char ** argv) {
 
 	HandDataProvider handDataProvider;
 	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, vrglinterop);
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer);
 	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
@@ -153,8 +153,14 @@ int main(int argc, char ** argv) {
 		if (HmdConnected) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 		}
+
+		leftHand.update();
+		rightHand.update();
+
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
+
+
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame();
 		}
@@ -189,7 +195,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	scene.addMaterialObject(&fluid, 0);
 	scene.addMaterialObject(&axes, 0);
 	scene.addMaterialObject(&vectorNormals, 0);
-	scene.addMaterialObject(&pyramidPointer, 0);
+	//scene.addMaterialObject(&pyramidPointer, 0);
 }
 
 void initTools()

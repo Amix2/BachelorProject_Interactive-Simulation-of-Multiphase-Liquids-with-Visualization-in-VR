@@ -14,11 +14,15 @@
 		LOG_F(ERROR, "GL error: %s", gluErrorString(err_macro));					\
 	}
 
-long getTime();
-std::chrono::time_point<std::chrono::steady_clock> getNanoTime();
-double getNanoTimeDif(std::chrono::time_point<std::chrono::steady_clock> start, std::chrono::time_point<std::chrono::steady_clock> finish);
+namespace Utils {
 
-glm::vec3 getUp(glm::mat4 matrix);
-glm::vec3 getRight(glm::mat4 matrix);
-glm::vec3 getForward(glm::mat4 matrix);
-glm::vec3 getPosition(glm::mat4 matrix);
+	long getTime();
+	std::chrono::time_point<std::chrono::steady_clock> getNanoTime();
+	double getNanoTimeDif(std::chrono::time_point<std::chrono::steady_clock> start, std::chrono::time_point<std::chrono::steady_clock> finish);
+
+	glm::vec3 getUp(const glm::mat4 matrix);
+	glm::vec3 getRight(const glm::mat4 matrix);
+	glm::vec3 getForward(const glm::mat4 matrix);
+	glm::vec3 getPosition(const glm::mat4 matrix);
+
+}

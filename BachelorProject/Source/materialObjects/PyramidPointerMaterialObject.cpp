@@ -11,6 +11,11 @@ PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderP
 {
 }
 
+PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner)
+	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, m_owner{ owner }
+{
+}
+
 bool PyramidPointerMaterialObject::InitializeBufferObjects() {
 	GLuint VertexArrayObject{};
 	GLuint VertexBufferObject{};
@@ -91,22 +96,9 @@ void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& 
 	vr::VRControllerState_t controllerState;
 	int deviceId;
 	this->shaderProgram.use();
-	auto a0 = view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[1].mDeviceToAbsoluteTracking);
-	auto a1 = projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[1].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 });
-	auto a2 = projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[2].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 });
-	auto a3 = projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 });
-	auto a4 = projection * view * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking) * glm::scale(glm::mat4{ 1.0f }, { 0.1, 0.1, 0.1 });
 
-	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 }) * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[1].mDeviceToAbsoluteTracking) * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, {1, 0, 0}));
+	this->shaderProgram.setUniformVariable("MVP", projection * view * m_owner->getPyramidModel());
 
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 }) * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[2].mDeviceToAbsoluteTracking) * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 }));
 
-	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 }) * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking) * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 }));
-
-	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-	this->shaderProgram.setUniformVariable("MVP", projection * view * glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 }) * VR::openvr_m34_to_mat4(vrglinterop.VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking) * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 }));
-
-	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 }

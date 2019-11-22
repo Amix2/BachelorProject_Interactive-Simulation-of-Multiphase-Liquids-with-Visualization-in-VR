@@ -6,11 +6,14 @@
 #include <Configuration.h>
 #include <vector>
 #include <VR/VRGLInterop.h>
+#include <digitalHand/DigitalHand.h>
+class DigitalHand;
 
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
 	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop);
 	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor);
+	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 
@@ -19,7 +22,7 @@ protected:
 
 private:
 	bool InitializeBufferObjects();
-	//bool InitializeVertices();
+	const DigitalHand* m_owner = nullptr;
 	std::map<std::string, GLuint> BufferObjects{};
 	GLuint VAO, VBO, EBO;
 	VR::VRGLInterop vrglinterop;

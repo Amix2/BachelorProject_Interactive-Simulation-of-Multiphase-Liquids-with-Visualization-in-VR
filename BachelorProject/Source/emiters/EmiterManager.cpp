@@ -1,9 +1,10 @@
 #include "EmiterManager.h"
 
-Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType)
+Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, bool selectable)
 {
 	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType));
-	SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
+	if(selectable)
+		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
 	return &m_emitersVector[m_emitersVector.size()-1];
 }
 

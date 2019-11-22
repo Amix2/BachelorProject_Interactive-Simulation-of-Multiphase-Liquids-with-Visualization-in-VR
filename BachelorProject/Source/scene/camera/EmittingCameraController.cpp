@@ -14,7 +14,7 @@ EmittingCameraController::EmittingCameraController(InputDispatcher& inputDispatc
 			GLFW_KEY_L	// emiter velocity --
 	});
 
-	emiter = EmiterManager::createEmiter(2, 1000.0f, 2);
+	emiter = EmiterManager::createEmiter(2, 1000.0f, 2, false);
 }
 
 

@@ -15,7 +15,7 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 	ParticleObjectCreator::m_ParticleObjectDetaisVector.pop_back();
 
 	LOG_F(INFO, "New object is now created, type: %d", currentDetails.fluidType);
-	auto nTimeStart = getNanoTime();
+	auto nTimeStart = Utils::getNanoTime();
 
 	int numOfParticles = 0;
 
@@ -68,8 +68,8 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 
 	ParticleData::sendDetails();
 
-	auto nTimeEnd = getNanoTime();
-	LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d, total time: %f", currentDetails.fluidType, numOfParticles, getNanoTimeDif(nTimeStart, nTimeEnd));
+	auto nTimeEnd = Utils::getNanoTime();
+	LOG_F(INFO, "New object added to Simulation: type: %d, particles: %d, total time: %f", currentDetails.fluidType, numOfParticles, Utils::getNanoTimeDif(nTimeStart, nTimeEnd));
 }
 
 void ParticleObjectCreator::createFluid(ParticleObjectDetais details, int &numOfParts) {

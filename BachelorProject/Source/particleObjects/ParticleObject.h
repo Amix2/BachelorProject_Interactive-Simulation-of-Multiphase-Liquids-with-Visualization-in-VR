@@ -64,7 +64,6 @@ public:
 	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
 
 
-
 	virtual void stepTowardsDestination();
 
 	virtual std::string toString() const;

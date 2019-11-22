@@ -149,8 +149,8 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
