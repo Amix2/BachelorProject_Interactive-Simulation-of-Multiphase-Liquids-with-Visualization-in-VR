@@ -1,6 +1,5 @@
 #include "VRControllerProvider.h"
 
-
 namespace VR
 {
 	namespace DataProviders
