@@ -150,7 +150,7 @@ int main(int argc, char ** argv) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 			vrFrameBuffer->drawTo();
 		}
-		else
+
 		scene.renderScene();
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame(*vrFrameBuffer);
