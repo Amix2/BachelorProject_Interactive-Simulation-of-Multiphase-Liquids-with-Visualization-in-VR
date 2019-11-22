@@ -60,6 +60,7 @@ private:
 		const void* userParam
 	);
 
+	bool vrPollEvents();
 	void handleResize(int width, int height);
 	void handleMouseMove(double x, double y);
 	void handleMouseScroll(double xoffset, double yoffset);

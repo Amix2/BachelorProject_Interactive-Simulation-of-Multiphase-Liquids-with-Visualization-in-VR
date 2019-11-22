@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProvidedData.h"
+#include "vrProvidedData/ProvidedData.h"
 
 namespace VR
 {

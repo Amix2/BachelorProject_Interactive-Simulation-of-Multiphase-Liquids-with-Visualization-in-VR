@@ -19,7 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\input\VRPositionProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\Provider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRCameraProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRControllerInputProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRControllerPoseProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRControllerProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRPoseProvider.cpp" />
     <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
     <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
@@ -68,7 +73,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
-    <ClInclude Include="Source\input\VRPositionProvider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ProvidedData.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\Provider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRCameraProvider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRControllerInputProvider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRControllerPoseProvider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRControllerProvider.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRPoseProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\simulationObjects\Emiter.h" />
@@ -116,7 +127,6 @@
     <ClInclude Include="Source\utilities\shader\ShaderProgram.h" />
     <ClInclude Include="Source\utilities\Vectors.h" />
     <ClInclude Include="Source\Utils.h" />
-    <ClInclude Include="Source\VR\InputConfig.h" />
     <ClInclude Include="Source\VR\VRCore.h" />
     <ClInclude Include="Source\VR\VRGeometry.h" />
     <ClInclude Include="Source\VR\VRGLInterop.h" />

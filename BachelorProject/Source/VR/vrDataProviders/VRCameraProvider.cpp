@@ -4,7 +4,8 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		VRCameraProvider::VRCameraProvider()
+		template <typename ProvidedDataType>
+		VRCameraProvider<ProvidedDataType>::VRCameraProvider()
 		{
 			//
 		}

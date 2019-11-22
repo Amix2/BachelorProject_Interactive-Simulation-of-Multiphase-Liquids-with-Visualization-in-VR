@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "KeyState.h"
+#include <vrInputProviders/Provider.h>
 #include <inputDispatcher/listener/KeyInputListener.h>
 #include <inputDispatcher/listener/MousePositionListener.h>
 #include <inputDispatcher/listener/MouseScrollListener.h>
@@ -30,11 +31,11 @@ public:
 	void subscribeForKeyInput(KeyInputListener* listener, const int key);
 	void subscribeForMousePositionChanges(MousePositionListener* listener) { mousePositionListeners.push_back(listener); }
 	void subscribeForMouseScroll(MouseScrollListener* listener) { mouseScrollListeners.push_back(listener); }
-	void subscribeForControllerInput(const ControllerInputListener* listener, const vr::EVREventType eventType, const vr::EVRButtonId buttonId);
 private:
 	//Key Input
 	std::unordered_map<int, std::unordered_set<KeyInputListener*>*> keysToListeners;
 	std::unordered_set<int> pressedKeys;
+	std::unordered_map<std::string, std::shared_ptr<Provider>> providers;
 
 	//Mouse position
 	std::vector<MousePositionListener*> mousePositionListeners;

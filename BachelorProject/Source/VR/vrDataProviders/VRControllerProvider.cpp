@@ -8,7 +8,7 @@ namespace VR
 		template <typename ProvidedDataType>
 		vr::ETrackedControllerRole VRControllerProvider<ProvidedDataType>::GetControllerRole() const
 		{
-			return
+			//
 		}
 
 		template<typename ProvidedDataType>

@@ -7,7 +7,9 @@ namespace VR
 		template<typename ProvidedDataType>
 		VRControllerPoseProvider<ProvidedDataType>::VRControllerPoseProvider()
 		{
+			//
 		}
+
 		template <typename ProvidedDataType>
 		bool VRControllerPoseProvider<ProvidedDataType>::init()
 		{

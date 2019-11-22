@@ -64,7 +64,7 @@ bool Window::refresh()
 	lastFrame = currentFrame;
 
 	glfwPollEvents();
-	// vrPollEvents();
+	vrPollEvents();
 	inputDispatcher->dispatchInput(deltaTime);
 
 	return glfwWindowShouldClose(glfwWindow);
