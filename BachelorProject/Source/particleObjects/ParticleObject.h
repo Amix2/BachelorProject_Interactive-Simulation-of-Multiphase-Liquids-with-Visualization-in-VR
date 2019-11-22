@@ -63,6 +63,7 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
 
+	glm::mat4 getHelp() { return m_destinationMatrix; }
 
 	virtual void stepTowardsDestination();
 

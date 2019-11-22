@@ -6,6 +6,7 @@
 #include <selectableObject/SelectableObjectManager.h>
 #include <memory>
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <Utils.h>
 
 class PyramidPointerMaterialObject;
@@ -13,6 +14,18 @@ class PyramidPointerMaterialObject;
 enum Hand {
 	RIGHT_HAND,
 	LEFT_HAND
+};
+
+struct MatrixDifference {
+	float angForwardByRight;
+	float angForwardByUp;
+	float angUpByRight;
+	float angUpByForward;
+	float angRightByUp;
+	float angRightByForward;
+
+	void createDifference(const glm::mat4& refMatrix, const glm::mat4& otherMatrix);
+	void applyDifference(const glm::mat4& refMatrix, glm::mat4* matrix);
 };
 
 // aka VR Controller
@@ -29,13 +42,14 @@ private:
 	ShaderProgram m_handShader;
 	SelectableObject* m_selectedObject = nullptr;
 	glm::mat4 m_handMatrix;
-	glm::vec3 m_grabPositionOffset;
+	glm::mat4 m_grabMatrixOffset;
+	MatrixDifference m_matrixDifference;
 
 	glm::mat4 getMyHandMatrix() const;
 	bool tryGrabDistance();
 	bool tryGrabAngle();
 	void teleportObjectToHand(SelectableObject* obj);
-	void setGrabPositionOffset();
+	void setGrabMatrixOffset();
 public:
 
 	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader);

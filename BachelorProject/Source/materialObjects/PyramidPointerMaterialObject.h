@@ -11,8 +11,6 @@ class DigitalHand;
 
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
-	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop);
-	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor);
 	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
@@ -25,11 +23,11 @@ private:
 	const DigitalHand* m_owner = nullptr;
 	std::map<std::string, GLuint> BufferObjects{};
 	GLuint VAO, VBO, EBO;
-	VR::VRGLInterop vrglinterop;
+
 	glm::vec4 PyramidColor{};
 	const unsigned long BaseVertices = 3;
 	const float TETRAHEDRON_RADIUS = 0.6124f;
-	const float TETRAHEDRON_HEIGHT = 0.8165f;
+	const float TETRAHEDRON_HEIGHT = 1.8165f;
 	const float TETRAHEDRON_BASE_HEIGHT = 0.866f;
 	double PyramidHeight;
 	double PyramidRadius;

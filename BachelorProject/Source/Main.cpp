@@ -75,6 +75,22 @@ constexpr unsigned int SCR_HEIGHT = 1080;
 
 static bool HmdConnected;
 
+glm::vec3 getPerpendicular21(const glm::vec3 vec1, const glm::vec3 vec2) {
+	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
+	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
+	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;
+
+	float length = (float)sqrt(crossX * crossX +
+		crossY * crossY +
+		crossZ * crossZ);
+
+	if (length > 0)
+		return glm::vec3(crossX / length, crossY / length, crossZ / length);
+	else
+
+		return glm::vec3();
+}
+
 int main(int argc, char ** argv) {
 	if (LOG_TO_FILE) {
 		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
@@ -96,6 +112,7 @@ int main(int argc, char ** argv) {
 		LOG_F(ERROR, "Failed to init window");
 		exit(1);
 	}
+	LOG_F(ERROR, " %s", glm::to_string(getPerpendicular21(glm::vec3(-1, 1,0), glm::vec3(-1, 0.5,0))).c_str());
 
 	WindowTitle::setWindow(window.glfwWindow);
 
@@ -187,8 +204,8 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
-	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
+	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);

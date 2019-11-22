@@ -28,8 +28,9 @@ void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
 
 const glm::mat4 DigitalHand::getPyramidModel() const
 {
-	return m_handMatrix
-		* glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 });
+	//return SCALE_MATRIX * getMyHandMatrix() * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 });
+	if(m_selectedObject != nullptr) return *(m_selectedObject->getMatrix()) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
+	return  m_handMatrix * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
 }
 
 void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
@@ -38,11 +39,14 @@ void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
 
 void DigitalHand::update()
 {
-	m_handMatrix = SCALE_MATRIX * getMyHandMatrix() * glm::rotate((glm::mat4{ 1.0f }), -glm::pi<float>(), { 1, 0, 0 });
+	m_handMatrix = getMyHandMatrix();
+	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);
+	m_handMatrix = m_handMatrix * glm::rotate(glm::mat4(1.0f), -glm::pi<float>() / 2, glm::vec3(1,0,0));
+	//LOG_F(WARNING, "%s", glm::to_string(m_handMatrix).c_str());
 	// update matrix for hand
 	// load() function will draw it with this matrix
 	// if hand to holding st -> use SelectableObjectManager to move object
-	if (m_selectedObject == nullptr)  tryGrabAngle();
+	if (m_selectedObject == nullptr)  tryGrabDistance();
 	else teleportObjectToHand(m_selectedObject);
 }
 
@@ -70,7 +74,7 @@ bool DigitalHand::tryGrabDistance()
 		if (!object->canBeSelected()) continue;
 		const glm::vec3 objPosition = Utils::getPosition(*(object->getMatrix()));
 		const float distance = glm::distance(objPosition, myPosition);
-
+	
 		if (distance < selectedObjDistance) {
 			m_selectedObject = object;
 			selectedObjDistance = distance;
@@ -82,7 +86,7 @@ bool DigitalHand::tryGrabDistance()
 		// selected
 		//LOG_F(WARNING, "SELECTED");
 		m_selectedObject->grab();
-		setGrabPositionOffset();
+		setGrabMatrixOffset();
 		return true;
 	}
 	else {
@@ -129,14 +133,46 @@ bool DigitalHand::tryGrabAngle()
 
 void DigitalHand::teleportObjectToHand(SelectableObject* obj)
 {
-	glm::mat4 objectMatrix = *(obj->getMatrix());
-	Utils::setPosition(&objectMatrix, Utils::getPosition(m_handMatrix));
-	obj->setMatrix(objectMatrix);
+	//`glm::mat4 objectMatrix = *(obj->getMatrix());
+	//Utils::setPosition(&objectMatrix, Utils::getPosition(m_handMatrix));
+	//glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
+	//m_matrixDifference.applyDifference(m_handMatrix, &objMatrix);
+	obj->setMatrix(m_handMatrix);
 }
 
-void DigitalHand::setGrabPositionOffset()
+void DigitalHand::setGrabMatrixOffset()
 {
-	m_grabPositionOffset = Utils::getPosition(*(m_selectedObject->getMatrix())) - Utils::getPosition(m_handMatrix);
+	m_grabMatrixOffset = glm::inverse(m_handMatrix) * *(m_selectedObject->getMatrix());
+	//m_matrixDifference.createDifference(m_handMatrix, *(m_selectedObject->getMatrix()));
+	//m_grabPositionOffset = Utils::getPosition(*(m_selectedObject->getMatrix())) - Utils::getPosition(m_handMatrix);
 }
 
+void MatrixDifference::createDifference(const glm::mat4& refMatrix, const glm::mat4& otherMatrix)
+{
+	angForwardByRight = glm::orientedAngle(Utils::getForward(refMatrix), Utils::getForward(otherMatrix), Utils::getRight(refMatrix));
+	angForwardByUp = glm::orientedAngle(Utils::getForward(refMatrix), Utils::getForward(otherMatrix), Utils::getUp(refMatrix));
 
+	angUpByForward = glm::orientedAngle(Utils::getUp(refMatrix), Utils::getUp(otherMatrix), Utils::getForward(refMatrix));
+	angUpByRight = glm::orientedAngle(Utils::getUp(refMatrix), Utils::getUp(otherMatrix), Utils::getRight(refMatrix));
+
+	angRightByForward = glm::orientedAngle(Utils::getRight(refMatrix), Utils::getRight(otherMatrix), Utils::getForward(refMatrix));
+	angRightByUp = glm::orientedAngle(Utils::getRight(refMatrix), Utils::getRight(otherMatrix), Utils::getUp(refMatrix));
+}
+
+void MatrixDifference::applyDifference(const glm::mat4& refMatrix, glm::mat4* matrix)
+{
+	glm::vec3 forward = Utils::getForward(*matrix);
+	glm::rotate(forward, -angForwardByRight, Utils::getRight(refMatrix));
+	glm::rotate(forward, -angForwardByUp, Utils::getUp(refMatrix));
+	Utils::setForward(matrix, forward);
+
+	glm::vec3 up = Utils::getUp(*matrix);
+	glm::rotate(up, -angUpByForward, Utils::getForward(refMatrix));
+	glm::rotate(up, -angUpByRight, Utils::getRight(refMatrix));
+	Utils::setUp(matrix, up);
+
+	glm::vec3 right = Utils::getRight(*matrix);
+	glm::rotate(right, -angRightByForward, Utils::getForward(refMatrix));
+	glm::rotate(right, -angRightByUp, Utils::getUp(refMatrix));
+	Utils::setRight(matrix, right);
+}

@@ -32,4 +32,6 @@ namespace Utils {
 	//std::string glm_to_string(glm::mat4 mat) { return glm::to_string(mat); }
 	//std::string glm_to_string(glm::vec3 vec) { return glm::to_string(vec); }
 	//std::string glm_to_string(glm::vec4 vec) { return glm::to_string(vec); }
+
+	glm::mat4 getRotationMatrix(glm::vec3 axis, float angle);
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <particleObjects/ParticleObject.h>
+#include <Utils.h>
 
 
 class MugParticleObject :
@@ -16,6 +17,7 @@ public:
 	glm::mat4* getMatrix() override;
 	void setMatrix(const glm::mat4& matrix) override;
 
+	glm::mat4 getHelp() { return m_destinationMatrix; }
 
 	MugParticleObject(ParticleObjectDetais details, int& numOfParts);
 

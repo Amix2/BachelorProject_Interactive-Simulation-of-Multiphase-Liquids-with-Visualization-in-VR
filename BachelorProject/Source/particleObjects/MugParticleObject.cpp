@@ -1,6 +1,7 @@
 #include "MugParticleObject.h"
 
 inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
+//glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
 
 void MugParticleObject::grab()
 {
@@ -14,7 +15,7 @@ void MugParticleObject::release()
 
 glm::mat4* MugParticleObject::getMatrix()
 {
-	return &(m_matrix);
+	return &(m_destinationMatrix);
 }
 
 void MugParticleObject::setMatrix(const glm::mat4& matrix)
@@ -30,6 +31,7 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 
 void MugParticleObject::stepTowardsDestination()
 {
+
 	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
 	const glm::vec3 currPos = glm::vec3(m_matrix[3][0], m_matrix[3][1], m_matrix[3][2]);
 	const glm::vec3 destPos = glm::vec3(m_destinationMatrix[3][0], m_destinationMatrix[3][1], m_destinationMatrix[3][2]);
@@ -61,10 +63,15 @@ void MugParticleObject::stepTowardsDestination()
 	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
 	const float totalAngle = glm::angle(currUp, destUp);
 	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
-	const float angleChange = min(totalAngle, maxAngleInStep);
+	float angleChange = min(totalAngle, maxAngleInStep);
+		LOG_F(WARNING, "totalAngle %f, angleChange %f\n\t%s", totalAngle, angleChange, glm::to_string(m_destinationMatrix).c_str());
 	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
-		const glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		if (destUp.y < 0) perpVec *= -1;
 		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
+		//Utils::setUp(&m_matrix, destUp);
+		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::vec3(0, 0, 1));
+		//m_matrix *= Utils::getRotationMatrix(-perpVec, angleChange);
 		stepDistanceLeft -= tanf(angleChange) * m_distanceToFurthestParticle;
 	}
 
@@ -97,8 +104,23 @@ inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
 	if (length > 0)
 		return glm::vec3(crossX / length, crossY / length, crossZ / length);
 	else
+		throw "sss";
 		return glm::vec3();
 }
+//
+//glm::mat4 rotationMatrix(glm::vec3 axis, float angle)
+//{
+//	axis = normalize(axis);
+//	float s = std::sin(angle);
+//	float c = cos(angle);
+//	float oc = 1.0 - c;
+//
+//	return glm::mat4(
+//		glm::vec4(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0),
+//		glm::vec4(oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0),
+//		glm::vec4(oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0),
+//		glm::vec4(0.0, 0.0, 0.0, 1.0));
+//}
 
 void MugParticleObject::create(ParticleObjectDetais details, int& numOfParts)
 {

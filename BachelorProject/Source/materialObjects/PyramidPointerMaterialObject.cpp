@@ -1,15 +1,6 @@
 #include "PyramidPointerMaterialObject.h"
 #include <VR/VRGeometry.h>
 
-PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const VR::VRGLInterop& vrglinterop)
-	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, vrglinterop{ vrglinterop } 
-{
-}
-
-PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor)
-	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }
-{
-}
 
 PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner)
 	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, m_owner{ owner }
