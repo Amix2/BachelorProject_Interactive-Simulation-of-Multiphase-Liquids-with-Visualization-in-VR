@@ -7,6 +7,7 @@
 #include <chrono>
 #include <glm/glm.hpp>
 
+
 // function-like macro to check open gl errors, they had to be macros to get correct file name in logger
 #define checkOpenGLErrors()															\
 	GLenum err_macro;																\
@@ -24,5 +25,11 @@ namespace Utils {
 	glm::vec3 getRight(const glm::mat4 matrix);
 	glm::vec3 getForward(const glm::mat4 matrix);
 	glm::vec3 getPosition(const glm::mat4 matrix);
-
+	void setUp(glm::mat4 *matrix, const glm::vec3 &vector);
+	void setRight(glm::mat4 *matrix, const glm::vec3& vector);
+	void setForward(glm::mat4 *matrix, const glm::vec3& vector);
+	void setPosition(glm::mat4 *matrix, const glm::vec3& vector);
+	//std::string glm_to_string(glm::mat4 mat) { return glm::to_string(mat); }
+	//std::string glm_to_string(glm::vec3 vec) { return glm::to_string(vec); }
+	//std::string glm_to_string(glm::vec4 vec) { return glm::to_string(vec); }
 }

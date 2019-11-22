@@ -143,10 +143,10 @@ int main(int argc, char ** argv) {
 
 	HandDataProvider handDataProvider;
 	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer);
-	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, vrglinterop);
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop);
+	//DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
-	scene.addMaterialObject(&rightHand, 0);
+	//scene.addMaterialObject(&rightHand, 0);
 
 	do 
 	{
@@ -155,7 +155,7 @@ int main(int argc, char ** argv) {
 		}
 
 		leftHand.update();
-		rightHand.update();
+		//rightHand.update();
 
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
