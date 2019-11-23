@@ -10,6 +10,8 @@ class MugParticleObject :
 	float previousTurnPositionChange = 0;
 
 	void create(ParticleObjectDetais details, int& numOfParts);
+	float stepPositionChange(const float maxDistance);
+	float stepAngleChange(const float maxDistance);
 public:
 	bool isSelected() const override { return m_selected; }
 	void grab() override;

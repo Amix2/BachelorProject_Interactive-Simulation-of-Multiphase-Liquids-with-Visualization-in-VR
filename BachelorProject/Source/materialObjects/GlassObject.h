@@ -25,8 +25,6 @@ private:
 	GLuint VAO;
 	GLuint EBO;
 
-	const glm::mat4* model;
-
 	GLfloat* vertices;
 	GLint* indices;
 	int verticesSize;

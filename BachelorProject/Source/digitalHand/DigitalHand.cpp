@@ -26,7 +26,7 @@ void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
 	m_pyramid->load(view, projection);
 }
 
-const glm::mat4 DigitalHand::getPyramidModel() const
+glm::mat4 DigitalHand::getModel() const
 {
 	//return SCALE_MATRIX * getMyHandMatrix() * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 });
 	if(m_selectedObject != nullptr) return *(m_selectedObject->getMatrix()) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });

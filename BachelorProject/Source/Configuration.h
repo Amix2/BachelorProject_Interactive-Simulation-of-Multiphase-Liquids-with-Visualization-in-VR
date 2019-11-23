@@ -44,7 +44,7 @@ const struct Configuration {
 	inline static const int TITLE_REFRESH_DELAY = 100;	// in ms
 
 	inline static const float GLASS_ANGLE_PRECISION = 0.0001;
-	inline static const float GLASS_DISTANCE_PRECISION = 0.01;
+	inline static const float GLASS_DISTANCE_PRECISION = 0.0001;
 
 	inline static const int TARGET_SIM_FPS = 30;
 } Configuration;

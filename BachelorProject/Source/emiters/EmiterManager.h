@@ -8,6 +8,7 @@
 #include <memory>
 #include <Logger.h>
 #include <selectableObject/SelectableObjectManager.h>
+#include <materialObjects/PyramidPointerMaterialObject.h>
 class EmiterManager
 {
 private:
@@ -15,6 +16,7 @@ private:
 	inline static int m_TARGET_INIT_STATE = 3;
 
 	inline static std::vector<Emiter> m_emitersVector;
+	inline static ShaderProgram m_pyramidShader;
 
 public:
 
@@ -24,6 +26,7 @@ public:
 
 	static int updateAllEmiters(int turnNumber);
 
+	static void init(ShaderProgram pyramid);
 
 
 	//inline static ComputeShader* m_emiterComputeShader = nullptr;

@@ -15,7 +15,7 @@
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>
 #include <memory>
-#include <materialObjects/MaterialObject.h>
+#include <materialObjects/MaterialObjectOwner.h>
 #include <materialObjects/GlassObject.h>
 #include <utilities/GraphicShaderStorage.h>
 
@@ -40,7 +40,7 @@ struct ParticleObjectDetais {
 
 // Represents single object like mug etc
 class ParticleObject
-	: public SelectableObject, public MaterialObject
+	: public SelectableObject, public MaterialObjectOwner
 {
 protected:
 	bool m_selected = false;
@@ -63,7 +63,7 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
 
-	glm::mat4 getHelp() { return m_destinationMatrix; }
+	glm::mat4 getModel() const;
 
 	virtual void stepTowardsDestination();
 

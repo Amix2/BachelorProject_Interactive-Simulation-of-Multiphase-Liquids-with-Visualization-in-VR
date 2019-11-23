@@ -6,6 +6,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>
+#include <materialObjects/MaterialObjectOwner.h>
 
 struct GPUEmiter {
 	glm::mat4 matrix;
@@ -17,6 +18,7 @@ struct GPUEmiter {
 
 class Emiter
 	: public SelectableObject
+
 {
 private:
 	int m_emitFrequency	= 0;
@@ -54,6 +56,7 @@ public:
 	void toggleActive() { m_isActive = !m_isActive; }
 	void setMatrixUpdate(bool update) { m_updateMatrix = update; }
 	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }
+
 
 
 	std::string toString();

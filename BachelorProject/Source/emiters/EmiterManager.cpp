@@ -31,6 +31,11 @@ int EmiterManager::updateAllEmiters(int turnNumber)
 	return emitedParticles;
 }
 
+void EmiterManager::init(ShaderProgram pyramid)
+{
+	m_pyramidShader = pyramid;
+}
+
 
 
 

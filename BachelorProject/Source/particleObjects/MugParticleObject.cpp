@@ -1,6 +1,6 @@
 #include "MugParticleObject.h"
 
-inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
+glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
 //glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
 
 void MugParticleObject::grab()
@@ -33,15 +33,39 @@ void MugParticleObject::stepTowardsDestination()
 {
 
 	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
-	const glm::vec3 currPos = glm::vec3(m_matrix[3][0], m_matrix[3][1], m_matrix[3][2]);
-	const glm::vec3 destPos = glm::vec3(m_destinationMatrix[3][0], m_destinationMatrix[3][1], m_destinationMatrix[3][2]);
-	const glm::vec3 difVec = destPos - currPos;
-	const float distance = glm::length(difVec);
 
 	const float maxPositionChange = previousTurnPositionChange + MUG_TURN_VELOCITY_CHANGE * Configuration.DELTA_TIME;
 
-	float stepDistanceChange = min(distance, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
-	stepDistanceChange = min(maxPositionChange, stepDistanceChange);
+	float stepDistanceChange = min(maxPositionChange, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
+
+	float linearPositionChange = 0;
+
+	// move max distance = min( Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2, maxPositionChange )
+	const float positionMove1 = stepPositionChange(stepDistanceChange);
+
+	stepDistanceLeft -= positionMove1;
+	linearPositionChange = positionMove1;
+	previousTurnPositionChange = positionMove1;
+
+	// angle move, max distance = stepDistanceLeft  
+	const float angleMove = stepAngleChange(stepDistanceLeft);
+
+	stepDistanceLeft -= angleMove;
+
+	// move max distance = min( stepDistanceLeft, maxPositionChange - linearPositionChange)
+	const float positionMove2 = stepPositionChange(min(stepDistanceLeft, maxPositionChange - linearPositionChange));
+	previousTurnPositionChange += positionMove2;
+	//m_matrix = m_destinationMatrix;
+}
+
+
+float MugParticleObject::stepPositionChange(const float maxDistance)
+{
+	const glm::vec3 currPos = Utils::getPosition(m_matrix);
+	const glm::vec3 destPos = Utils::getPosition(m_destinationMatrix);
+	const glm::vec3 difVec = destPos - currPos;
+	const float distance = glm::length(difVec);
+	const float stepDistanceChange = min(distance, maxDistance);
 
 	float linearPositionChange = 0;
 
@@ -50,49 +74,49 @@ void MugParticleObject::stepTowardsDestination()
 		m_matrix[3][0] += stepVec.x;
 		m_matrix[3][1] += stepVec.y;
 		m_matrix[3][2] += stepVec.z;
-		stepDistanceLeft -= stepDistanceChange;
-		previousTurnPositionChange = stepDistanceChange;
 		linearPositionChange = stepDistanceChange;
 	}
-	else {
-		previousTurnPositionChange = 0;
-	}
-
-
-	const glm::vec3 currUp = glm::vec3(m_matrix[1][0], m_matrix[1][1], m_matrix[1][2]);
-	const glm::vec3 destUp = glm::vec3(m_destinationMatrix[1][0], m_destinationMatrix[1][1], m_destinationMatrix[1][2]);
-	const float totalAngle = glm::angle(currUp, destUp);
-	const float maxAngleInStep = atan2f(stepDistanceLeft, m_distanceToFurthestParticle);
-	float angleChange = min(totalAngle, maxAngleInStep);
-		LOG_F(WARNING, "totalAngle %f, angleChange %f\n\t%s", totalAngle, angleChange, glm::to_string(m_destinationMatrix).c_str());
-	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
-		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
-		if (destUp.y < 0) perpVec *= -1;
-		m_matrix = glm::rotate(m_matrix, angleChange, perpVec);
-		//Utils::setUp(&m_matrix, destUp);
-		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::vec3(0, 0, 1));
-		//m_matrix *= Utils::getRotationMatrix(-perpVec, angleChange);
-		stepDistanceLeft -= tanf(angleChange) * m_distanceToFurthestParticle;
-	}
-
-
-	stepDistanceChange = min(distance - stepDistanceChange, stepDistanceLeft);
-	stepDistanceChange = min(maxPositionChange - linearPositionChange, stepDistanceChange);
-	if (distance > Configuration.GLASS_DISTANCE_PRECISION) {
-		const glm::vec3 stepVec = glm::normalize(difVec) * stepDistanceChange;
-		m_matrix[3][0] += stepVec.x;
-		m_matrix[3][1] += stepVec.y;
-		m_matrix[3][2] += stepVec.z;
-		stepDistanceLeft -= stepDistanceChange;
-		previousTurnPositionChange += stepDistanceChange;
-	}
-	else {
-		previousTurnPositionChange += 0;
-	}
-
+	return linearPositionChange;
 }
 
-inline glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
+float MugParticleObject::stepAngleChange(const float maxDistance)
+{
+	glm::vec3 currUp = glm::normalize(Utils::getUp(m_matrix));
+	glm::vec3 destUp = glm::normalize(Utils::getUp(m_destinationMatrix));
+	const float totalAngle = glm::angle(currUp, destUp);
+	const float angleX = glm::orientedAngle(currUp, destUp, glm::vec3(1, 0, 0));
+	const float angleY = glm::orientedAngle(currUp, destUp, glm::vec3(0, 1, 0));
+	const float angleZ = glm::orientedAngle(currUp, destUp, glm::vec3(0, 0, 1));
+	const float maxAngleInStep = atan2f(maxDistance, m_distanceToFurthestParticle);
+	float angleChange = min(totalAngle, maxAngleInStep);
+	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
+		if (angleChange > M_PI) angleChange -= 2*M_PI;
+		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		LOG_F(WARNING, "totalAngle %f, angleChange %f", totalAngle, angleChange);
+		LOG_F(WARNING, "angleX %f, angleY %f, angleZ %f", angleX, angleY, angleZ);
+		//if (destUp.y < 0) perpVec *= -1;
+		LOG_F(WARNING, "perp %s", glm::to_string(perpVec).c_str());
+		//m_matrix = glm::rotate(m_matrix, angleChange, glm::normalize(glm::cross(currUp, destUp)));
+		m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::normalize(glm::cross(currUp, destUp)));
+		//Utils::setUp(&m_matrix, destUp);
+		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::vec3(0, 0, 1));
+
+		const glm::vec3 position = Utils::getPosition(m_matrix);
+		//Utils::setPosition(&m_matrix, { 0,0,0 });
+		//m_matrix = Utils::getRotationMatrix(perpVec, -angleChange) * m_matrix;
+		//Utils::setPosition(&m_matrix, position);
+
+		currUp = Utils::getUp(m_matrix);
+		destUp = Utils::getUp(m_destinationMatrix);
+		perpVec = getPerpendicular(currUp, destUp);
+		LOG_F(WARNING, "perp %s", glm::to_string(perpVec).c_str());
+		return tanf(angleChange) * m_distanceToFurthestParticle;
+	}
+	return 0.0f;
+}
+
+
+glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
 	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
 	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
 	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;

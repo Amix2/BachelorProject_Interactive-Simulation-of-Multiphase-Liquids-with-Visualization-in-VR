@@ -2,7 +2,7 @@
 #include <VR/VRGeometry.h>
 
 
-PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner)
+PyramidPointerMaterialObject::PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const MaterialObjectOwner* owner)
 	: MaterialObject{ ShaderProgram }, PyramidColor{ PyramidColor }, m_owner{ owner }
 {
 }
@@ -88,7 +88,7 @@ void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& 
 	int deviceId;
 	this->shaderProgram.use();
 
-	this->shaderProgram.setUniformVariable("MVP", projection * view * m_owner->getPyramidModel());
+	this->shaderProgram.setUniformVariable("MVP", projection * view * m_owner->getModel());
 
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 

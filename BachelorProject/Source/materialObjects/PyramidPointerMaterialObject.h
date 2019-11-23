@@ -11,7 +11,7 @@ class DigitalHand;
 
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
-	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const DigitalHand* owner);
+	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const MaterialObjectOwner* owner);
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 
@@ -20,7 +20,7 @@ protected:
 
 private:
 	bool InitializeBufferObjects();
-	const DigitalHand* m_owner = nullptr;
+	const MaterialObjectOwner* m_owner = nullptr;
 	std::map<std::string, GLuint> BufferObjects{};
 	GLuint VAO, VBO, EBO;
 

@@ -75,6 +75,7 @@
   <ItemGroup>
     <ClInclude Include="Source\digitalHand\HandDataProvider.h" />
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
+    <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
     <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />

@@ -120,7 +120,7 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 void Simulation::setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 10.0,5.5,10.0, 10.2, 5.8, 10.2};
-	ParticleObjectDetais details2{ -1, 10,80,10, 2, 0,2 };
+	ParticleObjectDetais details2{ -1, 10,10,10, 2, 0,2 };
 
 	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
 

@@ -3,7 +3,6 @@
 GlassObject::GlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram, const ParticleObject* glass)
 	: shaderProgram{ shaderProgram }
 	, selectedProgram{ selectedProgram }
-	, model{ &glass->m_matrix }
 	, owner{ glass }
 
 {
@@ -43,7 +42,7 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	shaderProgram.use();
-	shaderProgram.setUniformVariable("MVP", projection * view * (*model));
+	shaderProgram.setUniformVariable("MVP", projection * view * owner->getModel());
 
 	glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
 
@@ -52,7 +51,7 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 		glStencilMask(0x00);
 
 		selectedProgram.use();
-		selectedProgram.setUniformVariable("MVP", projection * view * glm::scale((*model), glm::vec3{ 1.01f }));
+		selectedProgram.setUniformVariable("MVP", projection * view * glm::scale(owner->getModel(), glm::vec3{ 1.01f }));
 
 		glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
 

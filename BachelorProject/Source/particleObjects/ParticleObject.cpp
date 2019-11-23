@@ -31,6 +31,11 @@ void ParticleObject::createGlassObject(const ShaderProgram& shaderProgram, const
 	glassObject = std::make_shared<GlassObject>(shaderProgram, selectedProgram, (const ParticleObject*) this);
 }
 
+glm::mat4 ParticleObject::getModel() const
+{
+	return m_matrix;
+}
+
 void ParticleObject::stepTowardsDestination()
 {
 	m_matrix = m_destinationMatrix;

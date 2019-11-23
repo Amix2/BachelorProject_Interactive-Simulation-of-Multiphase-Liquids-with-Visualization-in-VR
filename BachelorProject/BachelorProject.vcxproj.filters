@@ -117,6 +117,7 @@
     <ClInclude Include="Source\utilities\Texture.h" />
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
     <ClInclude Include="Source\digitalHand\HandDataProvider.h" />
+    <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
