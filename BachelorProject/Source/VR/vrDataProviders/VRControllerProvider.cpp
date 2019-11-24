@@ -4,33 +4,34 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType>
-		vr::ETrackedControllerRole VRControllerProvider<ProvidedDataType>::GetControllerRole() const
+		void VRControllerProvider::SetControllerRole(vr::ETrackedControllerRole ControllerRole)
 		{
-			//
+			this->ControllerRole = ControllerRole;
 		}
 
-		template<typename ProvidedDataType>
-		VRControllerProvider<ProvidedDataType>::VRControllerProvider()
+		void VRControllerProvider::SetProviderMode(VRControllerProviderMode ProviderMode)
 		{
+			this->ProviderMode = ProviderMode;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerProvider<ProvidedDataType>::init()
+		VRControllerProvider::VRControllerProvider(VRControllerProviderMode ProviderMode)
+		{
+			this->ProviderMode = ProviderMode;
+		}
+
+		bool VRControllerProvider::init()
 		{
 			bool InitSuccessful = this->VRControllerInputProvider->ReceiveData() && this->VRControllerPoseProvider->ReceiveData();
 			return InitSuccessful;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerProvider<ProvidedDataType>::ReceiveData()
+		bool VRControllerProvider::ReceiveData()
 		{
 			bool DataReceived = this->VRControllerInputProvider->ReceiveData() && this->VRControllerPoseProvider->ReceiveData();
 			return DataReceived;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerProvider<ProvidedDataType>::IsReceivedDataStillValid() const
+		bool VRControllerProvider::IsReceivedDataStillValid() const
 		{
 			bool ReceivedDataStillValid = this->VRControllerInputProvider->IsReceivedDataStillValid() && this->VRControllerPoseProvider->IsReceivedDataStillValid();
 			return ReceivedDataStillValid;

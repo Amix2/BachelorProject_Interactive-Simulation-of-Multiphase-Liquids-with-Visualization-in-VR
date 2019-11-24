@@ -4,26 +4,23 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		template<typename ProvidedDataType>
-		VRControllerPoseProvider<ProvidedDataType>::VRControllerPoseProvider()
+		VRControllerPoseProvider::VRControllerPoseProvider()
 		{
 			//
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerPoseProvider<ProvidedDataType>::init()
+		bool VRControllerPoseProvider::init()
 		{
 			return true;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerPoseProvider<ProvidedDataType>::ReceiveData()
+		bool VRControllerPoseProvider::ReceiveData()
 		{
+
 			return true;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerPoseProvider<ProvidedDataType>::IsReceivedDataStillValid() const
+		bool VRControllerPoseProvider::IsReceivedDataStillValid() const
 		{
 			return true;
 		}

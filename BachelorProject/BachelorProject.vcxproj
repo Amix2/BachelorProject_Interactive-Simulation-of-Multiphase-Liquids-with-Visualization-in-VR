@@ -73,6 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerData.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerInputData.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerPoseData.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\HMDPoseData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ProvidedData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\Provider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRCameraProvider.h" />

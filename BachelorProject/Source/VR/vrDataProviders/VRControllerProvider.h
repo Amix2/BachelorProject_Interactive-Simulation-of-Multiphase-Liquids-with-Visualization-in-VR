@@ -7,26 +7,36 @@
 #include "Provider.h"
 #include "VRControllerInputProvider.h"
 #include "VRControllerPoseProvider.h"
+#include "vrProvidedData/ControllerData.h"
 
 namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType>
-		class VRControllerProvider final : Provider<ProvidedDataType>
+		enum class VRControllerProviderMode
+		{
+			ONLY_POSE,
+			ONLY_INPUT,
+			BOTH
+		};
+
+		class VRControllerProvider final : Provider<ProvidedDataTypes::ControllerData>
 		{
 		public:
-			VRControllerProvider();
+			VRControllerProvider(VRControllerProviderMode ProviderMode);
 			bool init() override;
 			bool ReceiveData() override;
 			bool IsReceivedDataStillValid() const override;
+			void SetControllerRole(vr::ETrackedControllerRole ControllerRole);
+			void SetProviderMode(VRControllerProviderMode ProviderMode);
 
 		protected:
 			//
 
 		private:
-			vr::ETrackedControllerRole GetControllerRole() const;
 			VR::VRGLInterop VRGLInterop{};
+			vr::ETrackedControllerRole ControllerRole;
+			VRControllerProviderMode ProviderMode;
 
 			std::shared_ptr<VRControllerPoseProvider> VRControllerPoseProvider;
 			std::shared_ptr<VRControllerInputProvider> VRControllerInputProvider;

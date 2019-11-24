@@ -4,20 +4,23 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType>
-		bool VRControllerInputProvider<ProvidedDataType>::init()
+		VRControllerInputProvider::VRControllerInputProvider()
+		{
+			//
+		}
+
+		bool VRControllerInputProvider::init()
 		{
 			return true;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerInputProvider<ProvidedDataType>::ReceiveData()
+		bool VRControllerInputProvider::ReceiveData()
 		{
+			this->VrInput->DetectEvents();
 			return true;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRControllerInputProvider<ProvidedDataType>::IsReceivedDataStillValid() const
+		bool VRControllerInputProvider::IsReceivedDataStillValid() const
 		{
 			return true;
 		}

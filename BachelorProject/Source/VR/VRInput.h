@@ -8,7 +8,7 @@
 
 #include <memory>
 
-#include <VR/vrDataProviders/ProvidedData.h>
+#include <VR/vrDataProviders/vrProvidedData/ProvidedData.h>
 
 #include "VRCore.h"
 
@@ -53,7 +53,7 @@ namespace VR {
 		// bool GetDigitalActionState(vr::VRActionHandle_t ActionHandle, vr::VRInputValueHandle_t* DevicePath = nullptr);
 	};
 	*/
-	struct CompleteVRControllerEvent : DataProviders::ProvidedData
+	struct CompleteVRControllerEvent : ProvidedDataTypes::ProvidedData
 	{
 		vr::EVREventType EventType;
 		vr::EVRButtonId ButtonId;
@@ -62,7 +62,10 @@ namespace VR {
 	class VRInput
 	{
 	public: 
-		VRInput(const std::shared_ptr<VRCore> VRCore);
+		VRInput(const std::shared_ptr<VRCore> VRCore) : VRCore{ VRCore }
+		{
+			//
+		}
 		bool init();
 		bool DetectControllers();
 		bool DetectEvents();

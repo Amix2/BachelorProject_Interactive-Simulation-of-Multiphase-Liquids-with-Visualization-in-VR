@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Provider.h"
+#include "vrProvidedData/HMDPoseData.h"
 
 namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType>
-		class VRPoseProvider final : Provider<ProvidedDataType>
+		class VRPoseProvider final : Provider<ProvidedDataTypes::HMDPoseData>
 		{
 		public:
 			VRPoseProvider();

@@ -2,7 +2,7 @@
 
 namespace VR
 {
-	namespace DataProviders
+	namespace ProvidedDataTypes
 	{
 		class ProvidedData
 		{

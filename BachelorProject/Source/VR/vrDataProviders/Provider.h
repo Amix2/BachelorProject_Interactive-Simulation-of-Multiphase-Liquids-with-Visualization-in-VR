@@ -15,10 +15,10 @@ namespace VR
 			virtual bool IsReceivedDataStillValid() const = 0;
 
 		protected:
-			//
+			ProvidedDataType ProvidedData;
 
 		private:
-			ProvidedDataType ProvidedData;
+			//
 		};
 	}
 }

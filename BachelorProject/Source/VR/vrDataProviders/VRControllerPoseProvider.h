@@ -3,13 +3,13 @@
 #include <OpenVR/openvr.h>
 
 #include "Provider.h"
+#include "vrProvidedData/ControllerPoseData.h"
 
 namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType>
-		class VRControllerPoseProvider final : Provider<ProvidedDataType>
+		class VRControllerPoseProvider final : Provider<ProvidedDataTypes::ControllerPoseData>
 		{
 		public:
 			vr::ETrackedControllerRole ControllerRole;
@@ -22,7 +22,7 @@ namespace VR
 			//
 
 		private:
-			bool ReceiveControllerPose
+			glm::mat4 ControllerPose;
 		};
 	}
 }
