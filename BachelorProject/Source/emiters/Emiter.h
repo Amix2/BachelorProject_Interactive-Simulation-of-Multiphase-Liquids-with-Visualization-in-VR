@@ -74,7 +74,7 @@ public:
 	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }
 
 	glm::mat4 getModel() const override;
-	//void fillParameters(std::vector<MultiTypeValue> &values) const override;
+
 	std::map<Params, MultiTypeValue> getAdditionalParameters() const override;
 
 	void init();

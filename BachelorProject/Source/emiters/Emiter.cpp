@@ -62,29 +62,6 @@ std::map<Params, MultiTypeValue> Emiter::getAdditionalParameters() const
 	}
 	return std::map<Params, MultiTypeValue>({ {Params::COLOR, color} });
 }
-//
-//void Emiter::fillParameters(std::vector<MultiTypeValue> &values) const
-//{
-//
-//	assert(values.size() == 1);
-//	// color
-//	if (isSelected()) {
-//		if (m_isActive) {
-//			values[0].vec4Value = COLOR_SELECTED_ACTIVE;
-//		}
-//		else {
-//			values[0].vec4Value = COLOR_SELECTED_NOT_ACTIVE;
-//		}
-//	}
-//	else {
-//		if (m_isActive) {
-//			values[0].vec4Value = COLOR_NOT_SELECTED_ACTIVE;
-//		}
-//		else {
-//			values[0].vec4Value = COLOR_NOT_SELECTED_NOT_ACTIVE;
-//		}
-//	}
-//}
 
 void Emiter::init()
 {
@@ -144,6 +121,8 @@ void Emiter::updateMatrix(const glm::mat4& matrix)
 		m_Matrix = matrix;
 	}
 }
+
+
 
 int Emiter::changeSize(int rowsNumber)
 {

@@ -5,6 +5,7 @@
 #include <map>
 
 union MultiTypeValue {
+	bool boolValue;
 	int intValue;
 	float floatValue;
 	glm::vec4 vec4Value;

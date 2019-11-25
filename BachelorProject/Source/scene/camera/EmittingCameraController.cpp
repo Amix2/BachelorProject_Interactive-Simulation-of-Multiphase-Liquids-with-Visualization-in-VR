@@ -41,6 +41,7 @@ void EmittingCameraController::handleKeyPress(int key, KeyState action, float de
 	if (action == KeyState::FALLING_EDGE) {
 		switch (key) {
 		case GLFW_KEY_0:
+			emiter->updateMatrix(this->getEmiterMatrix());
 			emiter->toggleActive();
 			break;
 		case GLFW_KEY_P:
