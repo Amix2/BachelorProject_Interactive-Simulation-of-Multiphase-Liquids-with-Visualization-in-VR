@@ -29,6 +29,7 @@ glm::vec3* ParticleObjectManager::getObjectsDirections()
 
 void ParticleObjectManager::init()
 {
+	m_partObjectsVector.reserve(Configuration.MAX_PARTICLE_OBJECTS);
 }
 
 

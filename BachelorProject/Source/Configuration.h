@@ -16,6 +16,8 @@ const struct Configuration {
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 262144;
 	inline static const int MAX_FLUID_TYPES = 10;
 	inline static const int MAX_EMITERS = 5;
+	inline static const int MAX_SELECTABLE_OBJECTS = 10;
+
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;

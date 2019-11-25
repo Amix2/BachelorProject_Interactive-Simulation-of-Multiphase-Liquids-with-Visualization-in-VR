@@ -2,11 +2,41 @@
 
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, bool selectable)
 {
+	m_mutex.lock();
+
 	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader));
 	if(selectable)
 		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
 	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+
+	m_mutex.unlock();
 	return &m_emitersVector[m_emitersVector.size()-1];
+}
+
+Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::vec3 position, bool selectable)
+{
+	m_mutex.lock();
+
+	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, position));
+	if (selectable)
+		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
+	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+
+	m_mutex.unlock();
+	return &m_emitersVector[m_emitersVector.size() - 1];
+}
+
+Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::mat4 matrix, bool selectable)
+{
+	m_mutex.lock();
+
+	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, matrix));
+	if (selectable)
+		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
+	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+
+	m_mutex.unlock();
+	return &m_emitersVector[m_emitersVector.size() - 1];
 }
 
 void EmiterManager::printEmiters()
@@ -35,6 +65,7 @@ int EmiterManager::updateAllEmiters(int turnNumber)
 void EmiterManager::init(ShaderProgram pyramid)
 {
 	m_pyramidShader = pyramid;
+	m_emitersVector.reserve(Configuration.MAX_EMITERS);
 }
 
 

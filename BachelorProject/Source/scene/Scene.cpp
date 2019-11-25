@@ -24,6 +24,7 @@ void Scene::Scene::addMaterialObject(MaterialObject* materialObject, unsigned in
 {
 	layers[layer].push_back(materialObject);
 	materialObject->init();
+
 }
 
 void Scene::Scene::renderScene()

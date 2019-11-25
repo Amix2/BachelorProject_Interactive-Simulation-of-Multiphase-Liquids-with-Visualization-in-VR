@@ -142,13 +142,17 @@ int main(int argc, char ** argv) {
 	setupScene(scene, inputDispatcher, vrglinterop);
 	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
-
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	HandDataProvider handDataProvider;
 	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop);
 	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
 
+	EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
+	EmiterManager::createEmiter(10, 100.f, 1, { 10, 50, 10 }, true);
+	EmiterManager::createEmiter(10, 100.f, 1, { 10, 30, 10 }, true);
 
 	do 
 	{

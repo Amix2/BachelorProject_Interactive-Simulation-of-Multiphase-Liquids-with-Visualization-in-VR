@@ -1,12 +1,29 @@
 #include "Emiter.h"
 
-Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader) : m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType), MaterialObject(pyramidShader)
+Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader) 
+	: m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType), MaterialObject(pyramidShader)
 {
 	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
 	m_emitFrequency = int(ceil(Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
-
+	setRender(true);
 }
+
+Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::vec3 postion)
+	: Emiter(initNumberOfParticles, initVelocity, initFluidType, pyramidShader)
+{
+	m_Matrix = glm::mat4(1);
+	Utils::setPosition(&m_Matrix, postion);
+	setRender(true);
+}
+
+Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::mat4 matrix)
+	: Emiter(initNumberOfParticles, initVelocity, initFluidType, pyramidShader)
+{
+	m_Matrix = matrix;
+	setRender(true);
+}
+
 
 int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 {
@@ -35,9 +52,6 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 
 glm::mat4 Emiter::getModel() const
 {
-	glm::mat4 model = m_Matrix * glm::rotate(glm::mat4(1.0f), -glm::pi<float>() / 2, glm::vec3(1, 0, 0));
-	model = model * glm::scale(glm::mat4{ 1.0f }, { m_numOfParticles,m_numOfParticles/2,m_numOfParticles });
-	Utils::setPosition(&model, Utils::getPosition(model) - Utils::getForward(m_Matrix)*(((float)m_numOfParticles)*0.5f));
 	return m_Model;
 }
 
@@ -77,11 +91,13 @@ void Emiter::load(const glm::mat4& view, const glm::mat4& projection) const
 		m_Model = m_Model * glm::scale(glm::mat4{ 1.0f }, { m_numOfParticles,m_numOfParticles * 0.5f,m_numOfParticles });
 		Utils::setPosition(&m_Model, Utils::getPosition(m_Model) - Utils::getForward(m_Matrix) * (((float)m_numOfParticles) * 0.5f));
 
+		//m_Model = m_Matrix;
 		m_pyramid->load(view, projection);
-
+		return;
 		m_Model = m_Model * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 3, glm::vec3(0,1, 0));
 
 		m_pyramid->load(view, projection);
+		LOG_F(WARNING, "Emiter pos:\n%s\n%s", glm::to_string(m_Matrix).c_str(), glm::to_string(m_Model).c_str());
 	}
 }
 
@@ -98,11 +114,13 @@ std::string Emiter::toString()
 void Emiter::grab()
 {
 	m_selected = true;
+	m_isActive = true;
 }
 
 void Emiter::release()
 {
 	m_selected = false;
+	m_isActive = false;
 }
 
 glm::mat4* Emiter::getMatrix()

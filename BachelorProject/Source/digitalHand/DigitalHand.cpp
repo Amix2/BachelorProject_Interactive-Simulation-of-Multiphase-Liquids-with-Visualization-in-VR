@@ -31,7 +31,7 @@ void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
 glm::mat4 DigitalHand::getModel() const
 {
 	//return SCALE_MATRIX * getMyHandMatrix() * glm::rotate(glm::scale(glm::mat4{ 1.0f }, { 0.05, 0.05, 0.2 }), -glm::pi<float>() / 2, { 1, 0, 0 });
-	if(m_selectedObject != nullptr) return *(m_selectedObject->getMatrix()) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
+	//if(m_selectedObject != nullptr) return *(m_selectedObject->getMatrix()) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
 	return  m_handMatrix * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
 }
 
@@ -137,9 +137,9 @@ void DigitalHand::teleportObjectToHand(SelectableObject* obj)
 {
 	//`glm::mat4 objectMatrix = *(obj->getMatrix());
 	//Utils::setPosition(&objectMatrix, Utils::getPosition(m_handMatrix));
-	//glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
+	glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
 	//m_matrixDifference.applyDifference(m_handMatrix, &objMatrix);
-	obj->setMatrix(m_handMatrix);
+	obj->setMatrix(objMatrix);
 }
 
 void DigitalHand::setGrabMatrixOffset()

@@ -10,6 +10,7 @@
 #include <selectableObject/SelectableObjectManager.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
 #include <scene/Scene.h>
+#include <mutex>
 
 class EmiterManager
 {
@@ -20,9 +21,13 @@ private:
 	inline static std::vector<Emiter> m_emitersVector;
 	inline static ShaderProgram m_pyramidShader;
 
+	inline static std::mutex m_mutex;
+
 public:
 
 	static Emiter* createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, bool selectable=true);
+	static Emiter* createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::vec3 position, bool selectable = true);
+	static Emiter* createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::mat4 matrix, bool selectable = true);
 
 	static void printEmiters();
 

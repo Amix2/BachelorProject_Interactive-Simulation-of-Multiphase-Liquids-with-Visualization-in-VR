@@ -1,5 +1,10 @@
 #include "SelectableObjectManager.h"
 
+inline void SelectableObjectManager::init()
+{
+	m_selectableObjects.reserve(Configuration.MAX_SELECTABLE_OBJECTS);
+}
+
 void SelectableObjectManager::addSelectableObject(SelectableObject* object)
 {
 	m_selectableObjects.push_back(object);

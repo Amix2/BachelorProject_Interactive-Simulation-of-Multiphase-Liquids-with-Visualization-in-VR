@@ -48,11 +48,11 @@ private:
 
 public:
 	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader);
+	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::mat4 matrix);
+	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::vec3 postion);
 	Emiter() {}
 
 	int fillGPUdata(GPUEmiter* data, int turnNumber);
-
-	void createGraphic(ShaderProgram pyramidShader);
 
 	bool isSelected() const override { return m_selected; }
 	void grab() override;

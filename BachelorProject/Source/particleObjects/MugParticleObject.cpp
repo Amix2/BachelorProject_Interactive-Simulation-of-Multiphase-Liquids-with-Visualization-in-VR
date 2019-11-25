@@ -91,25 +91,26 @@ float MugParticleObject::stepAngleChange(const float maxDistance)
 	float angleChange = min(totalAngle, maxAngleInStep);
 	if (angleChange > Configuration.GLASS_ANGLE_PRECISION) {
 		if (angleChange > M_PI) angleChange -= 2*M_PI;
-		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
-		LOG_F(WARNING, "totalAngle %f, angleChange %f", totalAngle, angleChange);
-		LOG_F(WARNING, "angleX %f, angleY %f, angleZ %f", angleX, angleY, angleZ);
+
 		//if (destUp.y < 0) perpVec *= -1;
-		LOG_F(WARNING, "perp %s", glm::to_string(perpVec).c_str());
+		currUp = Utils::getUp(m_matrix);
+		destUp = Utils::getUp(m_destinationMatrix);
+		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
+		LOG_F(WARNING, "perp befor\t%s", glm::to_string(perpVec).c_str());
 		//m_matrix = glm::rotate(m_matrix, angleChange, glm::normalize(glm::cross(currUp, destUp)));
-		m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::normalize(glm::cross(currUp, destUp)));
+		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::normalize(glm::cross(currUp, destUp)));
 		//Utils::setUp(&m_matrix, destUp);
 		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::vec3(0, 0, 1));
 
 		const glm::vec3 position = Utils::getPosition(m_matrix);
-		//Utils::setPosition(&m_matrix, { 0,0,0 });
-		//m_matrix = Utils::getRotationMatrix(perpVec, -angleChange) * m_matrix;
-		//Utils::setPosition(&m_matrix, position);
+		Utils::setPosition(&m_matrix, { 0,0,0 });
+		m_matrix = Utils::getRotationMatrix(perpVec, -angleChange) * m_matrix;
+		Utils::setPosition(&m_matrix, position);
 
 		currUp = Utils::getUp(m_matrix);
 		destUp = Utils::getUp(m_destinationMatrix);
 		perpVec = getPerpendicular(currUp, destUp);
-		LOG_F(WARNING, "perp %s", glm::to_string(perpVec).c_str());
+		LOG_F(WARNING, "perp after\t%s", glm::to_string(perpVec).c_str());
 		return tanf(angleChange) * m_distanceToFurthestParticle;
 	}
 	return 0.0f;

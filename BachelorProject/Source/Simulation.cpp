@@ -120,7 +120,7 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 void Simulation::setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 10.0,5.5,10.0, 10.2, 5.8, 10.2};
-	ParticleObjectDetais details2{ -1, 10,10,10, 2, 0,2 };
+	ParticleObjectDetais details2{ -1, 10,80,-30, 2, 0,2 };
 
 	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
 
@@ -141,7 +141,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -149,8 +149,8 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
@@ -159,6 +159,12 @@ void Simulation::setupSimObjects()
 	//Simulation::setEmiterMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(10, 30, 20)));
 	//Simulation::setEmiterNumOfParticles(9);
 	//Simulation::setEmiterVelocity(100);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
+	checkOpenGLErrors();
 }
 
 
