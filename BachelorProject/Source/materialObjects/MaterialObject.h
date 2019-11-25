@@ -12,6 +12,7 @@ public:
 	bool getRender() const { return render; }
 	void toggleRender() { render = !render; }
 	void setRender(bool render) { this->render = render; }
+
 protected:
 	MaterialObject(ShaderProgram shaderProgram);
 	MaterialObject() {}
@@ -19,4 +20,5 @@ protected:
 private:
 	bool render = true;
 };
+
 

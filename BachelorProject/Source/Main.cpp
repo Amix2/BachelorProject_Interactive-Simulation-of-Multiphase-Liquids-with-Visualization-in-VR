@@ -56,7 +56,7 @@
 void printWorkGroupsCapabilities();
 
 // init app elements
-void initTools();
+void initTools(ShaderProgram programPyramidPointer);
 
 // atExit function
 void cleanUp();
@@ -75,22 +75,6 @@ constexpr unsigned int SCR_HEIGHT = 1080;
 
 static bool HmdConnected;
 
-glm::vec3 getPerpendicular21(const glm::vec3 vec1, const glm::vec3 vec2) {
-	float crossX = vec1.y * vec2.z - vec1.z * vec2.y;
-	float crossY = vec1.z * vec2.x - vec1.x * vec2.z;
-	float crossZ = vec1.x * vec2.y - vec1.y * vec2.x;
-
-	float length = (float)sqrt(crossX * crossX +
-		crossY * crossY +
-		crossZ * crossZ);
-
-	if (length > 0)
-		return glm::vec3(crossX / length, crossY / length, crossZ / length);
-	else
-
-		return glm::vec3();
-}
-
 int main(int argc, char ** argv) {
 	if (LOG_TO_FILE) {
 		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
@@ -104,7 +88,7 @@ int main(int argc, char ** argv) {
 	atexit(cleanUp);
 
 /////////////////////////////////////////////////////////////////////////////////////
-	
+
 
 	InputDispatcher inputDispatcher;
 	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
@@ -112,7 +96,6 @@ int main(int argc, char ** argv) {
 		LOG_F(ERROR, "Failed to init window");
 		exit(1);
 	}
-	LOG_F(ERROR, " %s", glm::to_string(getPerpendicular21(glm::vec3(-1, 1,0), glm::vec3(-1, 0.5,0))).c_str());
 
 	WindowTitle::setWindow(window.glfwWindow);
 
@@ -122,6 +105,15 @@ int main(int argc, char ** argv) {
 
 	CameraController* cameraController;
 	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+
+	assignHardwareParameters();
+	initTools(programPyramidPointer);
+
+	Simulation::startSimulation(window.glfwWindow);
 
 	if ((HmdConnected = vrglinterop.hasVR())) {
 		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
@@ -136,14 +128,6 @@ int main(int argc, char ** argv) {
 	}
 
 	scene.addCameras(cameraController);
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-	assignHardwareParameters();
-
-	initTools();
-
-	Simulation::startSimulation(window.glfwWindow);
 	
 	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
 	GraphicShaderStorage::addShader(ShaderNames.GlassObject, programGlass);
@@ -153,17 +137,18 @@ int main(int argc, char ** argv) {
 	ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
 	MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
 	scene.addMaterialObject(&moveIndicatorObject, 0);
+	//scene.addMaterialObject(EmittingCameraController::emmm, 0);
 
 	setupScene(scene, inputDispatcher, vrglinterop);
 	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
 
 	HandDataProvider handDataProvider;
-	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
 	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop);
-	//DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, vrglinterop);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
-	//scene.addMaterialObject(&rightHand, 0);
+	scene.addMaterialObject(&rightHand, 0);
+
 
 	do 
 	{
@@ -172,11 +157,10 @@ int main(int argc, char ** argv) {
 		}
 
 		leftHand.update();
-		//rightHand.update();
+		rightHand.update();
 
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
-
 
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame();
@@ -215,13 +199,14 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	//scene.addMaterialObject(&pyramidPointer, 0);
 }
 
-void initTools()
+void initTools(ShaderProgram programPyramidPointer)
 {
 	WindowTitle::init();
 
 	ParticleObjectManager::init();
 	FluidType::init();
 	ShaderCodeEditor::init();
+	EmiterManager::init(programPyramidPointer);
 
 	ParticleData::initArraysOnGPU();	// HAS to be fired at the end (FluidType must be initialized before)
 }

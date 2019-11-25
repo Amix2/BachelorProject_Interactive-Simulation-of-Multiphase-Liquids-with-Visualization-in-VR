@@ -34,8 +34,8 @@ void ParticleData::initArraysOnGPU()
 	// SSBO for neighbour look up table
 	GpuResources::createSSBO(BufferDetails.HelperBufferName, (GLsizeiptr)Configuration.SCENE_SIZE_X * Configuration.SCENE_SIZE_Y * Configuration.SCENE_SIZE_Z * sizeof(GLint), NULL, BufferDetails.HelperBufferBinding);
 
-	Emiter emitersArray[Configuration.MAX_EMITERS];
-	GpuResources::createUBO(BufferDetails.EmiterBufferName, Configuration.MAX_EMITERS * sizeof(Emiter), emitersArray, BufferDetails.EmiterBufferBinding);
+	//Emiter emitersArray[Configuration.MAX_EMITERS];
+	GpuResources::createUBO(BufferDetails.EmiterBufferName, Configuration.MAX_EMITERS * sizeof(Emiter), NULL, BufferDetails.EmiterBufferBinding);
 
 	checkOpenGLErrors();
 

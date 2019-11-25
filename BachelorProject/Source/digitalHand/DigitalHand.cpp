@@ -6,24 +6,26 @@
 DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader) 
 	: m_dataProvider{ dataprovider }, m_hand{ hand }, m_handShader { handShader }
 {
-	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
+	//m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 }
 
 DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop) 
 	: m_dataProvider{ dataprovider }, m_hand{ hand }, m_handShader{ handShader }
 {
 	this->vrglinterop = vrglinterop;
-	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
+	//m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 }
 
 void DigitalHand::init()
 {
+	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(m_handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 	m_pyramid->init();
 }
 
 void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
 {
-	m_pyramid->load(view, projection);
+	if(this->getRender())
+		m_pyramid->load(view, projection);
 }
 
 glm::mat4 DigitalHand::getModel() const

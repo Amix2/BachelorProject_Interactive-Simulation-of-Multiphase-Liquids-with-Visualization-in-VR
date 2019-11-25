@@ -6,7 +6,11 @@
 #include <glm/gtx/string_cast.hpp>
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>
+#include <materialObjects/MaterialObject.h>
 #include <materialObjects/MaterialObjectOwner.h>
+#include <materialObjects/PyramidPointerMaterialObject.h>
+#include <scene/Scene.h>
+class PyramidPointerMaterialObject;
 
 struct GPUEmiter {
 	glm::mat4 matrix;
@@ -18,9 +22,15 @@ struct GPUEmiter {
 
 class Emiter
 	: public SelectableObject
-
+	, public MaterialObject
+	, public MaterialObjectOwner
 {
 private:
+	inline static glm::vec4 COLOR_SELECTED_ACTIVE =			glm::vec4(0.8f,		0.8f,	0.8f,	1.f );
+	inline static glm::vec4 COLOR_SELECTED_NOT_ACTIVE =		glm::vec4(0.8f,		0.35f,	0.8f,	1.f );
+	inline static glm::vec4 COLOR_NOT_SELECTED_ACTIVE =		glm::vec4(0.8f,		0.8f,	0.35f,	1.f );
+	inline static glm::vec4 COLOR_NOT_SELECTED_NOT_ACTIVE = glm::vec4(0.8f,		0.35f,	0.35f,	1.f );
+
 	int m_emitFrequency	= 0;
 	float m_Velocity	= 0;
 	int m_emitThisTurn	= 0;
@@ -31,12 +41,18 @@ private:
 	bool m_updateMatrix = true;
 	glm::mat4 m_Matrix	= glm::mat4();
 	bool m_selected = false;
+
+	mutable glm::mat4 m_Model;
+
+	std::unique_ptr<PyramidPointerMaterialObject> m_pyramid;
+
 public:
-	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType);
+	Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader);
 	Emiter() {}
 
 	int fillGPUdata(GPUEmiter* data, int turnNumber);
 
+	void createGraphic(ShaderProgram pyramidShader);
 
 	bool isSelected() const override { return m_selected; }
 	void grab() override;
@@ -57,6 +73,12 @@ public:
 	void setMatrixUpdate(bool update) { m_updateMatrix = update; }
 	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }
 
+	glm::mat4 getModel() const override;
+	//void fillParameters(std::vector<MultiTypeValue> &values) const override;
+	std::map<Params, MultiTypeValue> getAdditionalParameters() const override;
+
+	void init();
+	void load(const glm::mat4& view, const glm::mat4& projection) const;
 
 
 	std::string toString();

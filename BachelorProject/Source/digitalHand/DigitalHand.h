@@ -1,6 +1,7 @@
 #pragma once
 #include <inputDispatcher/listener/KeyInputListener.h>
 #include <digitalHand/HandDataProvider.h>
+#include <materialObjects/MaterialObject.h>
 #include <materialObjects/MaterialObjectOwner.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
 #include <selectableObject/SelectableObjectManager.h>
@@ -29,7 +30,7 @@ struct MatrixDifference {
 };
 
 // aka VR Controller
-class DigitalHand : public KeyInputListener, public MaterialObjectOwner
+class DigitalHand : public KeyInputListener, public MaterialObjectOwner, public MaterialObject
 {
 private:
 	const inline static float PROXY_GRAB_DISTANCE = 10;
@@ -58,7 +59,7 @@ public:
 	void init();
 	void load(const glm::mat4& view, const glm::mat4& projection) const;
 
-	glm::mat4 getModel() const;
+	glm::mat4 getModel() const override;
 
 	void handleKeyPress(int key, KeyState state, float deltaTime) override;
 

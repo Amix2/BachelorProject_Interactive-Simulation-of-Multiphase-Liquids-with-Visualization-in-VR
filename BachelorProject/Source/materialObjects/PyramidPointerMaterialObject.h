@@ -6,12 +6,16 @@
 #include <Configuration.h>
 #include <vector>
 #include <VR/VRGLInterop.h>
-#include <digitalHand/DigitalHand.h>
-class DigitalHand;
+//#include <digitalHand/DigitalHand.h>
+#include <emiters/Emiter.h>
+
+//class DigitalHand;
+class Emiter;
 
 class PyramidPointerMaterialObject final : public MaterialObject {
 public:
 	PyramidPointerMaterialObject(ShaderProgram ShaderProgram, glm::vec4 PyramidColor, const MaterialObjectOwner* owner);
+
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 
@@ -25,7 +29,7 @@ private:
 	GLuint VAO, VBO, EBO;
 
 	glm::vec4 PyramidColor{};
-	const unsigned long BaseVertices = 3;
+	const unsigned long BaseVertices = 3;	
 	const float TETRAHEDRON_RADIUS = 0.6124f;
 	const float TETRAHEDRON_HEIGHT = 1.8165f;
 	const float TETRAHEDRON_BASE_HEIGHT = 0.866f;

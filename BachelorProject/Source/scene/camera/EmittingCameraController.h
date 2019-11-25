@@ -26,5 +26,7 @@ public:
 	Emiter* emiter;
 	glm::mat4 getEmiterMatrix() const;
 
+private:
+	bool m_updateEmiterMatrix = true;
 
 };

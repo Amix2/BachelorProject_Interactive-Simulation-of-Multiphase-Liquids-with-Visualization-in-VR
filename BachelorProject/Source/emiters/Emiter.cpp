@@ -1,12 +1,11 @@
 #include "Emiter.h"
 
-Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType) : m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType)
+Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader) : m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType), MaterialObject(pyramidShader)
 {
 	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
 	m_emitFrequency = int(ceil(Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
 
-	//m_Matrix = glm::mat4();
 }
 
 int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
@@ -31,6 +30,81 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 		m_emitThisTurn = 0;
 		data->emitThisTurn = 0;
 		return 0;
+	}
+}
+
+glm::mat4 Emiter::getModel() const
+{
+	glm::mat4 model = m_Matrix * glm::rotate(glm::mat4(1.0f), -glm::pi<float>() / 2, glm::vec3(1, 0, 0));
+	model = model * glm::scale(glm::mat4{ 1.0f }, { m_numOfParticles,m_numOfParticles/2,m_numOfParticles });
+	Utils::setPosition(&model, Utils::getPosition(model) - Utils::getForward(m_Matrix)*(((float)m_numOfParticles)*0.5f));
+	return m_Model;
+}
+
+std::map<Params, MultiTypeValue> Emiter::getAdditionalParameters() const
+{
+	MultiTypeValue color;
+	if (isSelected()) {
+		if (m_isActive) {
+			color.vec4Value = COLOR_SELECTED_ACTIVE;
+		}
+		else {
+			color.vec4Value = COLOR_SELECTED_NOT_ACTIVE;
+		}
+	}
+	else {
+		if (m_isActive) {
+			color.vec4Value = COLOR_NOT_SELECTED_ACTIVE;
+		}
+		else {
+			color.vec4Value = COLOR_NOT_SELECTED_NOT_ACTIVE;
+		}
+	}
+	return std::map<Params, MultiTypeValue>({ {Params::COLOR, color} });
+}
+//
+//void Emiter::fillParameters(std::vector<MultiTypeValue> &values) const
+//{
+//
+//	assert(values.size() == 1);
+//	// color
+//	if (isSelected()) {
+//		if (m_isActive) {
+//			values[0].vec4Value = COLOR_SELECTED_ACTIVE;
+//		}
+//		else {
+//			values[0].vec4Value = COLOR_SELECTED_NOT_ACTIVE;
+//		}
+//	}
+//	else {
+//		if (m_isActive) {
+//			values[0].vec4Value = COLOR_NOT_SELECTED_ACTIVE;
+//		}
+//		else {
+//			values[0].vec4Value = COLOR_NOT_SELECTED_NOT_ACTIVE;
+//		}
+//	}
+//}
+
+void Emiter::init()
+{
+	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(shaderProgram, glm::vec4{ 0.55f, 0.0f, 0.55f, 1.0 }, this);
+	m_pyramid->init();
+}
+
+void Emiter::load(const glm::mat4& view, const glm::mat4& projection) const
+{
+	if (this->getRender()) {
+
+		m_Model = m_Matrix * glm::rotate(glm::mat4(1.0f), -glm::pi<float>() / 2, glm::vec3(1, 0, 0));
+		m_Model = m_Model * glm::scale(glm::mat4{ 1.0f }, { m_numOfParticles,m_numOfParticles * 0.5f,m_numOfParticles });
+		Utils::setPosition(&m_Model, Utils::getPosition(m_Model) - Utils::getForward(m_Matrix) * (((float)m_numOfParticles) * 0.5f));
+
+		m_pyramid->load(view, projection);
+
+		m_Model = m_Model * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 3, glm::vec3(0,1, 0));
+
+		m_pyramid->load(view, projection);
 	}
 }
 
@@ -70,7 +144,6 @@ void Emiter::updateMatrix(const glm::mat4& matrix)
 		m_Matrix = matrix;
 	}
 }
-
 
 int Emiter::changeSize(int rowsNumber)
 {

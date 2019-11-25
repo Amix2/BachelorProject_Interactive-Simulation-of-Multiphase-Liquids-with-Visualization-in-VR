@@ -12,6 +12,7 @@ namespace Scene {
 	class Scene
 	{
 	public:
+		inline static Scene* currentScene = nullptr;
 		Scene(glm::vec4 backgroundColor, int layers);
 		void addCameras(const CameraController* controller);
 		void addMaterialObject(MaterialObject* materialObject, unsigned int layer);

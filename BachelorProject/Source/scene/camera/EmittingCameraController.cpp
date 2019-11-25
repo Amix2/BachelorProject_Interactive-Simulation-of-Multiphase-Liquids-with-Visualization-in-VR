@@ -15,6 +15,7 @@ EmittingCameraController::EmittingCameraController(InputDispatcher& inputDispatc
 	});
 
 	emiter = EmiterManager::createEmiter(2, 1000.0f, 2, false);
+	emiter->setRender(!m_updateEmiterMatrix);
 }
 
 
@@ -43,7 +44,9 @@ void EmittingCameraController::handleKeyPress(int key, KeyState action, float de
 			emiter->toggleActive();
 			break;
 		case GLFW_KEY_P:
-			emiter->togleMatrixUpdate();
+			m_updateEmiterMatrix = !m_updateEmiterMatrix;
+			emiter->setMatrixUpdate(m_updateEmiterMatrix);
+			emiter->setRender(!m_updateEmiterMatrix);
 			break;
 		case GLFW_KEY_EQUAL:
 			emiter->increaseSize(1);

@@ -15,7 +15,7 @@
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>
 #include <memory>
-#include <materialObjects/MaterialObjectOwner.h>
+#include <materialObjects/MaterialObject.h>
 #include <materialObjects/GlassObject.h>
 #include <utilities/GraphicShaderStorage.h>
 
@@ -40,7 +40,7 @@ struct ParticleObjectDetais {
 
 // Represents single object like mug etc
 class ParticleObject
-	: public SelectableObject, public MaterialObjectOwner
+	: public SelectableObject, public MaterialObject
 {
 protected:
 	bool m_selected = false;

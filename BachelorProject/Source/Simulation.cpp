@@ -141,7 +141,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -149,8 +149,8 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	//ParticleObjectCreator::addObject(detailsTEST);
-	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(detailsTEST);
+	ParticleObjectCreator::addObject(detailsTESTGLASS);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);

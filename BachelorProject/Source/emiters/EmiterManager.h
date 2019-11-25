@@ -9,6 +9,8 @@
 #include <Logger.h>
 #include <selectableObject/SelectableObjectManager.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
+#include <scene/Scene.h>
+
 class EmiterManager
 {
 private:

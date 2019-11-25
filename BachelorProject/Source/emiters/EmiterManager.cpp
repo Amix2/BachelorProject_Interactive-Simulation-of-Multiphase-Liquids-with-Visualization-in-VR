@@ -2,9 +2,10 @@
 
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, bool selectable)
 {
-	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType));
+	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader));
 	if(selectable)
 		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
+	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
 	return &m_emitersVector[m_emitersVector.size()-1];
 }
 

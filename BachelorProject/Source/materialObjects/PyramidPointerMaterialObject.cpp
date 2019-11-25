@@ -35,49 +35,22 @@ bool PyramidPointerMaterialObject::InitializeBufferObjects() {
 	return true;
 }
 
-//bool PyramidPointerMaterialObject::InitializeVertices() {
-//	if (this->Vertices == nullptr) {
-//		return false;
-//	}
-//
-//	// Initialize top vertex
-//	memset(this->Vertices, 0, 3 * sizeof(float));
-//	//memcpy(this->Vertices + 3, this->PyramidColor, sizeof(this->PyramidColor));
-//	// Initialize bottom vertices
-//	for (unsigned int Index = 1; Index <= this->BaseVertices; ++Index) {
-//		unsigned int FirstVertexCoordinateIndex = 6 * Index;
-//		unsigned int FirstVertexColorIndex = 6 * Index + 3;
-//		float *BaseVertexCoordinate = this->CalculateBaseVertexCoordinateForIndex(Index, this->PyramidRadius, this->PyramidHeight);
-//		memcpy(this->Vertices + FirstVertexCoordinateIndex, BaseVertexCoordinate, sizeof(BaseVertexCoordinate));
-//		//memcpy(this->Vertices + FirstVertexColorIndex, this->PyramidColor, sizeof(this->PyramidColor));
-//
-//		delete[] BaseVertexCoordinate;
-//	}
-//
-//	return true;
-//}
-
-//glm::vec3 PyramidPointerMaterialObject::CalculateBaseVertexCoordinateForIndex(unsigned int Index, double PyramidRadius, double PyramidHeight) const {
-//	glm::vec3 VertexCoordinates{};
-//	//
-//	
-//	return VertexCoordinates;
-//}
-//
-//glm::vec3 PyramidPointerMaterialObject::CalculateBaseVertexPosition(double PyramidRadius, double PyramidHeight) {
-//	glm::vec3 
-//	return glm::vec3{};
-//}
-
 void PyramidPointerMaterialObject::init() {
+	//Emiter* e = &(EmiterManager::m_emitersVector[0]);
 	this->InitializeBufferObjects();
 	//this->InitializeVertices();
 	this->shaderProgram.use();
-	this->shaderProgram.setUniformVariable("pyramidColor", this->PyramidColor);
 	this->shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 }
 
 void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& projection) const {
+	auto paramsMap = m_owner->getAdditionalParameters();
+
+	const glm::vec4* color = &PyramidColor;
+	if (paramsMap.count(Params::COLOR)) {
+		color = &(paramsMap[Params::COLOR].vec4Value);
+	}
+
 	glBindVertexArray(this->VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
@@ -87,9 +60,9 @@ void PyramidPointerMaterialObject::load(const glm::mat4& view, const glm::mat4& 
 	vr::VRControllerState_t controllerState;
 	int deviceId;
 	this->shaderProgram.use();
-
+	//LOG_F(WARNING, "%s", glm::to_string(m_owner->getModel()).c_str());
 	this->shaderProgram.setUniformVariable("MVP", projection * view * m_owner->getModel());
-
+	this->shaderProgram.setUniformVariable("pyramidColor", *color);
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
 }
