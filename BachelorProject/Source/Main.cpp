@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -147,13 +147,13 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	HandDataProvider handDataProvider;
 	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop);
-	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
+	//DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
-	scene.addMaterialObject(&rightHand, 0);
+	//scene.addMaterialObject(&rightHand, 0);
 
-	EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
-	EmiterManager::createEmiter(10, 100.f, 1, { 10, 50, 10 }, true);
-	EmiterManager::createEmiter(10, 100.f, 1, { 10, 30, 10 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 0, 10 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 50, 10 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 100, 10 }, true);
 
 	do 
 	{
@@ -161,7 +161,7 @@ int main(int argc, char ** argv) {
 		if (HmdConnected) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 			leftHand.update();
-			rightHand.update();
+			//rightHand.update();
 			vrFrameBuffer->drawTo();
 		}
 
@@ -195,6 +195,9 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
+
+	static ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
+	static MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);

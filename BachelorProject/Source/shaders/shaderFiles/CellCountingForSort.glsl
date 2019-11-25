@@ -7,6 +7,9 @@
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
+#define MIN_SCENE_X 200
+#define MIN_SCENE_Y 200
+#define MIN_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
 #define EMITER_FLUID_PARTICLE_BUILD_GAP 10.0f
 #define MAX_EMITERS 5
@@ -189,10 +192,10 @@ void main(void)
 }
 
 uint getCellIndex(in float pX, in float pY, in float pZ)  {
-	if(pX<=0 || pX>=MAX_SCENE_X || pY<=0 || pY>=MAX_SCENE_Y || pZ<=0 || pX>=MAX_SCENE_Z) {
+	if(pX<=MIN_SCENE_X || pX>=MAX_SCENE_X || pY<=MIN_SCENE_Y || pY>=MAX_SCENE_Y || pZ<=MIN_SCENE_Z || pX>=MAX_SCENE_Z) {
 		return 0;
 	}
-	return uint(pX) + MAX_SCENE_X * uint(pZ) + MAX_SCENE_X * MAX_SCENE_Z * uint(pY);
+	return uint(pX-MIN_SCENE_X) + (MAX_SCENE_X-MIN_SCENE_X) * uint(pZ-MIN_SCENE_Z) + (MAX_SCENE_X-MIN_SCENE_X) * (MAX_SCENE_Z-MIN_SCENE_Z) * uint(pY-MIN_SCENE_Y);
 }
 
 /*

@@ -9,6 +9,9 @@
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
+#define MIN_SCENE_X 200
+#define MIN_SCENE_Y 200
+#define MIN_SCENE_Z 200
 
 #define INSERT_VARIABLES_HERE
 
@@ -53,10 +56,10 @@ layout(std430, binding = 9) buffer lookUpTableBuf
 //////////////////////////////////////////////////
 
 uint getCellIndex(in float pX, in float pY, in float pZ)  {
-	if(pX<=0 || pX>=MAX_SCENE_X || pY<=0 || pY>=MAX_SCENE_Y || pZ<=0 || pX>=MAX_SCENE_Z) {
+	if(pX<=MIN_SCENE_X || pX>=MAX_SCENE_X || pY<=MIN_SCENE_Y || pY>=MAX_SCENE_Y || pZ<=MIN_SCENE_Z || pX>=MAX_SCENE_Z) {
 		return 0;
 	}
-	return uint(pX) + MAX_SCENE_X * uint(pZ) + MAX_SCENE_X * MAX_SCENE_Z * uint(pY);
+	return uint(pX-MIN_SCENE_X) + (MAX_SCENE_X-MIN_SCENE_X) * uint(pZ-MIN_SCENE_Z) + (MAX_SCENE_X-MIN_SCENE_X) * (MAX_SCENE_Z-MIN_SCENE_Z) * uint(pY-MIN_SCENE_Y);
 }
 
 
@@ -103,15 +106,15 @@ void main(void)
 	const uint myOutputIndex = myThreadNumber;
 
 
-	const uint myPartX = uint(myParticle.x);
-	const uint myPartY = uint(myParticle.y);
-	const uint myPartZ = uint(myParticle.z);
+	//const int myPartX = int(myParticle.x-MIN_SCENE_X);
+	//const int myPartY = int(myParticle.y-MIN_SCENE_Y);
+	//const int myPartZ = int(myParticle.z-MIN_SCENE_Z);
 
 	const vec3 myOffset = offsetArray[myOffsetIndex];
 
-	const uint neighbourX = myPartX + int(myOffset.x);
-	const uint neighbourY = myPartY + int(myOffset.y);
-	const uint neighbourZ = myPartZ + int(myOffset.z);
+	const float neighbourX = myParticle.x + (myOffset.x);
+	const float neighbourY = myParticle.y + (myOffset.y);
+	const float neighbourZ = myParticle.z + (myOffset.z);
 
 	const uint neighbourCellIndex = getCellIndex(neighbourX, neighbourY, neighbourZ);
 

@@ -7,20 +7,17 @@ void FrameBuffer::init()
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE); // automatic mipmap
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	// create a renderbuffer object to store depth info
-	GLuint rboId;
-	glGenRenderbuffers(1, &rboId);
-	glBindRenderbuffer(GL_RENDERBUFFER, rboId);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_STENCIL, width, height);
+	glGenRenderbuffers(1, &rboID);
+	glBindRenderbuffer(GL_RENDERBUFFER, rboID);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
 
 	// create a framebuffer object
 	glGenFramebuffers(1, &ID);
@@ -36,17 +33,10 @@ void FrameBuffer::init()
 
 	// attach the renderbuffer to depth attachment point
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
-		GL_DEPTH_ATTACHMENT,						// 2. attachment point
+		GL_DEPTH_STENCIL_ATTACHMENT,				// 2. attachment point
 		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
-		rboId										// 4. rbo ID
+		rboID										// 4. rbo ID
 	);				
-
-	// attach the renderbuffer to depth attachment point
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
-		GL_STENCIL_ATTACHMENT,						// 2. attachment point
-		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
-		rboId										// 4. rbo ID
-	);
 
 // check FBO status
 	int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);

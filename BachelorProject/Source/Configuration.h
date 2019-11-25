@@ -18,16 +18,18 @@ const struct Configuration {
 	inline static const int MAX_EMITERS = 5;
 	inline static const int MAX_SELECTABLE_OBJECTS = 10;
 
+	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(100, 0, 100);
+
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.5f;
 	inline static const float EMITER_FLUID_PARTICLE_BUILD_GAP = 0.9f;
 
-	inline static int SCENE_SIZE_X = 9;
-	inline static int SCENE_SIZE_Y = 8;
-	inline static int SCENE_SIZE_Z = 7;
+	inline static int SCENE_SIZE_X = 2;
+	inline static int SCENE_SIZE_Y = 1;
+	inline static int SCENE_SIZE_Z = 2;
 
-	inline static const float DELTA_TIME = 0.004f;
+	inline static const float DELTA_TIME = 0.005f;
 	inline static const float GRAVITY_Y = -800;
 	inline static const float VELOCITY_FACTOR = 0.7f;
 	inline static const float BOUNCE_DISTANCE = 0.50f;

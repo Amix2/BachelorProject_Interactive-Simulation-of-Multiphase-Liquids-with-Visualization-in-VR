@@ -91,13 +91,12 @@ void Emiter::load(const glm::mat4& view, const glm::mat4& projection) const
 		m_Model = m_Model * glm::scale(glm::mat4{ 1.0f }, { m_numOfParticles,m_numOfParticles * 0.5f,m_numOfParticles });
 		Utils::setPosition(&m_Model, Utils::getPosition(m_Model) - Utils::getForward(m_Matrix) * (((float)m_numOfParticles) * 0.5f));
 
-		//m_Model = m_Matrix;
 		m_pyramid->load(view, projection);
-		return;
+
 		m_Model = m_Model * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 3, glm::vec3(0,1, 0));
 
 		m_pyramid->load(view, projection);
-		LOG_F(WARNING, "Emiter pos:\n%s\n%s", glm::to_string(m_Matrix).c_str(), glm::to_string(m_Model).c_str());
+		//LOG_F(WARNING, "Emiter pos:\n%s\n%s", glm::to_string(m_Matrix).c_str(), glm::to_string(m_Model).c_str());
 	}
 }
 

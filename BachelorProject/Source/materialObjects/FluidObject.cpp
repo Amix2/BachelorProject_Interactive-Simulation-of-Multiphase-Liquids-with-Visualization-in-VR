@@ -56,9 +56,7 @@ void FluidObject::init()
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
 	shaderProgram.setUniformVariable("colorTexture", 0);
 	shaderProgram.setUniformVariable("normalTexture", 1);
-	shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 0, 1, 0)));
-
-
+	shaderProgram.setUniformVariable("lightDir", glm::normalize(glm::vec4(1, 0.8f, 1, 0)));
 }
 
 

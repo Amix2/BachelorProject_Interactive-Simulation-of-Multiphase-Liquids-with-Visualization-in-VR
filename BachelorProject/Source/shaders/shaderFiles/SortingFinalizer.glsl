@@ -5,6 +5,9 @@
 #define MAX_SCENE_X 200
 #define MAX_SCENE_Y 200
 #define MAX_SCENE_Z 200
+#define MIN_SCENE_X 200
+#define MIN_SCENE_Y 200
+#define MIN_SCENE_Z 200
 #define SORT_ARRAY_SIZE 2*MAX_FLUID
 
 #define INSERT_VARIABLES_HERE
@@ -58,9 +61,9 @@ void main(void)
 	if(myThreadNumber>=numOfParticles) return;
 
 	if(sortIndexArray[myThreadNumber] == 0) {
-		fluidPositions[myThreadNumber].x = 0;
-		fluidPositions[myThreadNumber].y = 0;
-		fluidPositions[myThreadNumber].z = 0;
+		fluidPositions[myThreadNumber].x = MIN_SCENE_X;
+		fluidPositions[myThreadNumber].y = MIN_SCENE_Y;
+		fluidPositions[myThreadNumber].z = MIN_SCENE_Z;
 		fluidPositions[myThreadNumber].type = 0;
 
 		fluidVelocity[3*myThreadNumber+0] = 0;

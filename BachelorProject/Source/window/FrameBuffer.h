@@ -15,6 +15,7 @@ public:
 
 private:
 	GLuint ID;
+	GLuint rboID;
 	unsigned int width;
 	unsigned int height;
 };

@@ -25,6 +25,7 @@ void MugParticleObject::setMatrix(const glm::mat4& matrix)
 
 MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) {
 	this->create(details, numOfParts);
+	m_SelectingRadius = this->m_distanceToFurthestParticle;
 }
 
 
@@ -35,20 +36,27 @@ void MugParticleObject::stepTowardsDestination()
 	float stepDistanceLeft = Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE;
 
 	const float maxPositionChange = previousTurnPositionChange + MUG_TURN_VELOCITY_CHANGE * Configuration.DELTA_TIME;
-
-	float stepDistanceChange = min(maxPositionChange, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2);
+	const float distanceToDestination = glm::distance(Utils::getPosition(m_matrix), Utils::getPosition(m_destinationMatrix));
+	const float BOTH_DISTANCE = 20.0f;
+	const float LINEAR_DISTANCE = 100.0f;
+	float angleCoef;
+	if (distanceToDestination < BOTH_DISTANCE)	angleCoef = 1.f;
+	else if (distanceToDestination < LINEAR_DISTANCE) angleCoef = (LINEAR_DISTANCE - distanceToDestination) / (LINEAR_DISTANCE - BOTH_DISTANCE) ;
+	else angleCoef = 0.f;
+	//LOG_F(WARNING, "%f", distanceToDestination);
+	float stepDistanceChange = min(maxPositionChange, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE*0.5f);
 
 	float linearPositionChange = 0;
 
-	// move max distance = min( Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE/2, maxPositionChange )
+	// move max distance = min( Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE * 0.5, maxPositionChange )
 	const float positionMove1 = stepPositionChange(stepDistanceChange);
 
 	stepDistanceLeft -= positionMove1;
 	linearPositionChange = positionMove1;
 	previousTurnPositionChange = positionMove1;
 
-	// angle move, max distance = stepDistanceLeft  
-	const float angleMove = stepAngleChange(stepDistanceLeft);
+	// angle move, max distance = stepDistanceLeft * angleCoef 
+	const float angleMove = stepAngleChange(stepDistanceLeft * angleCoef);
 
 	stepDistanceLeft -= angleMove;
 
@@ -96,7 +104,7 @@ float MugParticleObject::stepAngleChange(const float maxDistance)
 		currUp = Utils::getUp(m_matrix);
 		destUp = Utils::getUp(m_destinationMatrix);
 		glm::vec3 perpVec = getPerpendicular(currUp, destUp);
-		LOG_F(WARNING, "perp befor\t%s", glm::to_string(perpVec).c_str());
+		//LOG_F(WARNING, "perp befor\t%s", glm::to_string(perpVec).c_str());
 		//m_matrix = glm::rotate(m_matrix, angleChange, glm::normalize(glm::cross(currUp, destUp)));
 		//m_matrix = m_matrix * glm::rotate(glm::mat4{ 1 }, angleChange, glm::normalize(glm::cross(currUp, destUp)));
 		//Utils::setUp(&m_matrix, destUp);
@@ -107,10 +115,10 @@ float MugParticleObject::stepAngleChange(const float maxDistance)
 		m_matrix = Utils::getRotationMatrix(perpVec, -angleChange) * m_matrix;
 		Utils::setPosition(&m_matrix, position);
 
-		currUp = Utils::getUp(m_matrix);
-		destUp = Utils::getUp(m_destinationMatrix);
-		perpVec = getPerpendicular(currUp, destUp);
-		LOG_F(WARNING, "perp after\t%s", glm::to_string(perpVec).c_str());
+		//currUp = Utils::getUp(m_matrix);
+		//destUp = Utils::getUp(m_destinationMatrix);
+		//perpVec = getPerpendicular(currUp, destUp);
+		//LOG_F(WARNING, "perp after\t%s", glm::to_string(perpVec).c_str());
 		return tanf(angleChange) * m_distanceToFurthestParticle;
 	}
 	return 0.0f;

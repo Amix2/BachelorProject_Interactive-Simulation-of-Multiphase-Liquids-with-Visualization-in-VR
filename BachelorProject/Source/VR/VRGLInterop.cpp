@@ -63,7 +63,7 @@ namespace VR {
 
 	void VRGLInterop::sumbitFrame(const FrameBuffer& frameBuffer) {
 
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+		frameBuffer.readFrom();
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
 
 		glBlitFramebuffer(0, 0, frameBuffer.getWidth() * 0.5f, frameBuffer.getHeight(), 0, 0, frameBuffer.getWidth(), frameBuffer.getHeight(),

@@ -17,18 +17,6 @@ enum Hand {
 	LEFT_HAND
 };
 
-struct MatrixDifference {
-	float angForwardByRight;
-	float angForwardByUp;
-	float angUpByRight;
-	float angUpByForward;
-	float angRightByUp;
-	float angRightByForward;
-
-	void createDifference(const glm::mat4& refMatrix, const glm::mat4& otherMatrix);
-	void applyDifference(const glm::mat4& refMatrix, glm::mat4* matrix);
-};
-
 // aka VR Controller
 class DigitalHand : public KeyInputListener, public MaterialObjectOwner, public MaterialObject
 {
@@ -44,12 +32,12 @@ private:
 	SelectableObject* m_selectedObject = nullptr;
 	glm::mat4 m_handMatrix;
 	glm::mat4 m_grabMatrixOffset;
-	MatrixDifference m_matrixDifference;
 
 	glm::mat4 getMyHandMatrix() const;
 	bool tryGrabDistance();
 	bool tryGrabAngle();
 	void teleportObjectToHand(SelectableObject* obj);
+	void moveObjectWithHand(SelectableObject* obj);
 	void setGrabMatrixOffset();
 public:
 
