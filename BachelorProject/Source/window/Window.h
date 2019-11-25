@@ -12,18 +12,22 @@
 #include <window/listener/WindowSizeListener.h>
 #include <inputDispatcher/InputDispatcher.h>
 #include <Logger.h>
+#include "FrameBuffer.h"
 
 class Window {
 public:
 	Window(int width, int height, std::string name, InputDispatcher& inputDispatcher);
 	~Window();
 	bool init();
-	bool refresh();	
+	void refresh();	
+	bool shouldClose();
+	void getFrameFrom(const FrameBuffer& framebuffer );
 
-	void subscribeForWindowSizeChanges(WindowSizeListener* listener);
 
-	int getWidth() const { return width; }
-	int getHeight() const { return height; }
+	void subscribeForFrameBufferSizeChanges(FrameBufferSizeListener* listener);
+
+	unsigned int getWidth() const { return width; }
+	unsigned int getHeight() const { return height; }
 	float getDeltaTime() const { return deltaTime; }
 
 	GLFWwindow* glfwWindow = nullptr;
@@ -42,7 +46,7 @@ private:
 	double mousePosX;
 	double mousePosY;
 
-	std::vector<WindowSizeListener*> windowSizeListeners;
+	std::vector<FrameBufferSizeListener*> framebufferSizeListeners;
 
 	static void GlfwWindowResizeCallback(GLFWwindow* window, int width, int height);
 	static void GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y);

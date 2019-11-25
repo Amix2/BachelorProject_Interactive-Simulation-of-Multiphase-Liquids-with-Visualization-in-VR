@@ -50,12 +50,9 @@ bool Window::init()
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
 		GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Started debugging");
-
-
-	return true;
 }
 
-bool Window::refresh()
+void Window::refresh()
 {
 	glfwSwapBuffers(glfwWindow);
 
@@ -65,14 +62,28 @@ bool Window::refresh()
 
 	glfwPollEvents();
 	inputDispatcher->dispatchInput(deltaTime);
+}
 
+bool Window::shouldClose()
+{
 	return glfwWindowShouldClose(glfwWindow);
 }
 
-
-void Window::subscribeForWindowSizeChanges(WindowSizeListener* listener)
+void Window::getFrameFrom(const FrameBuffer& frameBuffer)
 {
-	this->windowSizeListeners.push_back(listener);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	frameBuffer.readFrom();
+
+	glBlitFramebuffer(0, 0, frameBuffer.getWidth(), frameBuffer.getHeight(), 0, 0, width, height,
+		GL_COLOR_BUFFER_BIT,
+		GL_LINEAR);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void Window::subscribeForFrameBufferSizeChanges(FrameBufferSizeListener* listener)
+{
+	this->framebufferSizeListeners.push_back(listener);
 }
 
 void Window::GlfwWindowMouseMoveCallback(GLFWwindow* window, double x, double y)
@@ -116,11 +127,10 @@ void Window::handleResize(int width, int height)
 {
 	this->width = width;
 	this->height = height;
-	if (!windowSizeListeners.empty())
-		for_each(windowSizeListeners.begin(), windowSizeListeners.end(), [width, height](WindowSizeListener* listener)
-		{
-			listener->handleWindowResize(width, height);
-		});
+	for(FrameBufferSizeListener* listener: framebufferSizeListeners)
+	{
+		listener->handleFrameBufferResize(width, height);
+	}
 }
 
 void Window::handleMouseMove(double x, double y)

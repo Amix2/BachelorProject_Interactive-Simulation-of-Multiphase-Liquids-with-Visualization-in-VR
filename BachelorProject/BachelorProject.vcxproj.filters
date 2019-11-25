@@ -53,6 +53,7 @@
     <ClCompile Include="Source\utilities\Texture.cpp" />
     <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
     <ClCompile Include="Source\digitalHand\HandDataProvider.cpp" />
+    <ClCompile Include="Source\window\FrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -83,7 +84,6 @@
     <ClInclude Include="Source\ThreadSynchronizer.h" />
     <ClInclude Include="Source\window\ViewPort.h" />
     <ClInclude Include="Source\window\Window.h" />
-    <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
     <ClInclude Include="Source\shaders\ShaderCodeEditor.h" />
     <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
     <ClInclude Include="Source\particleObjects\ParticleObject.h" />
@@ -118,6 +118,8 @@
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
     <ClInclude Include="Source\digitalHand\HandDataProvider.h" />
     <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
+    <ClInclude Include="Source\window\FrameBuffer.h" />
+    <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

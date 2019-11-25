@@ -49,6 +49,7 @@
 #include <window/WindowTitle.h>
 #include <emiters/EmiterManager.h>
 #include <emiters/Emiter.h>
+#include <window/FrameBuffer.h>
 #include <utilities/GraphicShaderStorage.h>
 #include <scene/camera/EmittingCameraController.h>
 #include <digitalHand/DigitalHand.h>
@@ -64,14 +65,16 @@ void cleanUp();
 void assignHardwareParameters();
 
 //creates objects presented on scene
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop);
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop, GlassController&);
 
 // settings
 std::string NAME = "Random window";
 //H1680
 //W1512
-constexpr unsigned int SCR_WIDTH = 1920;
-constexpr unsigned int SCR_HEIGHT = 1080;
+constexpr unsigned int VR_SCR_WIDTH = 1512 * 2;
+constexpr unsigned int VR_SCR_HEIGHT = 1680;
+constexpr unsigned int WINDOW_SCR_WIDTH = 1600;
+constexpr unsigned int WINDOW_SCR_HEIGHT = 900;
 
 static bool HmdConnected;
 
@@ -91,7 +94,7 @@ int main(int argc, char ** argv) {
 
 
 	InputDispatcher inputDispatcher;
-	Window window{ SCR_WIDTH, SCR_HEIGHT, NAME, inputDispatcher };
+	Window window{ WINDOW_SCR_WIDTH, WINDOW_SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
 		LOG_F(ERROR, "Failed to init window");
 		exit(1);
@@ -100,11 +103,8 @@ int main(int argc, char ** argv) {
 	WindowTitle::setWindow(window.glfwWindow);
 
 	Scene::Scene scene{ Configuration::BACKGROUND, 2 };
-	VR::VRGLInterop vrglinterop{};
-	vrglinterop.activate();
-
-	CameraController* cameraController;
-	ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+	VR::VRGLInterop vrglinterop{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
+	vrglinterop.init();
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -115,13 +115,18 @@ int main(int argc, char ** argv) {
 
 	Simulation::startSimulation(window.glfwWindow);
 
+	CameraController* cameraController = nullptr;
+	FrameBuffer* vrFrameBuffer = nullptr;
 	if ((HmdConnected = vrglinterop.hasVR())) {
-		ViewPort leftEyeViewPort{ window, 0.0f, 0.0f, 0.5f, 1.0f };;
-		ViewPort rightEyeViewPort{ window, 0.5f, 0.0f, 0.5f, 1.0f };
+		vrFrameBuffer = new FrameBuffer{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
+		vrFrameBuffer->init();
+
+		ViewPort leftEyeViewPort{ *vrFrameBuffer,  0.0f, 0.0f, 0.5f, 1.0f };
+		ViewPort rightEyeViewPort{ *vrFrameBuffer, 0.5f, 0.0f, 0.5f, 1.0f };
 		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f };
 	}
 	else {
-		std::cerr << "Couldn't init VR Core!" << std::endl;
+		LOG_F(INFO, "Couldn't init VR Core - switching to regular display mode");
 
 		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
 		cameraController = new EmittingCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
@@ -134,12 +139,8 @@ int main(int argc, char ** argv) {
 	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
 	GraphicShaderStorage::addShader(ShaderNames.SelectedGlassObject, programSelectedGlass);
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
-	ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
-	MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
-	scene.addMaterialObject(&moveIndicatorObject, 0);
-	//scene.addMaterialObject(EmittingCameraController::emmm, 0);
 
-	setupScene(scene, inputDispatcher, vrglinterop);
+	setupScene(scene, inputDispatcher, vrglinterop, glassController);
 	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
@@ -156,27 +157,30 @@ int main(int argc, char ** argv) {
 
 	do 
 	{
+		glassController.assignUntrackedObjects(scene);
 		if (HmdConnected) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
+			leftHand.update();
+			rightHand.update();
+			vrFrameBuffer->drawTo();
 		}
-
-		leftHand.update();
-		rightHand.update();
 
 		glassController.assignUntrackedObjects(scene);
 		scene.renderScene();
 
 		if (HmdConnected) {
-			vrglinterop.sumbitFrame();
+			vrglinterop.sumbitFrame(*vrFrameBuffer);
+			window.getFrameFrom(*vrFrameBuffer);
 		}
-	} while (!window.refresh());
+		window.refresh();
+	} while (!window.shouldClose());
 
 	glfwTerminate();
 	return 0;
 }
 
 
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop) {
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop, GlassController& glassController) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
 
@@ -192,15 +196,12 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
 	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
 
-	//static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
-	//static PyramidPointerMaterialObject pyramidPointer{ programPyramidPointer, glm::vec4{0.3, 0.5, 0.4, 1.0}, vrglinterop };
-
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
 	scene.addMaterialObject(&fluid, 0);
 	scene.addMaterialObject(&axes, 0);
 	scene.addMaterialObject(&vectorNormals, 0);
-	//scene.addMaterialObject(&pyramidPointer, 0);
+	scene.addMaterialObject(&moveIndicatorObject, 0);
 }
 
 void initTools(ShaderProgram programPyramidPointer)

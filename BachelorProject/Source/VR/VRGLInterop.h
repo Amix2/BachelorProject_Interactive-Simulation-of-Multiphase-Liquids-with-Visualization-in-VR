@@ -11,8 +11,7 @@
 namespace VR {
 	class VRGLInterop {
 	public:
-		VRGLInterop(const VRGLInterop& vrglinterop) = default;
-		VRGLInterop() = default;
+		VRGLInterop(unsigned int width, unsigned int height) : width{ width }, height{ height } {};
 		VRGLInterop& operator=(const VRGLInterop&) = default;
 		std::shared_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
 		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
@@ -20,23 +19,23 @@ namespace VR {
 
 		bool VRactive;
 
-		const unsigned int SCR_WIDTH = 1920;
-		const unsigned int SCR_HEIGHT = 1080;
 		GLuint m_nResolveFramebufferIdLeft;
 		GLuint m_nResolveTextureIdLeft;
 
 		GLuint m_nResolveFramebufferIdRight;
 		GLuint m_nResolveTextureIdRight;
 
-		bool activate();
+		bool init();
 		bool hasVR();
-		void sumbitFrame();
+		void sumbitFrame(const FrameBuffer& frameBuffer);
 		void handleInput(VRCameraController* cameraControler);
 
 	protected:
 		//
 
 	private:
-		//
+		unsigned int width;
+		unsigned int height;
+
 	};
-}
+};
