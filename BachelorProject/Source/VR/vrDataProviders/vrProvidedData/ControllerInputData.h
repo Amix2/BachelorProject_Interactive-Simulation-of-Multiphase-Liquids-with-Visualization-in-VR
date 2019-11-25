@@ -14,8 +14,6 @@ namespace VR
 		public:
 			vr::ETrackedControllerRole ControllerRole;
 			std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>> ButtonEvents;
-			// vr::EVREventType EventType;
-			// vr::EVRButtonId ButtonId;
 
 		protected:
 			//

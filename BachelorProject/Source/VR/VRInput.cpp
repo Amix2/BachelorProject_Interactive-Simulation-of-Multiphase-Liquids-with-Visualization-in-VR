@@ -11,18 +11,34 @@ namespace VR {
 		return this->DetectedControllers;
 	}
 
-	std::vector<CompleteVRControllerEvent> VRInput::GetDetectedEvents()
+	std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>> VRInput::GetDetectedEvents(vr::ETrackedControllerRole ControllerRole)
 	{
-		return this->DetectedEvents;
+		if (this->DetectedControllers.first == ControllerRole)
+		{
+			return this->DetectedEvents.first;
+		}
+		else if (this->DetectedControllers.second == ControllerRole)
+		{
+			return this->DetectedEvents.second;
+		}
 	}
 
 	bool VRInput::DetectControllers()
 	{
+		std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> DetectedControllers{ 0, 0 };
 		for (unsigned int id = 0; id < vr::k_unMaxTrackedDeviceCount; ++id) {
 			vr::ETrackedDeviceClass trackedDeviceClass = this->VRCore->GetVrSystem()->GetTrackedDeviceClass(id);
 			if (trackedDeviceClass != vr::ETrackedDeviceClass::TrackedDeviceClass_Controller || !VRCore->GetVrSystem()->IsTrackedDeviceConnected(id))
 			{
 				continue;
+			}
+			else
+			{
+				vr::ETrackedControllerRole TrackedControllerRole = this->VrCore->GetVRSystem()->GetControllerRoleForTrackedDeviceIndex(event.trackedDeviceIndex);
+				if (this-)
+				{
+					this->DetectedControllers.first = 
+				}
 			}
 
 			//Confirmed that the device in question is a connected controller
@@ -34,102 +50,38 @@ namespace VR {
 
 			//Do things with the TrackedDevicePose_t struct
 		}
+		if ()
+
+		this->DetectedControllers = DetectedControllers;
+
+		return true;
 	}
 
-	bool VRInput::DetectEvents()
+	bool VRInput::DetectEvents(vr::ETrackedControllerRole ControllerRole)
 	{
-		return true;
-	}
-
-	/*
-	bool VRInput::InitializeVRInput(std::string PathToActions) {
-		this->ActionLoader = std::make_unique<VR::ActionLoader>(PathToActions);
-
-		return true;
-	}
-	
-	std::vector<std::string> VRInput::DetectPressedButtons() {
-		std::vector<std::string> PressedButtonsVector;
-
-		for (auto &ActionName : ActionNameArray) {
-			auto Action = this->ActionLoader->GetActionHandle(ActionName);
-			if (!this->GetDigitalActionState(Action)) {
-				PressedButtonsVector.push_back(ActionName);
-			}
-		}
-
-		return PressedButtonsVector;
-	}
-
-	bool VRInput::GetDigitalActionRisingEdge(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath) {
-		vr::InputDigitalActionData_t actionData;
-		vr::VRInput()->GetDigitalActionData(action, &actionData, sizeof(actionData), vr::k_ulInvalidInputValueHandle);
-		if (pDevicePath) {
-			*pDevicePath = vr::k_ulInvalidInputValueHandle;
-			if (actionData.bActive) {
-				vr::InputOriginInfo_t originInfo;
-				if (vr::VRInputError_None == vr::VRInput()->GetOriginTrackedDeviceInfo(actionData.activeOrigin, &originInfo, sizeof(originInfo))) {
-					*pDevicePath = originInfo.devicePath;
-				}
-			}
-		}
-
-		return actionData.bActive && actionData.bChanged && actionData.bState;
-	}
-
-	bool VRInput::GetDigitalActionState(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath) {
-		vr::InputDigitalActionData_t actionData;
-		vr::VRInput()->GetDigitalActionData(action, &actionData, sizeof(actionData), vr::k_ulInvalidInputValueHandle);
-		if (pDevicePath) {
-			*pDevicePath = vr::k_ulInvalidInputValueHandle;
-			if (actionData.bActive) {
-				vr::InputOriginInfo_t originInfo;
-				if (vr::VRInputError_None == vr::VRInput()->GetOriginTrackedDeviceInfo(actionData.activeOrigin, &originInfo, sizeof(originInfo))) {
-					*pDevicePath = originInfo.devicePath;
-				}
-			}
-		}
-
-		return actionData.bActive && actionData.bState;
-	}
-
-	bool VRInput::HandleInput() {
-		vr::VRActiveActionSet_t ActionSet = { 0 };
-		ActionSet.ulActionSet = this->ActionLoader->GetActionSet();
-		vr::VRInput()->UpdateActionState(&ActionSet, sizeof(ActionSet), 1);
-		auto DetectedPressedButtons = this->DetectPressedButtons();
-		if (vr::VRInput()->GetAnalogActionData(this->ActionLoader->GetActionHandle("trackpad"), &this->AnalogData, sizeof(this->AnalogData), vr::k_ulInvalidInputValueHandle) == vr::VRInputError_None && this->AnalogData.bActive)
+		vr::VREvent_t VrEvent;
+		std::pair<vr::ETrackedControllerRole, std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>>> DetectedEvents;
+		while (this->VRCore->GetVrSystem()->PollNextEvent(&VrEvent, sizeof(VrEvent)))
 		{
-			this->AnalogDataArray[0] = AnalogData.x;
-			this->AnalogDataArray[1] = AnalogData.y;
+			switch (VrEvent.eventType)
+			{
+			case vr::VREvent_ButtonPress:
+
+			case vr::VREvent_ButtonTouch:
+
+			case vr::VREvent_ButtonUnpress:
+
+			case vr::VREvent_ButtonUntouch:
+				break;
+			}
 		}
-
-		return true;
-	}
-
-	ActionLoader::ActionLoader(std::string PathToActionsFile) {
-		this->PathToActionsFile = PathToActionsFile;
-		vr::VRInput()->SetActionManifestPath(std::filesystem::absolute(this->PathToActionsFile.c_str()).string().c_str());
-		InitActionsMap();
-	}
-
-	bool ActionLoader::InitActionsMap() {
-		std::string ActionsPrefix = std::string(ACTIONS_PREFIX) + "in/";
-		for (std::string ActionName : ActionNameArray) {
-			vr::VRActionHandle_t ActionHandle;
-			vr::VRInput()->GetActionHandle((ActionsPrefix + ActionName).c_str(), &ActionHandle);
-			this->ActionMap.insert(std::pair<std::string, vr::VRActionHandle_t>(ActionName, std::move(ActionHandle)));
+		this->DetectedEvents = DetectedEvents;
+		if (this->DetectedEvents.second.size() == 0)
+		{
+			return false;
 		}
-
-		return true;
+		else {
+			return true;
+		}
 	}
-
-	vr::VRActionSetHandle_t ActionLoader::GetActionSet() {
-		return this->ActionSet;
-	}
-
-	vr::VRActionHandle_t ActionLoader::GetActionHandle(std::string Name) {
-		return this->ActionMap[Name];
-	}
-	*/
 }

@@ -27,7 +27,7 @@ namespace VR
 			bool init() override;
 			bool ReceiveData() override;
 			bool IsReceivedDataStillValid() const override;
-			void SetControllerRole(vr::ETrackedControllerRole ControllerRole);
+			//void SetControllerRole(vr::ETrackedControllerRole ControllerRole);
 			void SetProviderMode(VRControllerProviderMode ProviderMode);
 
 		protected:
@@ -35,7 +35,7 @@ namespace VR
 
 		private:
 			VR::VRGLInterop VRGLInterop{};
-			vr::ETrackedControllerRole ControllerRole;
+			//vr::ETrackedControllerRole ControllerRole;
 			VRControllerProviderMode ProviderMode;
 
 			std::shared_ptr<VRControllerPoseProvider> VRControllerPoseProvider;
