@@ -6,14 +6,16 @@
 #include <VR/VRInput.h>
 #include <VR/VRCore.h>
 #include <scene/camera/VRCameraController.h>
+#include <VR/VRInitializable.h>
 
 namespace VR {
-	class VRGLInterop {
+	class VRGLInterop : VRInitializable {
 	public:
 		VRGLInterop(const std::shared_ptr<VRCore> VRCore) : VRCore{ VRCore };
 		VRGLInterop(const VRGLInterop& vrglinterop) = default;
 		VRGLInterop() = default;
 		VRGLInterop& operator=(const VRGLInterop&) = default;
+		bool InitModule() override;
 		std::shared_ptr<VR::VRCore> VrCore = std::make_shared<VR::VRCore>();
 		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_shared<VR::VRGeometry>();
 		std::shared_ptr<VR::VRInput> VrInput = std::make_shared<VR::VRInput>();

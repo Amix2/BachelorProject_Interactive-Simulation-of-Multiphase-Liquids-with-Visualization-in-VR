@@ -1,17 +1,17 @@
 #pragma once
 
+/// STL
 #include <map>
 #include <string>
 #include <vector>
-
-#include <OpenVR/openvr.h>
-
 #include <memory>
 
+/// Dependency includes
+#include <OpenVR/openvr.h>
+
+/// Local includes
+#include <VR/VRCore.h>
 #include <VR/vrDataProviders/vrProvidedData/ProvidedData.h>
-
-#include "VRCore.h"
-
 #include "Utils.h"
 
 namespace VR {

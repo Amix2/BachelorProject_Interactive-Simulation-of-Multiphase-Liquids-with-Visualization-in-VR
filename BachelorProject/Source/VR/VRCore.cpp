@@ -33,6 +33,7 @@ namespace VR {
 		return true;
 	}
 
+	/*
 	bool VRCore::InitializeDescriptors() {
 		//
 		this->Descriptors[vr::Eye_Left] = {
@@ -44,15 +45,18 @@ namespace VR {
 
 		return true;
 	}
+	*/
 
-	vr::IVRSystem * VRCore::GetVrSystem() {
+	std::shared_ptr<vr::IVRSystem> VRCore::GetVrSystem() {
 		return this->VrSystem;
 	}
 
+	/*
 	bool VRCore::SubmitTexturesToHMD(vr::Texture_t LeftTexture, vr::Texture_t RightTexture) {
 		vr::VRCompositor()->Submit(vr::Eye_Left, &LeftTexture);
 		vr::VRCompositor()->Submit(vr::Eye_Right, &RightTexture);
 
 		return true;
 	}
+	*/
 }

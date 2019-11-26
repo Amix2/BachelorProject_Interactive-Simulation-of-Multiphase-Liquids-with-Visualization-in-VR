@@ -1,6 +1,11 @@
 #include "VRGLInterop.h"
 
 namespace VR {
+	bool VRGLInterop::InitModule()
+	{
+		//
+	}
+
 	bool VRGLInterop::activate() {
 		VRactive = VrCore->InitializeCore();
 		if (!VRactive) return false;

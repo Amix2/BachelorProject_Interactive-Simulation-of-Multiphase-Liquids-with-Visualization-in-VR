@@ -46,6 +46,14 @@
     <ClCompile Include="Source\scene\camera\VRCameraController.cpp" />
     <ClCompile Include="Source\scene\Scene.cpp" />
     <ClCompile Include="Source\ThreadSynchronizer.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventBroadcaster.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventExpiration.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventListener.cpp" />
+    <ClCompile Include="Source\VR\VRInitializable.cpp" />
+    <ClCompile Include="Source\VR\vrUploaders\HapticFeedbackUploader.cpp" />
+    <ClCompile Include="Source\VR\vrUploaders\TextureUploader.cpp" />
+    <ClCompile Include="Source\VR\vrUploaders\Uploader.cpp" />
     <ClCompile Include="Source\window\ViewPort.cpp" />
     <ClCompile Include="Source\window\Window.cpp" />
     <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp" />
@@ -73,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\CameraData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerInputData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerPoseData.h" />
@@ -113,6 +122,17 @@
     <ClInclude Include="Source\scene\camera\VRCameraController.h" />
     <ClInclude Include="Source\scene\Scene.h" />
     <ClInclude Include="Source\ThreadSynchronizer.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventBroadcaster.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventCallback.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventClassifiedTypes.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventException.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventListener.h" />
+    <ClInclude Include="Source\VR\VRInitializable.h" />
+    <ClInclude Include="Source\VR\vrUploaders\HapticFeedbackUploader.h" />
+    <ClInclude Include="Source\VR\vrUploaders\TextureUplaoder.h" />
+    <ClInclude Include="Source\VR\vrUploaders\Uploader.h" />
+    <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\HapticFeedbackData.h" />
+    <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\TextureData.h" />
     <ClInclude Include="Source\window\ViewPort.h" />
     <ClInclude Include="Source\window\Window.h" />
     <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
