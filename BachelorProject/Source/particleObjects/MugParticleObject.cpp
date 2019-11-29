@@ -25,8 +25,6 @@ MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfPar
 
 }
 
-
-
 void MugParticleObject::stepTowardsDestination()
 {
 
@@ -161,7 +159,6 @@ void MugParticleObject::create(ParticleObjectDetais details, int& numOfParts)
 	m_destinationMatrix = m_matrix;
 	//m_destinationMatrix =glm::translate(m_matrix, glm::vec3(0,100,0));
 
-	m_center = objectCenter;
 	m_innerRadius = innerRadius;
 	m_height = height;
 

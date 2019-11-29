@@ -18,13 +18,6 @@
 // Allows creating particle objects in worker thread (non blocking for ordering thread)
 class ParticleObjectCreator
 {
-	// worker organization
-	inline static std::thread m_workerThread;
-	// for waking up worker thread
-	inline static std::condition_variable m_condVariable_partObjectDetails;
-	inline static std::mutex m_mutex_partObjectDetails;
-
-
 
 	static void createFluid(ParticleObjectDetais details, int& numOfParts);
 

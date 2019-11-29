@@ -20,13 +20,10 @@
 class ParticleObjectManager {
 	inline static std::atomic_bool m_positionChanged = false;
 public:
-	//inline static ParticleObject m_partObjectsVector[Configuration.MAX_PARTICLE_OBJECTS];
 	inline static std::vector<std::unique_ptr<ParticleObject>> m_partObjectsVector;
 	inline static std::atomic_int m_numOfObjects = 0;
 
-
 	static void moveObject(int objectNumber, float val, glm::vec3 axis);
-
 
 	static void synchronizeWithGpu();
 

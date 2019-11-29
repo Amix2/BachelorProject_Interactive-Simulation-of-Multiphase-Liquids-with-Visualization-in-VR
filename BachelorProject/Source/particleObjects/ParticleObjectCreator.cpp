@@ -9,7 +9,6 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		return;
 	}
 
-
 	// take last element from vector
 	ParticleObjectDetais currentDetails = ParticleObjectCreator::m_ParticleObjectDetaisVector[m_ParticleObjectDetaisVector.size() - 1];
 	ParticleObjectCreator::m_ParticleObjectDetaisVector.pop_back();
@@ -19,12 +18,9 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 
 	int numOfParticles = 0;
 
-
 	if (currentDetails.fluidType > 0) {
 		////////////////////////////////////////////
 		//		FLUID
-
-		//Particle* fluidArray = ParticleData::openParticlePositions__MAP__();
 
 		// create fluid particles
 		ParticleObjectCreator::createFluid(currentDetails, numOfParticles);
@@ -41,28 +37,19 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		//////////////////////////////////////////////
 		////		GLASS
 
-		// open arrays
-
-		//ParticleData::openParticlePositions__MAP__();
-		//ParticleData::openGlassParticles__MAP__();
-		//GlassObjectDetails* glassObjects = ParticleData::openGlassObjects__MAP__();
-
 		// create particles
-		//ParticleObject mug;
 		std::unique_ptr<MugParticleObject> mug = std::make_unique<MugParticleObject>(currentDetails, numOfParticles);
 
 		// commit
 		ParticleData::sendParticlePositions(numOfParticles);
 		ParticleData::sendGlassParticles(numOfParticles);
 		ParticleData::m_numOfObjectsInArray++;
-		//ParticleData::commitGlassObjects(1);
 
 		// we have to update particle datails in sim (it might not be opened)
-
 		ParticleData::m_resDetails->numOfParticles += numOfParticles;
 		ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
 
-		//// add object data to managet, it will send it to GPU
+		// add object data to managet, it will send it to GPU
 		ParticleObjectManager::addObject(std::move(mug));
 	}
 
@@ -104,22 +91,12 @@ void ParticleObjectCreator::createFluid(ParticleObjectDetais details, int &numOf
 			}
 		}
 	}
-	//Sleep(2000);
 }
-
-
-//void ParticleObjectCreator::init()
-//{
-//	//LOG_F(INFO, "Initialize ParticleObjectCreator");
-//	//ParticleObjectCreator::m_workerThread = std::thread(ParticleObjectCreator::runWorkerThread);
-//	//Threads::addThreadToList(&m_workerThread);
-//}
 
 void ParticleObjectCreator::addObject(ParticleObjectDetais details)
 {
 	LOG_F(INFO, "New object added to create: type: %d", details.fluidType);
 	ParticleObjectCreator::m_ParticleObjectDetaisVector.push_back(details);
-	ParticleObjectCreator::m_condVariable_partObjectDetails.notify_all();
 }
 
 bool ParticleObjectCreator::hasNewOrder()
