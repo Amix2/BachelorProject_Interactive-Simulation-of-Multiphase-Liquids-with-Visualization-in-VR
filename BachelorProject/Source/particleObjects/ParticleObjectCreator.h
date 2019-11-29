@@ -32,7 +32,7 @@ class ParticleObjectCreator
 public:
 
 	// data structured for adding order details
-	inline static std::vector<ParticleObjectDetais> m_ParticleObjectDetaisVector;	// TODO: make it thread safe
+	inline static std::vector<ParticleObjectDetais> m_ParticleObjectDetaisVector;
 
 	static void createParticlesFromOrderList();
 

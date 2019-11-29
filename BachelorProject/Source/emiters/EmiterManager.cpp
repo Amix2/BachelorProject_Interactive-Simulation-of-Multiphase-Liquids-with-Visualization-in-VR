@@ -2,49 +2,43 @@
 
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, bool selectable)
 {
-	m_mutex.lock();
+	m_emitersVector.push_back(std::make_unique<Emiter>(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader));
 
-	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader));
 	if(selectable)
-		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
-	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+		SelectableObjectManager::addSelectableObject(m_emitersVector[m_emitersVector.size() - 1].get());
+	Scene::Scene::currentScene->addMaterialObject(m_emitersVector[m_emitersVector.size() - 1].get(), 0);
 
-	m_mutex.unlock();
-	return &m_emitersVector[m_emitersVector.size()-1];
+	return m_emitersVector[m_emitersVector.size()-1].get();
 }
 
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::vec3 position, bool selectable)
 {
-	m_mutex.lock();
+	m_emitersVector.push_back(std::make_unique<Emiter>(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, position));
 
-	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, position));
 	if (selectable)
-		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
-	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+		SelectableObjectManager::addSelectableObject(m_emitersVector[m_emitersVector.size() - 1].get());
+	Scene::Scene::currentScene->addMaterialObject(m_emitersVector[m_emitersVector.size() - 1].get(), 0);
 
-	m_mutex.unlock();
-	return &m_emitersVector[m_emitersVector.size() - 1];
+	return m_emitersVector[m_emitersVector.size() - 1].get();
 }
 
 Emiter* EmiterManager::createEmiter(int initNumberOfParticles, float initVelocity, int initFluidType, glm::mat4 matrix, bool selectable)
 {
-	m_mutex.lock();
+	m_emitersVector.push_back(std::make_unique<Emiter>(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, matrix));
 
-	m_emitersVector.push_back(Emiter(initNumberOfParticles, initVelocity, initFluidType, m_pyramidShader, matrix));
 	if (selectable)
-		SelectableObjectManager::addSelectableObject(&m_emitersVector[m_emitersVector.size() - 1]);
-	Scene::Scene::currentScene->addMaterialObject(&(m_emitersVector[m_emitersVector.size() - 1]), 0);
+		SelectableObjectManager::addSelectableObject(m_emitersVector[m_emitersVector.size() - 1].get());
+	Scene::Scene::currentScene->addMaterialObject(m_emitersVector[m_emitersVector.size() - 1].get(), 0);
 
-	m_mutex.unlock();
-	return &m_emitersVector[m_emitersVector.size() - 1];
+	return m_emitersVector[m_emitersVector.size() - 1].get();
 }
 
 void EmiterManager::printEmiters()
 {
 	LOG_F(INFO, "==============================");
 	std::stringstream ss;
-	for (Emiter& emiter : m_emitersVector) {
-		ss << emiter.toString().c_str() << "\n";
+	for (auto& emiter : m_emitersVector) {
+		ss << emiter->toString().c_str() << "\n";
 	}
 	LOG_F(INFO, "Emiters print\n%s", ss.str().c_str());
 	LOG_F(INFO, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -56,7 +50,7 @@ int EmiterManager::updateAllEmiters(int turnNumber)
 	ParticleData::openEmiters();
 	GPUEmiter* emiterArray = ParticleData::m_resEmiters__MAP__;
 	for (int i = 0; i < m_emitersVector.size(); i++) {
-		emitedParticles += m_emitersVector[i].fillGPUdata(&(emiterArray[i]), turnNumber);
+		emitedParticles += m_emitersVector[i]->fillGPUdata(&(emiterArray[i]), turnNumber);
 	}
 	ParticleData::commitEmiters();
 	return emitedParticles;

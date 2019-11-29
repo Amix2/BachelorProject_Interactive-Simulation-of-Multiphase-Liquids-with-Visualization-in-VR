@@ -18,10 +18,8 @@ private:
 	inline static int m_initState = 0;
 	inline static int m_TARGET_INIT_STATE = 3;
 
-	inline static std::vector<Emiter> m_emitersVector;
+	inline static std::vector<std::unique_ptr<Emiter>> m_emitersVector;
 	inline static ShaderProgram m_pyramidShader;
-
-	inline static std::mutex m_mutex;
 
 public:
 

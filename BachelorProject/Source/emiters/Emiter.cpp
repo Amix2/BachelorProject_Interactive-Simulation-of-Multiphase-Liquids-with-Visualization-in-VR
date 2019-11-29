@@ -11,6 +11,8 @@ Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType,
 
 	m_emitFrequency = int(ceil(Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
 	setRender(true);
+	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(shaderProgram, glm::vec4{ 0.55f, 0.0f, 0.55f, 1.0 }, this);
+
 
 }
 
@@ -19,14 +21,12 @@ Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType,
 {
 	m_Matrix = glm::mat4(1);
 	Utils::setPosition(&m_Matrix, postion);
-	setRender(true);
 }
 
 Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::mat4 matrix)
 	: Emiter(initNumberOfParticles, initVelocity, initFluidType, pyramidShader)
 {
 	m_Matrix = matrix;
-	setRender(true);
 }
 
 
@@ -84,7 +84,6 @@ std::map<Params, MultiTypeValue> Emiter::getAdditionalParameters() const
 
 void Emiter::init()
 {
-	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(shaderProgram, glm::vec4{ 0.55f, 0.0f, 0.55f, 1.0 }, this);
 	m_pyramid->init();
 }
 
