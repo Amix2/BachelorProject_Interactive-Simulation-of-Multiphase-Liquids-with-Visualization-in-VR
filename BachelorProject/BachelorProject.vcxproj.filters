@@ -120,6 +120,10 @@
     <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
     <ClInclude Include="Source\window\FrameBuffer.h" />
     <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
+    <ClInclude Include="Source\actionControllers\ActionController.h" />
+    <ClInclude Include="Source\actionControllers\VRActionController.h" />
+    <ClInclude Include="Source\emiters\EmiterVRActionController.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectVRActionController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

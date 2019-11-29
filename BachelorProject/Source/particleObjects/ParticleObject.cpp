@@ -1,8 +1,10 @@
 #include "ParticleObject.h"
 
-ParticleObject::ParticleObject() {
+ParticleObject::ParticleObject() : SelectableObject(){
 	m_matrix = glm::mat4(3.0f);
 	m_distanceToFurthestParticle = 0;
+
+	setVRActionController<ParticleObjectVRActionController, ParticleObject>(this);
 }
 
 std::string ParticleObject::toString() const

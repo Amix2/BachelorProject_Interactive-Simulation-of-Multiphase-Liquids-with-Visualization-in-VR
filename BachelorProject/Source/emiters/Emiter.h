@@ -10,6 +10,8 @@
 #include <materialObjects/MaterialObjectOwner.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
 #include <scene/Scene.h>
+#include <emiters/EmiterVRActionController.h>
+
 class PyramidPointerMaterialObject;
 
 struct GPUEmiter {

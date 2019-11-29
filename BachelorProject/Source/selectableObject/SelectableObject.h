@@ -1,5 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <actionControllers/VRActionController.h>
+#include <memory>
+
 
 class SelectableObject {
 public:
@@ -11,6 +14,22 @@ public:
 	virtual const glm::mat4* getMatrix() = 0;
 	virtual void setMatrix(const glm::mat4 &matrix) = 0;
 
+	VRActionController* getVRActionController() const { return m_vrActionController.get(); }
+	//template<class T>
+	//SelectableObject(T* object) {
+	//	setVRActionController<T>(object);
+	//}
+
 protected:
+	SelectableObject() {
+		setVRActionController();
+	}
+
+	void setVRActionController() { m_vrActionController = std::make_shared<VRActionController>(); }
+
+	template<class T, class V> void setVRActionController(V* object) { m_vrActionController = std::make_shared<T>(object); }
+
+	std::shared_ptr<VRActionController> m_vrActionController;
+
 	float m_SelectingRadius = 0;
 };

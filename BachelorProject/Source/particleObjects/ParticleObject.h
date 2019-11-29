@@ -18,6 +18,7 @@
 #include <materialObjects/MaterialObject.h>
 #include <materialObjects/GlassObject.h>
 #include <utilities/GraphicShaderStorage.h>
+#include <particleObjects/ParticleObjectVRActionController.h>
 
 class GlassObject;
 struct ParticleObjectDetais {

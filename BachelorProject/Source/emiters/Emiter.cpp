@@ -2,11 +2,16 @@
 
 Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader) 
 	: m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType), MaterialObject(pyramidShader)
+	, SelectableObject()
 {
+
+	setVRActionController<EmiterVRActionController, Emiter>(this);
+
 	m_Velocity = min(initVelocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);
 
 	m_emitFrequency = int(ceil(Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP / (m_Velocity * Configuration.DELTA_TIME)));
 	setRender(true);
+
 }
 
 Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader, glm::vec3 postion)

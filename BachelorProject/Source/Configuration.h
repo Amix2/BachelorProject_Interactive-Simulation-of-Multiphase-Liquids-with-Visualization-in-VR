@@ -15,8 +15,8 @@ const struct Configuration {
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 262144;
 	inline static const int MAX_FLUID_TYPES = 10;
-	inline static const int MAX_EMITERS = 5;
-	inline static const int MAX_SELECTABLE_OBJECTS = 10;
+	inline static const int MAX_EMITERS = 10;
+	inline static const int MAX_SELECTABLE_OBJECTS = 20;
 
 	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(100, 0, 100);
 

@@ -23,7 +23,7 @@ void MugParticleObject::setMatrix(const glm::mat4& matrix)
 	m_destinationMatrix = matrix;
 }
 
-MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) {
+MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) : ParticleObject() {
 	this->create(details, numOfParts);
 	m_SelectingRadius = this->m_distanceToFurthestParticle;
 }

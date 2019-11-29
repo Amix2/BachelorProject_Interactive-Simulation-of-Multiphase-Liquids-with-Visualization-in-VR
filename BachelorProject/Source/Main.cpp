@@ -173,6 +173,7 @@ int main(int argc, char ** argv) {
 			window.getFrameFrom(*vrFrameBuffer);
 		}
 		window.refresh();
+		//for (SelectableObject* object : SelectableObjectManager::m_selectableObjects) object->getVRActionController()->triggerButton();
 	} while (!window.shouldClose());
 
 	glfwTerminate();
