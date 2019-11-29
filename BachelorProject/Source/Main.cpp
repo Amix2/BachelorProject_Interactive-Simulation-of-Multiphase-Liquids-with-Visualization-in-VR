@@ -92,7 +92,6 @@ int main(int argc, char ** argv) {
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-
 	InputDispatcher inputDispatcher;
 	Window window{ WINDOW_SCR_WIDTH, WINDOW_SCR_HEIGHT, NAME, inputDispatcher };
 	if (window.init() == false) {
@@ -117,10 +116,10 @@ int main(int argc, char ** argv) {
 
 	CameraController* cameraController = nullptr;
 	FrameBuffer* vrFrameBuffer = nullptr;
+
 	if ((HmdConnected = vrglinterop.hasVR())) {
 		vrFrameBuffer = new FrameBuffer{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
 		vrFrameBuffer->init();
-
 		ViewPort leftEyeViewPort{ *vrFrameBuffer,  0.0f, 0.0f, 0.5f, 1.0f };
 		ViewPort rightEyeViewPort{ *vrFrameBuffer, 0.5f, 0.0f, 0.5f, 1.0f };
 		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f };
@@ -162,7 +161,7 @@ int main(int argc, char ** argv) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 			leftHand.update();
 			rightHand.update();
-			vrFrameBuffer->drawTo();
+			vrFrameBuffer->select();
 		}
 
 		glassController.assignUntrackedObjects(scene);
@@ -198,10 +197,10 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 
 	//scene.addMaterialObject(&cubes);
 	//scene.addMaterialObject(&bilboard);
-	scene.addMaterialObject(&fluid, 0);
-	scene.addMaterialObject(&axes, 0);
-	scene.addMaterialObject(&vectorNormals, 0);
-	scene.addMaterialObject(&moveIndicatorObject, 0);
+	scene.addMaterialObject(&fluid, 1);
+	scene.addMaterialObject(&axes, 1);
+	scene.addMaterialObject(&vectorNormals, 1);
+	//scene.addMaterialObject(&moveIndicatorObject, 1);
 }
 
 void initTools(ShaderProgram programPyramidPointer)
