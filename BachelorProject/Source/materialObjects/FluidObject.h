@@ -20,7 +20,7 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void handleKeyPress(int key, KeyState action, float deltaTime)  override;
 private:
-	inline static const float INITIAL_PARTICLES_SIZE = 0.3;
+	inline static const float INITIAL_PARTICLES_SIZE = 0.5;
 
 	unsigned int VAO;
 	unsigned int instanceVBO;

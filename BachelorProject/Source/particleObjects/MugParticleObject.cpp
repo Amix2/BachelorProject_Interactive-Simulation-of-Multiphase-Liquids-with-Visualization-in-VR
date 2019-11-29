@@ -2,7 +2,6 @@
 #include <particleObjects/ParticleObjectVRActionController.h>
 
 glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
-//glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
 
 void MugParticleObject::grab()
 {
@@ -35,13 +34,13 @@ void MugParticleObject::stepTowardsDestination()
 
 	const float maxPositionChange = previousTurnPositionChange + MUG_TURN_VELOCITY_CHANGE * Configuration.DELTA_TIME;
 	const float distanceToDestination = glm::distance(Utils::getPosition(m_matrix), Utils::getPosition(m_destinationMatrix));
-	const float BOTH_DISTANCE = 20.0f;
-	const float LINEAR_DISTANCE = 100.0f;
+	const float BOTH_DISTANCE = 10.0f;
+	const float LINEAR_DISTANCE = 30.0f;
 	float angleCoef;
 	if (distanceToDestination < BOTH_DISTANCE)	angleCoef = 1.f;
 	else if (distanceToDestination < LINEAR_DISTANCE) angleCoef = (LINEAR_DISTANCE - distanceToDestination) / (LINEAR_DISTANCE - BOTH_DISTANCE) ;
 	else angleCoef = 0.f;
-	//LOG_F(WARNING, "%f", distanceToDestination);
+
 	float stepDistanceChange = min(maxPositionChange, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE*0.5f);
 
 	float linearPositionChange = 0;
@@ -61,7 +60,6 @@ void MugParticleObject::stepTowardsDestination()
 	// move max distance = min( stepDistanceLeft, maxPositionChange - linearPositionChange)
 	const float positionMove2 = stepPositionChange(min(stepDistanceLeft, maxPositionChange - linearPositionChange));
 	previousTurnPositionChange += positionMove2;
-	//m_matrix = m_destinationMatrix;
 }
 
 
@@ -138,20 +136,6 @@ glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
 		throw "sss";
 		return glm::vec3();
 }
-//
-//glm::mat4 rotationMatrix(glm::vec3 axis, float angle)
-//{
-//	axis = normalize(axis);
-//	float s = std::sin(angle);
-//	float c = cos(angle);
-//	float oc = 1.0 - c;
-//
-//	return glm::mat4(
-//		glm::vec4(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0),
-//		glm::vec4(oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0),
-//		glm::vec4(oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0),
-//		glm::vec4(0.0, 0.0, 0.0, 1.0));
-//}
 
 void MugParticleObject::create(ParticleObjectDetais details, int& numOfParts)
 {

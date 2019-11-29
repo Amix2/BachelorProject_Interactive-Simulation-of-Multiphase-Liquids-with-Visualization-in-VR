@@ -60,9 +60,9 @@ public:
 
 	ParticleObject();
 
-	void init() override;
-	void load(const glm::mat4& view, const glm::mat4& projection) const override;
-	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
+	virtual void init() override;
+	virtual void load(const glm::mat4& view, const glm::mat4& projection) const override;
+	virtual void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
 
 	virtual void setDestinationMatrix(const glm::mat4& matrix) { m_destinationMatrix = matrix; }
 

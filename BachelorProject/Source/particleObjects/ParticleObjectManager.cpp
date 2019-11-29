@@ -4,28 +4,8 @@
 void ParticleObjectManager::moveObject(int objectNumber, float val, glm::vec3 axis)
 {
 	m_partObjectsVector[objectNumber]->m_destinationMatrix = glm::translate(m_partObjectsVector[objectNumber]->m_destinationMatrix, val * axis);
-	m_positionChanged = true;
 }
 
-glm::vec3* ParticleObjectManager::getObjectsPositions()
-{
-	//static glm::vec3 positions[Configuration.MAX_PARTICLE_OBJECTS];
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	positions[i] = m_partObjectsVector[i].m_currentPosition;
-	//}
-	//return positions;
-	return NULL;
-}
-
-glm::vec3* ParticleObjectManager::getObjectsDirections()
-{
-	//static glm::vec3 directions[Configuration.MAX_PARTICLE_OBJECTS];
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	directions[i] = m_partObjectsVector[i].m_currentVector;
-	//}
-	//return directions;
-	return NULL;
-}
 
 void ParticleObjectManager::init()
 {
@@ -37,15 +17,8 @@ void ParticleObjectManager::synchronizeWithGpu()
 {
 	for (int i = 0; i < m_numOfObjects; i++) {
 		m_partObjectsVector[i]->stepTowardsDestination();
-		//LOG_F(WARNING, "OLG %s", m_partObjectsVector[i]->toString().c_str());
 	}
-	//if (!ParticleObjectManager::m_positionChanged) return;
-	ParticleObjectManager::m_positionChanged = false;
-	//for (int i = 0; i < m_numOfObjects; i++) {
-	//	ParticleData::m_resGlassObjectsArray[i].matrix = m_partObjectsVector[i]->m_matrix;
-	//}
-	//ParticleData::sendGlassObjects(0);
-	//LOG_F(INFO, "SYNC glass OBJECTS");
+
 	ParticleData::openGlassObjects();
 	for (int i = 0; i < m_numOfObjects; i++) {
 		ParticleData::m_resGlassObjectsArray__MAP__[i].matrix = m_partObjectsVector[i]->m_matrix;
@@ -62,9 +35,7 @@ int ParticleObjectManager::addObject(std::unique_ptr<MugParticleObject> object)
 	}
 	LOG_F(WARNING, "New %s", object->toString().c_str());
 	m_partObjectsVector.push_back(std::move(object));
-
 	m_numOfObjects++;
-	ParticleObjectManager::m_positionChanged = true;
 
 	SelectableObjectManager::addSelectableObject(m_partObjectsVector[m_partObjectsVector.size()-1].get());
 

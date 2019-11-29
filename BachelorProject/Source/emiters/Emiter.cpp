@@ -101,7 +101,6 @@ void Emiter::load(const glm::mat4& view, const glm::mat4& projection) const
 		m_Model = m_Model * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 3, glm::vec3(0,1, 0));
 
 		m_pyramid->load(view, projection);
-		//LOG_F(WARNING, "Emiter pos:\n%s\n%s", glm::to_string(m_Matrix).c_str(), glm::to_string(m_Model).c_str());
 	}
 }
 
@@ -134,7 +133,6 @@ glm::mat4* Emiter::getMatrix()
 
 void Emiter::updateMatrix(const glm::mat4& matrix)
 {
-	//LOG_F(ERROR, "%d", m_updateMatrix);
 	if (m_updateMatrix) {
 		m_Matrix = matrix;
 	}

@@ -24,14 +24,8 @@ public:
 	inline static std::vector<std::unique_ptr<ParticleObject>> m_partObjectsVector;
 	inline static std::atomic_int m_numOfObjects = 0;
 
-	////////////////////////////////////////////////////////////////////////////
-	// Methods for user interaction
 
-	glm::vec3* getObjectsPositions();
-	glm::vec3* getObjectsDirections();
-	// change target position of given object
 	static void moveObject(int objectNumber, float val, glm::vec3 axis);
-	////////////////////////////////////////////////////////////////////////////
 
 
 	static void synchronizeWithGpu();

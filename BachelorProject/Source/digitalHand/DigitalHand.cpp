@@ -135,10 +135,10 @@ bool DigitalHand::tryGrabAngle()
 
 void DigitalHand::grab(SelectableObject* object)
 {
-	object->grab();
 	setGrabMatrixOffset(object);
 	m_selectedObject = object;
 	m_selectedActionController = object->getVRActionController();
+	object->grab();
 }
 
 void DigitalHand::release()
@@ -151,7 +151,6 @@ void DigitalHand::release()
 
 void DigitalHand::teleportObjectToHand()
 {
-	//obj->setMatrix(m_handMatrix);
 	glm::mat4 offsetMatrix = m_grabMatrixOffset;
 	Utils::setPosition(&offsetMatrix, { 0,0,0 });
 	m_selectedActionController->handMovement(m_handMatrix, offsetMatrix);
@@ -160,13 +159,10 @@ void DigitalHand::teleportObjectToHand()
 
 void DigitalHand::moveObjectWithHand()
 {
-	//glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
 	m_selectedActionController->handMovement(m_handMatrix, m_grabMatrixOffset);
 }
 
 void DigitalHand::setGrabMatrixOffset(SelectableObject* object)
 {
 	m_grabMatrixOffset = glm::inverse(m_handMatrix) * *(object->getMatrix());
-	//m_matrixDifference.createDifference(m_handMatrix, *(m_selectedObject->getMatrix()));
-	//m_grabPositionOffset = Utils::getPosition(*(m_selectedObject->getMatrix())) - Utils::getPosition(m_handMatrix);
 }
