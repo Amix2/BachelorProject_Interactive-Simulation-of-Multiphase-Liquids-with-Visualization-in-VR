@@ -49,7 +49,7 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 
 		// create particles
 		//ParticleObject mug;
-		MugParticleObject mug(currentDetails, numOfParticles);
+		std::unique_ptr<MugParticleObject> mug = std::make_unique<MugParticleObject>(currentDetails, numOfParticles);
 
 		// commit
 		ParticleData::sendParticlePositions(numOfParticles);
@@ -63,7 +63,7 @@ void ParticleObjectCreator::createParticlesFromOrderList()
 		ParticleData::m_resDetails->numOfGlassParticles += numOfParticles;
 
 		//// add object data to managet, it will send it to GPU
-		ParticleObjectManager::addObject(mug);
+		ParticleObjectManager::addObject(std::move(mug));
 	}
 
 	ParticleData::sendDetails();

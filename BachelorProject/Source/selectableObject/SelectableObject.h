@@ -12,7 +12,6 @@ public:
 	virtual void grab() = 0;
 	virtual void release() = 0;
 	virtual const glm::mat4* getMatrix() = 0;
-	virtual void setMatrix(const glm::mat4 &matrix) = 0;
 
 	VRActionController* getVRActionController() const { return m_vrActionController.get(); }
 	//template<class T>

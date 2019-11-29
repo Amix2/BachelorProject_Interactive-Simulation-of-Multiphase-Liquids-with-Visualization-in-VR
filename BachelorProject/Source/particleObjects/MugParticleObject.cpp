@@ -1,4 +1,5 @@
 #include "MugParticleObject.h"
+#include <particleObjects/ParticleObjectVRActionController.h>
 
 glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2);
 //glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
@@ -18,14 +19,11 @@ glm::mat4* MugParticleObject::getMatrix()
 	return &(m_destinationMatrix);
 }
 
-void MugParticleObject::setMatrix(const glm::mat4& matrix)
-{
-	m_destinationMatrix = matrix;
-}
-
 MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) : ParticleObject() {
 	this->create(details, numOfParts);
 	m_SelectingRadius = this->m_distanceToFurthestParticle;
+	setVRActionController<ParticleObjectVRActionController, MugParticleObject>(this);
+
 }
 
 

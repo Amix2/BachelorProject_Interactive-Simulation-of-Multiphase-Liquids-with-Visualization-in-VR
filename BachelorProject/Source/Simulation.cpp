@@ -120,7 +120,7 @@ void Simulation::startSimulation(GLFWwindow* baseWindow)
 void Simulation::setupSimObjects()
 {
 	ParticleObjectDetais details{ 1, 10.0,5.5,-30, 10.2, 15.8, -30.3};
-	ParticleObjectDetais details2{ -1, 10,5,-30, 2, 0,2 };
+	ParticleObjectDetais details2{ -1, 0,120,0, 2, 0,2 };
 
 	ParticleObjectDetais details3{ -1, 20,13,20, 3,0,0};
 
@@ -142,7 +142,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	//ParticleObjectCreator::addObject(details2);
+	ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -152,8 +152,8 @@ void Simulation::setupSimObjects()
 	
 	//ParticleObjectCreator::addObject(detailsTEST);
 	//ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(optimFluid);
-	ParticleObjectCreator::addObject(optimGlass);
+	//ParticleObjectCreator::addObject(optimFluid);
+	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 

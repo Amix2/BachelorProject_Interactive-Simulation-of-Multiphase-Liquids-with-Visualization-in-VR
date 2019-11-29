@@ -74,11 +74,11 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\emiters\EmiterVRActionController.h" />
     <ClInclude Include="Source\actionControllers\ActionController.h" />
     <ClInclude Include="Source\actionControllers\VRActionController.h" />
     <ClInclude Include="Source\digitalHand\HandDataProvider.h" />
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
-    <ClInclude Include="Source\emiters\EmiterVRActionController.h" />
     <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
     <ClInclude Include="Source\particleObjects\ParticleObjectVRActionController.h" />
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />

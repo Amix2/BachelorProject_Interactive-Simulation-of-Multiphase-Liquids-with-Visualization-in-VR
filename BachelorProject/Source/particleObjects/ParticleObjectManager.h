@@ -36,7 +36,7 @@ public:
 
 	static void synchronizeWithGpu();
 
-	static int addObject(MugParticleObject& object);
+	static int addObject(std::unique_ptr<MugParticleObject> object);
 	static void init();
 
 	static void printObjects(int limit = 5);

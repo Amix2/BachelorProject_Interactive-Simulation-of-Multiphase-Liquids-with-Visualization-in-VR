@@ -18,7 +18,7 @@
 #include <materialObjects/MaterialObject.h>
 #include <materialObjects/GlassObject.h>
 #include <utilities/GraphicShaderStorage.h>
-#include <particleObjects/ParticleObjectVRActionController.h>
+
 
 class GlassObject;
 struct ParticleObjectDetais {
@@ -63,6 +63,8 @@ public:
 	void init() override;
 	void load(const glm::mat4& view, const glm::mat4& projection) const override;
 	void createGlassObject(const ShaderProgram& shaderProgram, const ShaderProgram& selectedProgram);
+
+	virtual void setDestinationMatrix(const glm::mat4& matrix) { m_destinationMatrix = matrix; }
 
 	glm::mat4 getModel() const;
 

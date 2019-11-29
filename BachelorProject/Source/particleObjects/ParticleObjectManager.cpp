@@ -54,20 +54,20 @@ void ParticleObjectManager::synchronizeWithGpu()
 }
 
 
-int ParticleObjectManager::addObject(MugParticleObject& object)
+int ParticleObjectManager::addObject(std::unique_ptr<MugParticleObject> object)
 {
 	if (m_numOfObjects >= Configuration.MAX_PARTICLE_OBJECTS) {
 		LOG_F(ERROR, "Too many particle objects, cannot create a new one");
 		return m_numOfObjects;
 	}
-	m_partObjectsVector.push_back(std::make_unique<MugParticleObject>(object));
+	LOG_F(WARNING, "New %s", object->toString().c_str());
+	m_partObjectsVector.push_back(std::move(object));
 
 	m_numOfObjects++;
 	ParticleObjectManager::m_positionChanged = true;
 
 	SelectableObjectManager::addSelectableObject(m_partObjectsVector[m_partObjectsVector.size()-1].get());
 
-	LOG_F(WARNING, "New %s", object.toString().c_str());
 	return m_numOfObjects;
 }
 

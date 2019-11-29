@@ -9,6 +9,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <Utils.h>
+#include <actionControllers/VRActionController.h>
 
 class PyramidPointerMaterialObject;
 
@@ -30,15 +31,18 @@ private:
 	Hand m_hand;
 	ShaderProgram m_handShader;
 	SelectableObject* m_selectedObject = nullptr;
+	VRActionController* m_selectedActionController = nullptr;
 	glm::mat4 m_handMatrix;
-	glm::mat4 m_grabMatrixOffset;
+	glm::mat4 m_grabMatrixOffset = glm::mat4(1);
 
 	glm::mat4 getMyHandMatrix() const;
 	bool tryGrabDistance();
 	bool tryGrabAngle();
-	void teleportObjectToHand(SelectableObject* obj);
-	void moveObjectWithHand(SelectableObject* obj);
-	void setGrabMatrixOffset();
+	void grab(SelectableObject* object);
+	void release();
+	void teleportObjectToHand();
+	void moveObjectWithHand();
+	void setGrabMatrixOffset(SelectableObject* object);
 public:
 
 	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader);

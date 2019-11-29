@@ -10,7 +10,6 @@
 #include <materialObjects/MaterialObjectOwner.h>
 #include <materialObjects/PyramidPointerMaterialObject.h>
 #include <scene/Scene.h>
-#include <emiters/EmiterVRActionController.h>
 
 class PyramidPointerMaterialObject;
 
@@ -60,7 +59,6 @@ public:
 	void grab() override;
 	void release() override;
 	glm::mat4* getMatrix() override;
-	void setMatrix(const glm::mat4& matrix) override;
 
 	void updateMatrix(const glm::mat4 &matrix);
 

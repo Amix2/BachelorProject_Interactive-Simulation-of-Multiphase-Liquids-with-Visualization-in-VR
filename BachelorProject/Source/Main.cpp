@@ -84,7 +84,7 @@ int main(int argc, char ** argv) {
 		ParticleData::partFile << "const partString = \"";
 	}
 	loguru::g_preamble_date = false;
-	//loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
 	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
 
@@ -151,9 +151,9 @@ int main(int argc, char ** argv) {
 	scene.addMaterialObject(&leftHand, 0);
 	//scene.addMaterialObject(&rightHand, 0);
 
-	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 0, 10 }, true);
-	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 50, 10 }, true);
-	EmiterManager::createEmiter(10, 1000.f, 1, { 10, 100, 10 }, true);
+	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 0, 0 }, true);
+	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
 
 	do 
 	{
@@ -173,6 +173,7 @@ int main(int argc, char ** argv) {
 			window.getFrameFrom(*vrFrameBuffer);
 		}
 		window.refresh();
+		//SelectableObjectManager::m_selectableObjects;
 		//for (SelectableObject* object : SelectableObjectManager::m_selectableObjects) object->getVRActionController()->triggerButton();
 	} while (!window.shouldClose());
 

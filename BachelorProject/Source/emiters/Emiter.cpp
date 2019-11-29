@@ -1,4 +1,5 @@
 #include "Emiter.h"
+#include <emiters/EmiterVRActionController.h>
 
 Emiter::Emiter(int initNumberOfParticles, float initVelocity, int initFluidType, ShaderProgram pyramidShader) 
 	: m_numOfParticles(initNumberOfParticles), m_fluidType(initFluidType), MaterialObject(pyramidShader)
@@ -131,13 +132,9 @@ glm::mat4* Emiter::getMatrix()
 	return &(m_Matrix);
 }
 
-void Emiter::setMatrix(const glm::mat4& matrix)
-{
-	m_Matrix = matrix;
-}
-
 void Emiter::updateMatrix(const glm::mat4& matrix)
 {
+	//LOG_F(ERROR, "%d", m_updateMatrix);
 	if (m_updateMatrix) {
 		m_Matrix = matrix;
 	}

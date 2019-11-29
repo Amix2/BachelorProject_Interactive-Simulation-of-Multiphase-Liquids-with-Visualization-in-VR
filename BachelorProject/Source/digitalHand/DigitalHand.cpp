@@ -50,7 +50,8 @@ void DigitalHand::update()
 	// load() function will draw it with this matrix
 
 	if (m_selectedObject == nullptr)  tryGrabDistance();
-	else teleportObjectToHand(m_selectedObject);
+	else teleportObjectToHand();
+
 }
 
 glm::mat4 DigitalHand::getMyHandMatrix() const
@@ -88,8 +89,7 @@ bool DigitalHand::tryGrabDistance()
 
 	if (m_selectedObject != nullptr) {
 		// selected
-		m_selectedObject->grab();
-		setGrabMatrixOffset();
+		grab(m_selectedObject);
 		return true;
 	}
 	else {
@@ -124,8 +124,7 @@ bool DigitalHand::tryGrabAngle()
 	if (m_selectedObject != nullptr) {
 		// selected
 		//LOG_F(WARNING, "SELECTED");
-		m_grabMatrixOffset = glm::mat4(1);
-		m_selectedObject->grab();
+		grab(m_selectedObject);
 		return true;
 	}
 	else {
@@ -134,20 +133,40 @@ bool DigitalHand::tryGrabAngle()
 	}
 }
 
-void DigitalHand::teleportObjectToHand(SelectableObject* obj)
+void DigitalHand::grab(SelectableObject* object)
 {
-	obj->setMatrix(m_handMatrix);
+	object->grab();
+	setGrabMatrixOffset(object);
+	m_selectedObject = object;
+	m_selectedActionController = object->getVRActionController();
 }
 
-void DigitalHand::moveObjectWithHand(SelectableObject* obj)
+void DigitalHand::release()
 {
-	glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
-	obj->setMatrix(objMatrix);
+	m_selectedObject->release();
+	m_selectedObject = nullptr;
+	m_selectedActionController = nullptr;
+
 }
 
-void DigitalHand::setGrabMatrixOffset()
+void DigitalHand::teleportObjectToHand()
 {
-	m_grabMatrixOffset = glm::inverse(m_handMatrix) * *(m_selectedObject->getMatrix());
+	//obj->setMatrix(m_handMatrix);
+	glm::mat4 offsetMatrix = m_grabMatrixOffset;
+	Utils::setPosition(&offsetMatrix, { 0,0,0 });
+	m_selectedActionController->handMovement(m_handMatrix, offsetMatrix);
+	SelectableObjectManager::m_selectableObjects;
+}
+
+void DigitalHand::moveObjectWithHand()
+{
+	//glm::mat4 objMatrix = m_handMatrix * m_grabMatrixOffset;
+	m_selectedActionController->handMovement(m_handMatrix, m_grabMatrixOffset);
+}
+
+void DigitalHand::setGrabMatrixOffset(SelectableObject* object)
+{
+	m_grabMatrixOffset = glm::inverse(m_handMatrix) * *(object->getMatrix());
 	//m_matrixDifference.createDifference(m_handMatrix, *(m_selectedObject->getMatrix()));
 	//m_grabPositionOffset = Utils::getPosition(*(m_selectedObject->getMatrix())) - Utils::getPosition(m_handMatrix);
 }

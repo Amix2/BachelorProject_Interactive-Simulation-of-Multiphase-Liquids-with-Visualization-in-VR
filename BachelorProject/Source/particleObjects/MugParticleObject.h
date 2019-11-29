@@ -17,7 +17,9 @@ public:
 	void grab() override;
 	void release() override;
 	glm::mat4* getMatrix() override;
-	void setMatrix(const glm::mat4& matrix) override;
+
+	void setDestinationMatrix(const glm::mat4& matrix) { m_destinationMatrix = matrix; }
+
 
 	glm::mat4 getHelp() { return m_destinationMatrix; }
 
