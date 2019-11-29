@@ -7,7 +7,7 @@ Scene::Scene::Scene(glm::vec4 backgroundColor, int numberOfLayers)
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_STENCIL_TEST);
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilFunc(GL_ALWAYS, 1, 0xFF);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	glStencilMask(0x00);
 	glClearColor(backgroundColor.x, backgroundColor.y, backgroundColor.z, backgroundColor.w);
@@ -30,7 +30,9 @@ void Scene::Scene::addMaterialObject(MaterialObject* materialObject, unsigned in
 
 void Scene::Scene::renderScene()
 {
+	glStencilMask(0xFF);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glStencilMask(0x00);
 
 	for (const Camera* camera : cameras) {
 		camera->select();

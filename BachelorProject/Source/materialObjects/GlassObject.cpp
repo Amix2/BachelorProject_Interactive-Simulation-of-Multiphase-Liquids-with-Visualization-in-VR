@@ -34,7 +34,6 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 {
 	if (!owner->getRender()) return;
 	if (owner->isSelected()) {
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 		glStencilMask(0xFF);
 	}
 
@@ -47,6 +46,7 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 	glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
 
 	if (owner->isSelected()) {
+
 		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 		glStencilMask(0x00);
 
@@ -54,8 +54,8 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 		selectedProgram.setUniformVariable("MVP", projection * view * glm::scale(owner->getModel(), glm::vec3{ 1.01f }));
 
 		glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 
-		glStencilMask(0xFF);
 	}
 }
 
@@ -67,7 +67,7 @@ bool GlassObject::getRender() const
 void GlassObject::generateMesh(const ParticleObject& glass)
 {	
 	int layerSize = (glass.m_innerRadius + glass.m_thickness) * 6;
-	verticesSize = 3 * 4 * (layerSize + 1) + 2;
+	verticesSize = 3 * (4 * (layerSize) + 2);
 	indicesSize = 3 * (1 + 2 + 2 + 2 + 1) * layerSize;
 	int v_index = 0;
 	int i_index = 0;
@@ -83,7 +83,7 @@ void GlassObject::generateMesh(const ParticleObject& glass)
 	cursor = glm::vec3{ 0.0f };
 	glm::vec2 inner{ glass.m_innerRadius, 0.0f };
 	glm::vec2 outer{ glass.m_innerRadius + glass.m_thickness, 0.0f };
-	for (int i = 0; i < layerSize + 1; i++) {
+	for (int i = 0; i < layerSize; i++) {
 		addVertex(cursor + glm::vec3{ inner.x, -glass.m_height * 0.5, inner.y }, v_index);
 		addVertex(cursor + glm::vec3{ inner.x, glass.m_height * 0.5, inner.y }, v_index);
 		addVertex(cursor + glm::vec3{ outer.x, glass.m_height * 0.5, outer.y }, v_index);

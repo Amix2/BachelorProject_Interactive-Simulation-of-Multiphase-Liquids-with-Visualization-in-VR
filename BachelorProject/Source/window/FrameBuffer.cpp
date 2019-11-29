@@ -6,6 +6,7 @@ void FrameBuffer::init()
 	GLuint textureId;
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
+
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -33,13 +34,15 @@ void FrameBuffer::init()
 
 	// attach the renderbuffer to depth attachment point
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
-		GL_DEPTH_STENCIL_ATTACHMENT,				// 2. attachment point
+		GL_STENCIL_ATTACHMENT,						// 2. attachment point
 		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
-		rboID										// 4. rbo ID
-	);				
+		rboId										// 4. rbo ID
+	);
 
-// check FBO status
-	int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (status != GL_FRAMEBUFFER_COMPLETE)
-		LOG_F(ERROR, std::string("FBO: " + status).c_str());
+	// attach the renderbuffer to depth attachment point
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
+		GL_DEPTH_ATTACHMENT,				// 2. attachment point
+		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
+		rboId										// 4. rbo ID
+	);
 }
