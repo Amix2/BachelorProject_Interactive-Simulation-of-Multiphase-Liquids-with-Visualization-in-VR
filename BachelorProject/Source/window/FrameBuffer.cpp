@@ -36,13 +36,13 @@ void FrameBuffer::init()
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
 		GL_STENCIL_ATTACHMENT,						// 2. attachment point
 		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
-		rboId										// 4. rbo ID
+		rboID										// 4. rbo ID
 	);
 
 	// attach the renderbuffer to depth attachment point
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER,		// 1. fbo target: GL_FRAMEBUFFER
 		GL_DEPTH_ATTACHMENT,				// 2. attachment point
 		GL_RENDERBUFFER,						    // 3. rbo target: GL_RENDERBUFFER
-		rboId										// 4. rbo ID
+		rboID										// 4. rbo ID
 	);
 }

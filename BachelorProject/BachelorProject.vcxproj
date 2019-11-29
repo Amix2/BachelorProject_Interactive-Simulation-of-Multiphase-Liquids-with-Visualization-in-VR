@@ -86,7 +86,6 @@
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
     <ClInclude Include="Source\selectableObject\SelectableObject.h" />
     <ClInclude Include="Source\emiters\EmiterManager.h" />
-    <ClInclude Include="Source\emiters\EmiterProvider.h" />
     <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
     <ClInclude Include="Source\emiters\Emiter.h" />

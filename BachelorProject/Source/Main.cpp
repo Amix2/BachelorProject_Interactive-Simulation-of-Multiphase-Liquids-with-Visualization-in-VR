@@ -146,9 +146,9 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	HandDataProvider handDataProvider;
 	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop);
-	//DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
-	//scene.addMaterialObject(&rightHand, 0);
+	scene.addMaterialObject(&rightHand, 0);
 
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 0, 0 }, true);
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
@@ -160,7 +160,7 @@ int main(int argc, char ** argv) {
 		if (HmdConnected) {
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 			leftHand.update();
-			//rightHand.update();
+			rightHand.update();
 			vrFrameBuffer->drawTo();
 		}
 

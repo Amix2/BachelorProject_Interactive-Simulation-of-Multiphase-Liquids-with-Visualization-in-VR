@@ -111,7 +111,6 @@
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
     <ClInclude Include="Source\emiters\Emiter.h" />
     <ClInclude Include="Source\emiters\EmiterManager.h" />
-    <ClInclude Include="Source\emiters\EmiterProvider.h" />
     <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
     <ClInclude Include="Source\utilities\Texture.h" />

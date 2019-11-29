@@ -151,9 +151,10 @@ void DigitalHand::release()
 
 void DigitalHand::teleportObjectToHand()
 {
-	glm::mat4 offsetMatrix = m_grabMatrixOffset;
-	Utils::setPosition(&offsetMatrix, { 0,0,0 });
-	m_selectedActionController->handMovement(m_handMatrix, offsetMatrix);
+	glm::mat4 upMatrix = glm::mat4(1);
+	Utils::setPosition(&upMatrix, Utils::getPosition(m_handMatrix));
+	glm::mat4 offsetMatrix = glm::inverse(m_handMatrix) * upMatrix; 
+	m_selectedActionController->handMovement(m_handMatrix, offsetMatrix); // m_handMatrix * offsetMatrix = m_handMatrix * m_handMatrix^-1 * upMatrix = upMatrix
 	SelectableObjectManager::m_selectableObjects;
 }
 

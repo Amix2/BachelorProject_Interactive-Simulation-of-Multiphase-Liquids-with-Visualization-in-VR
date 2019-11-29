@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <Configuration.h>
 #include <sstream>
-#include <emiters/EmiterProvider.h>
 #include <glm/gtx/string_cast.hpp>
 #include <dataStructures/ParticleData.h>
 #include <selectableObject/SelectableObject.h>

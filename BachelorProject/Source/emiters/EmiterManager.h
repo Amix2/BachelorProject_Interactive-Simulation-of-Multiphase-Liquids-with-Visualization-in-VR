@@ -1,6 +1,5 @@
 #pragma once
 
-#include <emiters/EmiterProvider.h>
 #include <Configuration.h>
 #include <Logger.h>
 #include <glm/gtx/string_cast.hpp>

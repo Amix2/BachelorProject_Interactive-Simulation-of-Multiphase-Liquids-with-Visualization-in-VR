@@ -3,7 +3,6 @@
 #include <glm/glm.hpp>
 #include "Camera.h"
 #include "SimpleCameraController.h"
-#include <emiters/EmiterProvider.h>
 #include <emiters/EmiterManager.h>
 
 
