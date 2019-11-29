@@ -4,6 +4,7 @@ namespace VR
 {
 	namespace EventHandling
 	{
+		template <typename CallbackFunctionReturnType, typename >
 		class VREventCallback
 		{
 		public:
@@ -11,6 +12,8 @@ namespace VR
 			{
 				//
 			}
+
+			//
 
 		protected:
 			//

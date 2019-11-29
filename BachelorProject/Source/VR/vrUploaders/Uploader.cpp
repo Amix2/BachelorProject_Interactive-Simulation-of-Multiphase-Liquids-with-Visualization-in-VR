@@ -2,7 +2,7 @@
 
 namespace VR
 {
-	namespace DataUploaders
+	namespace Uploading
 	{
 		//
 	}

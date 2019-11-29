@@ -4,6 +4,17 @@ namespace VR
 {
 	namespace EventHandling
 	{
+
+		VREventBroadcaster::VREventBroadcaster(std::shared_ptr<VR::Implementation::VRCore> VrCore) : VrCore{ VrCore }
+		{
+			//
+		}
+
+		bool VREventBroadcaster::InitModule()
+		{
+			return false;
+		}
+
 		bool VREventBroadcaster::BroadcastEvents() throw(VREventException)
 		{
 			for (auto& VREventListener : this->VREventListeners)
@@ -18,9 +29,9 @@ namespace VR
 			return true;
 		}
 
-		bool VREventBroadcaster::RegisterListeners(std::vector<std::pair<std::string, >> Listeners)
+		bool VREventBroadcaster::RegisterListeners(std::vector<std::pair<std::string, ProvidedDataTypes::ProvidedData>> Listeners)
 		{
-			return true;
+			return false;
 		}
 	}
 }

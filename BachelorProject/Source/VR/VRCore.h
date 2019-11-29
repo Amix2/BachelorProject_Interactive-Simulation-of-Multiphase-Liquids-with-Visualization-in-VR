@@ -12,51 +12,54 @@
 #include <VR/VRInitializable.h>
 
 namespace VR {
-	/**
-		The core VR class, responsible for initializing the most important OpenVR modules.
-	*/
-	class VRCore : VRInitializable {
-	public:
+	namespace Implementation
+	{
 		/**
-			Initializes every obligatory, as well as any used in the project, OpenVR module.
-			
-			@return Whether this operation has been completed successfully or not.
+			The core VR class, responsible for initializing the most important OpenVR modules.
 		*/
-		bool InitializeCore();
+		class VRCore : VRInitializable {
+		public:
+			/**
+				Initializes every obligatory, as well as any used in the project, OpenVR module.
 
-		/**
-			Returns whether the core has already been initialized or not.
+				@return Whether this operation has been completed successfully or not.
+			*/
+			bool InitializeCore();
 
-			@return Whether the core was initialized or not.
-		*/
-		bool CoreInitialized();
+			/**
+				Returns whether the core has already been initialized or not.
 
-		/**
-			Returns the pointer to the IVRSystem from OpenVR.
+				@return Whether the core was initialized or not.
+			*/
+			bool CoreInitialized();
 
-			@return The IVRPointer from OpenVR.
-		*/
-		std::shared_ptr<vr::IVRSystem> GetVrSystem();
+			/**
+				Returns the pointer to the IVRSystem from OpenVR.
 
-		//bool SubmitTexturesToHMD(vr::Texture_t leftTexture, vr::Texture_t rightTexture);
+				@return The IVRPointer from OpenVR.
+			*/
+			std::shared_ptr<vr::IVRSystem> GetVrSystem();
 
-	protected:
-		//
+			//bool SubmitTexturesToHMD(vr::Texture_t leftTexture, vr::Texture_t rightTexture);
 
-	private:
-		/// Information about whether the core was already initialized or not.
-		bool IsCoreInitialized = false;
+		protected:
+			//
 
-		/**
-			Initializes the OpenVR compositor.
+		private:
+			/// Information about whether the core was already initialized or not.
+			bool IsCoreInitialized = false;
 
-			@return Whether this operation has been completed successfully or not.
-		*/
-		bool InitializeCompositor();
+			/**
+				Initializes the OpenVR compositor.
 
-		// bool InitializeDescriptors();
-		/// The IVR pointer from OpenVR.
-		std::shared_ptr<vr::IVRSystem> VrSystem;
-		// std::map<vr::Hmd_Eye, std::map<std::string, int>> Descriptors;
-	};
+				@return Whether this operation has been completed successfully or not.
+			*/
+			bool InitializeCompositor();
+
+			// bool InitializeDescriptors();
+			/// The IVR pointer from OpenVR.
+			std::shared_ptr<vr::IVRSystem> VrSystem;
+			// std::map<vr::Hmd_Eye, std::map<std::string, int>> Descriptors;
+		};
+	}
 }

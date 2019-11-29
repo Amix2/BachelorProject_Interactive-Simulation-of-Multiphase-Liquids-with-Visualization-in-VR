@@ -9,36 +9,39 @@
 #include <VR/VRInitializable.h>
 
 namespace VR {
-	class VRGLInterop : VRInitializable {
-	public:
-		VRGLInterop(const std::shared_ptr<VRCore> VRCore) : VRCore{ VRCore };
-		VRGLInterop(const VRGLInterop& vrglinterop) = default;
-		VRGLInterop() = default;
-		VRGLInterop& operator=(const VRGLInterop&) = default;
-		bool InitModule() override;
-		std::shared_ptr<VR::VRCore> VrCore = std::make_shared<VR::VRCore>();
-		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_shared<VR::VRGeometry>();
-		std::shared_ptr<VR::VRInput> VrInput = std::make_shared<VR::VRInput>();
+	namespace Implementation
+	{
+		class VRGLInterop : VRInitializable {
+		public:
+			VRGLInterop(const std::shared_ptr<VRCore> VRCore) : VRCore{ VRCore };
+			VRGLInterop(const VRGLInterop& vrglinterop) = default;
+			VRGLInterop() = default;
+			VRGLInterop& operator=(const VRGLInterop&) = default;
+			bool InitModule() override;
+			std::shared_ptr<VR::VRCore> VrCore = std::make_shared<VR::VRCore>();
+			std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_shared<VR::VRGeometry>();
+			std::shared_ptr<VR::VRInput> VrInput = std::make_shared<VR::VRInput>();
 
-		bool VRactive;
+			bool VRactive;
 
-		const unsigned int SCR_WIDTH = 1920;
-		const unsigned int SCR_HEIGHT = 1080;
-		GLuint m_nResolveFramebufferIdLeft;
-		GLuint m_nResolveTextureIdLeft;
+			const unsigned int SCR_WIDTH = 1920;
+			const unsigned int SCR_HEIGHT = 1080;
+			GLuint m_nResolveFramebufferIdLeft;
+			GLuint m_nResolveTextureIdLeft;
 
-		GLuint m_nResolveFramebufferIdRight;
-		GLuint m_nResolveTextureIdRight;
+			GLuint m_nResolveFramebufferIdRight;
+			GLuint m_nResolveTextureIdRight;
 
-		bool activate();
-		bool hasVR();
-		void sumbitFrame();
-		void handleInput(VRCameraController* cameraControler);
+			bool activate();
+			bool hasVR();
+			void sumbitFrame();
+			void handleInput(VRCameraController* cameraControler);
 
-	protected:
-		//
+		protected:
+			//
 
-	private:
-		std::shared_ptr<VRCore> VRCore;
-	};
+		private:
+			std::shared_ptr<VRCore> VRCore;
+		};
+	}
 }

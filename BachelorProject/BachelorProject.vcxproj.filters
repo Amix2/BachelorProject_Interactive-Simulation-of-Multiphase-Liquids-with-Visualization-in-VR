@@ -53,13 +53,19 @@
     <ClCompile Include="Source\VR\vrDataProviders\VRControllerProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRPoseProvider.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventBroadcaster.cpp" />
-    <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventExpiration.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventListener.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\HapticFeedbackUploader.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\TextureUploader.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\Uploader.cpp" />
     <ClCompile Include="Source\VR\VRInitializable.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventParallelHandler.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventPoller.cpp" />
+    <ClCompile Include="Source\VR\vrUploaders\UploadingService.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.h" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventBuffer.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
+    <ClCompile Include="Source\VR\vrEventHandling\VREventValidator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -138,6 +144,11 @@
     <ClInclude Include="Source\VR\vrUploaders\TextureUplaoder.h" />
     <ClInclude Include="Source\VR\vrUploaders\Uploader.h" />
     <ClInclude Include="Source\VR\VRInitializable.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventParallelHandler.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventPoller.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventValidator.h" />
+    <ClInclude Include="Source\VR\vrUploaders\UploadingService.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

@@ -8,7 +8,12 @@ namespace VR
 	namespace EventHandling
 	{
 		template <typename BroadcastResult>
-		BroadcastResult VREventListener<BroadcastResult>::Listen(ListenType ListenType) throw(VREventException)
+		VREventListener<BroadcastResult>::VREventListener()
+		{
+			//
+		}
+		template <typename BroadcastResult>
+		BroadcastResult VREventListener<BroadcastResult>::ReceiveBroadcastData() throw(VREventException)
 		{
 			BroadcastResult BroadcastResult{};
 			switch (blocking)
@@ -26,25 +31,6 @@ namespace VR
 			}
 
 			return BroadcastResult;
-		}
-
-		template <typename BroadcastResult>
-		BroadcastResult VREventListener<BroadcastResult>::BlockAndListen() throw(VREventException)
-		{
-			//
-		}
-
-		template <typename BroadcastResult>
-		std::future<BroadcastResult> VREventListener<BroadcastResult>::ListenWithoutBlocking() throw(VREventException)
-		{
-			std::future<BroadcastResult> FutureBroadcastResult{};
-			std::function<BroadcastResult> AsynchronousFunction = [PromiseToReturnBroadcastResult]()
-			{
-				// TODO: fill out
-			};
-			AsyncBroadcastResult = std::async{ std::launch::async, AsynchronousFunction };
-
-			return FutureBroadcastResult;
 		}
 	}
 }

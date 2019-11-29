@@ -3,6 +3,7 @@
 #include <future>
 
 #include <VR/VRInitializable.h>
+#include <VR/vrEventHandling/VREventParallelHandler.h>
 
 #include "VREventException.h"
 
@@ -10,22 +11,13 @@ namespace VR
 {
 	namespace EventHandling
 	{
-		enum class ListenType
-		{
-			BLOCKING,
-			NON_BLOCKING
-		};
-
 		template <typename BroadcastResult>
-		class VREventListener : VRInitializable
+		class VREventListener : VRInitializable, VREventParallelHandler
 		{
 		public:
-			VREventListener()
-			{
-				//
-			}
+			VREventListener();
 
-			BroadcastResult Listen(ListenType blocking) throw(VREventException);
+			virtual BroadcastResult ReceiveBroadcastData() throw(VREventException) = 0;
 
 		protected:
 			//

@@ -2,10 +2,13 @@
 
 namespace VR
 {
-	bool VRInitializable::Init()
+	namespace Implementation
 	{
-		bool ModuleInitializationSuccessful = this->InitModule();
-		this->VrModuleInitialized = ModuleInitializationSuccessful;
-		return ModuleInitializationSuccessful;
+		bool VRInitializable::Init()
+		{
+			bool ModuleInitializationSuccessful = this->InitModule();
+			this->VrModuleInitialized = ModuleInitializationSuccessful;
+			return ModuleInitializationSuccessful;
+		}
 	}
 }

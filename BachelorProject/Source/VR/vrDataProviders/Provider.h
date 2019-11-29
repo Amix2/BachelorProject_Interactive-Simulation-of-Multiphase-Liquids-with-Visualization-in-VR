@@ -6,7 +6,7 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		template <typename ProvidedDataType = VR::DataProviders::ProvidedData>
+		template <typename ProvidedDataType = VR::ProvidedDataTypes::ProvidedData>
 		class Provider {
 		public:
 			virtual bool init() = 0;
@@ -16,6 +16,7 @@ namespace VR
 
 		protected:
 			ProvidedDataType ProvidedData;
+			VR::EventHandling::VRHoarder VrHoarder{};
 
 		private:
 			//
