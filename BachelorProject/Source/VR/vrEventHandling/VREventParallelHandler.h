@@ -4,19 +4,21 @@ namespace VR
 {
 	namespace EventHandling
 	{
-		template <typename ParallellyHandledFunction>
+		template <typename CallbackReturnType = void, typename... CallbackArgumentTypes>
 		class VREventParallelHandler
 		{
 		public:
-			VREventParallelHandler()
-			{
-				//
-			}
+			VREventParallelHandler();
 
-			bool HandleInParallel(ParallellyHandledFunction Function);
+			virtual CallbackReturnType CodeToRunInParallel(CallbackArgumentTypes... CallbackArgumentTypes) = 0;
+			bool HandleInParallel(CallbackArgumentTypes... CallbackArgumentTypes);
+			CallbackReturnType GetResult();
+			bool IsDone();
 
 		protected:
-			//
+			std::future<CallbackReturnType> Future;
+			CallbackReturnType CallbackReturnedValue;
+			bool IsDoneMarker{ false };
 
 		private:
 			//

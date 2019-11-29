@@ -17,8 +17,11 @@ namespace VR
 			}
 
 			explicit VREventException(const std::string& ExceptionMessage) : ExceptionMessage{ ExceptionMessage }
+			{
+				//
+			}
 
-				virtual ~VREventException() throw()
+			virtual ~VREventException() throw()
 			{
 				//
 			}

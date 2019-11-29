@@ -12,6 +12,7 @@ namespace VR
 		class ControllerInputData
 		{
 		public:
+			ControllerInputData(vr::ETrackedControllerRole ControllerRole, )
 			vr::ETrackedControllerRole ControllerRole;
 			std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>> ButtonEvents;
 
