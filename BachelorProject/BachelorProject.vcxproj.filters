@@ -132,7 +132,6 @@
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\HMDPoseData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\CameraData.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventBroadcaster.h" />
-    <ClInclude Include="Source\VR\vrEventHandling\VREventCallback.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventException.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventListener.h" />
     <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\HapticFeedbackData.h" />

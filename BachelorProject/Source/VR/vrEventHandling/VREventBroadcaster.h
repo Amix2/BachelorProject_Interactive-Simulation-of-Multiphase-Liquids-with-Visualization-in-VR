@@ -9,6 +9,7 @@
 #include <VR/vrEventHandling/VREventPoller.h>
 #include <VR/vrEventHandling/VREventListener.h>
 #include <VR/vrEventHandling/VREventParallelHandler.h>
+#include <VR/vrEventHandling/VREventClassifier.h>
 
 namespace VR
 {
@@ -21,7 +22,7 @@ namespace VR
 
 			bool InitModule();
 
-			bool BroadcastEvents() throw(VREventException);
+			bool BroadcastClassifiedEvents() throw(VREventException);
 			bool GatherEvents() throw(VREventException);
 
 			bool RegisterListeners(std::map<std::string, ProvidedDataTypes::ProvidedData> Listeners);
@@ -31,12 +32,12 @@ namespace VR
 			//
 
 		private:
-			std::map<std::string, VREventListener<VR::ProvidedDataTypes::ProvidedData>> VREventListeners{};
+			std::map<VREventClassifiedType, VREventListener<VR::ProvidedDataTypes::ProvidedData>> VrEventListeners{};
 
-			std::shared_ptr<VR::Implementation::VRCore> VrCore;
+			std::shared_ptr<VR::Implementation::VRCore> VrCore{};
 
 			std::shared_ptr<VREventPoller> VrEventPoller{};
-			std::shared_ptr<vr::VREvent_t> VrEvents{};
+			std::vector<vr::VREvent_t> VrEvents{};
 
 			bool ClassifyEvents();
 		};

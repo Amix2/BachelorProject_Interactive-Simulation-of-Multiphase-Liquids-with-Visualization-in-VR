@@ -12,7 +12,9 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		class VRControllerPoseProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::ControllerPoseData>, VREventListener
+		class VRControllerPoseProvider final : VR::Implementation::VRInitializable,
+			Provider<ProvidedDataTypes::ControllerPoseData>,
+			VREventListener<VR::ProvidedDataTypes::ControllerPoseData>
 		{
 		public:
 			vr::ETrackedControllerRole ControllerRole;

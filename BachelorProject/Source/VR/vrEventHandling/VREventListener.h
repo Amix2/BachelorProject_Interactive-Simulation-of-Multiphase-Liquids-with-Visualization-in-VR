@@ -12,19 +12,19 @@ namespace VR
 	namespace EventHandling
 	{
 		template <typename BroadcastResult>
-		class VREventListener : VRInitializable, VREventParallelHandler
+		class VREventListener abstract : VREventParallelHandler
 		{
 		public:
 			VREventListener();
 
-			virtual BroadcastResult ReceiveBroadcastData() throw(VREventException) = 0;
+			virtual bool ReceiveBroadcastData() throw(VREventException) = 0;
 
 		protected:
 			//
 
 		private:
-			BroadcastResult BlockAndListen() throw(VREventException);
-			std::future<BroadcastResult> ListenWithoutBlocking() throw(VREventException);
+			//broadcastresult blockandlisten() throw(vreventexception);
+			//std::future<broadcastresult> listenwithoutblocking() throw(vreventexception);
 		};
 	}
 }

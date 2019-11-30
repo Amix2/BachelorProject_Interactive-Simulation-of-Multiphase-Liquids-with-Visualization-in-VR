@@ -1,4 +1,5 @@
 #include <VR/vrEventHandling/VREventClassifier.h>
+#include <VR/vrEventHandling/VREventClassifiedType.h>
 
 #include "VREventBroadcaster.h"
 
@@ -17,12 +18,18 @@ namespace VR
 			return true;
 		}
 
-		bool VREventBroadcaster::BroadcastEvents() throw(VREventException)
+		bool VREventBroadcaster::BroadcastClassifiedEvents() throw(VREventException)
 		{
-			for (auto& VREventListener : this->VREventListeners)
+			for (auto& VrEvent : this->VrEvents)
+			{
+				VREventClassifiedType Type = VR::EventHandling::VREventClassifier::ClassifyEvent(VrEvent);
+				this->VrEventListeners[Type].ReceiveBroadcastData();
+			}
+			for (auto& VREventListener : this->VrEventListeners)
 			{
 				VREventListener.second.ReceiveBroadcastData();
 			}
+
 			return true;
 		}
 
@@ -49,7 +56,13 @@ namespace VR
 
 		bool VREventBroadcaster::ClassifyEvents()
 		{
-			return false;
+			std::map<VREventClassifiedType, std::vector<vr::VREvent_t>> ClassifiedEvents{};
+			for (auto& VREvent : this->VrEvents)
+			{
+				VREventClassifiedType Type = VR::EventHandling::VREventClassifier::ClassifyEvent(VrEvent);
+				ClassifiedEvents[Type] = VrEvent;
+			}
+			return true;
 		}
 	}
 }

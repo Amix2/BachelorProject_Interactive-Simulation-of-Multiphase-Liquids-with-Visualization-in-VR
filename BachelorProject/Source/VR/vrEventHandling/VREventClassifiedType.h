@@ -4,7 +4,7 @@ namespace VR
 {
 	namespace EventHandling
 	{
-		enum class VREventClassifiedType
+		class VREventClassifiedType
 		{
 			TOUCHPAD_MOVE,
 			TOUCHPAD_PRESS,

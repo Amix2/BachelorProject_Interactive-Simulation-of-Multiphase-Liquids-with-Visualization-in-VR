@@ -2,6 +2,7 @@
 
 #include <VR/VRInitializable.h>
 #include <VR/VRGeometry.h>
+#include <VR/VRCore.h>
 
 #include "Provider.h"
 
@@ -23,6 +24,7 @@ namespace VR
 			//
 
 		private:
+			atd::shared_ptr<VR::Implementation::VRCore> VrCore;
 			std::shared_ptr<VR::VRGeometry> VrGeometry;
 		};
 	}

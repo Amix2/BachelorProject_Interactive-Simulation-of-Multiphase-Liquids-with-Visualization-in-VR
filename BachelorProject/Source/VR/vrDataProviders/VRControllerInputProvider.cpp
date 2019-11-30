@@ -16,10 +16,9 @@ namespace VR
 			return true;
 		}
 
-		bool VRControllerInputProvider::ReceiveData()
+		bool VRControllerInputProvider::ReceiveBroadcastData()
 		{
-			this->VrInput->DetectEvents();
-			return true;
+			return false;
 		}
 
 		bool VRControllerInputProvider::IsReceivedDataStillValid() const

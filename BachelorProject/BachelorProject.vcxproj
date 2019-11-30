@@ -127,7 +127,6 @@
     <ClInclude Include="Source\scene\Scene.h" />
     <ClInclude Include="Source\ThreadSynchronizer.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventBroadcaster.h" />
-    <ClInclude Include="Source\VR\vrEventHandling\VREventCallback.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventClassifiedType.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventException.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventListener.h" />

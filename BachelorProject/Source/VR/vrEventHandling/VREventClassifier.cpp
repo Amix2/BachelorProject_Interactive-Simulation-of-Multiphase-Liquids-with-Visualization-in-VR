@@ -6,9 +6,11 @@ namespace VR
 	{
 		namespace VREventClassifier
 		{
-			VR::EventHandling::VRClassifiedEventType ClassifyEvent()
+			VR::EventHandling::VREventClassifiedType ClassifyEvent(vr::VREvent_t VrEvent)
 			{
-				//
+				VREventClassifiedType Type;
+
+				return Type;
 			}
 		}
 	}

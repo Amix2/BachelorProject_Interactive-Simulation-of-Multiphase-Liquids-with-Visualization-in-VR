@@ -13,7 +13,9 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		class VRControllerInputProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::ControllerInputData>
+		class VRControllerInputProvider final : VR::Implementation::VRInitializable,
+			Provider<ProvidedDataTypes::ControllerInputData>,
+			VR::EventHandling::VREventListener<VR::ProvidedDataTypes::ControllerInputData>
 		{
 		public:
 			VRControllerInputProvider();
@@ -25,7 +27,7 @@ namespace VR
 			//
 
 		private:
-			std::shared_ptr<VRInput> VrInput;
+			std::shared_ptr<VR::Implementation::VRInput> VrInput;
 		};
 	}
 }

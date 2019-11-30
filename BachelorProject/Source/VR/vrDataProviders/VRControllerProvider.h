@@ -22,7 +22,9 @@ namespace VR
 			BOTH
 		};
 
-		class VRControllerProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::ControllerData>, VR::EventHandling::VREventListener
+		class VRControllerProvider final : VR::Implementation::VRInitializable,
+			Provider<ProvidedDataTypes::ControllerData>,
+			VR::EventHandling::VREventListener<ProvidedDataTypes::ControllerData>
 		{
 		public:
 			VRControllerProvider(VRControllerProviderMode ProviderMode);

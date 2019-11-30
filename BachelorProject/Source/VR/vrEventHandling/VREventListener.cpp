@@ -12,6 +12,7 @@ namespace VR
 		{
 			//
 		}
+
 		template <typename BroadcastResult>
 		BroadcastResult VREventListener<BroadcastResult>::ReceiveBroadcastData() throw(VREventException)
 		{

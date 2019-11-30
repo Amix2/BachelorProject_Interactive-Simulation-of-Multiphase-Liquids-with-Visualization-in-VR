@@ -10,7 +10,10 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		class VRPoseProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::HMDPoseData>, VR::EventHandling::VREventListener< ProvidedDataTypes::HMDPoseData>
+		class VRPoseProvider final :
+			VR::Implementation::VRInitializable,
+			Provider<ProvidedDataTypes::HMDPoseData>,
+			VR::EventHandling::VREventListener<ProvidedDataTypes::HMDPoseData>
 		{
 		public:
 			VRPoseProvider();
