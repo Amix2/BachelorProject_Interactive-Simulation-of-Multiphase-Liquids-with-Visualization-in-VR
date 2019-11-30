@@ -31,7 +31,12 @@ namespace VR
 
 		bool VREventBroadcaster::RegisterListeners(std::vector<std::pair<std::string, ProvidedDataTypes::ProvidedData>> Listeners)
 		{
-			return false;
+			return true;
+		}
+
+		bool VREventBroadcaster::UnregisterListeners(std::vector<std::string> ListenerNames)
+		{
+			return true;
 		}
 	}
 }
