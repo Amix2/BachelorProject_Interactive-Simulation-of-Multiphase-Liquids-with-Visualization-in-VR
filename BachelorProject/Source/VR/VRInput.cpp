@@ -1,62 +1,66 @@
-/// Corresponding header inclusion
+#include <OpenVR/openvr.h>
+
 #include "VRInput.h"
 
 namespace VR
 {
 	namespace Implementation
 	{
-		bool VRInput::init()
-		{
-			//
-		}
-
-		std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> VRInput::GetDetectedControllers()
+		std::pair<vr::TrackedDeviceIndex_t, vr::TrackedDeviceIndex_t> VRInput::GetDetectedControllers()
 		{
 			return this->DetectedControllers;
 		}
 
-		std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>> VRInput::GetDetectedEvents(vr::ETrackedControllerRole ControllerRole)
+		std::vector<vr::VREvent_t> VRInput::GetDetectedEvents(vr::ETrackedControllerRole ControllerRole)
 		{
-			if (this->DetectedControllers.first == ControllerRole)
+			return this->DetectedEvents;
+		}
+
+		bool VRInput::ControllersAlreadyDetected()
+		{
+			if (this->DetectedControllers.first == vr::k_unTrackedDeviceIndexInvalid || this->DetectedControllers.second == vr::k_unTrackedDeviceIndexInvalid)
 			{
-				return this->DetectedEvents.first;
+				return true;
 			}
-			else if (this->DetectedControllers.second == ControllerRole)
+			else
 			{
-				return this->DetectedEvents.second;
+				return false;
 			}
+		}
+
+		bool VRInput::InitModule()
+		{
+			return true;
 		}
 
 		bool VRInput::DetectControllers()
 		{
-			std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> DetectedControllers{ 0, 0 };
-			for (unsigned int id = 0; id < vr::k_unMaxTrackedDeviceCount; ++id) {
-				vr::ETrackedDeviceClass trackedDeviceClass = this->VRCore->GetVrSystem()->GetTrackedDeviceClass(id);
-				if (trackedDeviceClass != vr::ETrackedDeviceClass::TrackedDeviceClass_Controller || !VRCore->GetVrSystem()->IsTrackedDeviceConnected(id))
+			std::pair<vr::TrackedDeviceIndex_t, vr::TrackedDeviceIndex_t> DetectedControllers{ vr::k_unTrackedDeviceIndexInvalid, vr::k_unTrackedDeviceIndexInvalid };
+			for (unsigned int TrackedDeviceIndex = 0; TrackedDeviceIndex < vr::k_unMaxTrackedDeviceCount; ++TrackedDeviceIndex) {
+				vr::ETrackedDeviceClass TrackedDeviceClass = this->VrCore->GetVrSystem()->GetTrackedDeviceClass(TrackedDeviceIndex);
+				if (TrackedDeviceClass != vr::ETrackedDeviceClass::TrackedDeviceClass_Controller || !VrCore->GetVrSystem()->IsTrackedDeviceConnected(id))
 				{
 					continue;
 				}
 				else
 				{
-					vr::ETrackedControllerRole TrackedControllerRole = this->VrCore->GetVRSystem()->GetControllerRoleForTrackedDeviceIndex(event.trackedDeviceIndex);
-					if (this - )
+					vr::ETrackedControllerRole TrackedControllerRole = this->VrCore->GetVrSystem()->GetControllerRoleForTrackedDeviceIndex(TrackedDeviceIndex);
+					if (TrackedControllerRole == vr::TrackedControllerRole_LeftHand)
 					{
-						this->DetectedControllers.first =
+						this->DetectedControllers.first = TrackedDeviceIndex;
+					}
+					else if (TrackedControllerRole == vr::TrackedControllerRole_RightHand)
+					{
+						this->DetectedControllers.second = TrackedDeviceIndex;
 					}
 				}
 
-				//Confirmed that the device in question is a connected controller
-
-				//This is all copied from above:
-				vr::TrackedDevicePose_t trackedDevicePose;
-				vr::VRControllerState_t controllerState;
-				VRCore->GetVrSystem()->GetControllerStateWithPose(vr::TrackingUniverseStanding, id, &controllerState, sizeof(controllerState), &trackedDevicePose);
-
-				//Do things with the TrackedDevicePose_t struct
+				//vr::TrackedDevicePose_t trackedDevicePose;
+				//vr::VRControllerState_t controllerState;
+				//VRCore->GetVrSystem()->GetControllerStateWithPose(vr::TrackingUniverseStanding, id, &controllerState, sizeof(controllerState), &trackedDevicePose);
 			}
-			if ()
 
-				this->DetectedControllers = DetectedControllers;
+			this->DetectedControllers = DetectedControllers;
 
 			return true;
 		}
@@ -64,29 +68,31 @@ namespace VR
 		bool VRInput::DetectEvents(vr::ETrackedControllerRole ControllerRole)
 		{
 			vr::VREvent_t VrEvent;
-			std::pair<vr::ETrackedControllerRole, std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>>> DetectedEvents;
-			while (this->VRCore->GetVrSystem()->PollNextEvent(&VrEvent, sizeof(VrEvent)))
+			std::vector<vr::VREvent_t> DetectedEvents;
+			while (this->VrCore->GetVrSystem()->PollNextEvent(&VrEvent, sizeof(VrEvent)))
 			{
-				switch (VrEvent.eventType)
-				{
-				case vr::VREvent_ButtonPress:
+				DetectedEvents.push_back(VrEvent);
+				//switch (VrEvent.eventType)
+				//{
+				//case vr::VREvent_ButtonPress:
 
-				case vr::VREvent_ButtonTouch:
+				//case vr::VREvent_ButtonTouch:
 
-				case vr::VREvent_ButtonUnpress:
+				//case vr::VREvent_ButtonUnpress:
 
-				case vr::VREvent_ButtonUntouch:
-					break;
-				}
+				//case vr::VREvent_ButtonUntouch:
+				//	break;
+				//}
 			}
 			this->DetectedEvents = DetectedEvents;
-			if (this->DetectedEvents.second.size() == 0)
+			if (this->DetectedEvents.size() == 0)
 			{
 				return false;
 			}
-			else {
+			else
+			{
 				return true;
 			}
 		}
-	}{}
+	}
 }

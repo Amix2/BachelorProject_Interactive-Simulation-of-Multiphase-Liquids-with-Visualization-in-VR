@@ -18,33 +18,32 @@ namespace VR
 {
 	namespace Implementation
 	{
-		class VRInput
+		class VRInput : VRInitializable
 		{
 		public:
-			enum class ControllerInitialization
-			{
-				NOT_INITIALIZED = -1,
-				INITIALIZED = vr::k_unMaxTrackedDeviceCount
-			};
-
-			VRInput(const std::shared_ptr<VRCore> VRCore) : VRCore{ VRCore }
+			VRInput(const std::shared_ptr<VRCore> VrCore) : VrCore{ VrCore }
 			{
 				//
 			}
-			bool init();
+
+			bool InitModule() override;
+
 			bool DetectControllers();
 			bool DetectEvents(vr::ETrackedControllerRole ControllerRole);
-			std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> GetDetectedControllers();
-			std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>> GetDetectedEvents(vr::ETrackedControllerRole ControllerRole);
+
+			std::pair<vr::TrackedDeviceIndex_t, vr::TrackedDeviceIndex_t> GetDetectedControllers();
+			std::vector<vr::VREvent_t> GetDetectedEvents(vr::ETrackedControllerRole ControllerRole);
+
+			bool ControllersAlreadyDetected();
 
 		protected:
 			//
 
 		private:
-			std::shared_ptr<VRCore> VRCore;
+			std::shared_ptr<VRCore> VrCore;
 			vr::TrackedDevicePose_t TrackedDevicePoses[vr::k_unMaxTrackedDeviceCount];
-			std::pair<vr::ETrackedControllerRole, vr::ETrackedControllerRole> DetectedControllers{ -1, -1 };
-			std::pair<vr::ETrackedControllerRole, std::vector<std::pair<vr::EVREventType, vr::EVRButtonId>>> DetectedEvents;
+			std::pair<vr::TrackedDeviceIndex_t, vr::TrackedDeviceIndex_t> DetectedControllers{ vr::k_unTrackedDeviceIndexInvalid, vr::k_unTrackedDeviceIndexInvalid };
+			std::vector<vr::VREvent_t> DetectedEvents;
 		};
 	}
 }

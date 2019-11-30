@@ -11,12 +11,19 @@ namespace VR
 
 		bool VREventPoller::InitModule()
 		{
-			return false;
+			return true;
 		}
 
-		std::vector<vr::VREvent_t> VREventPoller::CodeToRunInParallel()
+		std::vector<vr::VREvent_t> VREventPoller::PollAllEvents()
 		{
-			return std::vector<vr::VREvent_t>();
+			this->VrInput->DetectEvents();
+			return this->VrInput->GetDetectedEvents();
+		}
+
+		std::vector<vr::VREvent_t> VREventPoller::RunParallel()
+		{
+			this->VrInput->DetectEvents();
+			return this->VrInput->GetDetectedEvents();
 		}
 	}
 }

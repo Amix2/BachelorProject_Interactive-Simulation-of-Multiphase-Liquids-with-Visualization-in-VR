@@ -21,7 +21,7 @@ namespace VR
 			this->ProviderMode = ProviderMode;
 		}
 
-		bool VRControllerProvider::init()
+		bool VRControllerProvider::InitModule()
 		{
 			bool InitSuccessful;
 			switch (this->ProviderMode)

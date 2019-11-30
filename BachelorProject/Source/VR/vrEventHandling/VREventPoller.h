@@ -20,7 +20,9 @@ namespace VR
 
 			bool InitModule();
 
-			std::vector<vr::VREvent_t> CodeToRunInParallel();
+			std::vector<vr::VREvent_t> PollAllEvents();
+
+			std::vector<vr::VREvent_t> RunParallel() override;
 
 		protected:
 			//

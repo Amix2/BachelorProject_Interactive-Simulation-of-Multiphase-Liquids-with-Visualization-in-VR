@@ -1,23 +1,26 @@
 #pragma once
 
+#include <memory>
+
+#include <VR/VRSender.h>
+#include <VR/vrUploaders/vrUploadedData/UploadData.h>
+
 namespace VR
 {
 	namespace Uploading
 	{
 		template <typename UploadDataType>
-		class Uploader
+		class Uploader abstract
 		{
 		public:
-			Uploader()
-			{
-				//
-			}
+			Uploader();
 
-			virtual bool UploadData() = 0;
+			virtual bool Upload() = 0;
 			void SetData(UploadDataType UploadData);
 
 		protected:
-			std::shared_ptr<UploadData> UploadData;
+			UploadDataType UploadData;
+			std::shared_ptr<VR::Implementation::VRSender> VrSender{};
 
 		private:
 			//

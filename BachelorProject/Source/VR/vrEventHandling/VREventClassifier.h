@@ -6,7 +6,7 @@ namespace VR
 	{
 		namespace VREventClassifier
 		{
-			VRClassifiedEventType ClassifyEvent()
+			VRClassifiedEventType ClassifyEvent();
 		}
 	}
 }

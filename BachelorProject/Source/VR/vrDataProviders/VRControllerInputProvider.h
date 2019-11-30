@@ -1,7 +1,11 @@
 #pragma once
 
 #include <memory>
+
 #include <VR/VRInput.h>
+#include <VR/VRInitializable.h>
+#include <VR/vrEventHandling/VREventListener.h>
+
 #include "Provider.h"
 #include "vrProvidedData/ControllerInputData.h"
 
@@ -9,12 +13,12 @@ namespace VR
 {
 	namespace DataProviders
 	{
-		class VRControllerInputProvider final : Provider<ProvidedDataTypes::ControllerInputData>
+		class VRControllerInputProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::ControllerInputData>
 		{
 		public:
 			VRControllerInputProvider();
-			bool init() override;
-			bool ReceiveData() override;
+			bool InitModule() override;
+			bool ReceiveBroadcastData() override;
 			bool IsReceivedDataStillValid() const override;
 
 		protected:

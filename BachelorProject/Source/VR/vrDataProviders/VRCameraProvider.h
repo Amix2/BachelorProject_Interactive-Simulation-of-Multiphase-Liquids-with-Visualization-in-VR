@@ -1,5 +1,6 @@
 #pragma once
 
+#include <VR/VRInitializable.h>
 #include <VR/VRGeometry.h>
 
 #include "Provider.h"
@@ -9,12 +10,13 @@ namespace VR
 	namespace DataProviders
 	{
 		template <typename ProvidedDataType>
-		class VRCameraProvider final : Provider<ProvidedDataType>
+		class VRCameraProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataType>
 		{
 		public:
 			VRCameraProvider();
-			bool init() override;
-			bool ReceiveData() override;
+
+			bool InitModule() override;
+			bool ReceiveBroadcastData() override;
 			bool IsReceivedDataStillValid() const override;
 
 		protected:

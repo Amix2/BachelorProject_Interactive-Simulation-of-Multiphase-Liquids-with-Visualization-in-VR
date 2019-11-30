@@ -9,7 +9,7 @@ namespace VR
 			//
 		}
 
-		bool VRControllerPoseProvider::init()
+		bool VRControllerPoseProvider::InitModule()
 		{
 			return true;
 		}

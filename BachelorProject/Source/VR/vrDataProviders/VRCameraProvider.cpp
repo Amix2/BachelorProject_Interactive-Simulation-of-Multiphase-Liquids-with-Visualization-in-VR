@@ -10,16 +10,16 @@ namespace VR
 			//
 		}
 
-		template <typename ProvidedDataType>
-		bool VRCameraProvider<ProvidedDataType>::init()
+		template<typename ProvidedDataType>
+		bool VRCameraProvider<ProvidedDataType>::InitModule()
 		{
-			return true;
+			return false;
 		}
 
-		template <typename ProvidedDataType>
-		bool VRCameraProvider<ProvidedDataType>::ReceiveData()
+		template<typename ProvidedDataType>
+		bool VRCameraProvider<ProvidedDataType>::ReceiveBroadcastData()
 		{
-			return true;
+			return false;
 		}
 
 		template <typename ProvidedDataType>

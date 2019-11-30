@@ -10,7 +10,7 @@ namespace VR
 		public:
 			VREventParallelHandler();
 
-			virtual CallbackReturnType CodeToRunInParallel(CallbackArgumentTypes... CallbackArgumentTypes) = 0;
+			virtual CallbackReturnType RunParallel(CallbackArgumentTypes... CallbackArgumentTypes) = 0;
 			bool HandleInParallel(CallbackArgumentTypes... CallbackArgumentTypes);
 			CallbackReturnType GetResult();
 			bool IsDone();

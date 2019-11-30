@@ -9,12 +9,12 @@ namespace VR
 			//
 		}
 
-		bool VR::DataProviders::VRPoseProvider::init()
+		bool VR::DataProviders::VRPoseProvider::InitModule()
 		{
 			return true;
 		}
 
-		bool VR::DataProviders::VRPoseProvider::ReceiveData()
+		bool VR::DataProviders::VRPoseProvider::ReceiveBroadcastData()
 		{
 			return true;
 		}

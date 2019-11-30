@@ -3,26 +3,17 @@
 #include <OpenVR/openvr.h>
 
 #include <VR/VRCore.h>
+#include <VR/vrUploaders/vrUploadedData/UploadData.h>
 
 namespace VR
 {
-	namespace UploadedDataTypes
+	namespace UploadDataTypes
 	{
-		class HapticFeedbackData
+		class HapticFeedbackData : UploadData
 		{
 		public:
 			vr::TrackedDeviceIndex_t ControllerIndex;
 			unsigned short MicrosecondsDuration;
-
-			void SetControllerIndex(vr::TrackedDeviceIndex_t ControllerIndex)
-			{
-				this->ControllerIndex = ControllerIndex;
-			}
-
-			void SetMicrosecondsDuration(unsigned short MicrosecondsDuration)
-			{
-				this->MicrosecondsDuration = MicrosecondsDuration;
-			}
 
 		protected:
 			//

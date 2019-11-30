@@ -2,7 +2,9 @@
 
 #include <memory>
 
+#include <VR/VRInitializable.h>
 #include <VR/VRGLInterop.h>
+#include <VR/vrEventHandling/VREventListener.h>
 
 #include "Provider.h"
 #include "VRControllerInputProvider.h"
@@ -20,12 +22,13 @@ namespace VR
 			BOTH
 		};
 
-		class VRControllerProvider final : Provider<ProvidedDataTypes::ControllerData>
+		class VRControllerProvider final : VR::Implementation::VRInitializable, Provider<ProvidedDataTypes::ControllerData>, VR::EventHandling::VREventListener
 		{
 		public:
 			VRControllerProvider(VRControllerProviderMode ProviderMode);
-			bool init() override;
-			bool ReceiveData() override;
+
+			bool InitModule() override;
+			bool ReceiveBroadcastData() override;
 			bool IsReceivedDataStillValid() const override;
 			//void SetControllerRole(vr::ETrackedControllerRole ControllerRole);
 			void SetProviderMode(VRControllerProviderMode ProviderMode);

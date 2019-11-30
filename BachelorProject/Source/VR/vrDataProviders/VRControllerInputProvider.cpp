@@ -1,3 +1,5 @@
+#include <VR/vrEventHandling/VREventListener.h>
+
 #include "VRControllerInputProvider.h"
 
 namespace VR
@@ -9,7 +11,7 @@ namespace VR
 			//
 		}
 
-		bool VRControllerInputProvider::init()
+		bool VRControllerInputProvider::InitModule()
 		{
 			return true;
 		}

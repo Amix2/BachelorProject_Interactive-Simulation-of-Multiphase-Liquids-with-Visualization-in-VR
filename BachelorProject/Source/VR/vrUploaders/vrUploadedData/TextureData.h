@@ -3,15 +3,17 @@
 #include <OpenVR/openvr.h>
 
 #include <VR/VRCore.h>
+#include <VR/vrUploaders/vrUploadedData/UploadData.h>
 
 namespace VR
 {
-	namespace UploadedDataTypes
+	namespace UploadDataTypes
 	{
-		class TextureData
+		class TextureData : UploadData
 		{
 		public:
-			vr::Texture
+			vr::Texture_t LeftTexture;
+			vr::Texture_t RightTexture;
 
 		protected:
 			//

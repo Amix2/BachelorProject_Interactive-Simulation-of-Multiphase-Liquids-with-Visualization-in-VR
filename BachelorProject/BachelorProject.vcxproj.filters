@@ -61,11 +61,9 @@
     <ClCompile Include="Source\VR\VRInitializable.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventParallelHandler.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventPoller.cpp" />
-    <ClCompile Include="Source\VR\vrUploaders\UploadingService.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.h" />
-    <ClCompile Include="Source\VR\vrEventHandling\VREventBuffer.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
-    <ClCompile Include="Source\VR\vrEventHandling\VREventValidator.cpp" />
+    <ClCompile Include="Source\VR\VRSender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -135,20 +133,19 @@
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\CameraData.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventBroadcaster.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventCallback.h" />
-    <ClInclude Include="Source\VR\vrEventHandling\VREventClassifiedTypes.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventException.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventListener.h" />
     <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\HapticFeedbackData.h" />
     <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\TextureData.h" />
     <ClInclude Include="Source\VR\vrUploaders\HapticFeedbackUploader.h" />
-    <ClInclude Include="Source\VR\vrUploaders\TextureUplaoder.h" />
     <ClInclude Include="Source\VR\vrUploaders\Uploader.h" />
     <ClInclude Include="Source\VR\VRInitializable.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventParallelHandler.h" />
     <ClInclude Include="Source\VR\vrEventHandling\VREventPoller.h" />
-    <ClInclude Include="Source\VR\vrEventHandling\VREventValidator.h" />
-    <ClInclude Include="Source\VR\vrUploaders\UploadingService.h" />
-    <ClInclude Include="Source\VR\vrEventHandling\VREventBuffer.h" />
+    <ClInclude Include="Source\VR\vrEventHandling\VREventClassifiedType.h" />
+    <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\UploadData.h" />
+    <ClInclude Include="Source\VR\vrUploaders\TextureUploader.h" />
+    <ClInclude Include="Source\VR\VRSender.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />
