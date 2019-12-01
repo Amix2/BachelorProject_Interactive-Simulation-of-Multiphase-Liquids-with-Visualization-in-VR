@@ -15,19 +15,18 @@ namespace VR
 	{
 		class VRControllerInputProvider final : VR::Implementation::VRInitializable,
 			Provider<ProvidedDataTypes::ControllerInputData>,
-			VR::EventHandling::VREventListener<VR::ProvidedDataTypes::ControllerInputData>
+			VR::EventHandling::VREventListener
 		{
 		public:
 			VRControllerInputProvider();
 			bool InitModule() override;
-			bool ReceiveBroadcastData() override;
-			bool IsReceivedDataStillValid() const override;
+			bool ReceiveBroadcastData(VR::ProvidedDataTypes::ProvidedData *ProvidedData) override;
 
 		protected:
 			//
 
 		private:
-			std::shared_ptr<VR::Implementation::VRInput> VrInput;
+			// std::shared_ptr<VR::Implementation::VRInput> VrInput;
 		};
 	}
 }

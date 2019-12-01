@@ -9,9 +9,13 @@ namespace VR
 {
 	namespace UploadDataTypes
 	{
-		class TextureData : UploadData
+		class TextureData : public UploadData
 		{
 		public:
+			TextureData(vr::Texture_t LeftTexture, vr::Texture_t RightTexture) : LeftTexture{ LeftTexture }, RightTexture{ RightTexture }
+			{
+				//
+			}
 			vr::Texture_t LeftTexture;
 			vr::Texture_t RightTexture;
 

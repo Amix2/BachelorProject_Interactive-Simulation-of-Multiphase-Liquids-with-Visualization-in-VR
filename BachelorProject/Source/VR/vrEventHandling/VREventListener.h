@@ -4,20 +4,22 @@
 
 #include <VR/VRInitializable.h>
 #include <VR/vrEventHandling/VREventParallelHandler.h>
-
-#include "VREventException.h"
+#include <VR/vrEventHandling/VREventException.h>
+#include <VR/vrDataProviders/Provider.h>
 
 namespace VR
 {
 	namespace EventHandling
 	{
-		template <typename BroadcastResult>
-		class VREventListener abstract : VREventParallelHandler
+		class VREventListener abstract
 		{
 		public:
-			VREventListener();
+			VREventListener()
+			{
+				//
+			}
 
-			virtual bool ReceiveBroadcastData() throw(VREventException) = 0;
+			virtual bool ReceiveBroadcastData(VR::ProvidedDataTypes::ProvidedData *ProvidedData) throw(VREventException) = 0;
 
 		protected:
 			//

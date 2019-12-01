@@ -13,7 +13,7 @@ namespace VR
 {
 	namespace EventHandling
 	{
-		class VREventPoller : VR::Implementation::VRInitializable, VREventParallelHandler<std::vector<vr::VREvent_t>>
+		class VREventPoller : VR::Implementation::VRInitializable
 		{
 		public:
 			VREventPoller();
@@ -21,8 +21,6 @@ namespace VR
 			bool InitModule();
 
 			std::vector<vr::VREvent_t> PollAllEvents();
-
-			std::vector<vr::VREvent_t> RunParallel() override;
 
 		protected:
 			//

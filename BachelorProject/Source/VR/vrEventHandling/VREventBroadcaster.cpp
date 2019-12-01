@@ -20,14 +20,18 @@ namespace VR
 
 		bool VREventBroadcaster::BroadcastClassifiedEvents() throw(VREventException)
 		{
-			for (auto& VrEvent : this->VrEvents)
+			for (auto& VrEventsByType : this->VrClassifiedEvents)
 			{
-				VREventClassifiedType Type = VR::EventHandling::VREventClassifier::ClassifyEvent(VrEvent);
-				this->VrEventListeners[Type].ReceiveBroadcastData();
-			}
-			for (auto& VREventListener : this->VrEventListeners)
-			{
-				VREventListener.second.ReceiveBroadcastData();
+				for (auto& VrClassifiedEvent : VrEventsByType.second)
+				{
+					VR::ProvidedDataTypes::ProvidedData* ProvidedData =
+						VR::EventHandling::VREventClassifier::GenerateData(VrClassifiedEvent, VrEventsByType.first);
+					if (ProvidedData == nullptr)
+					{
+						return false;
+					}
+					this->VrEventListeners[VrEventsByType.first].ReceiveBroadcastData(ProvidedData);
+				}
 			}
 
 			return true;
@@ -39,29 +43,46 @@ namespace VR
 			return true;
 		}
 
-		bool VREventBroadcaster::RegisterListeners(std::map<std::string, ProvidedDataTypes::ProvidedData> Listeners)
+		bool VREventBroadcaster::RegisterListeners(std::map<VREventClassifiedType,VREventListener> Listeners)
 		{
-			this->VREventListeners.insert(std::begin(Listeners), std::end(Listeners));
+			this->VrEventListeners.insert(std::begin(Listeners), std::end(Listeners));
 			return true;
 		}
 
-		bool VREventBroadcaster::UnregisterListeners(std::vector<std::string> ListenerNames)
+		bool VREventBroadcaster::UnregisterListeners(std::vector<VREventClassifiedType> ListenerNames)
 		{
 			for (auto& ListenerName : ListenerNames)
 			{
-				this->VREventListeners.erase(ListenerName);
+				this->VrEventListeners.erase(ListenerName);
 			}
+			return true;
+		}
+
+		bool VREventBroadcaster::ClearBuffers()
+		{
+			this->VrEvents.clear();
+			this->VrClassifiedEvents.clear();
+
 			return true;
 		}
 
 		bool VREventBroadcaster::ClassifyEvents()
 		{
-			std::map<VREventClassifiedType, std::vector<vr::VREvent_t>> ClassifiedEvents{};
-			for (auto& VREvent : this->VrEvents)
+			std::map<VREventClassifiedType, std::vector<vr::VREvent_t>> VrClassifiedEvents{};
+			for (auto& VrEvent : this->VrEvents)
 			{
 				VREventClassifiedType Type = VR::EventHandling::VREventClassifier::ClassifyEvent(VrEvent);
-				ClassifiedEvents[Type] = VrEvent;
+				if (Type != VREventClassifiedType::VREVENT_INVALID)
+				{
+					if (VrClassifiedEvents.find(Type) == VrClassifiedEvents.end())
+					{
+						VrClassifiedEvents[Type] = std::vector<vr::VREvent_t>();
+					}
+					VrClassifiedEvents[Type].push_back(VrEvent);
+				}
 			}
+			this->VrClassifiedEvents = VrClassifiedEvents;
+
 			return true;
 		}
 	}

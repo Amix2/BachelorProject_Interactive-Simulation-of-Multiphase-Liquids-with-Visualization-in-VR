@@ -4,16 +4,13 @@ namespace VR
 {
 	namespace EventHandling
 	{
-		class VREventClassifiedType
+		enum class VREventClassifiedType
 		{
-			TOUCHPAD_MOVE,
-			TOUCHPAD_PRESS,
-			TOUCHPAD_UNPRESS,
-			BUTTON_PRESS,
-			BUTTON_UNPRESS,
-			CONTROLLER_MOVE,
-			HMD_MOVE,
-			//
+			VREVENT_BUTTON_LEFT,
+			VREVENT_BUTTON_RIGHT,
+			VREVENT_TOUCHPAD_LEFT,
+			VREVENT_TOUCHPAD_RIGHT,
+			VREVENT_INVALID
 		};
 	}
 }

@@ -16,14 +16,9 @@ namespace VR
 			return true;
 		}
 
-		bool VRControllerInputProvider::ReceiveBroadcastData()
+		bool VRControllerInputProvider::ReceiveBroadcastData(VR::ProvidedDataTypes::ProvidedData *ProvidedData)
 		{
 			return false;
-		}
-
-		bool VRControllerInputProvider::IsReceivedDataStillValid() const
-		{
-			return true;
 		}
 	}
 }

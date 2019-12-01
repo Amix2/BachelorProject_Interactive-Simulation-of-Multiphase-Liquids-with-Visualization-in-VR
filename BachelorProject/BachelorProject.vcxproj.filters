@@ -50,11 +50,9 @@
     <ClCompile Include="Source\VR\vrDataProviders\VRCameraProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRControllerInputProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRControllerPoseProvider.cpp" />
-    <ClCompile Include="Source\VR\vrDataProviders\VRControllerProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRPoseProvider.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventBroadcaster.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventExpiration.cpp" />
-    <ClCompile Include="Source\VR\vrEventHandling\VREventListener.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\HapticFeedbackUploader.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\TextureUploader.cpp" />
     <ClCompile Include="Source\VR\vrUploaders\Uploader.cpp" />
@@ -64,6 +62,7 @@
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.h" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
     <ClCompile Include="Source\VR\VRSender.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRDataBroadcaster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -124,7 +123,6 @@
     <ClInclude Include="Source\VR\vrDataProviders\VRCameraProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRControllerInputProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRControllerPoseProvider.h" />
-    <ClInclude Include="Source\VR\vrDataProviders\VRControllerProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRPoseProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerInputData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerPoseData.h" />
@@ -145,6 +143,7 @@
     <ClInclude Include="Source\VR\vrUploaders\vrUploadedData\UploadData.h" />
     <ClInclude Include="Source\VR\vrUploaders\TextureUploader.h" />
     <ClInclude Include="Source\VR\VRSender.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRDataBroadcaster.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

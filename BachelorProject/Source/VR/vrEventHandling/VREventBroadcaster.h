@@ -25,19 +25,22 @@ namespace VR
 			bool BroadcastClassifiedEvents() throw(VREventException);
 			bool GatherEvents() throw(VREventException);
 
-			bool RegisterListeners(std::map<std::string, ProvidedDataTypes::ProvidedData> Listeners);
-			bool UnregisterListeners(std::vector<std::string> ListenerNames);
+			bool RegisterListeners(std::map<VREventClassifiedType, VREventListener> Listeners);
+			bool UnregisterListeners(std::vector<VREventClassifiedType> ListenerNames);
+
+			bool ClearBuffers();
 
 		protected:
 			//
 
 		private:
-			std::map<VREventClassifiedType, VREventListener<VR::ProvidedDataTypes::ProvidedData>> VrEventListeners{};
+			std::map<VREventClassifiedType, VREventListener> VrEventListeners{};
 
 			std::shared_ptr<VR::Implementation::VRCore> VrCore{};
 
 			std::shared_ptr<VREventPoller> VrEventPoller{};
 			std::vector<vr::VREvent_t> VrEvents{};
+			std::map<VREventClassifiedType, std::vector<vr::VREvent_t> > VrClassifiedEvents{};
 
 			bool ClassifyEvents();
 		};

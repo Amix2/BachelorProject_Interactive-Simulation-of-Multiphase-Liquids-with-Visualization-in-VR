@@ -23,7 +23,7 @@
     <ClCompile Include="Source\VR\vrDataProviders\VRCameraProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRControllerInputProvider.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRControllerPoseProvider.cpp" />
-    <ClCompile Include="Source\VR\vrDataProviders\VRControllerProvider.cpp" />
+    <ClCompile Include="Source\VR\vrDataProviders\VRDataBroadcaster.cpp" />
     <ClCompile Include="Source\VR\vrDataProviders\VRPoseProvider.cpp" />
     <ClCompile Include="Source\simulationObjects\EmiterControler.cpp" />
     <ClCompile Include="Source\simulationObjects\Emiter.cpp" />
@@ -50,7 +50,6 @@
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventClassifier.h" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventExpiration.cpp" />
-    <ClCompile Include="Source\VR\vrEventHandling\VREventListener.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventParallelHandler.cpp" />
     <ClCompile Include="Source\VR\vrEventHandling\VREventPoller.cpp" />
     <ClCompile Include="Source\VR\VRInitializable.cpp" />
@@ -85,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\listener\ControllerInputListener.h" />
+    <ClInclude Include="Source\VR\vrDataProviders\VRDataBroadcaster.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\CameraData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerData.h" />
     <ClInclude Include="Source\VR\vrDataProviders\vrProvidedData\ControllerInputData.h" />
@@ -95,7 +95,6 @@
     <ClInclude Include="Source\VR\vrDataProviders\VRCameraProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRControllerInputProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRControllerPoseProvider.h" />
-    <ClInclude Include="Source\VR\vrDataProviders\VRControllerProvider.h" />
     <ClInclude Include="Source\VR\vrDataProviders\VRPoseProvider.h" />
     <ClInclude Include="Source\simulationObjects\EmiterControler.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />

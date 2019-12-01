@@ -10,7 +10,6 @@ namespace VR
 		class Provider abstract {
 		public:
 			ProvidedDataType GetProvidedData() const;
-			virtual bool IsReceivedDataStillValid() const = 0;
 
 		protected:
 			ProvidedDataType ProvidedData;

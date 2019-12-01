@@ -9,9 +9,15 @@ namespace VR
 {
 	namespace UploadDataTypes
 	{
-		class HapticFeedbackData : UploadData
+		class HapticFeedbackData : public UploadData
 		{
 		public:
+			HapticFeedbackData(vr::TrackedDeviceIndex_t ControllerIndex, unsigned short MicrosecondsDuration) :
+				ControllerIndex{ ControllerIndex }, MicrosecondsDuration{ MicrosecondsDuration }
+			{
+				//
+			}
+
 			vr::TrackedDeviceIndex_t ControllerIndex;
 			unsigned short MicrosecondsDuration;
 
