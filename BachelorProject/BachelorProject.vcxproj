@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClCompile Include="Source\digitalHand\HandDataProvider.cpp" />
     <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
+    <ClCompile Include="Source\pathotools.cpp" />
     <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
+    <ClCompile Include="Source\strtools.cpp" />
     <ClCompile Include="Source\utilities\GraphicShaderStorage.cpp" />
     <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
     <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
@@ -47,6 +49,7 @@
     <ClCompile Include="Source\emiters\EmiterManager.cpp" />
     <ClCompile Include="Source\ThreadSynchronizer.cpp" />
     <ClCompile Include="Source\utilities\Texture.cpp" />
+    <ClCompile Include="Source\VR\SteamIVRInput.cpp" />
     <ClCompile Include="Source\window\FrameBuffer.cpp" />
     <ClCompile Include="Source\window\ViewPort.cpp" />
     <ClCompile Include="Source\window\Window.cpp" />
@@ -74,6 +77,7 @@
     <ClCompile Include="Source\window\WindowTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\compat.h" />
     <ClInclude Include="Source\emiters\EmiterVRActionController.h" />
     <ClInclude Include="Source\actionControllers\ActionController.h" />
     <ClInclude Include="Source\actionControllers\VRActionController.h" />
@@ -81,7 +85,9 @@
     <ClInclude Include="Source\digitalHand\DigitalHand.h" />
     <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
     <ClInclude Include="Source\particleObjects\ParticleObjectVRActionController.h" />
+    <ClInclude Include="Source\pathtools.h" />
     <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
+    <ClInclude Include="Source\strtools.h" />
     <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
     <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
     <ClInclude Include="Source\selectableObject\SelectableObject.h" />
@@ -116,6 +122,7 @@
     <ClInclude Include="Source\scene\Scene.h" />
     <ClInclude Include="Source\ThreadSynchronizer.h" />
     <ClInclude Include="Source\utilities\Texture.h" />
+    <ClInclude Include="Source\VR\SteamIVRInput.h" />
     <ClInclude Include="Source\window\FrameBuffer.h" />
     <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
     <ClInclude Include="Source\window\ViewPort.h" />

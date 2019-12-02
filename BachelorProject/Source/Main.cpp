@@ -53,99 +53,7 @@
 #include <utilities/GraphicShaderStorage.h>
 #include <scene/camera/EmittingCameraController.h>
 #include <digitalHand/DigitalHand.h>
-class SteamIVRInput {
-public:
-	void Init();
-	void Loop();
-	bool nextSongSet();
-
-private:
-	//Using an action manifest from a path that isn't the executable path doesn't work for whatever reason.
-	const std::string m_actionManifestPath = "C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\action_manifest.json";
-	vr::VRActionHandle_t m_nextSongHandler = {};
-	vr::VRActionSetHandle_t m_mainSetHandler = {};
-	vr::VRActiveActionSet_t m_activeActionSet = {};
-	vr::InputDigitalActionData_t m_nextSongData = {};
-};
-
-// These two are set in action_manifest.json. They must match or you'll get errors/things that don't work with no errors.
-constexpr auto k_actionSetMain = "/actions/main";
-constexpr auto k_actionPlayNextTrack = "/actions/main/in/PlayNextTrack";
-
-void SteamIVRInput::Init()
-{
-
-	// If something already initialized SteamVR we don't want to do it again.
-	// Intended for being able to copy paste into existing codebase to make 
-	// sure everything works with a known working example, hence why this is toggleable.
-	// Should always be run with true if third party doesn't init SteamVR.
-
-	// Set the action manifest. This should be in the executable directory.
-	// Defined by m_actionManifestPath.
-	auto error = vr::VRInput()->SetActionManifestPath(m_actionManifestPath.c_str());
-	if (error != vr::EVRInputError::VRInputError_None)
-	{
-		std::cerr << "Action manifest error\n";
-	}
-
-	// Get action handle
-	error = vr::VRInput()->GetActionHandle(k_actionPlayNextTrack,
-		&m_nextSongHandler);
-	if (error != vr::EVRInputError::VRInputError_None)
-	{
-		std::cerr << "Handle error.\n";
-	}
-
-	// Get set handle
-	error = vr::VRInput()->GetActionSetHandle(k_actionSetMain,
-		&m_mainSetHandler);
-	if (error != vr::EVRInputError::VRInputError_None)
-	{
-		std::cerr << "Handle error.\n";
-	}
-
-	m_activeActionSet.ulActionSet = m_mainSetHandler;
-	m_activeActionSet.ulRestrictedToDevice = vr::k_ulInvalidInputValueHandle;
-	// When I didn't manually set priority zero it didn't work for me, for unknown reasons.
-	m_activeActionSet.nPriority = 0;
-}
-
-bool SteamIVRInput::nextSongSet()
-{
-	auto e = vr::VRInput()->GetDigitalActionData(
-		m_nextSongHandler,
-		&m_nextSongData,
-		sizeof(m_nextSongData),
-		vr::k_ulInvalidInputValueHandle);
-
-	if (e != vr::EVRInputError::VRInputError_None)
-	{
-		// Print the rror code.
-		std::cerr << e << '\n';
-		std::cerr << "GetDigitalAction error.\n";
-	}
-
-	// Will basically just spam the console. To make sure it's visible even from a distance.
-	if (m_nextSongData.bActive)
-	{
-		std::cout << "Action Set Active!\n";
-	}
-
-	return m_nextSongData.bState;
-}
-
-void SteamIVRInput::Loop()
-{
-	// Getting the correct sizeof is critical.
-	// Make sure to match digital/analog with the function you're calling.
-	auto error = vr::VRInput()->UpdateActionState(
-		&m_activeActionSet, sizeof(m_activeActionSet), 1);
-
-	if (error != vr::EVRInputError::VRInputError_None)
-	{
-		std::cerr << "Loop error.\n";
-	}
-}
+#include <VR/SteamIVRInput.h>
 
 void printWorkGroupsCapabilities();
 
@@ -246,27 +154,36 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 0, 0 }, true);
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
 	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
+
 	SteamIVRInput a;
 
-	a.Init();
+	a.InnerActionUpdate();
 
-	a.Loop();
-	while (!a.nextSongSet())
-	{
-		a.Loop();
-		if (a.nextSongSet())
-		{
-			LOG_F(WARNING, "success\n\n\n\n");
-		}
-		else
-		{
-			LOG_F(WARNING, "nope");
-		}
-	}
+	//a.Loop();
+	//while (!a.nextSongSet())
+	//{
+	//	a.Loop();
+	//	if (a.nextSongSet())
+	//	{
+	//		LOG_F(WARNING, "success\n\n\n\n");
+	//	}
+	//	else
+	//	{
+	//		LOG_F(WARNING, "nope");
+	//	}
+	//}
 	do 
 	{
 		glassController.assignUntrackedObjects(scene);
 		if (HmdConnected) {
+			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
+			/*
+			a.GetDigitalActionState(a.m_actionApplicationMenu) // check application menu button
+			a.GetDigitalActionState(a.m_actionTrigger) // check trigger button
+
+			vr::VRInputValueHandle_t ulHapticDevice;
+			a.GetDigitalActionRisingEdge(a.m_actionGrip, &ulHapticDevice) // check grip, you can also get information included in vr::VRInputValueHandle_t, check it out in openvr.h
+			*/
 			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
 			leftHand.update();
 			rightHand.update();
