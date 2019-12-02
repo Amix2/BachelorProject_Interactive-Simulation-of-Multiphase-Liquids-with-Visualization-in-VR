@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <OpenVR/openvr.h>
 #include <Logger.h>
 
@@ -7,6 +8,8 @@ class SteamIVRInput {
 public:
 	void Init();
 	void InnerActionUpdate();
+	std::map<vr::EVRButtonId, vr::InputAnalogActionData_t> GetAllAnalogEvents(vr::ETrackedControllerRole ControllerRole);
+	std::map<vr::EVRButtonId, vr::InputDigitalActionData_t> GetAllDigitalEvents(vr::ETrackedControllerRole ControllerRole);
 	bool nextSongSet();
 	bool GetDigitalActionState(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath = nullptr);
 	bool GetDigitalActionRisingEdge(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath = nullptr);
@@ -42,9 +45,18 @@ private:
 	vr::VRActionHandle_t m_LeftTriggerButtonHandler = {};
 	vr::VRActionHandle_t m_RightGripButtonHandler = {};
 	vr::VRActionHandle_t m_LeftGripButtonHandler = {};
+	vr::VRActionHandle_t m_RightAnalogHandler = {};
+	vr::VRActionHandle_t m_LeftAnalogHandler = {};
+	vr::VRActionHandle_t m_RightMenuButtonHandler{};
+	vr::VRActionHandle_t m_LeftMenuButtonHandler{};
 	vr::VRActionSetHandle_t m_mainSetHandler = {};
 	vr::VRActiveActionSet_t m_activeActionSet = {};
 	vr::InputDigitalActionData_t m_nextSongData = {};
+
+	vr::InputDigitalActionData_t tri_left, tri_right;
+	vr::InputDigitalActionData_t grip_left, grip_right;
+	vr::InputDigitalActionData_t menu_left, menu_right;
+	vr::InputAnalogActionData_t analog_left, analog_right;
 };
 
 // These two are set in action_manifest.json. They must match or you'll get errors/things that don't work with no errors.
