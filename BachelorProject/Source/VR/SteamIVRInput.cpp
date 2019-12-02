@@ -6,32 +6,97 @@
 void SteamIVRInput::Init()
 {
 
-	vr::VRInput()->SetActionManifestPath("C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\hellovr_actions.json");
+	//auto error = vr::VRInput()->SetActionManifestPath("C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\hellovr_actions.json");
+	//if (error != vr::EVRInputError::VRInputError_None)
+	//{
+	//	std::cerr << "Action manifest error\n";
+	//}
 
-	vr::VRInput()->GetActionHandle("/actions/demo/in/HideCubes", &m_actionTrigger);
-	vr::VRInput()->GetActionHandle("/actions/demo/in/HideThisController", &m_actionApplicationMenu);
-	vr::VRInput()->GetActionHandle("/actions/demo/in/TriggerHaptic", &m_actionGrip);
-	vr::VRInput()->GetActionHandle("/actions/demo/in/AnalogInput", &m_actionAnalongInput);
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/HideCubes", &m_actionTrigger);
+	//if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/HideThisController", &m_actionApplicationMenu); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/TriggerHaptic", &m_actionGrip); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/AnalogInput", &m_actionAnalongInput); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
 
-	vr::VRInput()->GetActionSetHandle("/actions/demo", &m_actionsetDemo);
+	//error = vr::VRInput()->GetActionSetHandle("/actions/demo", &m_actionsetDemo); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
 
-	vr::VRInput()->GetActionHandle("/actions/demo/out/Haptic_Left", &m_rHand[Left].m_actionHaptic);
-	vr::VRInput()->GetInputSourceHandle("/user/hand/left", &m_rHand[Left].m_source);
-	vr::VRInput()->GetActionHandle("/actions/demo/in/Hand_Left", &m_rHand[Left].m_actionPose);
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/out/Haptic_Left", &m_rHand[Left].m_actionHaptic); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetInputSourceHandle("/user/hand/left", &m_rHand[Left].m_source); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/Hand_Left", &m_rHand[Left].m_actionPose); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
 
-	vr::VRInput()->GetActionHandle("/actions/demo/out/Haptic_Right", &m_rHand[Right].m_actionHaptic);
-	vr::VRInput()->GetInputSourceHandle("/user/hand/right", &m_rHand[Right].m_source);
-	vr::VRInput()->GetActionHandle("/actions/demo/in/Hand_Right", &m_rHand[Right].m_actionPose);
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/out/Haptic_Right", &m_rHand[Right].m_actionHaptic); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetInputSourceHandle("/user/hand/right", &m_rHand[Right].m_source); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+	//error = vr::VRInput()->GetActionHandle("/actions/demo/in/Hand_Right", &m_rHand[Right].m_actionPose); if (error != vr::EVRInputError::VRInputError_None) { std::cerr << "Handle error.\n"; }
+
+	//return;
+
+	//if (error != vr::EVRInputError::VRInputError_None){std::cerr << "Handle error.\n";}
+
+
+	//////////////////////////////////////////////////////////////
+
+		// Set the action manifest. This should be in the executable directory.
+	// Defined by m_actionManifestPath.
+	auto error = vr::VRInput()->SetActionManifestPath("C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\action_manifest.json");
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Action manifest error\n";
+	}
+
+	// Get action handle
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/PlayNextTrack", &m_nextSongHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	///////////		TRIGGER
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/right_trigger_button", &m_RightTriggerButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/left_trigger_button", &m_LeftTriggerButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	///////////		GRIP
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/right_grip_button", &m_RightGripButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/left_grip_button", &m_LeftGripButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+
+
+
+	// Get set handle
+	error = vr::VRInput()->GetActionSetHandle("/actions/main", &m_mainSetHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+
+	m_activeActionSet.ulActionSet = m_mainSetHandler;
+	m_activeActionSet.ulRestrictedToDevice = vr::k_ulInvalidInputValueHandle;
+	// When I didn't manually set priority zero it didn't work for me, for unknown reasons.
+	m_activeActionSet.nPriority = 0;
 
 }
 
 bool SteamIVRInput::nextSongSet()
 {
-	auto e = vr::VRInput()->GetDigitalActionData(
-		m_actionTrigger,
-		&m_nextSongData,
-		sizeof(m_nextSongData),
-		vr::k_ulInvalidInputValueHandle);
+	auto e = vr::VRInput()->GetDigitalActionData(m_nextSongHandler,&m_nextSongData,sizeof(m_nextSongData),vr::k_ulInvalidInputValueHandle);
 
 	if (e != vr::EVRInputError::VRInputError_None)
 	{
@@ -53,7 +118,6 @@ void SteamIVRInput::InnerActionUpdate()
 {
 	// Getting the correct sizeof is critical.
 	// Make sure to match digital/analog with the function you're calling.
-	this->m_activeActionSet.nPriority = 0;
 	auto error = vr::VRInput()->UpdateActionState(
 		&m_activeActionSet, sizeof(m_activeActionSet), 1);
 
@@ -61,12 +125,25 @@ void SteamIVRInput::InnerActionUpdate()
 	{
 		std::cerr << "Loop error.\n";
 	}
+
+
+	vr::InputDigitalActionData_t tri_left, tri_right;
+	vr::VRInput()->GetDigitalActionData(m_RightTriggerButtonHandler, &tri_right, sizeof(tri_right), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_LeftTriggerButtonHandler, &tri_left, sizeof(tri_left), vr::k_ulInvalidInputValueHandle);
+	//LOG_F(WARNING, "trigger \t%d, \t%d", tri_left.bState, tri_right.bState);
+
+	vr::InputDigitalActionData_t grip_left, grip_right;
+	vr::VRInput()->GetDigitalActionData(m_RightGripButtonHandler, &grip_right, sizeof(grip_right), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_LeftGripButtonHandler, &grip_left, sizeof(grip_left), vr::k_ulInvalidInputValueHandle);
+	LOG_F(WARNING, "grip \t%d, \t%d", grip_left.bState, grip_right.bState);
 }
+
+
 
 bool SteamIVRInput::GetDigitalActionState(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath)
 {
 	vr::InputDigitalActionData_t actionData;
-	vr::VRInput()->GetDigitalActionData(action, &actionData, sizeof(actionData), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_nextSongHandler, &actionData, sizeof(actionData), vr::k_ulInvalidInputValueHandle);
 	if (pDevicePath)
 	{
 		*pDevicePath = vr::k_ulInvalidInputValueHandle;

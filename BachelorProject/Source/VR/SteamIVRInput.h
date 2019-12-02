@@ -1,6 +1,7 @@
 #pragma once
 
 #include <OpenVR/openvr.h>
+#include <Logger.h>
 
 class SteamIVRInput {
 public:
@@ -37,6 +38,10 @@ private:
 	//Using an action manifest from a path that isn't the executable path doesn't work for whatever reason.
 	const std::string m_actionManifestPath = "C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\action_manifest.json";
 	vr::VRActionHandle_t m_nextSongHandler = {};
+	vr::VRActionHandle_t m_RightTriggerButtonHandler = {};
+	vr::VRActionHandle_t m_LeftTriggerButtonHandler = {};
+	vr::VRActionHandle_t m_RightGripButtonHandler = {};
+	vr::VRActionHandle_t m_LeftGripButtonHandler = {};
 	vr::VRActionSetHandle_t m_mainSetHandler = {};
 	vr::VRActiveActionSet_t m_activeActionSet = {};
 	vr::InputDigitalActionData_t m_nextSongData = {};

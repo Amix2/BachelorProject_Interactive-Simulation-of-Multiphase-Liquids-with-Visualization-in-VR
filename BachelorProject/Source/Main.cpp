@@ -156,22 +156,22 @@ int main(int argc, char ** argv) {
 	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
 
 	SteamIVRInput a;
+	a.Init();
 
 	a.InnerActionUpdate();
 
-	a.InnerActionUpdate();
-	while (!a.nextSongSet())
-	{
-		a.InnerActionUpdate();
-		if (a.nextSongSet())
-		{
-			LOG_F(WARNING, "success\n\n\n\n");
-		}
-		else
-		{
-			LOG_F(WARNING, "nope");
-		}
-	}
+	//while (!a.nextSongSet())
+	//{
+	//	a.InnerActionUpdate();
+	//	if (a.nextSongSet())
+	//	{
+	//		//LOG_F(WARNING, "success\n\n\n\n");
+	//	}
+	//	else
+	//	{
+	//		//LOG_F(WARNING, "nope");
+	//	}
+	//}
 	do 
 	{
 		glassController.assignUntrackedObjects(scene);
@@ -179,7 +179,7 @@ int main(int argc, char ** argv) {
 			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
 			bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
 			bool trig = a.GetDigitalActionState(a.m_actionTrigger); // check trigger button
-			LOG_F(WARNING, "m: %d, tri: %d", menu, trig);
+			//LOG_F(WARNING, "m: %d, tri: %d", menu, trig);
 			/*
 
 			vr::VRInputValueHandle_t ulHapticDevice;
