@@ -1,6 +1,8 @@
 #include "SteamIVRInput.h"
 #include <pathtools.h>
 #include <iostream>
+#include <utility>
+#include <map>
 #include <OpenVR/openvr.h>
 
 void SteamIVRInput::Init()
@@ -89,6 +91,19 @@ void SteamIVRInput::Init()
 		std::cerr << "Handle error.\n";
 	}
 
+	///////////		MENU
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/right_menu_button", &m_RightMenuButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/left_menu_button", &m_LeftMenuButtonHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
 
 
 
@@ -140,22 +155,66 @@ void SteamIVRInput::InnerActionUpdate()
 	}
 
 
-	vr::InputAnalogActionData_t tri_left, tri_right;
-	vr::VRInput()->GetAnalogActionData(m_RightTriggerButtonHandler, &tri_right, sizeof(tri_right), vr::k_ulInvalidInputValueHandle);
-	vr::VRInput()->GetAnalogActionData(m_LeftTriggerButtonHandler, &tri_left, sizeof(tri_left), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_RightTriggerButtonHandler, &tri_right, sizeof(tri_right), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_LeftTriggerButtonHandler, &tri_left, sizeof(tri_left), vr::k_ulInvalidInputValueHandle);
 	//LOG_F(WARNING, "trigger \t%f, \t%f", tri_left.x, tri_right.x);
 
-	vr::InputDigitalActionData_t grip_left, grip_right;
 	vr::VRInput()->GetDigitalActionData(m_RightGripButtonHandler, &grip_right, sizeof(grip_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftGripButtonHandler, &grip_left, sizeof(grip_left), vr::k_ulInvalidInputValueHandle);
 	//LOG_F(WARNING, "grip \t%d, \t%d", grip_left.bState, grip_right.bState);
 
-	vr::InputAnalogActionData_t analog_left, analog_right;
+	vr::VRInput()->GetDigitalActionData(m_RightMenuButtonHandler, &menu_right, sizeof(menu_right), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetDigitalActionData(m_LeftMenuButtonHandler, &menu_left, sizeof(menu_left), vr::k_ulInvalidInputValueHandle);
+	//LOG_F(WARNING, "grip \t%d, \t%d", menu_left.bState, menu_right.bState);
+
 	vr::VRInput()->GetAnalogActionData(m_RightAnalogHandler, &analog_right, sizeof(analog_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetAnalogActionData(m_LeftAnalogHandler, &analog_left, sizeof(analog_left), vr::k_ulInvalidInputValueHandle);
 	LOG_F(WARNING, "analog \t%f, \t%f", analog_left.x, analog_right.x);
 }
 
+std::map<vr::EVRButtonId, vr::InputAnalogActionData_t> SteamIVRInput::GetAllAnalogEvents(vr::ETrackedControllerRole ControllerRole)
+{
+	std::map<vr::EVRButtonId, vr::InputAnalogActionData_t> AnalogEvents{};
+	switch (ControllerRole)
+	{
+	case vr::TrackedControllerRole_LeftHand:
+		AnalogEvents.insert(std::pair<vr::EVRButtonId, vr::InputAnalogActionData_t>(vr::EVRButtonId::k_EButton_A, analog_left));
+		break;
+
+	case vr::TrackedControllerRole_RightHand:
+		AnalogEvents.insert(std::pair< vr::EVRButtonId, vr::InputAnalogActionData_t>(vr::EVRButtonId::k_EButton_A, analog_right));
+		break;
+
+	default:
+		break;
+	}
+
+	return AnalogEvents;
+}
+
+std::map<vr::EVRButtonId, vr::InputDigitalActionData_t> SteamIVRInput::GetAllDigitalEvents(vr::ETrackedControllerRole ControllerRole)
+{
+	std::map<vr::EVRButtonId, vr::InputDigitalActionData_t> DigitalEvents{};
+	switch (ControllerRole)
+	{
+	case vr::TrackedControllerRole_LeftHand:
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_ApplicationMenu, menu_left));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, menu_left));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, menu_left));
+		break;
+
+	case vr::TrackedControllerRole_RightHand:
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_ApplicationMenu, menu_right));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, menu_right));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, menu_right));
+		break;
+
+	default:
+		break;
+	}
+
+	return DigitalEvents;
+}
 
 
 bool SteamIVRInput::GetDigitalActionState(vr::VRActionHandle_t action, vr::VRInputValueHandle_t* pDevicePath)
