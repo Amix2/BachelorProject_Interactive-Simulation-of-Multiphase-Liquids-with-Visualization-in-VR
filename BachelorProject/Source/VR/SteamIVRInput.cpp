@@ -199,14 +199,14 @@ std::map<vr::EVRButtonId, vr::InputDigitalActionData_t> SteamIVRInput::GetAllDig
 	{
 	case vr::TrackedControllerRole_LeftHand:
 		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_ApplicationMenu, menu_left));
-		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, menu_left));
-		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, menu_left));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, grip_left));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, tri_left));
 		break;
 
 	case vr::TrackedControllerRole_RightHand:
 		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_ApplicationMenu, menu_right));
-		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, menu_right));
-		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, menu_right));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_Grip, grip_right));
+		DigitalEvents.insert(std::pair<vr::EVRButtonId, vr::InputDigitalActionData_t>(vr::EVRButtonId::k_EButton_SteamVR_Trigger, tri_right));
 		break;
 
 	default:
