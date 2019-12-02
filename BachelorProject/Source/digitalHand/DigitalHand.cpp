@@ -58,6 +58,8 @@ void DigitalHand::update()
 	// update matrix for hand
 	// load() function will draw it with this matrix
 
+
+
 	if (m_selectedObject == nullptr)  tryGrabDistance();
 	else teleportObjectToHand();
 

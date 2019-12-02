@@ -117,8 +117,11 @@ int main(int argc, char ** argv) {
 
 	CameraController* cameraController = nullptr;
 	FrameBuffer* vrFrameBuffer = nullptr;
+	SteamIVRInput a;
 
 	if ((HmdConnected = vrglinterop.hasVR())) {
+		a.Init();
+
 		vrFrameBuffer = new FrameBuffer{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
 		vrFrameBuffer->init();
 		ViewPort leftEyeViewPort{ *vrFrameBuffer,  0.0f, 0.0f, 0.5f, 1.0f };
@@ -155,10 +158,8 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
 	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
 
-	SteamIVRInput a;
-	a.Init();
 
-	a.InnerActionUpdate();
+
 
 	//while (!a.nextSongSet())
 	//{
@@ -177,7 +178,6 @@ int main(int argc, char ** argv) {
 	//LOG_F(WARNING, "%d, %d", controlers.first, controlers.second);
 	do 
 	{
-		glassController.assignUntrackedObjects(scene);
 		if (HmdConnected) {
 			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
 			bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
@@ -193,15 +193,17 @@ int main(int argc, char ** argv) {
 			rightHand.update();
 			vrFrameBuffer->drawTo();
 		}
-
 		glassController.assignUntrackedObjects(scene);
+
 		scene.renderScene();
+
 
 		if (HmdConnected) {
 			vrglinterop.sumbitFrame(*vrFrameBuffer);
 			window.getFrameFrom(*vrFrameBuffer);
 		}
 		window.refresh();
+
 		//SelectableObjectManager::m_selectableObjects;
 		//for (SelectableObject* object : SelectableObjectManager::m_selectableObjects) object->getVRActionController()->triggerButton();
 	} while (!window.shouldClose());
@@ -235,7 +237,7 @@ void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR:
 	scene.addMaterialObject(&fluid, 1);
 	scene.addMaterialObject(&axes, 1);
 	scene.addMaterialObject(&vectorNormals, 1);
-	//scene.addMaterialObject(&moveIndicatorObject, 1);
+	scene.addMaterialObject(&moveIndicatorObject, 1);
 }
 
 void initTools(ShaderProgram programPyramidPointer)
