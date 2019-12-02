@@ -212,7 +212,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <IncludePath>.\_include;.\Source;$(IncludePath)</IncludePath>
-    <TargetName>BachelorProject_</TargetName>
+    <TargetName>BachelorProject__</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>

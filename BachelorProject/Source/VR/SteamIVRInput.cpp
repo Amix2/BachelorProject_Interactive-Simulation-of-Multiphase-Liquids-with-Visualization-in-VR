@@ -6,7 +6,7 @@
 void SteamIVRInput::Init()
 {
 
-	vr::VRInput()->SetActionManifestPath(Path_MakeAbsolute("../hellovr_actions.json", Path_StripFilename(Path_GetExecutablePath())).c_str());
+	vr::VRInput()->SetActionManifestPath("C:\\Users\\admin\\Desktop\\cmder\\BachelorProject\\x64\\Debug\\hellovr_actions.json");
 
 	vr::VRInput()->GetActionHandle("/actions/demo/in/HideCubes", &m_actionTrigger);
 	vr::VRInput()->GetActionHandle("/actions/demo/in/HideThisController", &m_actionApplicationMenu);
@@ -28,7 +28,7 @@ void SteamIVRInput::Init()
 bool SteamIVRInput::nextSongSet()
 {
 	auto e = vr::VRInput()->GetDigitalActionData(
-		m_nextSongHandler,
+		m_actionTrigger,
 		&m_nextSongData,
 		sizeof(m_nextSongData),
 		vr::k_ulInvalidInputValueHandle);
@@ -53,6 +53,7 @@ void SteamIVRInput::InnerActionUpdate()
 {
 	// Getting the correct sizeof is critical.
 	// Make sure to match digital/analog with the function you're calling.
+	this->m_activeActionSet.nPriority = 0;
 	auto error = vr::VRInput()->UpdateActionState(
 		&m_activeActionSet, sizeof(m_activeActionSet), 1);
 

@@ -159,27 +159,28 @@ int main(int argc, char ** argv) {
 
 	a.InnerActionUpdate();
 
-	//a.Loop();
-	//while (!a.nextSongSet())
-	//{
-	//	a.Loop();
-	//	if (a.nextSongSet())
-	//	{
-	//		LOG_F(WARNING, "success\n\n\n\n");
-	//	}
-	//	else
-	//	{
-	//		LOG_F(WARNING, "nope");
-	//	}
-	//}
+	a.InnerActionUpdate();
+	while (!a.nextSongSet())
+	{
+		a.InnerActionUpdate();
+		if (a.nextSongSet())
+		{
+			LOG_F(WARNING, "success\n\n\n\n");
+		}
+		else
+		{
+			LOG_F(WARNING, "nope");
+		}
+	}
 	do 
 	{
 		glassController.assignUntrackedObjects(scene);
 		if (HmdConnected) {
 			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
+			bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
+			bool trig = a.GetDigitalActionState(a.m_actionTrigger); // check trigger button
+			LOG_F(WARNING, "m: %d, tri: %d", menu, trig);
 			/*
-			a.GetDigitalActionState(a.m_actionApplicationMenu) // check application menu button
-			a.GetDigitalActionState(a.m_actionTrigger) // check trigger button
 
 			vr::VRInputValueHandle_t ulHapticDevice;
 			a.GetDigitalActionRisingEdge(a.m_actionGrip, &ulHapticDevice) // check grip, you can also get information included in vr::VRInputValueHandle_t, check it out in openvr.h
