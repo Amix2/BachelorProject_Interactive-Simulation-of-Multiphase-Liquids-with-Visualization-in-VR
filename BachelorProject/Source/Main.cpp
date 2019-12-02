@@ -149,6 +149,11 @@ int main(int argc, char ** argv) {
 	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop);
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
+	if (HmdConnected)
+	{
+		leftHand.GetTrackedIndices();
+		rightHand.GetTrackedIndices();
+	}
 
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 0, 0 }, true);
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);

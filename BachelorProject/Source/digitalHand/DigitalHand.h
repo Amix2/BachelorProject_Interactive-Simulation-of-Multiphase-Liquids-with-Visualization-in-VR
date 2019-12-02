@@ -10,6 +10,9 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <Utils.h>
 #include <actionControllers/VRActionController.h>
+#include <OpenVR/openvr.h>
+#include <utility>
+#include <map>
 
 class PyramidPointerMaterialObject;
 
@@ -34,6 +37,9 @@ private:
 	VRActionController* m_selectedActionController = nullptr;
 	glm::mat4 m_handMatrix;
 	glm::mat4 m_grabMatrixOffset = glm::mat4(1);
+	vr::TrackedDeviceIndex_t ControllerIndex{};
+	std::map<uint32_t, uint32_t> PressedButtons{};
+	void UpdatePressedButtons();
 
 	glm::mat4 getMyHandMatrix() const;
 	bool tryGrabDistance();
@@ -43,6 +49,7 @@ private:
 	void teleportObjectToHand();
 	void moveObjectWithHand();
 	void setGrabMatrixOffset(SelectableObject* object);
+	vr::TrackedDeviceIndex_t GetTrackedDeviceIndex();
 public:
 
 	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader);
@@ -52,6 +59,8 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const;
 
 	glm::mat4 getModel() const override;
+
+	void GetTrackedIndices();
 
 	void handleKeyPress(int key, KeyState state, float deltaTime) override;
 

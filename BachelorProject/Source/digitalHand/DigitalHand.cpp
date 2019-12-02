@@ -1,5 +1,6 @@
 #include "DigitalHand.h"
 
+#include <utility>
 
 
 
@@ -20,6 +21,12 @@ void DigitalHand::init()
 {
 	m_pyramid = std::make_unique<PyramidPointerMaterialObject>(m_handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 	m_pyramid->init();
+	this->PressedButtons = {
+		{vr::k_EButton_Grip, vr::VREvent_ButtonUnpress},
+		{vr::k_EButton_SteamVR_Trigger, vr::VREvent_ButtonUnpress},
+		{vr::k_EButton_SteamVR_Touchpad, vr::VREvent_ButtonUnpress},
+		{vr::k_EButton_ApplicationMenu, vr::VREvent_ButtonUnpress}
+	};
 }
 
 void DigitalHand::load(const glm::mat4& view, const glm::mat4& projection) const
@@ -35,6 +42,11 @@ glm::mat4 DigitalHand::getModel() const
 	return  m_handMatrix * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 2, glm::vec3(1, 0, 0)) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
 }
 
+void DigitalHand::GetTrackedIndices()
+{
+	this->ControllerIndex = this->GetTrackedDeviceIndex();
+}
+
 void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
 {
 }
@@ -42,6 +54,7 @@ void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
 void DigitalHand::update()
 {
 	m_handMatrix = getMyHandMatrix();
+	this->UpdatePressedButtons();
 	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);
 	Utils::setForward(&m_handMatrix, Utils::getForward(m_handMatrix) * -(1.0f));
 	//LOG_F(WARNING, "%s", glm::to_string(m_handMatrix).c_str());
@@ -56,13 +69,15 @@ void DigitalHand::update()
 
 glm::mat4 DigitalHand::getMyHandMatrix() const
 {
-
+	vr::VRControllerState_t ControllerState;
+	this->vrglinterop->VrCore->GetVrSystem()->GetControllerStateWithPose(vr::TrackingUniverseStanding, this->ControllerIndex,
+		&ControllerState, sizeof(ControllerState), this->vrglinterop->VrGeometry->TrackedDevicePoses + this->ControllerIndex);
 	switch (m_hand) {
 	case LEFT_HAND:
-		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking);
+		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[this->ControllerIndex].mDeviceToAbsoluteTracking);
 		return m_dataProvider->getLeftHandMatrix();
 	case RIGHT_HAND:
-		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking);
+		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[this->ControllerIndex].mDeviceToAbsoluteTracking);
 		return m_dataProvider->getRightHandMatrix();
 	}
 	return glm::mat4();
@@ -166,4 +181,40 @@ void DigitalHand::moveObjectWithHand()
 void DigitalHand::setGrabMatrixOffset(SelectableObject* object)
 {
 	m_grabMatrixOffset = glm::inverse(m_handMatrix) * *(object->getMatrix());
+}
+
+vr::TrackedDeviceIndex_t DigitalHand::GetTrackedDeviceIndex()
+{
+	vr::TrackedDeviceIndex_t Index;
+	for (unsigned int i = 0; i < vr::k_unMaxTrackedDeviceCount; ++i)
+	{
+		auto trackedDeviceClass = this->vrglinterop->VrCore->GetVrSystem()->GetTrackedDeviceClass(i);
+		if (trackedDeviceClass != vr::ETrackedDeviceClass::TrackedDeviceClass_Controller)
+		{
+			continue;
+		}
+		vr::ETrackedControllerRole role = this->vrglinterop->VrCore->GetVrSystem()->GetControllerRoleForTrackedDeviceIndex(i);
+		if ((role == vr::TrackedControllerRole_LeftHand && m_hand == LEFT_HAND) || (role == vr::TrackedControllerRole_RightHand && m_hand == RIGHT_HAND))
+		{
+			Index = i;
+			break;
+		}
+	}
+
+	return Index;
+}
+
+void DigitalHand::UpdatePressedButtons()
+{
+	vr::VREvent_t VrEvent;
+	while (this->vrglinterop->VrCore->GetVrSystem()->PollNextEvent(&VrEvent, sizeof(VrEvent)))
+	{
+		if (this->ControllerIndex == VrEvent.trackedDeviceIndex)
+		{
+			if (VrEvent.eventType == vr::VREvent_ButtonPress || VrEvent.eventType == vr::VREvent_ButtonUnpress)
+			{
+				this->PressedButtons.insert(std::pair<uint32_t, uint32_t>(VrEvent.data.controller.button, VrEvent.eventType));
+			}
+		}
+	}
 }
