@@ -48,7 +48,6 @@ void DigitalHand::update()
 
 		if (m_deviceIndex == -1) return;
 	}
-	LOG_F(WARNING, "%d", m_deviceIndex);
 
 	m_handMatrix = getMyHandMatrix();
 	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);

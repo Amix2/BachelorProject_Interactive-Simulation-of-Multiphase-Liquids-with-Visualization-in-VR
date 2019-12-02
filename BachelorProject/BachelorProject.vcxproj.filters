@@ -58,6 +58,7 @@
     <ClCompile Include="Source\pathotools.cpp" />
     <ClCompile Include="Source\strtools.cpp" />
     <ClCompile Include="Source\emiters\EmiterVRActionController.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectVRActionController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />

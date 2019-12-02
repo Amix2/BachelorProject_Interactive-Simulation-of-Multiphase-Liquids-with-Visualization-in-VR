@@ -157,7 +157,7 @@ int main(int argc, char ** argv) {
 
 	SteamIVRInput a;
 	a.Init();
-
+//
 	a.InnerActionUpdate();
 
 	//while (!a.nextSongSet())
@@ -180,8 +180,8 @@ int main(int argc, char ** argv) {
 		glassController.assignUntrackedObjects(scene);
 		if (HmdConnected) {
 			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
-			bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
-			bool trig = a.GetDigitalActionState(a.m_actionTrigger); // check trigger button
+			//bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
+			//bool trig = a.GetDigitalActionState(a.m_actionTrigger); // check trigger button
 			//LOG_F(WARNING, "m: %d, tri: %d", menu, trig);
 			/*
 

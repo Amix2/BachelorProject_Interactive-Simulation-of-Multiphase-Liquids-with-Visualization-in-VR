@@ -76,6 +76,19 @@ void SteamIVRInput::Init()
 		std::cerr << "Handle error.\n";
 	}
 
+	///////////		ANALOG
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/right_analog", &m_RightAnalogHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
+	error = vr::VRInput()->GetActionHandle("/actions/main/in/left_analog", &m_LeftAnalogHandler);
+	if (error != vr::EVRInputError::VRInputError_None)
+	{
+		std::cerr << "Handle error.\n";
+	}
+
 
 
 
@@ -140,7 +153,7 @@ void SteamIVRInput::InnerActionUpdate()
 	vr::InputAnalogActionData_t analog_left, analog_right;
 	vr::VRInput()->GetAnalogActionData(m_RightAnalogHandler, &analog_right, sizeof(analog_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetAnalogActionData(m_LeftAnalogHandler, &analog_left, sizeof(analog_left), vr::k_ulInvalidInputValueHandle);
-	LOG_F(WARNING, "analog \t%f, \t%f", analog_left.deltaX, analog_right.deltaX);
+	LOG_F(WARNING, "analog \t%f, \t%f", analog_left.x, analog_right.x);
 }
 
 

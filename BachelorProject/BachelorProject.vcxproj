@@ -22,6 +22,7 @@
     <ClCompile Include="Source\digitalHand\HandDataProvider.cpp" />
     <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
     <ClCompile Include="Source\emiters\EmiterVRActionController.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectVRActionController.cpp" />
     <ClCompile Include="Source\pathotools.cpp" />
     <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
     <ClCompile Include="Source\strtools.cpp" />
