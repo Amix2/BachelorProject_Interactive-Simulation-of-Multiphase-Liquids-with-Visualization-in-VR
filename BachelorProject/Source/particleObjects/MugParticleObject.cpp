@@ -15,7 +15,7 @@ void MugParticleObject::release()
 
 glm::mat4* MugParticleObject::getMatrix()
 {
-	return &(m_destinationMatrix);
+	return &(m_matrix);
 }
 
 MugParticleObject::MugParticleObject(ParticleObjectDetais details, int& numOfParts) : ParticleObject() {
@@ -38,7 +38,7 @@ void MugParticleObject::stepTowardsDestination()
 	if (distanceToDestination < BOTH_DISTANCE)	angleCoef = 1.f;
 	else if (distanceToDestination < LINEAR_DISTANCE) angleCoef = (LINEAR_DISTANCE - distanceToDestination) / (LINEAR_DISTANCE - BOTH_DISTANCE) ;
 	else angleCoef = 0.f;
-
+	angleCoef = 1.f;
 	float stepDistanceChange = min(maxPositionChange, Configuration.MAX_GLASS_PARTICLE_STEP_DISTANCE*0.5f);
 
 	float linearPositionChange = 0;
@@ -131,8 +131,7 @@ glm::vec3 getPerpendicular(const glm::vec3 vec1, const glm::vec3 vec2) {
 	if (length > 0)
 		return glm::vec3(crossX / length, crossY / length, crossZ / length);
 	else
-		throw "sss";
-		return glm::vec3();
+		return glm::vec3(1,0,0);
 }
 
 void MugParticleObject::create(ParticleObjectDetais details, int& numOfParts)

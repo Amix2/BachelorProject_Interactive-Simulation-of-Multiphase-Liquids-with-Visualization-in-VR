@@ -69,7 +69,12 @@ void DigitalHand::update()
 	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);
 	Utils::setForward(&m_handMatrix, Utils::getForward(m_handMatrix) * -(1.0f));
 
-	LOG_F(WARNING, "%d  %d", digitalInputMap[TRIGGER_BUTTON].bState, digitalInputMap[GRIP_BUTTON].bChanged);
+<<<<<<< Updated upstream
+
+
+	if (m_selectedObject == nullptr)  tryGrabDistance();
+	else teleportObjectToHand();
+=======
 	bool deselectObject = false;
 
 	if (digitalInputMap[GRIP_BUTTON].bChanged == true and digitalInputMap[GRIP_BUTTON].bState == true) {
@@ -80,7 +85,7 @@ void DigitalHand::update()
 			tryGrabDistance();
 		}
 	}
-
+>>>>>>> Stashed changes
 
 	if (digitalInputMap[TRIGGER_BUTTON].bChanged == true and digitalInputMap[TRIGGER_BUTTON].bState == true) {
 		if (m_selectedObject == nullptr) {

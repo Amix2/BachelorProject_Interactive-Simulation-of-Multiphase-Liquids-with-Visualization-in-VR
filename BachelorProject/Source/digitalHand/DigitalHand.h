@@ -10,6 +10,7 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <Utils.h>
 #include <actionControllers/VRActionController.h>
+#include <VR/SteamIVRInput.h>
 
 class PyramidPointerMaterialObject;
 
@@ -26,6 +27,7 @@ private:
 	const inline static float ANGLE_GRAB_DIFFERENCE = 0.55f;	// ~30 deg
 	const inline static glm::mat4 SCALE_MATRIX = glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 });
 	VR::VRGLInterop* m_vrglinterop;
+	SteamIVRInput* m_steamInput;
 	HandDataProvider* m_dataProvider;
 	std::unique_ptr<PyramidPointerMaterialObject> m_pyramid;
 	Hand m_hand;
@@ -47,7 +49,7 @@ private:
 public:
 
 	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader);
-	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop);
+	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop, SteamIVRInput* steamInput);
 
 	void init();
 	void load(const glm::mat4& view, const glm::mat4& projection) const;

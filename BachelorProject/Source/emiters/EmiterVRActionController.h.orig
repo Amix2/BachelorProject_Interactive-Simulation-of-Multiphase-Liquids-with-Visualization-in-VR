@@ -11,7 +11,11 @@ public:
 	void gripButton(vr::InputDigitalActionData_t event) const;
 	void menuButton(vr::InputDigitalActionData_t event) const;
 
+<<<<<<< Updated upstream
+	void touchpad(vr::InputAnalogActionData_t event) const;
+=======
 	void touchpadMovement(const glm::vec2& position, const glm::vec2& move) const;
+>>>>>>> Stashed changes
 
 	void handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) const;
 

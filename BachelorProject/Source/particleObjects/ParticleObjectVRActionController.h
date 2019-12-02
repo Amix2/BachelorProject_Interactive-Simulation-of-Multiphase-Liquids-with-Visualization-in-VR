@@ -16,5 +16,5 @@ public:
 private:
 	ParticleObject* m_object;
 	bool isGrabbed = false;
-	bool isPulled = false
+	bool isPulled = false;
 };

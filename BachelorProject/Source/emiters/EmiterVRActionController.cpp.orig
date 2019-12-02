@@ -7,12 +7,12 @@ RespectOffset m_respectOffset = RespectOffset::NONE;
 
 void EmiterVRActionController::triggerButton(vr::InputDigitalActionData_t event) const
 {
-
-
-
+<<<<<<< Updated upstream
+	//
+=======
 	if(event.bActive and event.bChanged)
 		m_respectOffset = RespectOffset( ((int)m_respectOffset+1) % 3);
-
+>>>>>>> Stashed changes
 }
 
 void EmiterVRActionController::gripButton(vr::InputDigitalActionData_t event) const
@@ -24,26 +24,36 @@ void EmiterVRActionController::menuButton(vr::InputDigitalActionData_t event) co
 {
 }
 
-
+<<<<<<< Updated upstream
+void EmiterVRActionController::touchpad(vr::InputAnalogActionData_t event) const
+{
+	if (event.deltaX < 0)
+	{
+		this->m_emiter->decreaseVelocity(-10 * event.deltaX);
+	}
+	else
+	{
+		this->m_emiter->increaseVelocity(10 * event.deltaX);
+	}
+	if (event.deltaY < 0)
+	{
+		this->m_emiter->decreaseSize(-10 * event.deltaY);
+	}
+	else
+	{
+		this->m_emiter->increaseSize(10 * event.deltaY);
+	}
+=======
 void EmiterVRActionController::touchpadMovement(const glm::vec2& position, const glm::vec2& move) const
 {
-	if (move.x < 0)
-	{
-		this->m_emiter->decreaseVelocity(-10 * move.x);
-	}
-	else
-	{
-		this->m_emiter->increaseVelocity(10 * move.x);
-	}
-	if (move.y < 0)
-	{
-		this->m_emiter->decreaseSize(-10 * move.y);
-	}
-	else
-	{
-		this->m_emiter->increaseSize(10 * move.y);
-	}
 
+	//if (abs(move.x) > abs(move.y)) {
+	//	// move in X axis
+	//	if (move.x > 0) {
+	//		m_emiter->
+	//	}
+	//}
+>>>>>>> Stashed changes
 }
 
 void EmiterVRActionController::handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) const

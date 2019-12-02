@@ -161,15 +161,15 @@ void SteamIVRInput::InnerActionUpdate()
 
 	vr::VRInput()->GetDigitalActionData(m_RightGripButtonHandler, &grip_right, sizeof(grip_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftGripButtonHandler, &grip_left, sizeof(grip_left), vr::k_ulInvalidInputValueHandle);
-	//LOG_F(WARNING, "grip \t%d, \t%d", grip_left.bState, grip_right.bState);
+	////LOG_F(WARNING, "grip \t%d, \t%d", grip_left.bState, grip_right.bState);
 
 	vr::VRInput()->GetDigitalActionData(m_RightMenuButtonHandler, &menu_right, sizeof(menu_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftMenuButtonHandler, &menu_left, sizeof(menu_left), vr::k_ulInvalidInputValueHandle);
-	//LOG_F(WARNING, "grip \t%d, \t%d", menu_left.bState, menu_right.bState);
+	////LOG_F(WARNING, "menu_left \t%d, \t%d", menu_left.bState, menu_right.bState);
 
 	vr::VRInput()->GetAnalogActionData(m_RightAnalogHandler, &analog_right, sizeof(analog_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetAnalogActionData(m_LeftAnalogHandler, &analog_left, sizeof(analog_left), vr::k_ulInvalidInputValueHandle);
-	LOG_F(WARNING, "analog \t%f, \t%f", analog_left.x, analog_right.x);
+	//LOG_F(WARNING, "analog \t%f, \t%f", analog_right.x, analog_right.y);
 }
 
 std::map<vr::EVRButtonId, vr::InputAnalogActionData_t> SteamIVRInput::GetAllAnalogEvents(vr::ETrackedControllerRole ControllerRole)

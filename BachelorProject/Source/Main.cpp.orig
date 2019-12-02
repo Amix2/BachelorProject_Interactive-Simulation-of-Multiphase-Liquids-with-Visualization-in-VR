@@ -157,7 +157,18 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 0, 0 }, true);
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
 	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
+<<<<<<< Updated upstream
 
+
+	SteamIVRInput a;
+	if (HmdConnected)
+	{
+		a.Init();
+		//
+		a.InnerActionUpdate();
+	}
+=======
+>>>>>>> Stashed changes
 	//while (!a.nextSongSet())
 	//{
 	//	a.InnerActionUpdate();

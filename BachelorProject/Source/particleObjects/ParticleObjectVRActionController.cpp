@@ -20,5 +20,5 @@ void ParticleObjectVRActionController::handMovement(const glm::mat4& positionMat
 	else if (isGrabbed)
 		m_object->setDestinationMatrix(positionMatrix * grabOffset);
 	else
-		m_object->setDestinationMatrix(m_object->getMatrix);
+		m_object->setDestinationMatrix(*m_object->getMatrix());
 }
