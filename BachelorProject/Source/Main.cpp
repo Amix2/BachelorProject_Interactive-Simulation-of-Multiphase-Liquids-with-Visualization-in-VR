@@ -159,8 +159,13 @@ int main(int argc, char ** argv) {
 	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
 
 
-
-
+	SteamIVRInput a;
+	if (HmdConnected)
+	{
+		a.Init();
+		//
+		a.InnerActionUpdate();
+	}
 	//while (!a.nextSongSet())
 	//{
 	//	a.InnerActionUpdate();

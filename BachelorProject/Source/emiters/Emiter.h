@@ -38,7 +38,6 @@ private:
 	int m_fluidType = 0;
 	bool m_isActive		= false;
 	float m_rotationAngle	= 0;
-	bool m_updateMatrix = true;
 	glm::mat4 m_Matrix	= glm::mat4();
 	bool m_selected = false;
 
@@ -79,6 +78,7 @@ public:
 	void init();
 	void load(const glm::mat4& view, const glm::mat4& projection) const;
 
+	bool m_updateMatrix = true;
 
 	std::string toString();
 };

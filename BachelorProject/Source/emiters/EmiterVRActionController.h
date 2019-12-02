@@ -11,6 +11,8 @@ public:
 	void gripButton(vr::InputDigitalActionData_t event) const;
 	void menuButton(vr::InputDigitalActionData_t event) const;
 
+	void touchpad(vr::InputAnalogActionData_t event) const;
+
 	void handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) const;
 
 private:
