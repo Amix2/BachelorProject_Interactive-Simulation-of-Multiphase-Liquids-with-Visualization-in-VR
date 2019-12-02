@@ -42,6 +42,8 @@ private:
 	vr::VRActionHandle_t m_LeftTriggerButtonHandler = {};
 	vr::VRActionHandle_t m_RightGripButtonHandler = {};
 	vr::VRActionHandle_t m_LeftGripButtonHandler = {};
+	vr::VRActionHandle_t m_RightAnalogHandler = {};
+	vr::VRActionHandle_t m_LeftAnalogHandler = {};
 	vr::VRActionSetHandle_t m_mainSetHandler = {};
 	vr::VRActiveActionSet_t m_activeActionSet = {};
 	vr::InputDigitalActionData_t m_nextSongData = {};

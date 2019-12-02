@@ -96,7 +96,7 @@ void SteamIVRInput::Init()
 
 bool SteamIVRInput::nextSongSet()
 {
-	auto e = vr::VRInput()->GetDigitalActionData(m_nextSongHandler,&m_nextSongData,sizeof(m_nextSongData),vr::k_ulInvalidInputValueHandle);
+	auto e = vr::VRInput()->GetDigitalActionData(m_nextSongHandler, &m_nextSongData, sizeof(m_nextSongData), vr::k_ulInvalidInputValueHandle);
 
 	if (e != vr::EVRInputError::VRInputError_None)
 	{
@@ -136,6 +136,11 @@ void SteamIVRInput::InnerActionUpdate()
 	vr::VRInput()->GetDigitalActionData(m_RightGripButtonHandler, &grip_right, sizeof(grip_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftGripButtonHandler, &grip_left, sizeof(grip_left), vr::k_ulInvalidInputValueHandle);
 	//LOG_F(WARNING, "grip \t%d, \t%d", grip_left.bState, grip_right.bState);
+
+	vr::InputAnalogActionData_t analog_left, analog_right;
+	vr::VRInput()->GetAnalogActionData(m_RightAnalogHandler, &analog_right, sizeof(analog_right), vr::k_ulInvalidInputValueHandle);
+	vr::VRInput()->GetAnalogActionData(m_LeftAnalogHandler, &analog_left, sizeof(analog_left), vr::k_ulInvalidInputValueHandle);
+	LOG_F(WARNING, "analog \t%f, \t%f", analog_left.deltaX, analog_right.deltaX);
 }
 
 
