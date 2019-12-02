@@ -13,13 +13,13 @@ namespace VR {
 
 	bool VRInput::ControllersAlreadyDetected()
 	{
-		if (this->DetectedControllers.first == vr::k_unTrackedDeviceIndexInvalid || this->DetectedControllers.second == vr::k_unTrackedDeviceIndexInvalid)
+		if (this->DetectedControllers.first == vr::k_unMaxTrackedDeviceCount || this->DetectedControllers.second == vr::k_unMaxTrackedDeviceCount)
 		{
-			return true;
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 
@@ -37,11 +37,11 @@ namespace VR {
 				vr::ETrackedControllerRole TrackedControllerRole = this->VrCore->GetVrSystem()->GetControllerRoleForTrackedDeviceIndex(TrackedDeviceIndex);
 				if (TrackedControllerRole == vr::TrackedControllerRole_LeftHand)
 				{
-					this->DetectedControllers.first = TrackedDeviceIndex;
+					DetectedControllers.first = TrackedDeviceIndex;
 				}
 				else if (TrackedControllerRole == vr::TrackedControllerRole_RightHand)
 				{
-					this->DetectedControllers.second = TrackedDeviceIndex;
+					DetectedControllers.second = TrackedDeviceIndex;
 				}
 			}
 

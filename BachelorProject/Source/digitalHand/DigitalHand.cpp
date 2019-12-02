@@ -12,7 +12,7 @@ DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgra
 DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop) 
 	: m_dataProvider{ dataprovider }, m_hand{ hand }, m_handShader{ handShader }
 {
-	this->vrglinterop = vrglinterop;
+	this->m_vrglinterop = vrglinterop;
 	//m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 }
 
@@ -41,6 +41,15 @@ void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
 
 void DigitalHand::update()
 {
+	if (m_deviceIndex == -1) {
+		m_vrglinterop->VrInput->DetectControllers();
+		if (m_hand == LEFT_HAND) m_deviceIndex = m_vrglinterop->VrInput->GetDetectedControllers().first;
+		else m_deviceIndex = m_vrglinterop->VrInput->GetDetectedControllers().second;
+
+		if (m_deviceIndex == -1) return;
+	}
+	LOG_F(WARNING, "%d", m_deviceIndex);
+
 	m_handMatrix = getMyHandMatrix();
 	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);
 	Utils::setForward(&m_handMatrix, Utils::getForward(m_handMatrix) * -(1.0f));
@@ -59,10 +68,10 @@ glm::mat4 DigitalHand::getMyHandMatrix() const
 
 	switch (m_hand) {
 	case LEFT_HAND:
-		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking);
+		return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking);
 		return m_dataProvider->getLeftHandMatrix();
 	case RIGHT_HAND:
-		return VR::openvr_m34_to_mat4(vrglinterop->VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking);
+		return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking);
 		return m_dataProvider->getRightHandMatrix();
 	}
 	return glm::mat4();

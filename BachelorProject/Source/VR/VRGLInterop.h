@@ -15,7 +15,7 @@ namespace VR {
 		VRGLInterop& operator=(const VRGLInterop&) = default;
 		std::shared_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
 		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
-		//std::shared_ptr<VR::VRInput> VrInput = std::make_unique<VR::VRInput>();
+		VR::VRInput* VrInput = new VR::VRInput(VrCore.get());
 
 		bool VRactive;
 

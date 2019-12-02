@@ -57,6 +57,7 @@
     <ClCompile Include="Source\VR\SteamIVRInput.cpp" />
     <ClCompile Include="Source\pathotools.cpp" />
     <ClCompile Include="Source\strtools.cpp" />
+    <ClCompile Include="Source\emiters\EmiterVRActionController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />

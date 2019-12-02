@@ -172,6 +172,9 @@ int main(int argc, char ** argv) {
 	//		//LOG_F(WARNING, "nope");
 	//	}
 	//}
+	//vrglinterop.VrInput->DetectControllers();
+	//auto controlers = vrglinterop.VrInput->GetDetectedControllers();
+	//LOG_F(WARNING, "%d, %d", controlers.first, controlers.second);
 	do 
 	{
 		glassController.assignUntrackedObjects(scene);

@@ -25,7 +25,7 @@ private:
 	const inline static float PROXY_GRAB_DISTANCE = 10;
 	const inline static float ANGLE_GRAB_DIFFERENCE = 0.55f;	// ~30 deg
 	const inline static glm::mat4 SCALE_MATRIX = glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 });
-	VR::VRGLInterop* vrglinterop;
+	VR::VRGLInterop* m_vrglinterop;
 	HandDataProvider* m_dataProvider;
 	std::unique_ptr<PyramidPointerMaterialObject> m_pyramid;
 	Hand m_hand;
@@ -34,6 +34,7 @@ private:
 	VRActionController* m_selectedActionController = nullptr;
 	glm::mat4 m_handMatrix;
 	glm::mat4 m_grabMatrixOffset = glm::mat4(1);
+	int m_deviceIndex = -1;
 
 	glm::mat4 getMyHandMatrix() const;
 	bool tryGrabDistance();

@@ -3,6 +3,7 @@
 #include <actionControllers/VRActionController.h>
 #include <memory>
 
+class VRActionController;
 
 class SelectableObject {
 public:
