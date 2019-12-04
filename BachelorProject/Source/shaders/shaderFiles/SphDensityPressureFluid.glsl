@@ -223,7 +223,7 @@ void main(void)
 		fluidSurfaceVector[3*myParticleIndex+0] = outVecX / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+1] = outVecY / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+2] = outVecZ / vecLen;
-		glassForceMultiplier[myParticleIndex] = 1;
+		glassForceMultiplier[myParticleIndex] = sumDistToFluid;
 		glassMaxVelocity[myParticleIndex] = outMaxGlassVelocity;
 		numOfFluidNeighbours[myParticleIndex] = outNumOfNeighbours;
 	}

@@ -67,6 +67,7 @@ public:
 	float decreaseVelocity(int stepsDown=1);
 	float chengeVeloccity(float defVelocity);
 	void setActive(bool active) { m_isActive = active; }
+	void setFluidType(int type) { m_fluidType = type; }
 	void toggleActive() { m_isActive = !m_isActive; }
 	void setMatrixUpdate(bool update) { m_updateMatrix = update; }
 	void togleMatrixUpdate() { m_updateMatrix = !m_updateMatrix; }

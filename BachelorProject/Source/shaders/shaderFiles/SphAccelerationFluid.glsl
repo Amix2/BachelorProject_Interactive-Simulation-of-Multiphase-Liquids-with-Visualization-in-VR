@@ -135,7 +135,7 @@ void main(void)
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
 	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
 	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
-	const float pGlassMultiplier = glassForceMultiplier[myParticleIndex];
+	const float pGlassMultiplier = 1+2*glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -143,12 +143,12 @@ void main(void)
 	//for(int cellIter = int(27*myThreadNumber); cellIter<27 + int(27*myThreadNumber); cellIter++) {
 	if(neiIter > -1) {
 		const uint thisNeiCellIndex = sortIndexArray[neiIter];
-
 		// for every neighbour in 1 cell starting from first until their cell index change
 		//for(int neiParticleIndex = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiParticleIndex] && neiParticleIndex > -1; neiParticleIndex++) {
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
+			//const FluidType neiType = fluidTypeArray[neiPartcie.type];
 			vec3 neiVelocity = vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]); 
 
 			const float dist = distance(myFluidPosition, vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
