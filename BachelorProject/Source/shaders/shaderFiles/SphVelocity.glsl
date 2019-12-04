@@ -88,7 +88,7 @@ void main(void)
 
 	const vec3 pPosition = vec3(myFluid.x, myFluid.y, myFluid.z); 
 
-	vec3 pVelocity = vec3(fluidVelocity[3*myThreadNumber+0], fluidVelocity[3*myThreadNumber+1], fluidVelocity[3*myThreadNumber+2]); 
+	const vec3 pOldVelocity = vec3(fluidVelocity[3 * myThreadNumber + 0], fluidVelocity[3 * myThreadNumber + 1], fluidVelocity[3 * myThreadNumber + 2]);
 
 
 	const vec3 pSurfaceVec = (vec3(fluidSurfaceVector[3*myThreadNumber+0], fluidSurfaceVector[3*myThreadNumber+1], fluidSurfaceVector[3*myThreadNumber+2])); 
@@ -97,7 +97,7 @@ void main(void)
 	//const vec3 pAcceleration = vec3(0,GRAVITY_Y,0);
 	const vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
-	pVelocity = (pVelocity + pAcceleration * DELTA_TIME);
+	vec3 pVelocity = (pOldVelocity + pAcceleration * DELTA_TIME);
 
 	vec3 pNewPosition = pPosition + pVelocity * DELTA_TIME;
 	const vec3 pNormVelocity = normalize(pVelocity);
@@ -113,6 +113,10 @@ void main(void)
 
 	if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
 		pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
+	}
+	const float maxVelChange = 0.5;
+	if (pLenVelocity - length(pOldVelocity) > maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME) {
+		pVelocity = pNormVelocity * (maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME + length(pOldVelocity));
 	}
 
 

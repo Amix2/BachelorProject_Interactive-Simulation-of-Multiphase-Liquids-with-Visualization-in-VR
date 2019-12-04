@@ -170,13 +170,13 @@ void main(void)
 
 				pGlassSurfaceVector += neiGlobalGlassVector.xyz * (Kernel(dist));
 
-				distanceToGlass += 1+Kernel(dist);
+				distanceToGlass += Kernel(dist);
 
 				const float glassVelocityLen = length(vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]));
 				if(glassVelocityLen > maxGlassVelocity) maxGlassVelocity = glassVelocityLen;
 			} else if(neiPartcie.type > 0) {	// if fluid not glass
 				numOFNeighbours++;
-				distanceToFluid += 1+ Kernel(dist);
+				distanceToFluid += 1+Kernel(dist);
 			}
 			neiIter++;
 
@@ -223,7 +223,7 @@ void main(void)
 		fluidSurfaceVector[3*myParticleIndex+0] = outVecX / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+1] = outVecY / vecLen;
 		fluidSurfaceVector[3*myParticleIndex+2] = outVecZ / vecLen;
-		glassForceMultiplier[myParticleIndex] = sumDistToFluid;
+		glassForceMultiplier[myParticleIndex] = 1;
 		glassMaxVelocity[myParticleIndex] = outMaxGlassVelocity;
 		numOfFluidNeighbours[myParticleIndex] = outNumOfNeighbours;
 	}
