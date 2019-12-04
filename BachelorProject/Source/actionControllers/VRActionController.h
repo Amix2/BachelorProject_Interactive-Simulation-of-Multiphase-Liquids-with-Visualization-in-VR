@@ -6,6 +6,7 @@
 class VRActionController : public ActionController {
 public:
 
+	virtual void onRelease() { defaultAction("released"); }
 	virtual void triggerButton(vr::InputDigitalActionData_t event) { defaultAction("triggerButton"); }
 	virtual void gripButton(vr::InputDigitalActionData_t event) { defaultAction("gripButton"); }
 	virtual void menuButton(vr::InputDigitalActionData_t event) { defaultAction("menuButton"); }

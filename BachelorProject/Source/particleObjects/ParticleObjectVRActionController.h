@@ -7,6 +7,7 @@ class ParticleObjectVRActionController : public VRActionController{
 public:
 	ParticleObjectVRActionController(ParticleObject* object) : VRActionController(), m_object{ object } {}
 
+	void onRelease() override;
 	void triggerButton(vr::InputDigitalActionData_t event) override;
 	void gripButton(vr::InputDigitalActionData_t event) override;
 	//void menuButton() const { defaultAction("menuButton"); }

@@ -203,6 +203,7 @@ void DigitalHand::grab(SelectableObject* object)
 
 void DigitalHand::release()
 {
+	m_selectedActionController->onRelease();
 	m_selectedObject->release();
 	m_selectedObject = nullptr;
 	m_selectedActionController = nullptr;

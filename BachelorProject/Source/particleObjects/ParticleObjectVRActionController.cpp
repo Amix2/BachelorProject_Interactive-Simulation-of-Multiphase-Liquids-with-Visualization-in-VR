@@ -1,5 +1,12 @@
 #include "ParticleObjectVRActionController.h"
 
+void ParticleObjectVRActionController::onRelease()
+{
+	isPulled = false;
+	isGrabbed = false;
+	m_object->setDestinationMatrix(m_object->getMatrix);
+}
+
 void ParticleObjectVRActionController::triggerButton(vr::InputDigitalActionData_t event) {
 	if (event.bState == true)
 		isPulled = true;
