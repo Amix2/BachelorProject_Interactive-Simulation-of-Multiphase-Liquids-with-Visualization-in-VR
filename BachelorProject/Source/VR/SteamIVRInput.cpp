@@ -157,7 +157,7 @@ void SteamIVRInput::InnerActionUpdate()
 
 	vr::VRInput()->GetDigitalActionData(m_RightTriggerButtonHandler, &tri_right, sizeof(tri_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftTriggerButtonHandler, &tri_left, sizeof(tri_left), vr::k_ulInvalidInputValueHandle);
-	//LOG_F(WARNING, "trigger \t%f, \t%f", tri_left.x, tri_right.x);
+	//LOG_F(WARNING, "trigger \t%d, \t%d", tri_left.bChanged, tri_right.bChanged);
 
 	vr::VRInput()->GetDigitalActionData(m_RightGripButtonHandler, &grip_right, sizeof(grip_right), vr::k_ulInvalidInputValueHandle);
 	vr::VRInput()->GetDigitalActionData(m_LeftGripButtonHandler, &grip_left, sizeof(grip_left), vr::k_ulInvalidInputValueHandle);

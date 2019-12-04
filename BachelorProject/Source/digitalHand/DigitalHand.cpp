@@ -69,7 +69,7 @@ void DigitalHand::update()
 	Utils::setPosition(&m_handMatrix, Utils::getPosition(m_handMatrix) * 100.0f);
 	Utils::setForward(&m_handMatrix, Utils::getForward(m_handMatrix) * -(1.0f));
 
-	LOG_F(WARNING, "%d  %d", digitalInputMap[TRIGGER_BUTTON].bState, digitalInputMap[GRIP_BUTTON].bChanged);
+	//LOG_F(WARNING, "%d  %d", digitalInputMap[TRIGGER_BUTTON].bState, digitalInputMap[TRIGGER_BUTTON].bChanged);
 	bool deselectObject = false;
 
 	if (digitalInputMap[GRIP_BUTTON].bChanged == true and digitalInputMap[GRIP_BUTTON].bState == true) {
@@ -172,7 +172,7 @@ bool DigitalHand::tryGrabAngle()
 		const glm::vec3 objPosition = Utils::getPosition(*(object->getMatrix()));
 		const glm::vec3 vecToObject = glm::normalize(objPosition - myPosition);
 		const float angle = std::acos(glm::dot(myForward, vecToObject));
-		//LOG_F(WARNING, "angle %f\n%s\n%s", angle, glm::to_string(myForward).c_str(), glm::to_string(objPosition - myPosition).c_str());
+		LOG_F(WARNING, "angle %f\n%s\n%s", angle, glm::to_string(myForward).c_str(), glm::to_string(objPosition - myPosition).c_str());
 		if (angle < ANGLE_GRAB_DIFFERENCE) {
 			const float distance = glm::distance(objPosition, myPosition);
 			if (distance < selectedObjDistance) {
