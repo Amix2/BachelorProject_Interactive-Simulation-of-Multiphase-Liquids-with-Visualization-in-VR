@@ -7,14 +7,19 @@ class EmiterVRActionController : public VRActionController {
 public:
 	EmiterVRActionController(Emiter* object) : m_emiter{ object } {}
 
-	void triggerButton(vr::InputDigitalActionData_t event) const;
-	void gripButton(vr::InputDigitalActionData_t event) const;
-	void menuButton(vr::InputDigitalActionData_t event) const;
+	void onRelease() override;
+	void triggerButton(vr::InputDigitalActionData_t event);
+	void gripButton(vr::InputDigitalActionData_t event);
+	void menuButton(vr::InputDigitalActionData_t event);
+	void touchpadButton(vr::InputDigitalActionData_t event);
 
-	void touchpadMovement(const glm::vec2& position, const glm::vec2& move) const;
+	void touchpadMovement(const glm::vec2& position, const glm::vec2& move);
 
-	void handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) const;
+	void handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset);
 
 private:
 	Emiter* m_emiter;
+
+	glm::vec2 m_lastTouchpadPosition;
+	glm::vec2 m_lastTouchpadMove;
 };

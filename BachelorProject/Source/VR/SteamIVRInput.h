@@ -49,6 +49,8 @@ private:
 	vr::VRActionHandle_t m_LeftAnalogHandler = {};
 	vr::VRActionHandle_t m_RightMenuButtonHandler{};
 	vr::VRActionHandle_t m_LeftMenuButtonHandler{};
+	vr::VRActionHandle_t m_RightTouchpadButtonHandler{};
+	vr::VRActionHandle_t m_LeftTouchpadButtonHandler{};
 	vr::VRActionSetHandle_t m_mainSetHandler = {};
 	vr::VRActiveActionSet_t m_activeActionSet = {};
 	vr::InputDigitalActionData_t m_nextSongData = {};
@@ -56,6 +58,7 @@ private:
 	vr::InputDigitalActionData_t tri_left, tri_right;
 	vr::InputDigitalActionData_t grip_left, grip_right;
 	vr::InputDigitalActionData_t menu_left, menu_right;
+	vr::InputDigitalActionData_t touchpad_left, touchpad_right;
 	vr::InputAnalogActionData_t analog_left, analog_right;
 };
 

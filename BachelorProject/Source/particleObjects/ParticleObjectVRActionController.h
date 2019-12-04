@@ -10,8 +10,9 @@ public:
 	void onRelease() override;
 	void triggerButton(vr::InputDigitalActionData_t event) override;
 	void gripButton(vr::InputDigitalActionData_t event) override;
-	//void menuButton() const { defaultAction("menuButton"); }
-	//void touchpadMovement(const glm::vec2& position, const glm::vec2& move) const { defaultAction("touchpadMovement"); }
+	void menuButton(vr::InputDigitalActionData_t event) override {}
+	void touchpadMovement(const glm::vec2& position, const glm::vec2& move)  { }
+	void touchpadButton(vr::InputDigitalActionData_t event) {}	
 	void handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) override;
 
 private:

@@ -12,6 +12,9 @@ public:
 	virtual void menuButton(vr::InputDigitalActionData_t event) { defaultAction("menuButton"); }
 
 	virtual void touchpadMovement(const glm::vec2 &position, const glm::vec2 &move) { defaultAction("touchpadMovement"); }
+	virtual void touchpadButton(vr::InputDigitalActionData_t event) { defaultAction("touchpadButton"); }
 
-	virtual void handMovement(const glm::mat4 &position, const glm::mat4 &grabOffset) { defaultAction("handMovement"); }
+
+
+	virtual void handMovement(const glm::mat4 &position, const glm::mat4 &grabOffset) {	defaultAction("handMovement");	}
 };

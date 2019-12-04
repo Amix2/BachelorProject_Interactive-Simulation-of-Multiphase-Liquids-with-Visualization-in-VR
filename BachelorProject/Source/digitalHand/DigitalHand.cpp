@@ -4,8 +4,8 @@
 #define MENU_BUTTON vr::k_EButton_ApplicationMenu
 #define GRIP_BUTTON vr::k_EButton_Grip
 #define TRIGGER_BUTTON vr::k_EButton_SteamVR_Trigger
-#define TOUCHPAD_BUTTON vr::k_EButton_A
-
+#define TOUCHPAD_MOVEMENT vr::k_EButton_A
+#define TOUCHPAD_BUTTON vr::k_EButton_SteamVR_Touchpad
 
 
 DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader) 
@@ -75,6 +75,7 @@ void DigitalHand::update()
 	if (digitalInputMap[GRIP_BUTTON].bChanged == true and digitalInputMap[GRIP_BUTTON].bState == true) {
 		if (m_selectedObject != nullptr) {
 			setGrabMatrixOffset(m_selectedObject);
+			return;
 		}
 		else {
 			tryGrabDistance();
@@ -85,6 +86,7 @@ void DigitalHand::update()
 	if (digitalInputMap[TRIGGER_BUTTON].bChanged == true and digitalInputMap[TRIGGER_BUTTON].bState == true) {
 		if (m_selectedObject == nullptr) {
 			tryGrabAngle();
+			return;
 		}
 		else {
 			const glm::vec3 myPosition = Utils::getPosition(m_handMatrix);
@@ -92,7 +94,7 @@ void DigitalHand::update()
 			const glm::vec3 objPosition = Utils::getPosition(*(m_selectedObject->getMatrix()));
 			const glm::vec3 vecToObject = glm::normalize(objPosition - myPosition);
 			const float angle = std::acos(glm::dot(myForward, vecToObject));
-			if (angle > ANGLE_GRAB_DIFFERENCE)
+			if (angle > 2*ANGLE_GRAB_DIFFERENCE)
 				deselectObject = true;
 
 		}
@@ -102,10 +104,12 @@ void DigitalHand::update()
 		m_selectedActionController->gripButton(digitalInputMap[GRIP_BUTTON]);
 		m_selectedActionController->triggerButton(digitalInputMap[TRIGGER_BUTTON]);
 		m_selectedActionController->menuButton(digitalInputMap[MENU_BUTTON]);
-		vr::InputAnalogActionData_t touchpadMovement = analoglInputMap[TOUCHPAD_BUTTON];
+		m_selectedActionController->touchpadButton(digitalInputMap[TOUCHPAD_BUTTON]);
+		vr::InputAnalogActionData_t touchpadMovement = analoglInputMap[TOUCHPAD_MOVEMENT];
 		const glm::vec2 position = glm::vec2(touchpadMovement.x, touchpadMovement.y);
 		const glm::vec2 move = glm::vec2(touchpadMovement.deltaX, touchpadMovement.deltaY);
 		m_selectedActionController->touchpadMovement(position, move);
+
 		m_selectedActionController->handMovement(m_handMatrix, m_grabMatrixOffset);
 
 		if (deselectObject) {
@@ -116,16 +120,7 @@ void DigitalHand::update()
 
 glm::mat4 DigitalHand::getMyHandMatrix() const
 {
-
-	switch (m_hand) {
-	case LEFT_HAND:
-		return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[3].mDeviceToAbsoluteTracking);
-		return m_dataProvider->getLeftHandMatrix();
-	case RIGHT_HAND:
-		return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[4].mDeviceToAbsoluteTracking);
-		return m_dataProvider->getRightHandMatrix();
-	}
-	return glm::mat4();
+	return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[m_deviceIndex].mDeviceToAbsoluteTracking);
 }
 
 bool DigitalHand::tryGrabDistance()
@@ -172,7 +167,7 @@ bool DigitalHand::tryGrabAngle()
 		const glm::vec3 objPosition = Utils::getPosition(*(object->getMatrix()));
 		const glm::vec3 vecToObject = glm::normalize(objPosition - myPosition);
 		const float angle = std::acos(glm::dot(myForward, vecToObject));
-		LOG_F(WARNING, "angle %f\n%s\n%s", angle, glm::to_string(myForward).c_str(), glm::to_string(objPosition - myPosition).c_str());
+		//LOG_F(WARNING, "angle %f\n%s\n%s", angle, glm::to_string(myForward).c_str(), glm::to_string(objPosition - myPosition).c_str());
 		if (angle < ANGLE_GRAB_DIFFERENCE) {
 			const float distance = glm::distance(objPosition, myPosition);
 			if (distance < selectedObjDistance) {

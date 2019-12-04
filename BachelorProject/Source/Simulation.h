@@ -43,8 +43,8 @@ class Simulation
 	inline static float m_Velocity;
 	inline static const int m_printTimesFrequency = 1024;
 	inline static const int m_forTitleTimesFrequency = 16;
-	inline static const bool MEASURE_TIME = false;
-	inline static const bool PRINT_TIME = false;
+	inline static const bool MEASURE_TIME = true;
+	inline static const bool PRINT_TIME = true;
 
 	inline static const std::string m_SimFpsTitle = "Sim FPS ";
 	inline static const std::string m_SimParticleTitle = "Sim Num of particles";

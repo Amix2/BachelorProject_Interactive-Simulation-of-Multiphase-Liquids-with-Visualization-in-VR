@@ -1,62 +1,67 @@
 #include "EmiterVRActionController.h"
 enum class RespectOffset {
-	NONE, ONLY_ANGLE, ALL
+	ALL
 };
 
-RespectOffset m_respectOffset = RespectOffset::NONE;
+RespectOffset m_respectOffset = RespectOffset::ALL;
 
-void EmiterVRActionController::triggerButton(vr::InputDigitalActionData_t event) const
+void EmiterVRActionController::onRelease()
 {
-
-
-
-	if(event.bActive and event.bChanged)
-		m_respectOffset = RespectOffset( ((int)m_respectOffset+1) % 3);
-
+	m_emiter->toggleActive();
 }
 
-void EmiterVRActionController::gripButton(vr::InputDigitalActionData_t event) const
+void EmiterVRActionController::triggerButton(vr::InputDigitalActionData_t event)
+{
+	if (event.bState and event.bChanged) {
+		m_emiter->toggleActive();
+	}
+		
+}
+
+void EmiterVRActionController::gripButton(vr::InputDigitalActionData_t event) 
 {
 	this->m_emiter->m_updateMatrix = event.bState;
 }
 
-void EmiterVRActionController::menuButton(vr::InputDigitalActionData_t event) const
+void EmiterVRActionController::menuButton(vr::InputDigitalActionData_t event) 
 {
 }
 
-
-void EmiterVRActionController::touchpadMovement(const glm::vec2& position, const glm::vec2& move) const
+void EmiterVRActionController::touchpadButton(vr::InputDigitalActionData_t event)
 {
-	if (move.x < 0)
-	{
-		this->m_emiter->decreaseVelocity(-10 * move.x);
+	if (event.bState and event.bChanged) {
+		//LOG_F(WARNING, "press %f, %f", m_lastTouchpadPosition.x, m_lastTouchpadPosition.y);
+		auto x = m_lastTouchpadPosition.x;
+		auto y = m_lastTouchpadPosition.y;
+		if (y > x and y > -x) // 1
+		{
+			this->m_emiter->increaseVelocity();
+		}
+		else if (y < x and y > -x) // 2
+		{
+			this->m_emiter->increaseSize(1);
+		}
+		else if (y < x and y < -x) // 3
+		{
+			this->m_emiter->decreaseVelocity();
+		}
+		else if (y < -x and y > x) // 4
+		{
+			this->m_emiter->decreaseSize(1);
+		}
 	}
-	else
-	{
-		this->m_emiter->increaseVelocity(10 * move.x);
-	}
-	if (move.y < 0)
-	{
-		this->m_emiter->decreaseSize(-10 * move.y);
-	}
-	else
-	{
-		this->m_emiter->increaseSize(10 * move.y);
-	}
-
 }
 
-void EmiterVRActionController::handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) const
+
+void EmiterVRActionController::touchpadMovement(const glm::vec2& position, const glm::vec2& move) 
+{
+	m_lastTouchpadPosition = position;
+	m_lastTouchpadMove = move;
+}
+
+void EmiterVRActionController::handMovement(const glm::mat4& positionMatrix, const glm::mat4& grabOffset) 
 {
 	switch(m_respectOffset) {
-	case RespectOffset::NONE:
-		m_emiter->updateMatrix(positionMatrix);
-		break;
-	case RespectOffset::ONLY_ANGLE:
-		glm::mat4 offset = grabOffset;
-		Utils::setPosition(&offset, { 0,0,0 });
-		m_emiter->updateMatrix(positionMatrix * offset);
-		break;
 	case RespectOffset::ALL:
 		m_emiter->updateMatrix(positionMatrix * grabOffset);
 		break;

@@ -117,13 +117,13 @@ std::string Emiter::toString()
 void Emiter::grab()
 {
 	m_selected = true;
-	m_isActive = true;
+	//m_isActive = true;
 }
 
 void Emiter::release()
 {
 	m_selected = false;
-	m_isActive = false;
+	//m_isActive = false;
 }
 
 glm::mat4* Emiter::getMatrix()

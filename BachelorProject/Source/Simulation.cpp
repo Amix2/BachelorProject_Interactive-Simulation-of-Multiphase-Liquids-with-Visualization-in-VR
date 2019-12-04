@@ -85,6 +85,7 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntNeighbourSearchTime);
 
+	//glFinish();
 
 	m_SphDensityPressureFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
 
@@ -132,6 +133,7 @@ void Simulation::setupSimObjects()
 
 	ParticleObjectDetais detailsTEST{ 1, 25, 30,25, 35, 70, 35 };
 	ParticleObjectDetais detailsTESTGLASS{ -1, 30,25,30, 20.5,0.5,15 };
+	ParticleObjectDetais detailsTESTGLASS2{ -1, 30,50,30, 20.5,0.5,15 };
 
 	ParticleObjectDetais optimFluid{ 1, 121,70,121, 159, 100, 159 };
 	ParticleObjectDetais optimGlass{ -1, 140,55,140, 28,0.5,35 };
@@ -152,6 +154,7 @@ void Simulation::setupSimObjects()
 	
 	ParticleObjectCreator::addObject(detailsTEST);
 	ParticleObjectCreator::addObject(detailsTESTGLASS);
+	ParticleObjectCreator::addObject(detailsTESTGLASS2);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
@@ -252,13 +255,13 @@ void Simulation::handlePrintingTimes()
 
 		_ntSum = _ntRangeCalc + _ntSyncDetailsTime + _ntVelocityTime + _ntAccelerationFluidTime + _ntParseRequestsTime + _ntSynchronizeWithGpuTime + _ntCopyForSortTime + _ntCellCountingTime + _ntBitonicSortTime + _ntArrangeVarsTime + _ntNeighbourSearchTime + _ntDensityPressureFluidTime;
 
-		LOG_F(INFO, "Simulation Turn: %u, Particles: [%d, %d], Time: %0.2f \nRequests %0.2f, SyncObj %0.2f, SyncDet %0.2f, RCalc %0.2f, CopyBO %0.2f, CellCounting %0.2f, Sort %0.2f, Arrange %0.2f, Neighbours %0.2f, Dens&PressFL %0.2f, AccFL %0.2f, Vel %0.2f"
+		LOG_F(WARNING, "Simulation Turn: %u, Particles: [%d, %d], Time: %0.2f \nRequests %0.2f, SyncObj %0.2f, SyncDet %0.2f, RCalc %0.2f, CopyBO %0.2f, CellCounting %0.2f, Sort %0.2f, Arrange %0.2f, Neighbours %0.2f, Dens&PressFL %0.2f, AccFL %0.2f, Vel %0.2f"
 			, m_turnNumber, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
 			, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntRangeCalc, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 
-		LOG_F(INFO, "Simulation Particles: [%d, %d] \n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n"
-			, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
-			, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
+		//LOG_F(INFO, "Simulation Particles: [%d, %d] \n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n%0.2f\n"
+		//	, ParticleData::m_NumOfParticles, ParticleData::m_NumOfGlassParticles, _ntSum
+		//	, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntSyncDetailsTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime);
 
 		_ntRangeCalc = _ntSyncDetailsTime = _ntVelocityTime = _ntAccelerationFluidTime = _ntParseRequestsTime = _ntSynchronizeWithGpuTime = _ntCopyForSortTime = _ntCellCountingTime = _ntBitonicSortTime = _ntArrangeVarsTime = _ntNeighbourSearchTime = _ntDensityPressureFluidTime = 0;
 	
