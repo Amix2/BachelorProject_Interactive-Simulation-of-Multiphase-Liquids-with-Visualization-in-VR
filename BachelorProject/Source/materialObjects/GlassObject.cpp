@@ -13,18 +13,16 @@ void GlassObject::init()
 {
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
 	glBufferData(GL_ARRAY_BUFFER, verticesSize * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize * sizeof(GLint), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	shaderProgram.use();
 	shaderProgram.setUniformVariable("background", Configuration::BACKGROUND);
@@ -39,11 +37,12 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	shaderProgram.use();
-	shaderProgram.setUniformVariable("MVP", projection * view * owner->getModel());
+	shaderProgram.setUniformVariable("VP", projection * view);
+	shaderProgram.setUniformVariable("M", owner->getModel());
+	shaderProgram.setUniformVariable("lightDir", -glm::vec4(1, 0.8f, 1, 0));
 
-	glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, verticesSize);
 
 	if (owner->isSelected()) {
 
@@ -53,7 +52,7 @@ void GlassObject::load(const glm::mat4& view, const glm::mat4& projection) const
 		selectedProgram.use();
 		selectedProgram.setUniformVariable("MVP", projection * view * glm::scale(owner->getModel(), glm::vec3{ 1.01f }));
 
-		glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, verticesSize / 6);
 		glStencilFunc(GL_ALWAYS, 1, 0xFF);
 
 	}
@@ -67,27 +66,28 @@ bool GlassObject::getRender() const
 void GlassObject::generateMesh(const ParticleObject& glass)
 {	
 	int layerSize = (glass.m_innerRadius + glass.m_thickness) * 6;
-	verticesSize = 3 * (4 * (layerSize) + 2);
-	indicesSize = 3 * (1 + 2 + 2 + 2 + 1) * layerSize;
+	int vertexPositionsSize = 3 * (4 * (layerSize) + 2);
+	int indicesSize = 3 * (1 + 2 + 2 + 2 + 1) * layerSize;
+	verticesSize = indicesSize * 6;
 	int v_index = 0;
 	int i_index = 0;
 	vertices = new GLfloat[verticesSize];
-	indices = new GLint[indicesSize];
+	GLfloat* vertexPositions = new GLfloat[vertexPositionsSize];
 
 	glm::vec3 cursor = glm::vec3{ 0.0f };
 	cursor.y -= glass.m_height * 0.5;
-	addVertex(cursor, v_index);
+	addVertex(cursor, v_index, vertexPositions);
 	cursor.y -= glass.m_thickness;
-	addVertex(cursor, v_index);
+	addVertex(cursor, v_index, vertexPositions);
 	
 	cursor = glm::vec3{ 0.0f };
 	glm::vec2 inner{ glass.m_innerRadius, 0.0f };
 	glm::vec2 outer{ glass.m_innerRadius + glass.m_thickness, 0.0f };
 	for (int i = 0; i < layerSize; i++) {
-		addVertex(cursor + glm::vec3{ inner.x, -glass.m_height * 0.5, inner.y }, v_index);
-		addVertex(cursor + glm::vec3{ inner.x, glass.m_height * 0.5, inner.y }, v_index);
-		addVertex(cursor + glm::vec3{ outer.x, glass.m_height * 0.5, outer.y }, v_index);
-		addVertex(cursor + glm::vec3{ outer.x, -glass.m_height * 0.5 -glass.m_thickness, outer.y }, v_index);
+		addVertex(cursor + glm::vec3{ inner.x, -glass.m_height * 0.5, inner.y }, v_index, vertexPositions);
+		addVertex(cursor + glm::vec3{ inner.x, glass.m_height * 0.5, inner.y }, v_index, vertexPositions);
+		addVertex(cursor + glm::vec3{ outer.x, glass.m_height * 0.5, outer.y }, v_index, vertexPositions);
+		addVertex(cursor + glm::vec3{ outer.x, -glass.m_height * 0.5 -glass.m_thickness, outer.y }, v_index, vertexPositions);
 
 		inner = glm::rotate(inner, glm::radians(360.0f / layerSize));
 		outer = glm::rotate(outer, glm::radians(360.0f / layerSize));
@@ -103,37 +103,56 @@ void GlassObject::generateMesh(const ParticleObject& glass)
 	//		5 + 4 * i		 outer lower
 
 	for (int i = 0; i < layerSize - 1; i++) {
-		addTriangle(0, 2 + 4 * i, 2 + 4 * (i + 1), i_index);
-		addQuad(2 + 4 * i, 2 + 4 * (i + 1), 3 + 4 * i, 3 + 4 * (i + 1), i_index);
-		addQuad(3 + 4 * i, 3 + 4 * (i + 1), 4 + 4 * i, 4 + 4 * (i + 1), i_index);
-		addQuad(4 + 4 * i, 4 + 4 * (i + 1), 5 + 4 * i, 5 + 4 * (i + 1), i_index);
-		addTriangle(1, 5 + 4 * (i + 1), 5 + 4 * i , i_index);
+		addTriangle(0, 2 + 4 * i, 2 + 4 * (i + 1), i_index, vertexPositions);
+		addQuad(2 + 4 * i, 2 + 4 * (i + 1), 3 + 4 * i, 3 + 4 * (i + 1), i_index, vertexPositions);
+		addQuad(3 + 4 * i, 3 + 4 * (i + 1), 4 + 4 * i, 4 + 4 * (i + 1), i_index, vertexPositions);
+		addQuad(4 + 4 * i, 4 + 4 * (i + 1), 5 + 4 * i, 5 + 4 * (i + 1), i_index, vertexPositions);
+		addTriangle(1, 5 + 4 * (i + 1), 5 + 4 * i , i_index, vertexPositions);
 	}
-	addTriangle(0, 2 + 4 * (layerSize - 1), 2, i_index);
-	addQuad(2 + 4 * (layerSize - 1), 2, 3 + 4 * (layerSize - 1), 3, i_index);
-	addQuad(3 + 4 * (layerSize - 1), 3, 4 + 4 * (layerSize - 1), 4, i_index);
-	addQuad(4 + 4 * (layerSize - 1), 4, 5 + 4 * (layerSize - 1), 5, i_index);
-	addTriangle(1, 5, 5 + 4 * (layerSize - 1), i_index);
+	addTriangle(0, 2 + 4 * (layerSize - 1), 2, i_index, vertexPositions);
+	addQuad(2 + 4 * (layerSize - 1), 2, 3 + 4 * (layerSize - 1), 3, i_index, vertexPositions);
+	addQuad(3 + 4 * (layerSize - 1), 3, 4 + 4 * (layerSize - 1), 4, i_index, vertexPositions);
+	addQuad(4 + 4 * (layerSize - 1), 4, 5 + 4 * (layerSize - 1), 5, i_index, vertexPositions);
+	addTriangle(1, 5, 5 + 4 * (layerSize - 1), i_index, vertexPositions);
 }
 
-void GlassObject::addVertex(const glm::vec3& vertex, int& currentIndex)
+void GlassObject::addVertex(const glm::vec3& vertex, int& currentIndex, GLfloat vertexPositions[])
 {
-	vertices[currentIndex++] = vertex.x;
-	vertices[currentIndex++] = vertex.y;
-	vertices[currentIndex++] = vertex.z;
+	vertexPositions[currentIndex++] = vertex.x;
+	vertexPositions[currentIndex++] = vertex.y;
+	vertexPositions[currentIndex++] = vertex.z;
 }
 
-void GlassObject::addTriangle(int a, int b, int c, int& currentIndex)
+void GlassObject::addTriangle(int a, int b, int c, int& currentIndex, GLfloat vertexPositions[])
 {
-	indices[currentIndex++] = a;
-	indices[currentIndex++] = b;
-	indices[currentIndex++] = c;
+	glm::vec3 ab = glm::vec3{ vertexPositions[b * 3] - vertexPositions[a * 3], vertexPositions[b * 3 + 1] - vertexPositions[a * 3 + 1], vertexPositions[b * 3 + 2] - vertexPositions[a * 3 + 2] };
+	glm::vec3 ac = glm::vec3{ vertexPositions[c * 3] - vertexPositions[a * 3], vertexPositions[c * 3 + 1] - vertexPositions[a * 3 + 1], vertexPositions[c * 3 + 2] - vertexPositions[a * 3 + 2] };
+	glm::vec3 normalVector = glm::normalize(glm::cross(ab, ac));
+
+	vertices[currentIndex++] = vertexPositions[a * 3];
+	vertices[currentIndex++] = vertexPositions[a * 3 + 1];
+	vertices[currentIndex++] = vertexPositions[a * 3 + 2];
+	vertices[currentIndex++] = normalVector.x;
+	vertices[currentIndex++] = normalVector.y;
+	vertices[currentIndex++] = normalVector.z;
+	vertices[currentIndex++] = vertexPositions[b * 3];
+	vertices[currentIndex++] = vertexPositions[b * 3 + 1];
+	vertices[currentIndex++] = vertexPositions[b * 3 + 2];
+	vertices[currentIndex++] = normalVector.x;
+	vertices[currentIndex++] = normalVector.y;
+	vertices[currentIndex++] = normalVector.z;
+	vertices[currentIndex++] = vertexPositions[c * 3];
+	vertices[currentIndex++] = vertexPositions[c * 3 + 1];
+	vertices[currentIndex++] = vertexPositions[c * 3 + 2];
+	vertices[currentIndex++] = normalVector.x;
+	vertices[currentIndex++] = normalVector.y;
+	vertices[currentIndex++] = normalVector.z;
 }
 
-void GlassObject::addQuad(int a, int b, int c, int d, int& currentIndex)
+void GlassObject::addQuad(int a, int b, int c, int d, int& currentIndex, GLfloat vertexPositions[])
 {
-	addTriangle(a, c, b, currentIndex);
-	addTriangle(b, c, d, currentIndex);
+	addTriangle(a, c, b, currentIndex, vertexPositions);
+	addTriangle(b, c, d, currentIndex, vertexPositions);
 }
 
 

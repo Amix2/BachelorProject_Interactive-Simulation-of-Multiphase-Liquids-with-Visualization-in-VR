@@ -23,17 +23,15 @@ private:
 
 	GLuint VBO;
 	GLuint VAO;
-	GLuint EBO;
 
 	GLfloat* vertices;
-	GLint* indices;
 	int verticesSize;
-	int indicesSize;
+
 
 
 	void generateMesh(const ParticleObject& glass);
-	void addVertex(const glm::vec3& vertex, int& currentIndex);
-	void addTriangle(int a, int b, int c, int& currentIndex);
-	void addQuad(int a, int b, int c, int d, int& currentIndex);
+	void addVertex(const glm::vec3& vertex, int& currentIndex, GLfloat vertexPostions[]);
+	void addTriangle(int a, int b, int c, int& currentIndex, GLfloat vertexPostions[]);
+	void addQuad(int a, int b, int c, int d, int& currentIndex, GLfloat vertexPositions[]);
 };
 
