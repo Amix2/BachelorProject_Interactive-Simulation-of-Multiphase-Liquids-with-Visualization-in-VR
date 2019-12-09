@@ -19,6 +19,7 @@ public:
 
 private:
 	Emiter* m_emiter;
+	bool setFluidType{ false };
 
 	glm::vec2 m_lastTouchpadPosition;
 	glm::vec2 m_lastTouchpadMove;

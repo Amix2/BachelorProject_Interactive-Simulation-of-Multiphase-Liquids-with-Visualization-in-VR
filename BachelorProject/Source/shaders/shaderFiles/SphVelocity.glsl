@@ -109,15 +109,17 @@ void main(void)
 		const float newVelLen = min(glassMaxVelocity[myThreadNumber], pLenVelocity);
 		pVelocity = (pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type +=2;
+	} else {
+		if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
+			pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
+		}
+		const float maxVelChange = 0.1f;
+		if (pLenVelocity - length(pOldVelocity) > maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME) {
+			pVelocity = pNormVelocity * (maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME + length(pOldVelocity));
+		}
 	}
 
-	if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
-		pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
-	}
-	const float maxVelChange = 0.5;
-	if (pLenVelocity - length(pOldVelocity) > maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME) {
-		pVelocity = pNormVelocity * (maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME + length(pOldVelocity));
-	}
+
 
 
 //	if(fluidSurfaceDistance[myThreadNumber] < BOUNCE_DISTANCE) {	// BOUNCE

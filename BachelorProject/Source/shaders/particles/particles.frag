@@ -25,7 +25,7 @@ uniform sampler2D normalTexture;
 uniform vec4 background;
 
 float near = 0.1; 
-float far  = 100.0; 
+float far  = 1000.0; 
   
 float linearizeDepth(float depth);
 float avg(float a, float b);

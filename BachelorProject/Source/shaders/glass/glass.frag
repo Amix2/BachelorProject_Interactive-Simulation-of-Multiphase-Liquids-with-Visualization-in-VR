@@ -28,7 +28,7 @@ void main()
 	tmp.x += 0.40;
 	tmp.y += 0.25;
 	tmp.z += 0.15;
-	tmp *= (diffuse * 0.6 + 0.4);
+	tmp *= (diffuse * 0.4 + 0.6);
 
 
 	FragColor = vec4(

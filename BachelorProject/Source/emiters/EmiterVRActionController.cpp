@@ -25,6 +25,9 @@ void EmiterVRActionController::gripButton(vr::InputDigitalActionData_t event)
 
 void EmiterVRActionController::menuButton(vr::InputDigitalActionData_t event) 
 {
+	if (event.bState and event.bChanged) {
+		this->setFluidType = true;
+	}
 }
 
 void EmiterVRActionController::touchpadButton(vr::InputDigitalActionData_t event)
@@ -35,19 +38,40 @@ void EmiterVRActionController::touchpadButton(vr::InputDigitalActionData_t event
 		auto y = m_lastTouchpadPosition.y;
 		if (y > x and y > -x) // 1
 		{
-			this->m_emiter->increaseVelocity();
+			if (setFluidType) {
+				this->m_emiter->setFluidType(1);
+				setFluidType = false;
+			}
+			else
+				this->m_emiter->increaseVelocity();
 		}
 		else if (y < x and y > -x) // 2
 		{
-			this->m_emiter->increaseSize(1);
+			if (setFluidType) {
+				this->m_emiter->setFluidType(2);
+				setFluidType = false;
+
+			}
+			else
+				this->m_emiter->increaseSize(1);
 		}
 		else if (y < x and y < -x) // 3
 		{
-			this->m_emiter->decreaseVelocity();
+			if (setFluidType) {
+				this->m_emiter->setFluidType(3);
+				setFluidType = false;
+			}
+			else
+				this->m_emiter->decreaseVelocity();
 		}
 		else if (y < -x and y > x) // 4
 		{
-			this->m_emiter->decreaseSize(1);
+			if (setFluidType) {
+				this->m_emiter->setFluidType(4);
+				setFluidType = false;
+			}
+			else
+				this->m_emiter->decreaseSize(1);
 		}
 	}
 }

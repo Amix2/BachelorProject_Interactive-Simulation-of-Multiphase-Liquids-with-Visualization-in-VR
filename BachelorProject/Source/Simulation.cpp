@@ -144,7 +144,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
 	//ParticleObjectCreator::addObject(details);
-	ParticleObjectCreator::addObject(details2);
+	//ParticleObjectCreator::addObject(details2);
 
 	//ParticleObjectCreator::addObject(details6);
 	//ParticleObjectCreator::addObject(details5);
@@ -152,9 +152,9 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(details4);
 	//ParticleObjectCreator::addObject(details3);
 	
-	ParticleObjectCreator::addObject(detailsTEST);
-	ParticleObjectCreator::addObject(detailsTESTGLASS);
-	ParticleObjectCreator::addObject(detailsTESTGLASS2);
+	//ParticleObjectCreator::addObject(detailsTEST);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS);
+	//ParticleObjectCreator::addObject(detailsTESTGLASS2);
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
@@ -168,7 +168,13 @@ void Simulation::setupSimObjects()
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
-	checkOpenGLErrors();
+
+	ParticleObjectDetais glassVR{ -1, 30,25,30, 15,0.5,20 };
+	ParticleObjectDetais glassVR2{ -1, 30,60,30, 15,0.5,20 };
+	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30,0.5,15 };
+	ParticleObjectCreator::addObject(glassVR);
+	ParticleObjectCreator::addObject(glassVR2);
+	ParticleObjectCreator::addObject(glassVR3);
 }
 
 

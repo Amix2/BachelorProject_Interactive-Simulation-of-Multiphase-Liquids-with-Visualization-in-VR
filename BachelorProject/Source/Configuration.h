@@ -18,7 +18,7 @@ const struct Configuration {
 	inline static const int MAX_EMITERS = 10;
 	inline static const int MAX_SELECTABLE_OBJECTS = 20;
 
-	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(100, 0, 100);
+	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(250, 0, 250);
 
 	inline static const int SORT_ARRAY_SIZE = 2*MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
@@ -37,7 +37,7 @@ const struct Configuration {
 
 	inline static const float MAX_PARTICLE_SPEED = 1.0f;
 	inline static const float MAX_PARTICLE_STEP_DISTANCE = MAX_PARTICLE_SPEED;
-	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.3f;
+	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.7f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 20;
 	inline static const int NUM_OF_SORTING_FLOATS_IN_ARRAY = 2*SORT_ARRAY_SIZE + 9 * MAX_PARTICLES;
