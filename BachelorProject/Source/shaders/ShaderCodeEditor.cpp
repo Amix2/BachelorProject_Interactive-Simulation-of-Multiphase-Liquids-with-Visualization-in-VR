@@ -9,7 +9,6 @@ void ShaderCodeEditor::init()
 
 	addVariable(	"MAX_FLUID",	Configuration.MAX_PARTICLES	);
 	addVariable(	"MAX_GLASS",	Configuration.MAX_GLASS_PARTICLES	);
-	addVariable(	"MAX_SPEED",	Configuration.MAX_PARTICLE_SPEED	);
 	addVariable(	"MAX_FLUID_TYPES",	Configuration.MAX_FLUID_TYPES	);
 	addVariable(	"SORT_ARRAY_SIZE",	Configuration.SORT_ARRAY_SIZE	);
 
@@ -23,9 +22,7 @@ void ShaderCodeEditor::init()
 	addVariable("DELTA_TIME", Configuration.DELTA_TIME);
 	addVariable("GRAVITY_Y", Configuration.GRAVITY_Y);
 	addVariable("MAX_PARTICLE_SPEED", Configuration.MAX_PARTICLE_SPEED);
-	addVariable("VELOCITY_FACTOR", Configuration.VELOCITY_FACTOR);
 	addVariable("BOUNCE_DISTANCE", Configuration.BOUNCE_DISTANCE);
-	addVariable("BOUNCE_VELOCITY_MULTIPLIER", Configuration.BOUNCE_VELOCITY_MULTIPLIER);
 	addVariable("EMITER_FLUID_PARTICLE_BUILD_GAP", Configuration.EMITER_FLUID_PARTICLE_BUILD_GAP);
 	addVariable("MAX_EMITERS", Configuration.MAX_EMITERS);
 }

@@ -16,7 +16,7 @@ void FluidType::init()
 	//addFluidType(65, 5000, 4500, 90, { 0.7f, 0.0f, 1.0f, 1.0f });
 	addFluidType(65, 8000, 4500, 100, { 1.0f, 0.0f, 0.0f, 1.0f });
 
-	addFluidType(20, 5000, 300, 10, { 0.0f, 1.0f, 0.0f, 1.0f });
+	addFluidType(20, 5000, 500, 50, { 0.0f, 1.0f, 0.0f, 1.0f });
 	addFluidType(250, 5000, 3000, 100, { 0.5f, 0.5f, 0.5f, 1.0f });
 
 
