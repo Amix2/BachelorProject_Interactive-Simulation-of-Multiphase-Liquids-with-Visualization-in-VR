@@ -135,7 +135,7 @@ void main(void)
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
 	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
 	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
-	const float pGlassMultiplier = 1+2*glassForceMultiplier[myParticleIndex];
+	const float pGlassMultiplier = glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -148,6 +148,7 @@ void main(void)
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
+	
 			//const FluidType neiType = fluidTypeArray[neiPartcie.type];
 			vec3 neiVelocity = vec3(fluidVelocity[3*neiIter+0], fluidVelocity[3*neiIter+1], fluidVelocity[3*neiIter+2]); 
 
@@ -173,6 +174,7 @@ void main(void)
 			} else {	// if fluid;
 				const float neiDensity = fluidDensityPressure[2*neiIter+0];
 				const float neiPressure = fluidDensityPressure[2*neiIter+1];
+				const FluidType neiType = fluidTypeArray[neiPartcie.type];
 
 				const float tPressSc = myType.mass * (pPressure/pow(pDensity, 2) + neiPressure/pow(neiDensity, 2)) * KernelDerivative(dist);
 				pPressureVec += direction * tPressSc;

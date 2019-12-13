@@ -138,8 +138,9 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais optimFluid{ 1, 121,70,121, 159, 100, 159 };
 	ParticleObjectDetais optimGlass{ -1, 140,55,140, 28,0.5,35 };
 
-	const float x = 10, y = 10, z = 10;
+	const float x = 10, y = 50, z = 10;
 	ParticleObjectDetais detailsSing{ 1, x, y, z, x+0.1, y+0.1, z+0.1};
+	ParticleObjectDetais detailsGlassSing{ -1, x, y-10, z, 3, 0,0 };
 
 	ParticleObjectDetais detailsSing2{ 1, x+0.05, y + 0.05, z + 0.05, x + 0.1 + 0.05, y + 0.1 + 0.05, z + 0.1 + 0.05 };
 
@@ -158,6 +159,7 @@ void Simulation::setupSimObjects()
 	//ParticleObjectCreator::addObject(optimFluid);
 	//ParticleObjectCreator::addObject(optimGlass);
 	//ParticleObjectCreator::addObject(detailsSing);
+	//ParticleObjectCreator::addObject(detailsGlassSing);
 	//ParticleObjectCreator::addObject(detailsSing2);
 
 	//Simulation::setEmiterMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(10, 30, 20)));
