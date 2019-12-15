@@ -40,7 +40,6 @@
     <ClCompile Include="Source\Utils.cpp" />
     <ClCompile Include="Source\VR\VRCore.cpp" />
     <ClCompile Include="Source\VR\VRGeometry.cpp" />
-    <ClCompile Include="Source\VR\VRGLInterop.cpp" />
     <ClCompile Include="Source\VR\VRInput.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Source\window\WindowTitle.cpp" />
@@ -59,6 +58,7 @@
     <ClCompile Include="Source\strtools.cpp" />
     <ClCompile Include="Source\emiters\EmiterVRActionController.cpp" />
     <ClCompile Include="Source\particleObjects\ParticleObjectVRActionController.cpp" />
+    <ClCompile Include="Source\VR\VRInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
@@ -107,7 +107,6 @@
     <ClInclude Include="Source\VR\InputConfig.h" />
     <ClInclude Include="Source\VR\VRCore.h" />
     <ClInclude Include="Source\VR\VRGeometry.h" />
-    <ClInclude Include="Source\VR\VRGLInterop.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
     <ClInclude Include="Source\window\WindowTitle.h" />
     <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
@@ -132,6 +131,7 @@
     <ClInclude Include="Source\pathtools.h" />
     <ClInclude Include="Source\strtools.h" />
     <ClInclude Include="Source\compat.h" />
+    <ClInclude Include="Source\VR\VRInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\shaders\glass\glass.frag" />

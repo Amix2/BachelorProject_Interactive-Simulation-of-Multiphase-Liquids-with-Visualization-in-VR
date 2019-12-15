@@ -1,7 +1,7 @@
-#include "VRGLInterop.h"
+#include "VRInterface.h"
 
 namespace VR {
-	bool VRGLInterop::init() {
+	bool VRInterface::init() {
 		VRactive = VrCore->InitializeCore();
 		if (!VRactive) return false;
 		//VrInput->InitializeVRInput(std::string(VR::ACTIONS_PATH));
@@ -56,12 +56,12 @@ namespace VR {
 		return true;
 	}
 
-	bool VRGLInterop::hasVR()
+	bool VRInterface::hasVR()
 	{
 		return VRactive;
 	}
 
-	void VRGLInterop::sumbitFrame(const FrameBuffer& frameBuffer) {
+	void VRInterface::sumbitFrame(const FrameBuffer& frameBuffer) {
 
 		frameBuffer.readFrom();
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_nResolveFramebufferIdLeft);
@@ -82,7 +82,7 @@ namespace VR {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void VRGLInterop::handleInput(VRCameraController* cameraController) {
+	void VRInterface::handleInput(VRCameraController* cameraController) {
 
 		VrGeometry->UpdateHMDMatrixPose();
 		VrGeometry->SetupCameras();

@@ -42,7 +42,7 @@
 #include <VR/VRGeometry.h>
 #include <VR/VRInput.h>
 #include <VR/InputConfig.h>
-#include <VR/VRGLInterop.h>
+#include <VR/VRInterface.h>
 #include <memory>
 #include <glassController/GlassController.h>
 #include <Configuration.h>
@@ -66,7 +66,7 @@ void cleanUp();
 void assignHardwareParameters();
 
 //creates objects presented on scene
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop, GlassController&);
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRInterface& vrInterface, GlassController&);
 
 // settings
 std::string NAME = "Random window";
@@ -103,8 +103,8 @@ int main(int argc, char ** argv) {
 	WindowTitle::setWindow(window.glfwWindow);
 
 	Scene::Scene scene{ Configuration::BACKGROUND, 2 };
-	VR::VRGLInterop vrglinterop{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
-	vrglinterop.init();
+	VR::VRInterface vrInterface{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
+	vrInterface.init();
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ int main(int argc, char ** argv) {
 	FrameBuffer* vrFrameBuffer = nullptr;
 	SteamIVRInput a;
 
-	if ((HmdConnected = vrglinterop.hasVR())) {
+	if ((HmdConnected = vrInterface.hasVR())) {
 		a.Init();
 
 		vrFrameBuffer = new FrameBuffer{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
@@ -143,14 +143,14 @@ int main(int argc, char ** argv) {
 	GraphicShaderStorage::addShader(ShaderNames.SelectedGlassObject, programSelectedGlass);
 	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
 
-	setupScene(scene, inputDispatcher, vrglinterop, glassController);
+	setupScene(scene, inputDispatcher, vrInterface, glassController);
 	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
 	//EmiterManager::setInputDispatcher(&inputDispatcher);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	HandDataProvider handDataProvider;
-	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrglinterop, &a);
-	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrglinterop, &a);
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrInterface, &a);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrInterface, &a);
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
 
@@ -170,8 +170,8 @@ int main(int argc, char ** argv) {
 	//		//LOG_F(WARNING, "nope");
 	//	}
 	//}
-	//vrglinterop.VrInput->DetectControllers();
-	//auto controlers = vrglinterop.VrInput->GetDetectedControllers();
+	//vrInterface.VrInput->DetectControllers();
+	//auto controlers = vrInterface.VrInput->GetDetectedControllers();
 	//LOG_F(WARNING, "%d, %d", controlers.first, controlers.second);
 	do 
 	{
@@ -185,7 +185,7 @@ int main(int argc, char ** argv) {
 			vr::VRInputValueHandle_t ulHapticDevice;
 			a.GetDigitalActionRisingEdge(a.m_actionGrip, &ulHapticDevice) // check grip, you can also get information included in vr::VRInputValueHandle_t, check it out in openvr.h
 			*/
-			vrglinterop.handleInput(static_cast<VRCameraController*>(cameraController));
+			vrInterface.handleInput(static_cast<VRCameraController*>(cameraController));
 			leftHand.update();
 			rightHand.update();
 			vrFrameBuffer->drawTo();
@@ -196,7 +196,7 @@ int main(int argc, char ** argv) {
 
 
 		if (HmdConnected) {
-			vrglinterop.sumbitFrame(*vrFrameBuffer);
+			vrInterface.sumbitFrame(*vrFrameBuffer);
 			window.getFrameFrom(*vrFrameBuffer);
 		}
 		window.refresh();
@@ -210,7 +210,7 @@ int main(int argc, char ** argv) {
 }
 
 
-void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRGLInterop& vrglinterop, GlassController& glassController) {
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRInterface& vrInterface, GlassController& glassController) {
 	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
 	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
 

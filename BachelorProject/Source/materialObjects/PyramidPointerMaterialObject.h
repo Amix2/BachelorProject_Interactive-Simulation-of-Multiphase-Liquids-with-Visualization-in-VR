@@ -5,8 +5,7 @@
 #include "MaterialObject.h"
 #include <Configuration.h>
 #include <vector>
-#include <VR/VRGLInterop.h>
-//#include <digitalHand/DigitalHand.h>
+
 #include <emiters/Emiter.h>
 
 //class DigitalHand;

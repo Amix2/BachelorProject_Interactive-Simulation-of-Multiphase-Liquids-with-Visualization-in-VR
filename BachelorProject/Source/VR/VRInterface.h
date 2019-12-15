@@ -9,10 +9,10 @@
 #include <scene/camera/VRCameraController.h>
 
 namespace VR {
-	class VRGLInterop {
+	class VRInterface {
 	public:
-		VRGLInterop(unsigned int width, unsigned int height) : width{ width }, height{ height } {};
-		VRGLInterop& operator=(const VRGLInterop&) = default;
+		VRInterface(unsigned int width, unsigned int height) : width{ width }, height{ height } {};
+		VRInterface& operator=(const VRInterface&) = default;
 		std::shared_ptr<VR::VRCore> VrCore = std::make_unique<VR::VRCore>();
 		std::shared_ptr<VR::VRGeometry> VrGeometry = std::make_unique<VR::VRGeometry>();
 		VR::VRInput* VrInput = new VR::VRInput(VrCore.get());

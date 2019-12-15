@@ -14,10 +14,10 @@ DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgra
 	//m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 }
 
-DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop, SteamIVRInput* steamInput)
+DigitalHand::DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRInterface* vrInterface, SteamIVRInput* steamInput)
 	: m_dataProvider{ dataprovider }, m_hand{ hand }, m_handShader{ handShader }, m_steamInput{ steamInput }
 {
-	this->m_vrglinterop = vrglinterop;
+	this->m_vrInterface = vrInterface;
 	//m_pyramid = std::make_unique<PyramidPointerMaterialObject>(handShader, glm::vec4{ 0.3, 0.5, 0.4, 1.0 }, this);
 }
 
@@ -47,9 +47,9 @@ void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
 void DigitalHand::update()
 {
 	if (m_deviceIndex == -1) {
-		m_vrglinterop->VrInput->DetectControllers();
-		if (m_hand == LEFT_HAND) m_deviceIndex = m_vrglinterop->VrInput->GetDetectedControllers().first;
-		else m_deviceIndex = m_vrglinterop->VrInput->GetDetectedControllers().second;
+		m_vrInterface->VrInput->DetectControllers();
+		if (m_hand == LEFT_HAND) m_deviceIndex = m_vrInterface->VrInput->GetDetectedControllers().first;
+		else m_deviceIndex = m_vrInterface->VrInput->GetDetectedControllers().second;
 
 		if (m_deviceIndex == -1) return;
 	}
@@ -120,7 +120,7 @@ void DigitalHand::update()
 
 glm::mat4 DigitalHand::getMyHandMatrix() const
 {
-	return VR::openvr_m34_to_mat4(m_vrglinterop->VrGeometry->TrackedDevicePoses[m_deviceIndex].mDeviceToAbsoluteTracking);
+	return VR::openvr_m34_to_mat4(m_vrInterface->VrGeometry->TrackedDevicePoses[m_deviceIndex].mDeviceToAbsoluteTracking);
 }
 
 bool DigitalHand::tryGrabDistance()

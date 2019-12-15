@@ -11,6 +11,7 @@
 #include <Utils.h>
 #include <actionControllers/VRActionController.h>
 #include <VR/SteamIVRInput.h>
+#include <VR/VRInterface.h>
 
 class PyramidPointerMaterialObject;
 
@@ -26,7 +27,7 @@ private:
 	const inline static float PROXY_GRAB_DISTANCE = 10;
 	const inline static float ANGLE_GRAB_DIFFERENCE = 0.55f;	// ~30 deg
 	const inline static glm::mat4 SCALE_MATRIX = glm::scale(glm::mat4{ 1.0f }, { 100, 100, 100 });
-	VR::VRGLInterop* m_vrglinterop;
+	VR::VRInterface* m_vrInterface;
 	SteamIVRInput* m_steamInput;
 	HandDataProvider* m_dataProvider;
 	std::unique_ptr<PyramidPointerMaterialObject> m_pyramid;
@@ -49,7 +50,7 @@ private:
 public:
 
 	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader);
-	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRGLInterop* vrglinterop, SteamIVRInput* steamInput);
+	DigitalHand(HandDataProvider* dataprovider, Hand hand, ShaderProgram handShader, VR::VRInterface* vrInterface, SteamIVRInput* steamInput);
 
 	void init();
 	void load(const glm::mat4& view, const glm::mat4& projection) const;

@@ -73,7 +73,7 @@
     <ClCompile Include="Source\Utils.cpp" />
     <ClCompile Include="Source\VR\VRCore.cpp" />
     <ClCompile Include="Source\VR\VRGeometry.cpp" />
-    <ClCompile Include="Source\VR\VRGLInterop.cpp" />
+    <ClCompile Include="Source\VR\VRInterface.cpp" />
     <ClCompile Include="Source\VR\VRInput.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Source\window\WindowTitle.cpp" />
@@ -147,7 +147,7 @@
     <ClInclude Include="Source\VR\InputConfig.h" />
     <ClInclude Include="Source\VR\VRCore.h" />
     <ClInclude Include="Source\VR\VRGeometry.h" />
-    <ClInclude Include="Source\VR\VRGLInterop.h" />
+    <ClInclude Include="Source\VR\VRInterface.h" />
     <ClInclude Include="Source\VR\VRInput.h" />
     <ClInclude Include="Source\window\WindowTitle.h" />
   </ItemGroup>
