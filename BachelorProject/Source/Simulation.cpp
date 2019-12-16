@@ -171,8 +171,8 @@ void Simulation::setupSimObjects()
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 
-	ParticleObjectDetais fluidVR1{ 2, 25,50,25, 35,60,35 };
-	ParticleObjectDetais fluidVR2{ 3, 25,61,25, 35,71,35 };
+	ParticleObjectDetais fluidVR1{ 1, 25,50,25, 35,60,35 };
+	ParticleObjectDetais fluidVR2{ 2, 25,61,25, 35,71,35 };
 	ParticleObjectDetais glassVR{ -1, 70,35,30, 15, 1.5, 20 };
 	ParticleObjectDetais glassVR2{ -1, 30,60,30, 18, 1.5, 30 };
 	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, 1, 15 };
