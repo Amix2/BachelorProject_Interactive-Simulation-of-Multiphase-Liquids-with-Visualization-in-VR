@@ -80,8 +80,8 @@ int ParticleGeometry::circle(int& numOfParts, glm::vec3 center, float radius, fl
 int ParticleGeometry::filledCircle(int& numOfParts, glm::vec3 center
 	, float innerRadiusCalc, float innerRadiusRender, CalcMode innerRadiusMode
 	, float outerRadiusCalc, float outerRadiusRender, CalcMode outerRadiusMode
-	, float inCircleGap,
- float layerGap, VectorDirection mainVecDirection, std::vector<VectorDirection> edgeVecDirections)
+	, float inCircleGap, float layerGap
+	, VectorDirection mainVecDirection, std::vector<VectorDirection> edgeVecDirections)
 {
 	//LOG_F(INFO, "filledCircle part %d", numOfParts);
 	const int numOfCircles = (int)std::ceil((outerRadiusCalc - innerRadiusCalc) / layerGap);

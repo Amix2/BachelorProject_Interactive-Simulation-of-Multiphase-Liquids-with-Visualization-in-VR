@@ -171,16 +171,16 @@ void Simulation::setupSimObjects()
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
 
-	ParticleObjectDetais fluidVR1{ 2, 25,50,25, 35,70,35 };
-	ParticleObjectDetais fluidVR2{ 3, 25,71,25, 35,91,35 };
-	ParticleObjectDetais glassVR{ -1, 30,35,30, 15, Configuration.GLASS_PARTICLE_BUILD_GAP, 20 };
-	ParticleObjectDetais glassVR2{ -1, 30,75,30, 15, Configuration.GLASS_PARTICLE_BUILD_GAP, 60 };
-	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, Configuration.GLASS_PARTICLE_BUILD_GAP, 15 };
+	ParticleObjectDetais fluidVR1{ 2, 25,50,25, 35,60,35 };
+	ParticleObjectDetais fluidVR2{ 3, 25,61,25, 35,71,35 };
+	ParticleObjectDetais glassVR{ -1, 70,35,30, 15, 1.5, 20 };
+	ParticleObjectDetais glassVR2{ -1, 30,60,30, 18, 1.5, 30 };
+	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, 1, 15 };
 	ParticleObjectCreator::addObject(fluidVR1);
 	ParticleObjectCreator::addObject(fluidVR2);
-	//ParticleObjectCreator::addObject(glassVR);
+	ParticleObjectCreator::addObject(glassVR);
 	ParticleObjectCreator::addObject(glassVR2);
-	//ParticleObjectCreator::addObject(glassVR3);
+	ParticleObjectCreator::addObject(glassVR3);
 }
 
 
@@ -211,8 +211,8 @@ void Simulation::main()
 		timeEnd = glfwGetTime();
 
 		const int sleepTime = (1.0 / Configuration.TARGET_SIM_FPS - (timeEnd - timeStart)) * 1000;
-		//if(sleepTime > 0)
-			//Sleep(sleepTime);
+		if(sleepTime > 0)
+			Sleep(sleepTime);
 
 		timeDif += timeEnd - timeStart;
 

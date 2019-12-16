@@ -46,7 +46,7 @@ namespace Scene {
 		inline static const float DEFAULT_CAM_ROLL{ 0.0f };
 		inline static const float DEFAULT_ZOOM{ 45.0f };
 		inline static const float DEFAULT_NEAR{ 0.1f };
-		inline static const float DEFAULT_FAR{ 200.0f };
+		inline static const float DEFAULT_FAR{ 1000.0f };
 
 		glm::vec3 headUp;
 		glm::vec3 position;

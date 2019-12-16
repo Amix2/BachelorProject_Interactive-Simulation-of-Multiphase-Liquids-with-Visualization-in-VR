@@ -135,7 +135,7 @@ void main(void)
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
 	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
 	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
-	const float pGlassMultiplier = 0.9f*glassForceMultiplier[myParticleIndex];
+	const float pGlassMultiplier = 0.8f*glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
