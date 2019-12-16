@@ -65,7 +65,7 @@ public:
 	int decreaseSize(int revemeRows);
 	float increaseVelocity(int stepsUp=1);
 	float decreaseVelocity(int stepsDown=1);
-	float chengeVeloccity(float defVelocity);
+	float chengeVelocity(float defVelocity);
 	void setActive(bool active) { m_isActive = active; }
 	void setFluidType(int type) { m_fluidType = type; }
 	void toggleActive() { m_isActive = !m_isActive; }

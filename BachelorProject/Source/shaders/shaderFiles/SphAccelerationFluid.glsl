@@ -135,7 +135,7 @@ void main(void)
 	const float pDensity =	fluidDensityPressure[2*myParticleIndex+0];
 	const float pPressure = fluidDensityPressure[2*myParticleIndex+1];
 	const vec3 pVelocity = vec3(fluidVelocity[3*myParticleIndex+0], fluidVelocity[3*myParticleIndex+1], fluidVelocity[3*myParticleIndex+2]); 
-	const float pGlassMultiplier = 0.9*glassForceMultiplier[myParticleIndex];
+	const float pGlassMultiplier = 0.9f*glassForceMultiplier[myParticleIndex];
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
@@ -163,11 +163,12 @@ void main(void)
 				const vec3 pGlassSurfaceVector = vec3(fluidSurfaceVector[3*myParticleIndex+0], fluidSurfaceVector[3*myParticleIndex+1], fluidSurfaceVector[3*myParticleIndex+2]);
 	
 				const float cosAngle = dot(direction, pGlassSurfaceVector);
+				//const float sinAngle = sin(M_PI - acos(cosAngle));
 				//if(dist < pMinGlassDistance) pMinGlassDistance = dist;
 				const float thisSurfaceDist = cosAngle * dist;
 				if(thisSurfaceDist < pMinGlassDistance) pMinGlassDistance = thisSurfaceDist;
 
-				const float tPressSc = myType.mass * (2*pPressure/pow(pDensity, 2) ) * KernelDerivative(dist);
+				const float tPressSc = myType.mass * 2 * (pPressure/pow(pDensity, 2) ) * KernelDerivative(dist);
 				pPressureVec += direction * tPressSc * pGlassMultiplier;
 
 

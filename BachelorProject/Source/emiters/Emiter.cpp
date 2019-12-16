@@ -179,7 +179,7 @@ float Emiter::decreaseVelocity(int stepsDown)
 	return m_Velocity;
 }
 
-float Emiter::chengeVeloccity(float defVelocity)
+float Emiter::chengeVelocity(float defVelocity)
 {
 	m_Velocity += defVelocity;
 	m_Velocity = min(m_Velocity, Configuration.MAX_PARTICLE_SPEED / Configuration.DELTA_TIME);

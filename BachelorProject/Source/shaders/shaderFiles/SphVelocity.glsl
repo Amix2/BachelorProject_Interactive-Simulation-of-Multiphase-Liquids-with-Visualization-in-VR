@@ -95,7 +95,7 @@ void main(void)
 	vec3 pAcceleration = vec3(fluidAcceleration[3*myThreadNumber+0], fluidAcceleration[3*myThreadNumber+1] + GRAVITY_Y, fluidAcceleration[3*myThreadNumber+2]); 
 
 	const float maxVelChange = 0.5f;
-	if(pSurfaceDistance > 0.5f &&  length(pAcceleration) * DELTA_TIME * DELTA_TIME > maxVelChange * MAX_PARTICLE_SPEED) {
+	if(pSurfaceDistance > 1.5f && length(pAcceleration) * DELTA_TIME * DELTA_TIME > maxVelChange * MAX_PARTICLE_SPEED) {
 		pAcceleration = normalize(pAcceleration) * (maxVelChange * MAX_PARTICLE_SPEED / (DELTA_TIME * DELTA_TIME));
 	}
 
@@ -107,13 +107,14 @@ void main(void)
 	const float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, pNormVelocity));
 	if(K > 0) {
 		//if(K > 1.0) K = 1.0;
-		pNewPosition += pSurfaceVec * (K);
+		pNewPosition += pSurfaceVec * (1.5*K);
 		const float newVelLen = min(glassMaxVelocity[myThreadNumber], pLenVelocity);
 		pVelocity = (pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type +=2;
 	} else {
-		if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED) {
-			pVelocity = pNormVelocity * MAX_PARTICLE_SPEED / DELTA_TIME;
+		const float normDist = min(pSurfaceDistance*pSurfaceDistance, 1.f);
+		if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED * normDist) {
+			pVelocity = pNormVelocity * MAX_PARTICLE_SPEED * normDist / DELTA_TIME;
 		}
 //		const float maxVelChange = 1.1f;
 //		if (length(pOldVelocity - pVelocity) > maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME) {

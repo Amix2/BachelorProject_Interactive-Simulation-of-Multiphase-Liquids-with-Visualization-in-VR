@@ -168,7 +168,7 @@ void main(void)
 				const mat4 transformMatrix = glassObjects[neiGlassParticle.glassNumber].matrix;
 				const vec4 neiGlobalGlassVector = (transformMatrix * neiLocalGlassVector) ;
 
-				pGlassSurfaceVector += neiGlobalGlassVector.xyz * (Kernel(dist));
+				pGlassSurfaceVector += neiGlobalGlassVector.xyz;
 
 				distanceToGlass += 1+Kernel(dist);
 
