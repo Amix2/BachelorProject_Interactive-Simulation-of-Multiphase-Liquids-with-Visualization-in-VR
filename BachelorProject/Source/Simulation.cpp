@@ -2,11 +2,12 @@
 
 float TimeTemp, TimeMain;
 #define TEST_TIME(value) if (MEASURE_TIME) { glFinish();  TimeTemp=(float)glfwGetTime(); ##value += TimeTemp - TimeMain; TimeMain=TimeTemp;}
+#define TEST_TIME_FORCE(value) { glFinish();  TimeTemp=(float)glfwGetTime(); ##value += TimeTemp - TimeMain; TimeMain=TimeTemp;}
 
 void Simulation::runSimulationFrame()
 {
 	//LOG_F(INFO, " =====");
-	if (MEASURE_TIME)TimeMain = glfwGetTime();
+	TimeMain = glfwGetTime();
 	while (ParticleObjectCreator::hasNewOrder()) {
 		LOG_F(INFO, "Parsing Order loop");
 		ParticleObjectCreator::createParticlesFromOrderList();
@@ -54,7 +55,7 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntCopyForSortTime);
 
-
+	TEST_TIME_FORCE(tt_rest)
 	// SORT
 	const int bitonicSortWorkGroups = (int)ceil(numOfFluidPow2 * 0.5 / 256.0);
 	const int numOfStages = numOfFluidLog2;
@@ -66,7 +67,7 @@ void Simulation::runSimulationFrame()
 		}
 	}
 
-
+	TEST_TIME_FORCE(tt_sort)
 	TEST_TIME(_ntBitonicSortTime);
 
 
@@ -88,7 +89,7 @@ void Simulation::runSimulationFrame()
 	//glFinish();
 
 	m_SphDensityPressureFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
-
+	TEST_TIME_FORCE(tt_rest)
 
 	TEST_TIME(_ntDensityPressureFluidTime);
 
@@ -104,7 +105,7 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntVelocityTime);
 	ParticleData::syncSimDetailsWithGpu(0);
-
+	TEST_TIME_FORCE(tt_sph)
 	checkOpenGLErrors();
 
 }
@@ -196,6 +197,7 @@ void Simulation::main()
 	checkOpenGLErrors();
 
 	double timeStart, timeEnd, timeDif = 0;
+
 	while (!glfwWindowShouldClose(m_mainWindow))
 	for (int i = 0; i < 1; i++)
 	{
@@ -221,6 +223,21 @@ void Simulation::main()
 			WindowTitle::setTitle(m_SimParticleTitle, std::to_string(ParticleData::m_NumOfParticles) +" particles");
 			WindowTitle::setTitle(m_SimGlassParticleTitle, std::to_string(ParticleData::m_NumOfGlassParticles) + " glass particles");
 			timeDif = 0;
+		}
+
+		if (m_turnNumber % 8 == 0) {
+			tt_str_sort += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sort) + "), ";
+			tt_str_sph += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sph) + "), ";
+			tt_sort = tt_sph = tt_rest = 0;
+		}
+
+		if (m_turnNumber % 80 == 0) {
+			tt_str_sort += " ]";
+			tt_str_sph += " ]";
+			LOG_F(ERROR, " SORT ==================== SORT \n%s", tt_str_sort.c_str());
+			tt_str_sort = "[";
+			LOG_F(ERROR, " SPH ==================== SPH \n%s", tt_str_sph.c_str());
+			tt_str_sph = "[";
 		}
 
 		//EmiterManager::printEmiters();

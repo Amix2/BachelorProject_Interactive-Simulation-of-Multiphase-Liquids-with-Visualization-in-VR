@@ -21,7 +21,7 @@ enum Hand {
 };
 
 // aka VR Controller
-class DigitalHand : public KeyInputListener, public MaterialObjectOwner, public MaterialObject
+class DigitalHand : public MaterialObjectOwner, public MaterialObject
 {
 private:
 	const inline static float PROXY_GRAB_DISTANCE = 10;
@@ -56,9 +56,6 @@ public:
 	void load(const glm::mat4& view, const glm::mat4& projection) const;
 
 	glm::mat4 getModel() const override;
-
-	void handleKeyPress(int key, KeyState state, float deltaTime) override;
-
 	void update();
 };
 

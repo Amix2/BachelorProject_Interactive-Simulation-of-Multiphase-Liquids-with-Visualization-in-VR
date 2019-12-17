@@ -40,10 +40,6 @@ glm::mat4 DigitalHand::getModel() const
 	return  m_handMatrix * glm::rotate(glm::mat4(1.0f), glm::pi<float>() / 2, glm::vec3(1, 0, 0)) * glm::scale(glm::mat4{ 1.0f }, { 5,5,5 });
 }
 
-void DigitalHand::handleKeyPress(int key, KeyState state, float deltaTime)
-{
-}
-
 void DigitalHand::update()
 {
 	if (m_deviceIndex == -1) {

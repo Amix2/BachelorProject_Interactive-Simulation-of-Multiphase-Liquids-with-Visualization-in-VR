@@ -36,6 +36,10 @@ class Simulation
 
 	inline static float _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntSyncDetailsTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc;
 
+	inline static float tt_sort, tt_sph, tt_rest;
+
+	inline static std::string tt_str_sort = "[", tt_str_sph = "[", tt_log_str = "";
+
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
 
@@ -43,8 +47,8 @@ class Simulation
 	inline static float m_Velocity;
 	inline static const int m_printTimesFrequency = 1024;
 	inline static const int m_forTitleTimesFrequency = 16;
-	inline static const bool MEASURE_TIME = true;
-	inline static const bool PRINT_TIME = true;
+	inline static const bool MEASURE_TIME = false;
+	inline static const bool PRINT_TIME = false;
 
 	inline static const std::string m_SimFpsTitle = "Sim FPS ";
 	inline static const std::string m_SimParticleTitle = "Sim Num of particles";
