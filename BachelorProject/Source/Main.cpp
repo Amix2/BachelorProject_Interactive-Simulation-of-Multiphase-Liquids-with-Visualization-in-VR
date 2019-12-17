@@ -87,7 +87,7 @@ int main(int argc, char ** argv) {
 	loguru::g_preamble_date = false;
 	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
 	loguru::init(argc, argv);
-	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+	loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_ERROR);
 
 	atexit(cleanUp);
 
@@ -154,9 +154,27 @@ int main(int argc, char ** argv) {
 	scene.addMaterialObject(&leftHand, 0);
 	scene.addMaterialObject(&rightHand, 0);
 
-	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 75, 0 }, true);
-	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
-	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
+	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 75, 0 }, true);
+	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
+	glm::mat4 mat = (glm::rotate(glm::mat4(1), (float)M_PI / 2, { 1,0,0 }));
+	Utils::setPosition(&mat, { -60, 150, -60 });
+	Emiter* emiter = EmiterManager::createEmiter(10, 1000.f, 1, mat, true);
+	emiter->decreaseSize(7);
+	emiter->setFluidType(2);
+	emiter->setActive(true);
+	while (ParticleData::m_NumOfParticles < 300000)
+	{
+		Sleep(1);
+	}
+	int i = Simulation::m_turnNumber;
+	while (i + 256 > Simulation::m_turnNumber) {
+		Sleep(1);
+	}
+	Simulation::tt_str_sort += " ]";
+	Simulation::tt_str_sph += " ]";
+	LOG_F(ERROR, " SORT ==================== SORT \n%s", Simulation::tt_str_sort.c_str());
+	LOG_F(ERROR, " SPH ==================== SPH \n%s", Simulation::tt_str_sph.c_str());
+	return(0);
 
 	//while (!a.nextSongSet())
 	//{

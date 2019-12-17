@@ -176,11 +176,11 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais fluidVR2{ 2, 25,61,25, 35,71,35 };
 	ParticleObjectDetais glassVR{ -1, 70,35,30, 15, 1.5, 20 };
 	ParticleObjectDetais glassVR2{ -1, 30,60,30, 18, 1.5, 30 };
-	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, 1, 15 };
-	ParticleObjectCreator::addObject(fluidVR1);
-	ParticleObjectCreator::addObject(fluidVR2);
-	ParticleObjectCreator::addObject(glassVR);
-	ParticleObjectCreator::addObject(glassVR2);
+	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, 1, 25 };
+//	ParticleObjectCreator::addObject(fluidVR1);
+	//ParticleObjectCreator::addObject(fluidVR2);
+	//ParticleObjectCreator::addObject(glassVR);
+	//ParticleObjectCreator::addObject(glassVR2);
 	ParticleObjectCreator::addObject(glassVR3);
 }
 
@@ -213,8 +213,8 @@ void Simulation::main()
 		timeEnd = glfwGetTime();
 
 		const int sleepTime = (1.0 / Configuration.TARGET_SIM_FPS - (timeEnd - timeStart)) * 1000;
-		if(sleepTime > 0)
-			Sleep(sleepTime);
+		//if(sleepTime > 0)
+			//Sleep(sleepTime);
 
 		timeDif += timeEnd - timeStart;
 
@@ -226,19 +226,20 @@ void Simulation::main()
 		}
 
 		if (m_turnNumber % 8 == 0) {
-			tt_str_sort += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sort) + "), ";
-			tt_str_sph += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sph) + "), ";
+			tt_str_sort += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sort*1000/8) + "), ";
+			tt_str_sph += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sph*1000/8) + "), ";
 			tt_sort = tt_sph = tt_rest = 0;
+			LOG_F(WARNING, "%d", ParticleData::m_NumOfParticles);
 		}
 
-		if (m_turnNumber % 80 == 0) {
+		/*if (m_turnNumber % 8000 == 0) {
 			tt_str_sort += " ]";
 			tt_str_sph += " ]";
 			LOG_F(ERROR, " SORT ==================== SORT \n%s", tt_str_sort.c_str());
 			tt_str_sort = "[";
 			LOG_F(ERROR, " SPH ==================== SPH \n%s", tt_str_sph.c_str());
 			tt_str_sph = "[";
-		}
+		}*/
 
 		//EmiterManager::printEmiters();
 		//ParticleData::printGlassObjectsData(2);

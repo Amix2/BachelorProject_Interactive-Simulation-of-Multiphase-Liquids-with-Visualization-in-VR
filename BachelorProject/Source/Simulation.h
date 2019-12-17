@@ -32,13 +32,11 @@ class Simulation
 	inline static ComputeShader m_SphAccelerationFluid;
 	inline static ComputeShader m_SphVelocity;
 
-	inline static unsigned int m_turnNumber = 0;
 
 	inline static float _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntSyncDetailsTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc;
 
 	inline static float tt_sort, tt_sph, tt_rest;
 
-	inline static std::string tt_str_sort = "[", tt_str_sph = "[", tt_log_str = "";
 
 	inline static const std::string stageUniform = "u_stage";
 	inline static const std::string turnUniform = "u_turnInStage";
@@ -55,6 +53,8 @@ class Simulation
 	inline static const std::string m_SimGlassParticleTitle = "Sim Num of Glass particles";
 
 public:
+	inline static unsigned int m_turnNumber = 0;
+	inline static std::string tt_str_sort = "[", tt_str_sph = "[", tt_log_str = "";
 
 	//inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
 	//inline static std::atomic<Resource_Request> m_reqGlassArray		= NO_ORDER;

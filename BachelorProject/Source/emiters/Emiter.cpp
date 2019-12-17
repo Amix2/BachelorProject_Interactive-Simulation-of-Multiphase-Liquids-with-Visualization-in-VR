@@ -40,7 +40,7 @@ int Emiter::fillGPUdata(GPUEmiter* data, int turnNumber)
 	}
 
 
-	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < 0.5f*Configuration.MAX_PARTICLES) {
+	if (turnNumber % m_emitFrequency == 0 && ParticleData::m_NumOfParticles + 512 + m_numOfParticles < Configuration.MAX_PARTICLES) {
 		m_rotationAngle += 0.1;
 		data->matrix = m_Matrix * glm::rotate(glm::mat4{ 1 }, m_rotationAngle, glm::vec3(0,0,1));
 		data->velocity = m_Velocity;
