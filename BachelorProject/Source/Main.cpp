@@ -172,6 +172,8 @@ int main(int argc, char ** argv) {
 	}
 	Simulation::tt_str_sort += " ]";
 	Simulation::tt_str_sph += " ]";
+	Simulation::tt_str_lin += " ]";
+	Simulation::tt_str_copy += " ]";
 	LOG_F(ERROR, " SORT ==================== SORT \n%s", Simulation::tt_str_sort.c_str());
 	LOG_F(ERROR, " SPH ==================== SPH \n%s", Simulation::tt_str_sph.c_str());
 	LOG_F(ERROR, " LIN ==================== LIN \n%s", Simulation::tt_str_lin.c_str());

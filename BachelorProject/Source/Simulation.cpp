@@ -8,6 +8,7 @@ void Simulation::runSimulationFrame()
 {
 	//LOG_F(INFO, " =====");
 	TimeMain = glfwGetTime();
+	TEST_TIME_FORCE(tt_rest)
 	while (ParticleObjectCreator::hasNewOrder()) {
 		LOG_F(INFO, "Parsing Order loop");
 		ParticleObjectCreator::createParticlesFromOrderList();
@@ -30,8 +31,6 @@ void Simulation::runSimulationFrame()
 	const int emitedThisTurn = EmiterManager::updateAllEmiters(m_turnNumber);
 	glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
 
-	TEST_TIME(_ntSynchronizeWithGpuTime);
-
 
 	const int numOfFluid = ParticleData::m_NumOfParticles + emitedThisTurn;
 	const int numOfFluidDiv256 = (int)ceil(numOfFluid / 256.0f);
@@ -42,20 +41,16 @@ void Simulation::runSimulationFrame()
 	const int numOfFluidMul27Div256 = (int)ceil((27 * numOfFluid) / 256.0);
 	const int numOfFluidMul27Div270 = (int)ceil((27 * numOfFluid) / 270.0);
 
-	TEST_TIME(_ntRangeCalc);
-
 	TEST_TIME_FORCE(tt_rest)
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
 	ParticleData::m_NumOfParticles += emitedThisTurn;
 	ParticleData::syncSimDetailsWithGpu(emitedThisTurn);
 
-	TEST_TIME(_ntCellCountingTime);
 	TEST_TIME_FORCE(tt_lin)
 
 	ParticleData::copyDataForSorting();
 
 
-	TEST_TIME(_ntCopyForSortTime);
 
 	TEST_TIME_FORCE(tt_copy)
 	// SORT
@@ -70,23 +65,20 @@ void Simulation::runSimulationFrame()
 	}
 
 	TEST_TIME_FORCE(tt_sort)
-	TEST_TIME(_ntBitonicSortTime);
 
 
 	// ARRANGE variables after sorting
 	m_VariablesArrangement.runShader(numOfFluidDiv256, 1, 1, false);
 
 
-	TEST_TIME(_ntArrangeVarsTime);
-
 	ParticleData::syncSimDetailsWithGpu();
 
-	TEST_TIME(_ntSyncDetailsTime);
+
 
 	m_SphNeighbourSearch.runShader(numOfFluidMul27Div256, 1, 1, false);
 
 
-	TEST_TIME(_ntNeighbourSearchTime);
+
 
 	//glFinish();
 	TEST_TIME_FORCE(tt_lin)
@@ -98,14 +90,10 @@ void Simulation::runSimulationFrame()
 
 	m_SphAccelerationFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
 
-
-	TEST_TIME(_ntAccelerationFluidTime);
 	TEST_TIME_FORCE(tt_sph)
 
 	m_SphVelocity.runShader(numOfFluidDiv256, 1, 1, false);
 
-
-	TEST_TIME(_ntVelocityTime);
 	ParticleData::syncSimDetailsWithGpu(0);
 	TEST_TIME_FORCE(tt_lin)
 	checkOpenGLErrors();
