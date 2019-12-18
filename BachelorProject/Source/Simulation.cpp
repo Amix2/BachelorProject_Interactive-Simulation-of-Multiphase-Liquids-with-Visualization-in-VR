@@ -44,18 +44,20 @@ void Simulation::runSimulationFrame()
 
 	TEST_TIME(_ntRangeCalc);
 
-
+	TEST_TIME_FORCE(tt_rest)
 	m_CellCounting.runShader(numOfFluidDiv256, 1, 1, false);
 	ParticleData::m_NumOfParticles += emitedThisTurn;
 	ParticleData::syncSimDetailsWithGpu(emitedThisTurn);
 
 	TEST_TIME(_ntCellCountingTime);
+	TEST_TIME_FORCE(tt_lin)
 
 	ParticleData::copyDataForSorting();
 
+
 	TEST_TIME(_ntCopyForSortTime);
 
-	TEST_TIME_FORCE(tt_rest)
+	TEST_TIME_FORCE(tt_copy)
 	// SORT
 	const int bitonicSortWorkGroups = (int)ceil(numOfFluidPow2 * 0.5 / 256.0);
 	const int numOfStages = numOfFluidLog2;
@@ -87,9 +89,9 @@ void Simulation::runSimulationFrame()
 	TEST_TIME(_ntNeighbourSearchTime);
 
 	//glFinish();
+	TEST_TIME_FORCE(tt_lin)
 
 	m_SphDensityPressureFluid.runShader(numOfFluidMul27Div270, 1, 1, false);
-	TEST_TIME_FORCE(tt_rest)
 
 	TEST_TIME(_ntDensityPressureFluidTime);
 
@@ -98,14 +100,14 @@ void Simulation::runSimulationFrame()
 
 
 	TEST_TIME(_ntAccelerationFluidTime);
-
+	TEST_TIME_FORCE(tt_sph)
 
 	m_SphVelocity.runShader(numOfFluidDiv256, 1, 1, false);
 
 
 	TEST_TIME(_ntVelocityTime);
 	ParticleData::syncSimDetailsWithGpu(0);
-	TEST_TIME_FORCE(tt_sph)
+	TEST_TIME_FORCE(tt_lin)
 	checkOpenGLErrors();
 
 }
@@ -228,7 +230,9 @@ void Simulation::main()
 		if (m_turnNumber % 8 == 0) {
 			tt_str_sort += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sort*1000/8) + "), ";
 			tt_str_sph += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_sph*1000/8) + "), ";
-			tt_sort = tt_sph = tt_rest = 0;
+			tt_str_lin += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_lin * 1000 / 8) + "), ";
+			tt_str_copy += "( " + std::to_string(ParticleData::m_NumOfParticles) + ", " + std::to_string(tt_copy * 1000 / 8) + "), ";
+			tt_sort = tt_sph = tt_rest = tt_copy = tt_lin = 0;
 			LOG_F(WARNING, "%d", ParticleData::m_NumOfParticles);
 		}
 

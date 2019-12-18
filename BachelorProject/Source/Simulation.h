@@ -35,7 +35,7 @@ class Simulation
 
 	inline static float _ntSum, _ntParseRequestsTime, _ntSynchronizeWithGpuTime, _ntCopyForSortTime, _ntCellCountingTime, _ntBitonicSortTime, _ntArrangeVarsTime, _ntNeighbourSearchTime, _ntSyncDetailsTime, _ntDensityPressureFluidTime, _ntAccelerationFluidTime, _ntVelocityTime, _ntRangeCalc;
 
-	inline static float tt_sort, tt_sph, tt_rest;
+	inline static float tt_sort, tt_sph, tt_rest, tt_lin, tt_copy;
 
 
 	inline static const std::string stageUniform = "u_stage";
@@ -54,7 +54,7 @@ class Simulation
 
 public:
 	inline static unsigned int m_turnNumber = 0;
-	inline static std::string tt_str_sort = "[", tt_str_sph = "[", tt_log_str = "";
+	inline static std::string tt_str_sort = "[", tt_str_sph = "[", tt_log_str = "", tt_str_lin = "", tt_str_copy = "";
 
 	//inline static std::atomic<Resource_Request> m_reqFluidArray		= NO_ORDER;
 	//inline static std::atomic<Resource_Request> m_reqGlassArray		= NO_ORDER;
