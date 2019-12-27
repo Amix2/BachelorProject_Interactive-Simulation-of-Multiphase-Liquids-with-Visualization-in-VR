@@ -107,7 +107,7 @@ void main(void)
 	const float K = BOUNCE_DISTANCE - (pSurfaceDistance - length(pNewPosition - pPosition) * dot(-pSurfaceVec, pNormVelocity));
 	if(K > 0) {
 		//if(K > 1.0) K = 1.0;
-		pNewPosition += pSurfaceVec * (1.5*K);
+		pNewPosition += pSurfaceVec * (K);
 		const float newVelLen = min(glassMaxVelocity[myThreadNumber], pLenVelocity);
 		pVelocity = (pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type +=2;

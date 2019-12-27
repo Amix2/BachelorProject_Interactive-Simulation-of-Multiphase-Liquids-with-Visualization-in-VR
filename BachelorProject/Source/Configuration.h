@@ -29,9 +29,9 @@ const struct Configuration {
 	inline static int SCENE_SIZE_Y = 1;
 	inline static int SCENE_SIZE_Z = 2;
 
-	inline static const float DELTA_TIME = 0.0040f;
+	inline static const float DELTA_TIME = 0.0042f;
 	inline static const float GRAVITY_Y = -800;
-	inline static const float BOUNCE_DISTANCE = 0.55f;
+	inline static const float BOUNCE_DISTANCE = 0.5f;
 
 	inline static const float MAX_PARTICLE_SPEED = 1.9f;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.7f;
