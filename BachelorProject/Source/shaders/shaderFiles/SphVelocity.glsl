@@ -112,14 +112,10 @@ void main(void)
 		pVelocity = (pNewPosition - pPosition) * newVelLen;
 		//fluidPositions[myThreadNumber].type +=2;
 	} else {
-		const float normDist = min(pSurfaceDistance*pSurfaceDistance, 1.f);
+		const float normDist = min(pSurfaceDistance*pSurfaceDistance*pSurfaceDistance, 1.f);
 		if(pLenVelocity * DELTA_TIME > MAX_PARTICLE_SPEED * normDist) {
 			pVelocity = pNormVelocity * MAX_PARTICLE_SPEED * normDist / DELTA_TIME;
 		}
-//		const float maxVelChange = 1.1f;
-//		if (length(pOldVelocity - pVelocity) > maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME) {
-//			pVelocity = pNormVelocity * (maxVelChange * MAX_PARTICLE_SPEED / DELTA_TIME + length(pOldVelocity));
-//		}
 	}
 
 

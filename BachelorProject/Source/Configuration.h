@@ -11,7 +11,7 @@
 
 const struct Configuration {
 	inline static int MAX_PARTICLES = 2*262144;
-	inline static int MAX_GLASS_PARTICLES = 262144/2;
+	inline static int MAX_GLASS_PARTICLES = 262144;
 	inline static const int MAX_PARTICLE_OBJECTS = 10;
 	inline static const int MAX_PARTICLES_CREATED_IN_TURN = 262144;
 	inline static const int MAX_FLUID_TYPES = 10;
@@ -29,11 +29,11 @@ const struct Configuration {
 	inline static int SCENE_SIZE_Y = 1;
 	inline static int SCENE_SIZE_Z = 2;
 
-	inline static const float DELTA_TIME = 0.005f;
+	inline static const float DELTA_TIME = 0.0040f;
 	inline static const float GRAVITY_Y = -800;
-	inline static const float BOUNCE_DISTANCE = 0.50f;
+	inline static const float BOUNCE_DISTANCE = 0.55f;
 
-	inline static const float MAX_PARTICLE_SPEED = 1.2f;
+	inline static const float MAX_PARTICLE_SPEED = 1.9f;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.7f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 20;
