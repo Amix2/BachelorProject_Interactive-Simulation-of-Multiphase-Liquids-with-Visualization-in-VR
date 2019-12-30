@@ -139,14 +139,14 @@ void main(void)
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
-
+	int qq = 0;
 	//for(int cellIter = int(27*myThreadNumber); cellIter<27 + int(27*myThreadNumber); cellIter++) {
 	if(neiIter > -1) {
 		const uint thisNeiCellIndex = sortIndexArray[neiIter];
 		// for every neighbour in 1 cell starting from first until their cell index change
 		//for(int neiParticleIndex = neighboursBeginInd[cellIter]; thisNeiCellIndex == sortIndexArray[neiParticleIndex] && neiParticleIndex > -1; neiParticleIndex++) {
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
-
+			qq++;
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
 	
 			//const FluidType neiType = fluidTypeArray[neiPartcie.type];
@@ -184,7 +184,7 @@ void main(void)
 				pViscosityVec += (neiVelocity - pVelocity) * tVescSc;
 			}
 			neiIter++;
-
+			if(qq > 800) break;
 			//fluidSurfaceVector[3*myThreadNumber+0] = dist;
 		}
 	}

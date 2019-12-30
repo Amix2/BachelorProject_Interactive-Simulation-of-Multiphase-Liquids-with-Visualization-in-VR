@@ -166,7 +166,7 @@ void Simulation::setupSimObjects()
 	ParticleObjectDetais fluidVR2{ 2, 25,61,25, 35,71,35 };
 	ParticleObjectDetais glassVR{ -1, 70,35,30, 15, 1.5, 20 };
 	ParticleObjectDetais glassVR2{ -1, 30,60,30, 18, 1.5, 30 };
-	ParticleObjectDetais glassVR3{ -1, -60,50,-60, 30, 1, 25 };
+	ParticleObjectDetais glassVR3{ -1, 0,50,0, 20, 2, 36 };
 //	ParticleObjectCreator::addObject(fluidVR1);
 	//ParticleObjectCreator::addObject(fluidVR2);
 	//ParticleObjectCreator::addObject(glassVR);

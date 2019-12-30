@@ -157,9 +157,9 @@ int main(int argc, char ** argv) {
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 75, 0 }, true);
 	//EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
 	glm::mat4 mat = (glm::rotate(glm::mat4(1), (float)M_PI / 2, { 1,0,0 }));
-	Utils::setPosition(&mat, { -60, 150, -60 });
+	Utils::setPosition(&mat, { 0, 100, 0 });
 	Emiter* emiter = EmiterManager::createEmiter(10, 1000.f, 1, mat, true);
-	emiter->decreaseSize(7);
+	emiter->decreaseSize(5);
 	emiter->setFluidType(2);
 	emiter->setActive(true);
 	while (ParticleData::m_NumOfParticles < 300000)

@@ -1,1 +1,2 @@
 python ./runPlot.py
+pause

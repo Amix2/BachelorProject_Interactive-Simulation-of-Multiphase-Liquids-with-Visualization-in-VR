@@ -18,22 +18,22 @@ const struct Configuration {
 	inline static const int MAX_EMITERS = 10;
 	inline static const int MAX_SELECTABLE_OBJECTS = 20;
 
-	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(250, 0, 250);
+	inline static const glm::vec3 DEFAULT_POSITION_OFFSET = glm::vec3(80, 0, 80);
 
 	inline static const int SORT_ARRAY_SIZE = MAX_PARTICLES;
 	inline static const float FLUID_PARTICLE_BUILD_GAP = 0.6f;
 	inline static const float GLASS_PARTICLE_BUILD_GAP = 0.7f;
 	inline static const float EMITER_FLUID_PARTICLE_BUILD_GAP = 0.9f;
 
-	inline static int SCENE_SIZE_X = 2;
-	inline static int SCENE_SIZE_Y = 1;
-	inline static int SCENE_SIZE_Z = 2;
+	inline static int SCENE_SIZE_X = 1;
+	inline static int SCENE_SIZE_Y = 3;
+	inline static int SCENE_SIZE_Z = 1;
 
 	inline static const float DELTA_TIME = 0.005f;
 	inline static const float GRAVITY_Y = -800;
-	inline static const float BOUNCE_DISTANCE = 0.50f;
+	inline static const float BOUNCE_DISTANCE = 0.99f;
 
-	inline static const float MAX_PARTICLE_SPEED = 1.2f;
+	inline static const float MAX_PARTICLE_SPEED = 0.5f;
 	inline static const float MAX_GLASS_PARTICLE_STEP_DISTANCE = 0.7f;
 
 	inline static const int NUM_OF_SPH_FLOATS_PER_PARTICLE = 20;

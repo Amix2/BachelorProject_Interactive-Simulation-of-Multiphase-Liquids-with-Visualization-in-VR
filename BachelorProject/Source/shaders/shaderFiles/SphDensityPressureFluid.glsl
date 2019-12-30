@@ -147,7 +147,7 @@ void main(void)
 
 	int neiIter = neighboursBeginInd[myThreadNumber];
 	const vec3 myFluidPosition = vec3(myFluid.x, myFluid.y, myFluid.z);
-
+	int qq = 0;
 	if(neiIter > -1) {
 		const uint thisNeiCellIndex = sortIndexArray[neiIter]; 
 	
@@ -155,6 +155,7 @@ void main(void)
 		while(thisNeiCellIndex == sortIndexArray[neiIter]) {
 			const FluidParticle neiPartcie = fluidPositions[neiIter];
 			const float dist = distance(myFluidPosition, vec3(neiPartcie.x, neiPartcie.y, neiPartcie.z));
+			qq ++;
 			if(dist >= 1) {
 				neiIter++;
 				continue;
@@ -179,7 +180,7 @@ void main(void)
 				distanceToFluid += 1+Kernel(dist);
 			}
 			neiIter++;
-
+			if(qq > 800) break;
 		}
 	}
 
