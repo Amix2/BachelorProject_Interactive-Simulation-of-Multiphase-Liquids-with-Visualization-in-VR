@@ -1,22 +1,293 @@
-#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-
-#if defined(WIN32) || defined(_WIN32)
 #include <Windows.h>
-#else
-#include <unistd.h>
-#endif
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
+#include <stdlib.h> 
+#include "./window/Window.h"
+#include "./window/ViewPort.h"
+#include "scene/Scene.h"
+#include "scene/camera/Camera.h"
+#include "materialObjects/TestMaterialObject.h"
+#include <materialObjects/GlassObject.h>
+#include "scene/camera/VRCameraController.h"
+#include "materialObjects/TestBilboardObject.h"
+#include "materialObjects/FluidObject.h"
+#include <scene/camera/SimpleCameraController.h>
+#include <scene/camera/VRCameraController.h>
+#include <scene/camera/CameraController.h>
 #include <glm/glm.hpp>
 #include <glm/vec3.hpp> 
-#include "shaders/ComputeShader.h"
+#include <shaders/ComputeShader.h>
+#include <dataStructures/GpuResources.h>
+#include <particleObjects/ParticleObject.h>
+#include <particleObjects/ParticleObjectCreator.h>
+#include <particleObjects/ParticleObjectManager.h>
+#include <shaders/ShaderCodeEditor.h>
+#include <dataStructures/ParticleData.h>
+#include <dataStructures/FluidType.h>
+#include <Utils.h>
+#include <Logger.h>
+#include <Simulation.h>
+#include <thread>
+#include <fstream>
+#include <ThreadManager.h>
+#include <thread>
+#include <materialObjects/AxesObject.h>
+#include <materialObjects/NormalVectorsObject.h>
+#include <materialObjects/PyramidPointerMaterialObject.h>
+#include <materialObjects/MoveIndicatorObject.h>
+#include <VR/VRCore.h>
+#include <VR/VRGeometry.h>
+#include <VR/VRInput.h>
+#include <VR/InputConfig.h>
+#include <VR/VRInterface.h>
+#include <memory>
+#include <glassController/GlassController.h>
+#include <Configuration.h>
+#include <window/WindowTitle.h>
+#include <emiters/EmiterManager.h>
+#include <emiters/Emiter.h>
+#include <window/FrameBuffer.h>
+#include <utilities/GraphicShaderStorage.h>
+#include <scene/camera/EmittingCameraController.h>
+#include <digitalHand/DigitalHand.h>
+#include <VR/SteamIVRInput.h>
+
+void printWorkGroupsCapabilities();
+
+// init app elements
+void initTools(ShaderProgram programPyramidPointer);
+
+// atExit function
+void cleanUp();
+
+void assignHardwareParameters();
+
+//creates objects presented on scene
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRInterface& vrInterface, GlassController&);
+
+// settings
+std::string NAME = "Random window";
+//H1680
+//W1512
+constexpr unsigned int VR_SCR_WIDTH = 1512 * 2;
+constexpr unsigned int VR_SCR_HEIGHT = 1680;
+constexpr unsigned int WINDOW_SCR_WIDTH = 1600;
+constexpr unsigned int WINDOW_SCR_HEIGHT = 900;
+
+static bool HmdConnected;
+
+int main(int argc, char ** argv) {
+	if (LOG_TO_FILE) {
+		ParticleData::partFile.open("./Simple Visualizer/part.log");	  
+		ParticleData::partFile << "const partString = \"";
+	}
+	loguru::g_preamble_date = false;
+	loguru::g_stderr_verbosity = loguru::Verbosity_WARNING;	// show only ERRORS
+	loguru::init(argc, argv);
+	//loguru::add_file("log.log", loguru::Truncate, loguru::Verbosity_MAX);
+
+	atexit(cleanUp);
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+	InputDispatcher inputDispatcher;
+	Window window{ WINDOW_SCR_WIDTH, WINDOW_SCR_HEIGHT, NAME, inputDispatcher };
+	if (window.init() == false) {
+		LOG_F(ERROR, "Failed to init window");
+		exit(1);
+	}
+
+	WindowTitle::setWindow(window.glfwWindow);
+
+	Scene::Scene scene{ Configuration::BACKGROUND, 2 };
+	VR::VRInterface vrInterface{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
+	vrInterface.init();
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+	static ShaderProgram programPyramidPointer{ "./Source/shaders/pyramidPointer/PyramidPointer.vert", "./Source/shaders/pyramidPointer/PyramidPointer.frag" };
+
+	assignHardwareParameters();
+	initTools(programPyramidPointer);
+
+	Simulation::startSimulation(window.glfwWindow);
+
+	CameraController* cameraController = nullptr;
+	FrameBuffer* vrFrameBuffer = nullptr;
+	SteamIVRInput a;
+
+	if ((HmdConnected = vrInterface.hasVR())) {
+		a.Init();
+
+		vrFrameBuffer = new FrameBuffer{ VR_SCR_WIDTH, VR_SCR_HEIGHT };
+		vrFrameBuffer->init();
+		ViewPort leftEyeViewPort{ *vrFrameBuffer,  0.0f, 0.0f, 0.5f, 1.0f };
+		ViewPort rightEyeViewPort{ *vrFrameBuffer, 0.5f, 0.0f, 0.5f, 1.0f };
+		cameraController = new VRCameraController{ leftEyeViewPort, rightEyeViewPort, 0.64f };
+	}
+	else {
+		LOG_F(INFO, "Couldn't init VR Core - switching to regular display mode");
+
+		ViewPort viewPort{ window, 0.0f, 0.0f, 1.0f, 1.0f };
+		cameraController = new EmittingCameraController{ inputDispatcher, viewPort, glm::vec3{ 100,50, 100 } };
+	}
+
+	scene.addCameras(cameraController);
+	
+	ShaderProgram programGlass{ "./Source/shaders/glass/glass.vert", "./Source/shaders/glass/glass.frag" }; 
+	GraphicShaderStorage::addShader(ShaderNames.GlassObject, programGlass);
+	ShaderProgram programSelectedGlass{ "./Source/shaders/glass/selected/glass.vert", "./Source/shaders/glass/selected/glass.frag" };
+	GraphicShaderStorage::addShader(ShaderNames.SelectedGlassObject, programSelectedGlass);
+	GlassController glassController{ inputDispatcher, *cameraController->provideCameras().at(0), programGlass, programSelectedGlass };
+
+	setupScene(scene, inputDispatcher, vrInterface, glassController);
+	//EmiterManager::setEmiter(cameraController, 25, 1000.0f);
+	//EmiterManager::setInputDispatcher(&inputDispatcher);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10, 0, 10 }, true);
+	//EmiterManager::createEmiter(10, 100.f, 1, { 10,0,10 }, true);
+	HandDataProvider handDataProvider;
+	DigitalHand leftHand(&handDataProvider, LEFT_HAND, programPyramidPointer, &vrInterface, &a);
+	DigitalHand rightHand(&handDataProvider, RIGHT_HAND, programPyramidPointer, &vrInterface, &a);
+	scene.addMaterialObject(&leftHand, 0);
+	scene.addMaterialObject(&rightHand, 0);
+
+	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 75, 0 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 50, 0 }, true);
+	EmiterManager::createEmiter(10, 1000.f, 1, { 0, 100, 0 }, true);
+
+	//while (!a.nextSongSet())
+	//{
+	//	a.InnerActionUpdate();
+	//	if (a.nextSongSet())
+	//	{
+	//		//LOG_F(WARNING, "success\n\n\n\n");
+	//	}
+	//	else
+	//	{
+	//		//LOG_F(WARNING, "nope");
+	//	}
+	//}
+	//vrInterface.VrInput->DetectControllers();
+	//auto controlers = vrInterface.VrInput->GetDetectedControllers();
+	//LOG_F(WARNING, "%d, %d", controlers.first, controlers.second);
+	do 
+	{
+		if (HmdConnected) {
+			a.InnerActionUpdate(); // NECESSARY TO DO FIRST IN LOOP
+			//bool menu = a.GetDigitalActionState(a.m_actionApplicationMenu); // check application menu button
+			//bool trig = a.GetDigitalActionState(a.m_actionTrigger); // check trigger button
+			//LOG_F(WARNING, "m: %d, tri: %d", menu, trig);
+			/*
+
+			vr::VRInputValueHandle_t ulHapticDevice;
+			a.GetDigitalActionRisingEdge(a.m_actionGrip, &ulHapticDevice) // check grip, you can also get information included in vr::VRInputValueHandle_t, check it out in openvr.h
+			*/
+			vrInterface.handleInput(static_cast<VRCameraController*>(cameraController));
+			leftHand.update();
+			rightHand.update();
+			vrFrameBuffer->drawTo();
+		}
+		glassController.assignUntrackedObjects(scene);
+
+		scene.renderScene();
+
+
+		if (HmdConnected) {
+			vrInterface.sumbitFrame(*vrFrameBuffer);
+			window.getFrameFrom(*vrFrameBuffer);
+		}
+		window.refresh();
+
+		//SelectableObjectManager::m_selectableObjects;
+		//for (SelectableObject* object : SelectableObjectManager::m_selectableObjects) object->getVRActionController()->triggerButton();
+	} while (!window.shouldClose());
+
+	glfwTerminate();
+	return 0;
+}
+
+
+void setupScene(Scene::Scene& scene, InputDispatcher& inputDispatcher, const VR::VRInterface& vrInterface, GlassController& glassController) {
+	//static ShaderProgram programCubes{ "./Source/shaders/testObject/testObject.vert", "./Source/shaders/testObject/testObject.frag" };
+	//static TestMaterialObject cubes{ programCubes, scene.getBackgroundColor() };
+
+	//static ShaderProgram programBilboard{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.geom", "./Source/shaders/particles/particles.frag" };
+	//static TestBilboardObject bilboard{ programBilboard };
+
+	static ShaderProgram programFluid{ "./Source/shaders/particles/particles.vert", "./Source/shaders/particles/particles.frag" };
+	static FluidObject fluid{ inputDispatcher, programFluid };
+
+	static ShaderProgram programAxes{ "./Source/shaders/axes/axes.vert", "./Source/shaders/axes/axes.frag" };
+	static AxesObject axes{ programAxes };
+
+	static ShaderProgram programVectorNormals{ "./Source/shaders/normalVectors/normalVectors.vert", "./Source/shaders/normalVectors/normalVectors.geom", "./Source/shaders/normalVectors/normalVectors.frag" };
+	static NormalVectorsObject vectorNormals{ inputDispatcher, programVectorNormals };
+
+	static ShaderProgram moveIndicatorProgram{ "./Source/shaders/moveIndicator/moveIndicator.vert", "./Source/shaders/moveIndicator/moveIndicator.frag" };
+	static MoveIndicatorObject moveIndicatorObject{ inputDispatcher, moveIndicatorProgram, &glassController };
+
+	//scene.addMaterialObject(&cubes);
+	//scene.addMaterialObject(&bilboard);
+	scene.addMaterialObject(&fluid, 1);
+	scene.addMaterialObject(&axes, 1);
+	scene.addMaterialObject(&vectorNormals, 1);
+	scene.addMaterialObject(&moveIndicatorObject, 1);
+}
+
+void initTools(ShaderProgram programPyramidPointer)
+{
+	WindowTitle::init();
+
+	ParticleObjectManager::init();
+	FluidType::init();
+	ShaderCodeEditor::init();
+	EmiterManager::init(programPyramidPointer);
+
+	ParticleData::initArraysOnGPU();	// HAS to be fired at the end (FluidType must be initialized before)
+}
+
+void cleanUp()
+{
+	LOG_F(INFO, "Clean Up");
+	for (std::vector<std::thread*>::const_reverse_iterator it = Threads::vecBegin(); it != Threads::vecEnd(); it++) {
+		(*it)->detach();
+		(*it)->~thread();
+	}
+	if (LOG_TO_FILE) {
+		ParticleData::partFile << "\".split(\"|\")";
+		ParticleData::partFile.close();
+	}
+}
+
+void assignHardwareParameters()
+{
+	GLint64  SSBOsize;
+
+	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &SSBOsize);
+
+	const int maxNumOfParticles = SSBOsize / (27 * sizeof(float));
+	const int maxNumOfGlassParticles = SSBOsize / sizeof(GlassParticle);
+
+	while(Configuration.MAX_PARTICLES > maxNumOfParticles) Configuration.MAX_PARTICLES *= 0.5;
+	while(Configuration.MAX_GLASS_PARTICLES > maxNumOfGlassParticles) Configuration.MAX_GLASS_PARTICLES *= 0.5;
+
+	const int baseX = Configuration.SCENE_SIZE_X;
+	const int baseY = Configuration.SCENE_SIZE_Y;
+	const int baseZ = Configuration.SCENE_SIZE_Z;
+	while ((long)Configuration.SCENE_SIZE_X * (long)Configuration.SCENE_SIZE_Y * (long long)Configuration.SCENE_SIZE_Z * (long)sizeof(GLuint) < SSBOsize) {
+		Configuration.SCENE_SIZE_X += baseX;
+		Configuration.SCENE_SIZE_Y += baseY;
+		Configuration.SCENE_SIZE_Z += baseZ;
+	}
+	Configuration.SCENE_SIZE_X -= baseX;
+	Configuration.SCENE_SIZE_Y -= baseY;
+	Configuration.SCENE_SIZE_Z -= baseZ;
+	LOG_F(WARNING, "Simulation scene size: (%d %d %d), Max particles: %d, Max glass particles: %d"
+		, Configuration.SCENE_SIZE_X, Configuration.SCENE_SIZE_Y, Configuration.SCENE_SIZE_Z, Configuration.MAX_PARTICLES, Configuration.MAX_GLASS_PARTICLES);
+}
 
 void printWorkGroupsCapabilities() {
 	GLint64  val_array[3];
@@ -26,134 +297,63 @@ void printWorkGroupsCapabilities() {
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &val_array[1]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &val_array[2]);
 
-	printf("GL_MAX_COMPUTE_WORK_GROUP_COUNT:\n\tx:%u\n\ty:%u\n\tz:%u\n",
+	printf("GL_MAX_COMPUTE_WORK_GROUP_COUNT:\n\tx:%I64u\n\ty:%I64u\n\tz:%I64u\n",
 		val_array[0], val_array[1], val_array[2]);
 
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &val_array[0]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &val_array[1]);
 	glGetInteger64i_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &val_array[2]);
 
-	printf("GL_MAX_COMPUTE_WORK_GROUP_SIZE:\n\tx:%u\n\ty:%u\n\tz:%u\n",
+	printf("GL_MAX_COMPUTE_WORK_GROUP_SIZE:\n\tx:%I64u\n\ty:%I64u\n\tz:%I64u\n",
 		val_array[0], val_array[1], val_array[2]);
 
 	glGetInteger64v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &value);
-	printf("GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS :\n\t%u\n", value);
+	printf("GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &value);
-	printf("GL_MAX_SHADER_STORAGE_BLOCK_SIZE :\n\t%u\n", value);
-
-	glGetInteger64v(GL_SHADER_STORAGE_BUFFER_SIZE, &value);
-	printf("GL_SHADER_STORAGE_BUFFER_SIZE :\n\t%u\n", value);
+	printf("GL_MAX_SHADER_STORAGE_BLOCK_SIZE :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_TEXTURE_SIZE, &value);
-	printf("GL_MAX_TEXTURE_SIZE :\n\t%u\n", value);
+	printf("GL_MAX_TEXTURE_SIZE :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  :\n\t%u\n", value);
+	printf("GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS  :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS, &value);
-	printf("GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS   :\n\t%u\n", value);
+	printf("GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_UNIFORM_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_UNIFORM_BUFFER_BINDINGS    :\n\t%u\n", value);
+	printf("GL_MAX_UNIFORM_BUFFER_BINDINGS    :\n\t%I64u\n", value);
+	value = -1;
 
-	glGetInteger64v(GL_UNIFORM_BUFFER_SIZE, &value);
-	printf("GL_UNIFORM_BUFFER_SIZE   :\n\t%u\n", value);
+	glGetInteger64v(GL_MAX_COMPUTE_UNIFORM_COMPONENTS, &value);
+	printf("GL_MAX_COMPUTE_UNIFORM_COMPONENTS    :\n\t%I64u\n", value);
+	value = -1;
+
+	glGetInteger64v(GL_MAX_UNIFORM_BLOCK_SIZE, &value);
+	printf("GL_MAX_UNIFORM_BLOCK_SIZE   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS, &value);
-	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%u\n", value);
+	printf("GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS     :\n\t%I64u\n", value);
+	value = -1;
 
-	glGetInteger64v(GL_ATOMIC_COUNTER_BUFFER_SIZE, &value);
-	printf("GL_ATOMIC_COUNTER_BUFFER_SIZE   :\n\t%u\n", value);
+	glGetInteger64v(GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS, &value);
+	printf("GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
+	value = -1;
+
+	glGetInteger64v(GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS, &value);
+	printf("GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS   :\n\t%I64u\n", value);
+	value = -1;
 
 	glGetInteger64v(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE, &value);
-	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%u\n", value);
-}
+	printf("GL_MAX_COMPUTE_SHARED_MEMORY_SIZE   :\n\t%I64u\n", value);
+	value = -1;
 
-// for auto error prints, doesnt work
-void GLAPIENTRY
-MessageCallback(GLenum source,
-	GLenum type,
-	GLuint id,
-	GLenum severity,
-	GLsizei length,
-	const GLchar* message,
-	const void* userParam)
-{
-	printf("GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-		(type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-		type, severity, message);
-}
-
-
-long getTime() {
-	SYSTEMTIME timeEnd;
-	GetSystemTime(&timeEnd);
-	return (timeEnd.wSecond * 1000) + timeEnd.wMilliseconds;
-}
-
-void checkErrors() {
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
-	{
-		std::cout << gluErrorString(err) << std::endl;
-	}
-}
-
-int main(int argc, char ** argv) {
-	/* ----- Init window ----- */
-	GLFWwindow * window;
-	if (!glfwInit()) {
-		exit(-1);
-	}
-
-	window = glfwCreateWindow(640, 480, "window name", NULL, NULL);
-
-	if (!window) {
-		exit(-2);
-	}
-
-	glfwMakeContextCurrent(window);
-
-
-	if (glewInit() != 0) {
-		exit(-3);
-	}
-
-	glDebugMessageCallback(MessageCallback, 0);				// doesnt work, idk why
-	glEnable(GL_DEBUG_OUTPUT);
-
-
-/* ----- Compute Shader ----- */
-
-	printWorkGroupsCapabilities();
-
-	ComputeShader cs("./Source/shaders/testCompute.shader");
-
-	// SSBO
-
-	float ssboValue[1024];
-	for (int i = 0; i < 1024; i++) {
-		ssboValue[i] = i;
-	}
-	float ssboValue2[1024];
-	for (int i = 0; i < 1024; i++) {
-		ssboValue2[i] = 2*1024-i;
-	}
-
-	cs.bindSSBO("info", sizeof(ssboValue), ssboValue, 2);
-	cs.bindSSBO("info2", sizeof(ssboValue2), ssboValue2, 60);
-
-	LONG tStart = getTime();
-	cs.runShader(2, 1, 1, true);
-	LONG tEnd = getTime();
-
-	float* p = (float*)cs.getSSBO("info");
-	for (int i = 0; i < 10; i++) {
-		std::cout << "ssbo " << p[1024 - 1 - i] << std::endl;
-
-	}
-
-	std::cout << "Time: " << tEnd - tStart << std::endl;
-	return 0;
+	checkOpenGLErrors();
 }

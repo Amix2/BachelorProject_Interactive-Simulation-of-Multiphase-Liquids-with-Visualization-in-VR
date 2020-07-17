@@ -1,33 +1,145 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="Source\inputDispatcher\InputDispatcher.cpp" />
+    <ClCompile Include="Source\materialObjects\Crosshair.cpp" />
+    <ClCompile Include="Source\glassController\GlassController.cpp" />
+    <ClCompile Include="Source\materialObjects\GlassObject.cpp" />
+    <ClCompile Include="Source\materialObjects\PyramidPointerMaterialObject.cpp" />
+    <ClCompile Include="Source\materialObjects\AxesObject.cpp" />
+    <ClCompile Include="Source\materialObjects\FluidObject.cpp" />
+    <ClCompile Include="Source\materialObjects\MaterialObject.cpp" />
+    <ClCompile Include="Source\materialObjects\NormalVectorsObject.cpp" />
+    <ClCompile Include="Source\materialObjects\TestBilboardObject.cpp" />
+    <ClCompile Include="Source\materialObjects\TestMaterialObject.cpp" />
+    <ClCompile Include="Source\dataStructures\FluidType.cpp" />
+    <ClCompile Include="Source\particleObjects\MugParticleObject.cpp" />
+    <ClCompile Include="Source\scene\camera\Camera.cpp" />
+    <ClCompile Include="Source\scene\camera\SimpleCameraController.cpp" />
+    <ClCompile Include="Source\scene\camera\VRCamera.cpp" />
+    <ClCompile Include="Source\scene\camera\VRCameraController.cpp" />
+    <ClCompile Include="Source\scene\Scene.cpp" />
+    <ClCompile Include="Source\ThreadSynchronizer.cpp" />
+    <ClCompile Include="Source\window\ViewPort.cpp" />
+    <ClCompile Include="Source\window\Window.cpp" />
+    <ClCompile Include="Source\shaders\ShaderCodeEditor.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleGeometry.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObject.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectCreator.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectManager.cpp" />
+    <ClCompile Include="Source\Simulation.cpp" />
+    <ClCompile Include="Source\Logger.cpp" />
+    <ClCompile Include="Source\dataStructures\GpuResources.cpp" />
+    <ClCompile Include="Source\dataStructures\ParticleData.cpp" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\shaders\ComputeShader.cpp" />
+    <ClCompile Include="Source\ThreadManager.cpp" />
+    <ClCompile Include="Source\utilities\Matrices.cpp" />
+    <ClCompile Include="Source\utilities\shader\Shader.cpp" />
+    <ClCompile Include="Source\utilities\shader\ShaderProgram.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
+    <ClCompile Include="Source\VR\VRCore.cpp" />
+    <ClCompile Include="Source\VR\VRGeometry.cpp" />
+    <ClCompile Include="Source\VR\VRInput.cpp" />
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Source\window\WindowTitle.cpp" />
+    <ClCompile Include="Source\materialObjects\MoveIndicatorObject.cpp" />
+    <ClCompile Include="Source\selectableObject\SelectableObjectManager.cpp" />
+    <ClCompile Include="Source\emiters\Emiter.cpp" />
+    <ClCompile Include="Source\emiters\EmiterManager.cpp" />
+    <ClCompile Include="Source\utilities\GraphicShaderStorage.cpp" />
+    <ClCompile Include="Source\scene\camera\EmittingCameraController.cpp" />
+    <ClCompile Include="Source\utilities\Texture.cpp" />
+    <ClCompile Include="Source\digitalHand\DigitalHand.cpp" />
+    <ClCompile Include="Source\digitalHand\HandDataProvider.cpp" />
+    <ClCompile Include="Source\window\FrameBuffer.cpp" />
+    <ClCompile Include="Source\VR\SteamIVRInput.cpp" />
+    <ClCompile Include="Source\pathotools.cpp" />
+    <ClCompile Include="Source\strtools.cpp" />
+    <ClCompile Include="Source\emiters\EmiterVRActionController.cpp" />
+    <ClCompile Include="Source\particleObjects\ParticleObjectVRActionController.cpp" />
+    <ClCompile Include="Source\VR\VRInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\shaders\ComputeShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="Source\inputDispatcher\InputDispatcher.h" />
+    <ClInclude Include="Source\inputDispatcher\KeyState.h" />
+    <ClInclude Include="Source\inputDispatcher\listener\KeyInputListener.h" />
+    <ClInclude Include="Source\inputDispatcher\listener\MousePositionListener.h" />
+    <ClInclude Include="Source\inputDispatcher\listener\MouseScrollListener.h" />
+    <ClInclude Include="Source\materialObjects\Crosshair.h" />
+    <ClInclude Include="Source\glassController\GlassController.h" />
+    <ClInclude Include="Source\materialObjects\GlassObject.h" />
+    <ClInclude Include="Source\materialObjects\AxesObject.h" />
+    <ClInclude Include="Source\materialObjects\FluidObject.h" />
+    <ClInclude Include="Source\materialObjects\MaterialObject.h" />
+    <ClInclude Include="Source\materialObjects\NormalVectorsObject.h" />
+    <ClInclude Include="Source\materialObjects\PyramidPointerMaterialObject.h" />
+    <ClInclude Include="Source\materialObjects\TestBilboardObject.h" />
+    <ClInclude Include="Source\materialObjects\TestMaterialObject.h" />
+    <ClInclude Include="Source\dataStructures\FluidType.h" />
+    <ClInclude Include="Source\particleObjects\MugParticleObject.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectCreator.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectManager.h" />
+    <ClInclude Include="Source\scene\camera\Camera.h" />
+    <ClInclude Include="Source\scene\camera\CameraController.h" />
+    <ClInclude Include="Source\scene\camera\SimpleCameraController.h" />
+    <ClInclude Include="Source\scene\camera\VRCamera.h" />
+    <ClInclude Include="Source\scene\camera\VRCameraController.h" />
+    <ClInclude Include="Source\scene\Scene.h" />
+    <ClInclude Include="Source\ThreadSynchronizer.h" />
+    <ClInclude Include="Source\window\ViewPort.h" />
+    <ClInclude Include="Source\window\Window.h" />
+    <ClInclude Include="Source\shaders\ShaderCodeEditor.h" />
+    <ClInclude Include="Source\particleObjects\ParticleGeometry.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObject.h" />
+    <ClInclude Include="Source\Simulation.h" />
+    <ClInclude Include="Source\Logger.h" />
+    <ClInclude Include="Source\dataStructures\GpuResources.h" />
+    <ClInclude Include="Source\dataStructures\ParticleData.h" />
+    <ClInclude Include="Source\Configuration.h" />
+    <ClInclude Include="Source\shaders\ComputeShader.h" />
+    <ClInclude Include="Source\ThreadManager.h" />
+    <ClInclude Include="Source\utilities\Matrices.h" />
+    <ClInclude Include="Source\utilities\shader\Shader.h" />
+    <ClInclude Include="Source\utilities\shader\ShaderProgram.h" />
+    <ClInclude Include="Source\utilities\Vectors.h" />
+    <ClInclude Include="Source\Utils.h" />
+    <ClInclude Include="Source\VR\InputConfig.h" />
+    <ClInclude Include="Source\VR\VRCore.h" />
+    <ClInclude Include="Source\VR\VRGeometry.h" />
+    <ClInclude Include="Source\VR\VRInput.h" />
+    <ClInclude Include="Source\window\WindowTitle.h" />
+    <ClInclude Include="Source\simulationObjects\EmiterMatrixProvider.h" />
+    <ClInclude Include="Source\materialObjects\MoveIndicatorObject.h" />
+    <ClInclude Include="Source\selectableObject\SelectableObject.h" />
+    <ClInclude Include="Source\selectableObject\SelectableObjectManager.h" />
+    <ClInclude Include="Source\emiters\Emiter.h" />
+    <ClInclude Include="Source\emiters\EmiterManager.h" />
+    <ClInclude Include="Source\utilities\GraphicShaderStorage.h" />
+    <ClInclude Include="Source\scene\camera\EmittingCameraController.h" />
+    <ClInclude Include="Source\utilities\Texture.h" />
+    <ClInclude Include="Source\digitalHand\DigitalHand.h" />
+    <ClInclude Include="Source\digitalHand\HandDataProvider.h" />
+    <ClInclude Include="Source\materialObjects\MaterialObjectOwner.h" />
+    <ClInclude Include="Source\window\FrameBuffer.h" />
+    <ClInclude Include="Source\window\listener\WindowSizeListener.h" />
+    <ClInclude Include="Source\actionControllers\ActionController.h" />
+    <ClInclude Include="Source\actionControllers\VRActionController.h" />
+    <ClInclude Include="Source\particleObjects\ParticleObjectVRActionController.h" />
+    <ClInclude Include="Source\emiters\EmiterVRActionController.h" />
+    <ClInclude Include="Source\VR\SteamIVRInput.h" />
+    <ClInclude Include="Source\pathtools.h" />
+    <ClInclude Include="Source\strtools.h" />
+    <ClInclude Include="Source\compat.h" />
+    <ClInclude Include="Source\VR\VRInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\shaders\ComputeShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\shaders\testCompute.shader" />
+    <None Include="Source\shaders\glass\glass.frag" />
+    <None Include="Source\shaders\glass\glass.vert" />
+    <None Include="Source\shaders\normalVectors\normalVectors.frag" />
+    <None Include="Source\shaders\normalVectors\normalVectors.geom" />
+    <None Include="Source\shaders\normalVectors\normalVectors.vert" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.frag" />
+    <None Include="Source\shaders\moveIndicator\moveIndicator.vert" />
   </ItemGroup>
 </Project>
